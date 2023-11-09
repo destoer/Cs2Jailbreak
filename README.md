@@ -23,6 +23,7 @@ Port lrs
 Add beacons
 Add cancel commands
 Add stats leaderboard
+Add damage blocking
 
 # SD TODO
 start SD after lr and warden is is nearly finished

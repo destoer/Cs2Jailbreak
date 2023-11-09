@@ -34,6 +34,16 @@ public static class Lib
         return player != null && player.IsValid &&  player.PlayerPawn.IsValid;
     }
 
+    static public bool is_t(this CCSPlayerController? player)
+    {
+        return player != null && is_valid(player) && player.TeamNum == TEAM_T;
+    }
+
+    static public bool is_ct(this CCSPlayerController? player)
+    {
+        return player != null && is_valid(player) && player.TeamNum == TEAM_CT;
+    }
+
     // yes i know the null check is redundant but C# is dumb
     static public bool is_valid_alive(this CCSPlayerController? player)
     {
@@ -175,6 +185,41 @@ public static class Lib
     {
         Server.PrintToChatAll(prefix + str);
         print_centre_all(str);
+    }
+
+    static public void announce(this CCSPlayerController? player,String prefix,String str)
+    {
+        if(player != null && player.is_valid())
+        {
+            player.PrintToChat(prefix + str);
+            player.PrintToCenter(str);
+        }
+    }
+
+    static public List<CCSPlayerController> get_alive_ct()
+    {
+        List<CCSPlayerController> players = Utilities.GetPlayers();
+        players.FindAll(player => player.is_valid_alive() && player.is_ct());
+
+        return players;
+    }
+
+    static public int alive_ct_count()
+    {
+        return get_alive_ct().Count;
+    }
+
+    static public List<CCSPlayerController> get_alive_t()
+    {
+        List<CCSPlayerController> players = Utilities.GetPlayers();
+        players.FindAll(player => player.is_valid_alive() && player.is_t());
+
+        return players;
+    }
+
+    static public int alive_t_count()
+    {
+        return get_alive_t().Count;
     }
 
     static public void block_all()

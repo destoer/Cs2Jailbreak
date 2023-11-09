@@ -185,7 +185,7 @@ public class Warden
         }        
 
         // check team is valid
-        else if(player.TeamNum == Lib.TEAM_T)
+        else if(!player.is_ct())
         {
             player.PrintToChat($"{WARDEN_PREFIX}You must be a CT to warden");
         }
@@ -245,13 +245,13 @@ public class Warden
             player.strip_weapons();
 
             // all players have knifes
-            if(player.TeamNum == Lib.TEAM_T)
+            if(player.is_t())
             {
                 player.GiveNamedItem("weapon_knife");
             }
 
             // give ct kevlar deagle m4
-            else if(player.TeamNum == Lib.TEAM_CT)
+            else if(player.is_ct())
             {
                 player.GiveNamedItem("item_assaultsuit");
                 player.GiveNamedItem("weapon_knife");
@@ -317,6 +317,13 @@ public class Warden
 
         // mute player
         mute.death(player);
+
+        var jail_player = jail_player_from_player(player);
+
+        if(jail_player != null)
+        {
+            jail_player.rebel_death(player,killer);
+        }
     }
 
 

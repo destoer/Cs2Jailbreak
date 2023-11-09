@@ -87,6 +87,13 @@ public class Mute
     public void death(CCSPlayerController? player)
     {
         // mute on death
+        if(!player.is_valid() || player == null)
+        {
+            return;
+        }
+
+        player.PrintToChat("[MUTE]: You are muted until the end of the round");
+
         player.mute();
     }
 

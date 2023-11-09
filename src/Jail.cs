@@ -75,11 +75,15 @@ public class JailPlugin : BasePlugin
 
         AddCommand("wd","wd",warden.warday_cmd);
 
+        // reg lr commands
+        AddCommand("lr","lr",lr.lr_cmd);
+
         // debug 
         if(Debug.enable)
         {
             AddCommand("nuke","nuke",Debug.nuke);
             AddCommand("is_rebel","is_rebel",warden.is_rebel_cmd);
+            AddCommand("lr_debug","lr_debug",lr.lr_debug_cmd);
         }
     }
 
@@ -106,6 +110,7 @@ public class JailPlugin : BasePlugin
     HookResult OnRoundStart(EventRoundStart @event, GameEventInfo info)
     {
         warden.round_start();
+        lr.round_start();
 
         return HookResult.Continue;
     }
@@ -156,6 +161,7 @@ public class JailPlugin : BasePlugin
         if(player != null && player.is_valid())
         {
             warden.disconnect(player);
+            lr.disconnect(player);
         }
 
         return HookResult.Continue;
@@ -164,6 +170,7 @@ public class JailPlugin : BasePlugin
     HookResult OnRoundEnd(EventRoundEnd @event, GameEventInfo info)
     {
         warden.round_end();
+        lr.round_end();
 
         return HookResult.Continue;
     }
@@ -176,4 +183,5 @@ public class JailPlugin : BasePlugin
     }
 
     Warden warden = new Warden();
+    LastRequest lr = new LastRequest();
 }

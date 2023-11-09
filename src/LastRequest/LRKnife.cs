@@ -11,9 +11,9 @@ using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
 
-public class Knife : LRBase
+public class LRKnife : LRBase
 {
-    public Knife(LastRequestManager manager,int lr_slot, int player_slot, int choice) : base(manager,lr_slot,player_slot,choice)
+    public LRKnife(LastRequest manager,int lr_slot, int player_slot, String choice) : base(manager,lr_slot,player_slot,choice)
     {
 
     }
