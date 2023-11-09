@@ -16,12 +16,47 @@ using CounterStrikeSharp.API.Modules.Entities.Constants;
 // defers to warden, lr and sd
 public class JailPlugin : BasePlugin
 {
-    public override string ModuleName => "CS2 Jailbreak";
+    // workaround to query global state!
+    public static JailPlugin? global_ctx;
+
+    // Global event settings, used to filter plugin activits
+    // during warday and SD
+    bool is_event_active = false;
+
+    public static bool event_active()
+    {
+        if(global_ctx == null)
+        {
+            return false;
+        }
+
+        return global_ctx.is_event_active;
+    }
+
+    public static void start_event()
+    {
+        if(global_ctx != null)
+        {
+            global_ctx.is_event_active = true;
+        }
+    }
+
+    public static void end_event()
+    {
+        if(global_ctx != null)
+        {
+            global_ctx.is_event_active = false;
+        }
+    }
+
+    public override string ModuleName => "CS2 Jailbreak - destoer";
 
     public override string ModuleVersion => "0.0.1";
 
     public override void Load(bool hotReload)
     {
+        global_ctx = this;
+
         register_commands();
         
         register_hook();

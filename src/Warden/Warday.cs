@@ -10,9 +10,31 @@ using CounterStrikeSharp.API.Modules.Memory;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
+using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 public class Warday
 {
+    void gun_callback()
+    {
+        // if warday is no longer active dont allow guns
+
+        if(warday_active)
+        {
+            // give T guns
+            foreach(CCSPlayerController player in Utilities.GetPlayers())
+            {
+                if(player.is_valid() && player.TeamNum == Lib.TEAM_T)
+                {
+                    player.event_gun_menu();
+                }
+            }
+
+            Lib.announce("[WARDAY]: ","Weapons live!");
+        }
+
+        warday_timer = null;
+    }
+
     public bool start_warday(String location)
     {
         if(round_counter >= ROUND_LIMIT)
@@ -23,21 +45,25 @@ public class Warday
             round_counter = 0;
 
             warday_active = true;
+            JailPlugin.start_event();
+            
 
-            // TODO: this should be on a timer delay
-
-            // TODO: this check needs to moved for an actual menu
-            if(warday_active)
+            foreach(CCSPlayerController player in Utilities.GetPlayers())
             {
-                // give everyone guns
-                foreach(CCSPlayerController player in Utilities.GetPlayers())
+                if(player.is_valid() && player.TeamNum == Lib.TEAM_CT)
                 {
-                    player.gun_menu();
+                    player.event_gun_menu();
                 }
             }
 
+            // start gun callback
+            if(JailPlugin.global_ctx != null)
+            {
+                JailPlugin.global_ctx.AddTimer(20.0f,gun_callback,CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
+            }
+
             return true;
-        }
+        }        
 
         return false;
     }
@@ -48,7 +74,10 @@ public class Warday
         // one less round till a warday can be called
         round_counter++;
 
+        Lib.kill_timer(ref warday_timer);
+
         warday_active = false;
+        JailPlugin.end_event();
     }
 
     public void map_start()
@@ -62,4 +91,6 @@ public class Warday
     public int round_counter = ROUND_LIMIT;
 
     public const int ROUND_LIMIT = 3;
+
+    CSTimer.Timer? warday_timer = null;
 };

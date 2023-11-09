@@ -20,11 +20,12 @@ public class Mute
     {
         Lib.announce("[MUTE]: ","All t's are muted for the first 30 seconds");
 
-        // TODO: add unmute timer
         Lib.mute_all();
 
-        // TODO: how do we add a timer outisde base plugin LOL
-        //mute_timer = new CSTimer.Timer(30.0f,unmute_all,CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
+        if(JailPlugin.global_ctx != null)
+        {
+            mute_timer = JailPlugin.global_ctx.AddTimer(30.0f,unmute_all,CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
+        }
 
         mute_active = true;
     }
@@ -42,28 +43,23 @@ public class Mute
             }
         }
 
+        mute_timer = null;
+
         mute_active = false;
     }
 
-    void kill_timer()
-    {
-        if(mute_timer != null)
-        {
-            mute_timer.Kill();
-            mute_timer = null;
-        }
-    }
+
 
     public void round_start()
     {
-        kill_timer();
+        Lib.kill_timer(ref mute_timer);
 
         mute_t();
     }
 
     public void round_end()
     {
-        kill_timer();
+        Lib.kill_timer(ref mute_timer);
 
         Lib.unmute_all();
     }

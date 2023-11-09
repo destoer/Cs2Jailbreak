@@ -312,8 +312,6 @@ public class Warden
             return;
         }
 
-        Server.PrintToChatAll($"DEATH: {player.PlayerName}");
-
         // handle warden death
         remove_if_warden(player);
 
@@ -333,7 +331,7 @@ public class Warden
 
         if(jail_player != null)
         {
-            jail_player.rebel_weapon_fire(player,weapon,event_active);
+            jail_player.rebel_weapon_fire(player,weapon);
         }
     }
 
@@ -360,8 +358,6 @@ public class Warden
     int warden_slot = INAVLID_SLOT;
 
     JailPlayer[] jail_players = new JailPlayer[64];
-
-    bool event_active = false;
 
     Warday warday = new Warday();
     Block block = new Block();

@@ -77,6 +77,7 @@ public class LastRequestManager
     }
 
     // our current LR's we use as an event dispatch
+    // NOTE: each one of these is the T lr and each holds the other pair
     LRBase?[] active_lr = new LRBase[2];
 
     // lookup to each LR to see if we need a trigger on a event!

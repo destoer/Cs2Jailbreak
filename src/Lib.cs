@@ -10,6 +10,7 @@ using CounterStrikeSharp.API.Modules.Memory;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
+using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 public static class Lib
 {
@@ -87,6 +88,15 @@ public static class Lib
         }
     }
 
+    static public void kill_timer(ref CSTimer.Timer? timer)
+    {
+        if(timer != null)
+        {
+            timer.Kill();
+            timer = null;
+        }
+    }
+
     static public void unmute_all()
     {
         foreach(CCSPlayerController player in Utilities.GetPlayers())
@@ -100,18 +110,64 @@ public static class Lib
 
     // TODO: for now this is just a give guns
     // because menus dont work
-    static public void gun_menu(this CCSPlayerController? player)
+    static public void event_gun_menu(this CCSPlayerController? player)
     {
-        // player must be alive and active!
-        if(player == null || !player.is_valid_alive())
+        // Event has been cancelled in the mean time dont give any guns
+        if(!JailPlugin.event_active())
+        {
+            return;
+        }
+
+        player.gun_menu(false);
+    }
+
+    static void give_menu_weapon(CCSPlayerController player, ChatMenuOption option)
+    {
+        if(!player.is_valid())
         {
             return;
         }
 
         strip_weapons(player);
 
+        player.GiveNamedItem("weapon_knife");
+        player.GiveNamedItem("weapon_" + option.Text);
         player.GiveNamedItem("weapon_deagle");
-        player.GiveNamedItem("weapon_ak47");
+
+        player.GiveNamedItem("item_assaultsuit");
+    }
+
+    static String[] GUN_LIST =
+    {	
+        "ak47", "m4a1_silencer","nova",
+        "p90", "m249", "mp5sd",
+        "galilar", "sg556","bizon", "aug",
+        "famas", "xm1014","ssg08","awp"
+        
+    };
+
+    static public void gun_menu(this CCSPlayerController? player, bool no_awp)
+    {
+        // player must be alive and active!
+        if(player == null || !player.is_valid_alive())
+        {
+            return;
+        } 
+
+    
+        var gun_menu = new ChatMenu("Gun Menu");
+
+        foreach(var weapon_name in GUN_LIST)
+        {
+            if(no_awp && weapon_name == "awp")
+            {
+                continue;
+            }
+
+            gun_menu.AddMenuOption(weapon_name, give_menu_weapon);
+        }
+
+        ChatMenus.OpenMenu(player, gun_menu);
     }
 
     // chat + centre text print

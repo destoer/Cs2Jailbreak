@@ -22,12 +22,12 @@ public abstract class LRBase
         ACTIVE,
     }
 
-    public LRBase(LastRequestManager lr_manager,int lr_slot,int t, int ct)
+    protected LRBase(LastRequestManager lr_manager,int lr_slot,int actor_slot)
     {
-        t_slot = t;
-        ct_slot = ct;
+
         state = LrState.PENDING;
         slot = lr_slot;
+        player_slot = actor_slot;
 
         // while lr is pending damage is off
         restrict_damage = true;
@@ -37,29 +37,27 @@ public abstract class LRBase
 
     public virtual void start_lr()
     {
-        var t_player = Utilities.GetPlayerFromSlot(t_slot);
+        var player = Utilities.GetPlayerFromSlot(player_slot);
 
-        if(t_player == null || !t_player.is_valid_alive())
+        if(player == null || !player.is_valid_alive())
         {
             manager.end_lr(slot);
             return;
         }
 
-        init_player(t_player);
-
-        var ct_player = Utilities.GetPlayerFromSlot(ct_slot);
-
-        if(ct_player == null || !ct_player.is_valid_alive())
-        {
-            manager.end_lr(slot);
-            return;
-        }
-
-        init_player(ct_player);
+        init_player(player);
     }
 
     public void activate_lr()
     {
+        // check this was built correctly
+        // TODO: is there a static way to ensure this is made properly or no?
+        if(partner == null)
+        {
+            manager.end_lr(slot);
+            return;         
+        }
+
         // renable damage
         // NOTE: start_lr can override this if it so pleases
         restrict_damage = false;
@@ -79,9 +77,8 @@ public abstract class LRBase
 
     public virtual void ent_created() {}
 
-    // lr partners
-    readonly int t_slot;
-    readonly int ct_slot;
+    // player and lr info
+    readonly int player_slot;
     readonly int slot;
 
     LastRequestManager manager;
@@ -92,4 +89,7 @@ public abstract class LRBase
     public bool restrict_damage = true;
 
     LrState state;
+
+    // who are we playing against, set up in create_pair
+    public LRBase? partner;
 };

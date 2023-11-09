@@ -25,8 +25,13 @@ public class JailPlayer
         // TODO: reset client specific settings
     }
 
-    public void set_rebel(CCSPlayerController? player,bool event_active)
+    public void set_rebel(CCSPlayerController? player)
     {
+        if(JailPlugin.event_active())
+        {
+            return;
+        }
+
         // dont care if player is invalid
         if(!player.is_valid() || player == null)
         {
@@ -34,16 +39,16 @@ public class JailPlayer
         }
 
         // on T with no warday or sd active
-        if(player.TeamNum == Lib.TEAM_T && !event_active)
+        if(player.TeamNum == Lib.TEAM_T)
         {
             is_rebel = true;
         }
     }
 
-    public void rebel_death(CCSPlayerController? player,CCSPlayerController? killer, bool event_active)
+    public void rebel_death(CCSPlayerController? player,CCSPlayerController? killer)
     {
         // event active dont care
-        if(event_active)
+        if(JailPlugin.event_active())
         {
             return;
         }
@@ -61,13 +66,13 @@ public class JailPlayer
         }
     }
 
-    public void rebel_weapon_fire(CCSPlayerController? player, String weapon, bool event_active)
+    public void rebel_weapon_fire(CCSPlayerController? player, String weapon)
     {
         // ignore weapons players are meant to have
         // TODO: we need to use the damage hook when we get our hands on it
         if(weapon != "knife" && weapon != "c4")
         {
-            set_rebel(player,event_active);
+            set_rebel(player);
         }
     }
 
