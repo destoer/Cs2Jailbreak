@@ -33,7 +33,14 @@ public class Mute
     {
         Lib.announce("[MUTE]: ","T's may now speak quietly");
 
-        Lib.unmute_all();
+        // Go through and unmute all alive players!
+        foreach(CCSPlayerController player in Utilities.GetPlayers())
+        {
+            if(player.is_valid() && player.PawnIsAlive)
+            {
+                player.unmute();
+            }
+        }
 
         mute_active = false;
     }
@@ -58,7 +65,7 @@ public class Mute
     {
         kill_timer();
 
-        unmute_all();
+        Lib.unmute_all();
     }
 
     public void connect(CCSPlayerController? player)

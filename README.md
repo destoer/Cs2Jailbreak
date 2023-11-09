@@ -14,6 +14,7 @@ Warden Colour / Ring
 Countdown timers
 Player color
 Gun menu
+Team Balance
 
 
 # LR TODO
