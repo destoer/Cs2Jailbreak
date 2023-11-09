@@ -39,7 +39,7 @@ public class LastRequest
         }
 
         // strip weapons restore hp
-        player.PlayerPawn.Value.Health = 100;
+        player.PawnHealth = 100;
         player.strip_weapons();
     }
 
@@ -47,6 +47,16 @@ public class LastRequest
     {
         // call the final LR init function and mark it as truly active
         lr.activate();
+    }
+
+    public void death(CCSPlayerController? player)
+    {
+        LRBase? lr = find_lr(player);
+
+        if(lr != null)
+        {
+            lr.lose();
+        }
     }
 
 
@@ -159,10 +169,9 @@ public class LastRequest
     {
         LRBase? lr = find_lr(player);
 
-        Lib.announce(LR_PREFIX,"Player disconnection cancelling LR");
-
         if(lr != null)
         {
+            Lib.announce(LR_PREFIX,"Player disconnection cancelling LR");
             end_lr(lr.slot);
         }
     }
@@ -273,7 +282,7 @@ public class LastRequest
             return false;
         } 
         
-        if(Lib.alive_t_count() > lr_choice.Length)
+        if(Lib.alive_t_count() > active_lr.Length)
         {
             player.PrintToChat($"{LR_PREFIX}There are too many t's alive to start an lr");
             return false;

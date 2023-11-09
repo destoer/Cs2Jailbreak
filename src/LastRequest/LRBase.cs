@@ -22,12 +22,13 @@ public abstract class LRBase
         ACTIVE,
     }
 
-    protected LRBase(LastRequest lr_manager,int lr_slot,int actor_slot, String lr_choice)
+    protected LRBase(LastRequest lr_manager,String name,int lr_slot,int actor_slot, String lr_choice)
     {
         state = LrState.PENDING;
         slot = lr_slot;
         player_slot = actor_slot;
         choice = lr_choice;
+        lr_name = name;
 
         // while lr is pending damage is off
         restrict_damage = true;
@@ -55,8 +56,53 @@ public abstract class LRBase
         Lib.kill_timer(ref timer);
 
         // reset alive player
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
+
+        if(player == null || !player.is_valid_alive())
+        {
+            return;
+        }
+
+
+        // restore hp
+        player.PawnHealth = 100;
+
+        // restore weapons
+        player.strip_weapons();
+
+        if(player.is_ct())
+        {
+            player.GiveNamedItem("item_assaultsuit");
+            player.GiveNamedItem("weapon_knife");
+            player.GiveNamedItem("weapon_deagle");
+            player.GiveNamedItem("weapon_m4a1");           
+        }
+
+        else if(player.is_t())
+        {
+            player.GiveNamedItem("weapon_knife");
+        }
     }
 
+    public void lose()
+    {
+        if(partner == null)
+        {
+            return;
+        }
+
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
+        CCSPlayerController? winner = Utilities.GetPlayerFromSlot(partner.player_slot);
+
+        if(player == null || !player.is_valid_alive() || winner == null || !winner.is_valid_alive())
+        {
+            manager.end_lr(slot);
+            return;
+        }
+
+        Lib.announce(LastRequest.LR_PREFIX,$"{player.PlayerName} lost {lr_name}, {winner.PlayerName} won!");
+        manager.end_lr(slot);
+    }
 
     public void activate()
     {
@@ -107,6 +153,8 @@ public abstract class LRBase
     }
 
     public virtual void ent_created(String name) {}
+
+    public String lr_name = "";
 
     // player and lr info
     public readonly int player_slot;

@@ -123,6 +123,7 @@ public class JailPlugin : BasePlugin
         if(player != null && player.is_valid())
         {
             warden.death(player,killer);
+            lr.death(player);
         }
 
         return HookResult.Continue;

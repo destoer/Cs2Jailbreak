@@ -5,20 +5,16 @@ rewrite of CSS plugin https://github.com/destoer/counter_strike_jailbreak
 # Warden TODO
 Warden Laser and T laser
 Muting
-Warday timer
 Config
 Restrict debug commands
 Auto unstuck
 Handicap
 Warden Colour / Ring
-Countdown timers
 Player color
-Gun menu
 Team Balance
 
 
 # LR TODO
-Finish framework
 Port lrs
 Add beacons
 Add cancel commands
