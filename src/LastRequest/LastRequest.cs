@@ -87,11 +87,17 @@ public abstract class LRBase
     abstract public void init_player(CCSPlayerController player);
 
     // what events might we want access to?
-    public virtual void weapon_fire(CCSPlayerController player, String name) {}
+    public virtual void weapon_fire(String name) {}
 
-    public virtual void weapon_drop(CCSPlayerController player, String name) {}
+    public virtual bool weapon_drop(String name) 
+    {
+        return !restrict_drop;
+    }
 
-    public virtual void weapon_pickup(CCSPlayerController player, String name) {}
+    public virtual bool weapon_pickup(String name) 
+    {
+        return weapon_restrict == name;
+    }
 
     public virtual void ent_created(String name) {}
 
@@ -105,6 +111,8 @@ public abstract class LRBase
     public String weapon_restrict = "";
 
     public bool restrict_damage = true;
+
+    public bool restrict_drop = false;
 
     LrState state;
 
