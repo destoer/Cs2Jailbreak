@@ -13,7 +13,7 @@ using CounterStrikeSharp.API.Modules.Entities.Constants;
 
 public class Knife : LRBase
 {
-    public Knife(LastRequestManager manager,int lr_slot, int player_slot) : base(manager,lr_slot,player_slot)
+    public Knife(LastRequestManager manager,int lr_slot, int player_slot, int choice) : base(manager,lr_slot,player_slot,choice)
     {
 
     }
