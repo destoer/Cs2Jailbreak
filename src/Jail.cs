@@ -98,6 +98,9 @@ public class JailPlugin : BasePlugin
         RegisterEventHandler<EventSwitchTeam>(OnSwitchTeam);
         RegisterEventHandler<EventMapTransition>(OnMapChange);
         RegisterEventHandler<EventPlayerDeath>(OnPlayerDeath);
+
+        // TODO: need to hook weapon drop
+        // along with ontakedamage
     }
 
     HookResult OnMapChange(EventMapTransition @event, GameEventInfo info)

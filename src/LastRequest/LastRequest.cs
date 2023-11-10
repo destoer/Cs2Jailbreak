@@ -176,6 +176,30 @@ public class LastRequest
         }
     }
 
+    public bool weapon_drop(CCSPlayerController? player,String name) 
+    {
+        LRBase? lr = find_lr(player);
+
+        if(lr != null)
+        {
+            return lr.weapon_drop(name);
+        }
+
+        return true;
+    }
+
+    public bool weapon_pickup(CCSPlayerController? player,String name) 
+    {
+        LRBase? lr = find_lr(player);
+
+        if(lr != null)
+        {
+            return lr.weapon_pickup(name);
+        }
+
+        return true;
+    }
+
     // end an lr
     public void end_lr(int slot)
     {

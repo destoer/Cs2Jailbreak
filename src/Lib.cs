@@ -199,9 +199,7 @@ public static class Lib
     static public List<CCSPlayerController> get_alive_ct()
     {
         List<CCSPlayerController> players = Utilities.GetPlayers();
-        players.FindAll(player => player.is_valid_alive() && player.is_ct());
-
-        return players;
+        return players.FindAll(player => player.is_valid_alive() && player.is_ct());
     }
 
     static public int alive_ct_count()
@@ -212,9 +210,21 @@ public static class Lib
     static public List<CCSPlayerController> get_alive_t()
     {
         List<CCSPlayerController> players = Utilities.GetPlayers();
-        players.FindAll(player => player.is_valid_alive() && player.is_t());
+        return players.FindAll(player => player.is_valid_alive() && player.is_t());;
+    }
 
-        return players;
+    // this doesnt work?
+    static public void set_pickup(this CCSPlayerController? player,bool v)
+    {
+        if(player == null || !player.is_valid())
+        {
+            return; 
+        }
+
+        if(player.Pawn.Value.WeaponServices != null)
+        {
+            player.Pawn.Value.WeaponServices.PreventWeaponPickup = v;
+        }
     }
 
     static public int alive_t_count()
