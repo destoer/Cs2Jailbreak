@@ -12,6 +12,7 @@ Handicap
 Warden Colour / Ring
 Player color
 Team Balance
+Admin commands
 
 
 # LR TODO

@@ -98,9 +98,30 @@ public class JailPlugin : BasePlugin
         RegisterEventHandler<EventSwitchTeam>(OnSwitchTeam);
         RegisterEventHandler<EventMapTransition>(OnMapChange);
         RegisterEventHandler<EventPlayerDeath>(OnPlayerDeath);
+        RegisterEventHandler<EventPlayerHurt>(OnPlayerHurt);
 
         // TODO: need to hook weapon drop
-        // along with ontakedamage
+    }
+
+    HookResult OnPlayerHurt(EventPlayerHurt @event, GameEventInfo info)
+    {
+        CCSPlayerController? player = @event.Userid;
+        CCSPlayerController? attacker = @event.Attacker;
+
+        int damage = @event.DmgHealth;
+        int health = @event.Health;
+
+        if(player != null && player.is_valid())
+        {
+            lr.take_damage(player,attacker,ref damage,ref health);
+            player.PawnHealth = (uint)health;
+        }
+
+        // TOOD: this dont work like ontake damage
+        @event.DmgHealth = damage;
+        @event.Health = health;
+
+        return HookResult.Changed;
     }
 
     HookResult OnMapChange(EventMapTransition @event, GameEventInfo info)

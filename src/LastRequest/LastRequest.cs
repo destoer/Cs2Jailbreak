@@ -188,6 +188,45 @@ public class LastRequest
         return true;
     }
 
+    bool is_pair(CCSPlayerController? v1, CCSPlayerController? v2)
+    {
+        LRBase? l1 = find_lr(v1);
+        LRBase? l2 = find_lr(v2);
+
+        // if either aint in lr they aernt a pair
+        if(l1 == null || l2 == null)
+        {
+            return false;
+        }
+
+        // same slot must be a pair!
+        return v1.slot == v2.slot;
+    }
+
+    public void take_damage(CCSPlayerController? player, CCSPlayerController? attacker,ref int damage,ref int health)
+    {
+        // neither player is in lr we dont care
+        if(!in_lr(player) && !in_lr(attacker))
+        {
+            return;
+        }
+
+        LRBase? lr = find_lr(player);
+
+        if(lr == null)
+        {
+            return;
+        }
+
+        // lr has restricted damage or player is not in the same lr
+        // dont deal any damage
+        if(lr.restrict_damage || !is_pair(player,attacker))
+        {
+            health = health + damage;
+            damage = 0;
+        }
+    }
+
     public bool weapon_pickup(CCSPlayerController? player,String name) 
     {
         LRBase? lr = find_lr(player);
