@@ -10,6 +10,7 @@ using CounterStrikeSharp.API.Modules.Memory;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
+using CounterStrikeSharp.API.Modules.Admin;
 
 using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
@@ -497,9 +498,28 @@ public class LastRequest
     }
 
     // bypasses validity checks
+    [RequiresPermissions("@jail/debug")]
     public void lr_debug_cmd(CCSPlayerController? player, CommandInfo command)
     {
         lr_cmd_internal(player,true,command);
+    }
+
+    public void cancel_lr_cmd(CCSPlayerController? player, CommandInfo command)
+    {
+        if(player == null || !player.is_valid())
+        {
+            return;
+        }
+
+        // must be admin or warden
+        if(!player.is_generic_admin() && !JailPlugin.is_warden(player))
+        {
+            player.PrintToChat($"{LR_PREFIX} You must be an admin or warden to cancel lr");
+            return;
+        }
+
+        Lib.announce(LR_PREFIX,"LR cancelled");
+        purge_lr();
     }
 
     // TODO: when we can pass extra data in menus this should not be needed
@@ -555,5 +575,5 @@ public class LastRequest
 
     LrChoice[] lr_choice = new LrChoice[64];
 
-    public static readonly String LR_PREFIX = "[LR]: ";
+    public static readonly String LR_PREFIX = $"{ChatColors.Green}[LR]: {ChatColors.White}";
 }

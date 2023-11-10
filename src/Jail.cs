@@ -23,6 +23,16 @@ public class JailPlugin : BasePlugin
     // during warday and SD
     bool is_event_active = false;
 
+    public static bool is_warden(CCSPlayerController? player)
+    {
+        if(global_ctx == null)
+        {
+            return false;
+        }
+     
+        return warden.is_warden(player);
+    }
+
     public static bool event_active()
     {
         if(global_ctx == null)
@@ -67,23 +77,25 @@ public class JailPlugin : BasePlugin
     void register_commands()
     {
         // reg warden comamnds
-        AddCommand("w", "w", warden.take_warden_cmd);
-        AddCommand("uw", "uw", warden.leave_warden_cmd);
+        AddCommand("w", "take warden", warden.take_warden_cmd);
+        AddCommand("uw", "leave warden", warden.leave_warden_cmd);
+        AddCommand("rw", "remove warden", warden.remove_warden_cmd);
 
-        AddCommand("wub","wub",warden.wub_cmd);
-        AddCommand("wb","wb",warden.wb_cmd);
+        AddCommand("wub","warden : disable block",warden.wub_cmd);
+        AddCommand("wb","warden : enable block",warden.wb_cmd);
 
-        AddCommand("wd","wd",warden.warday_cmd);
+        AddCommand("wd","warden : start warday",warden.warday_cmd);
 
         // reg lr commands
-        AddCommand("lr","lr",lr.lr_cmd);
+        AddCommand("lr","start an lr",lr.lr_cmd);
+        AddCommand("cancel_lr","admin : cancel lr",lr.cancel_lr_cmd);
 
         // debug 
         if(Debug.enable)
         {
-            AddCommand("nuke","nuke",Debug.nuke);
-            AddCommand("is_rebel","is_rebel",warden.is_rebel_cmd);
-            AddCommand("lr_debug","lr_debug",lr.lr_debug_cmd);
+            AddCommand("nuke","debug : kill every player",Debug.nuke);
+            AddCommand("is_rebel","debug : print rebel state to console",warden.is_rebel_cmd);
+            AddCommand("lr_debug","debug : start an lr without restriction",lr.lr_debug_cmd);
         }
     }
 
@@ -207,6 +219,7 @@ public class JailPlugin : BasePlugin
         return HookResult.Continue;
     }
 
-    Warden warden = new Warden();
-    LastRequest lr = new LastRequest();
+
+    static Warden warden = new Warden();
+    static LastRequest lr = new LastRequest();
 }

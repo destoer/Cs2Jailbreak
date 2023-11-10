@@ -11,11 +11,13 @@ using CounterStrikeSharp.API.Modules.Memory;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
+using CounterStrikeSharp.API.Modules.Admin;
 
 // debugging commands:
 // TODO: these need to be sealed by admin
 public static class Debug
 {
+    [RequiresPermissions("@jail/debug")]
     public static void nuke(CCSPlayerController? invoke, CommandInfo command)
     {
         Lib.announce(DEBUG_PREFIX,"Slaying all players");
@@ -29,5 +31,5 @@ public static class Debug
     // are these commands allowed or not?
     public static readonly bool enable  = true;
 
-    const String DEBUG_PREFIX = "[DEBUG]: ";    
+    static readonly String DEBUG_PREFIX = $"{ChatColors.Green}[DEBUG]: {ChatColors.White}";    
 }

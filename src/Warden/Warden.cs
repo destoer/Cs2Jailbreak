@@ -12,17 +12,21 @@ using CounterStrikeSharp.API.Modules.Memory;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
+using CounterStrikeSharp.API.Modules.Admin;
 
 public class Warden
 {
-    public static readonly String WARDEN_PREFIX = "[WARDEN]: ";
-
     public Warden()
     {
         for(int p = 0; p < jail_players.Length; p++)
         {
             jail_players[p] = new JailPlayer();
         }
+    }
+
+    void announce(String message)
+    {
+        Lib.announce(WARDEN_PREFIX,message);
     }
 
     // Give a player warden
@@ -37,13 +41,13 @@ public class Warden
 
         var player = Utilities.GetPlayerFromSlot(warden_slot);
 
-        Lib.announce(WARDEN_PREFIX,$"{player.PlayerName} is now the warden");
+        announce($"{player.PlayerName} is now the warden");
 
         // change player color!
         //player.PlayerPawn.Value.Render = 0.0;
     }
 
-    bool is_warden(CCSPlayerController? player)
+    public bool is_warden(CCSPlayerController? player)
     {
         return player.slot() == warden_slot;
     }
@@ -54,7 +58,7 @@ public class Warden
 
         if(player.is_valid())
         {
-            Lib.announce(WARDEN_PREFIX,$"{player.PlayerName} is no longer the warden");
+            announce($"{player.PlayerName} is no longer the warden");
         }
 
         warden_slot = INAVLID_SLOT;
@@ -78,6 +82,12 @@ public class Warden
         remove_if_warden(player);
     }
 
+    [RequiresPermissions("@css/generic")]
+    public void remove_warden_cmd(CCSPlayerController? player, CommandInfo command)
+    {
+        announce("Warden removed");
+        remove_warden();
+    }
 
     public void warday_cmd(CCSPlayerController? player, CommandInfo command)
     {
@@ -145,6 +155,7 @@ public class Warden
     }
 
     // debug command
+    [RequiresPermissions("@jail/debug")]
     public void is_rebel_cmd(CCSPlayerController? invoke, CommandInfo command)
     {
         if(invoke == null || !invoke.is_valid())
@@ -363,6 +374,9 @@ public class Warden
     const int INAVLID_SLOT = -3;   
 
     int warden_slot = INAVLID_SLOT;
+
+    public static readonly String WARDEN_PREFIX = $"{ChatColors.Green}[WARDEN]: {ChatColors.White}";
+
 
     JailPlayer[] jail_players = new JailPlayer[64];
 

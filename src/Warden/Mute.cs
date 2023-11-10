@@ -16,9 +16,10 @@ using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 public class Mute
 {
+
     void mute_t()
     {
-        Lib.announce("[MUTE]: ","All t's are muted for the first 30 seconds");
+        Lib.announce(MUTE_PREFIX,"All t's are muted for the first 30 seconds");
 
         Lib.mute_all();
 
@@ -32,7 +33,7 @@ public class Mute
 
     public void unmute_all()
     {
-        Lib.announce("[MUTE]: ","T's may now speak quietly");
+        Lib.announce(MUTE_PREFIX,"T's may now speak quietly");
 
         // Go through and unmute all alive players!
         foreach(CCSPlayerController player in Utilities.GetPlayers())
@@ -92,7 +93,7 @@ public class Mute
             return;
         }
 
-        player.PrintToChat("[MUTE]: You are muted until the end of the round");
+        player.PrintToChat($"{MUTE_PREFIX}You are muted until the end of the round");
 
         player.mute();
     }
@@ -128,6 +129,8 @@ public class Mute
     }
 
     CSTimer.Timer? mute_timer = null;
+
+    static readonly String MUTE_PREFIX = $"{ChatColors.Green}[MUTE]: {ChatColors.White}";
 
     // has the mute timer finished?
     bool mute_active = false;

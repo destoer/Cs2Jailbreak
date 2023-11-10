@@ -11,6 +11,7 @@ using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CSTimer = CounterStrikeSharp.API.Modules.Timers;
+using CounterStrikeSharp.API.Modules.Admin;
 
 public static class Lib
 {
@@ -76,9 +77,23 @@ public static class Lib
         }
     }
 
+    static public bool is_generic_admin(this CCSPlayerController? player)
+    {
+        if(player == null || !player.is_valid())
+        {
+            return false;
+        }
+
+        return AdminManager.PlayerHasPermissions(player,new String[] {"@css/generic"});
+    }
+
     static public void mute(this CCSPlayerController? player)
     {
+        // admins cannot be muted by the plugin
+        if(!player.is_generic_admin())
+        {
 
+        }
     }
 
     // TODO: this needs to be hooked into the ban system that becomes used
