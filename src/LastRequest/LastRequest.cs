@@ -40,8 +40,10 @@ public class LastRequest
         }
 
         // strip weapons restore hp
-        player.PawnHealth = 100;
+        player.set_health(100);
+        player.set_armour(100);
         player.strip_weapons();
+        player.GiveNamedItem("item_assaultsuit");
     }
 
     void activate_lr(LRBase lr)
@@ -204,7 +206,7 @@ public class LastRequest
         return v1.slot == v2.slot;
     }
 
-    public void take_damage(CCSPlayerController? player, CCSPlayerController? attacker,ref int damage,ref int health)
+    public void take_damage(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health)
     {
         // neither player is in lr we dont care
         if(!in_lr(player) && !in_lr(attacker))
@@ -223,21 +225,18 @@ public class LastRequest
         // dont deal any damage
         if(lr.restrict_damage || !is_pair(player,attacker))
         {
-            health = health + damage;
-            damage = 0;
+            player.set_health(health + damage);
         }
     }
 
-    public bool weapon_pickup(CCSPlayerController? player,String name) 
+    public void weapon_pickup(CCSPlayerController? player,String name) 
     {
         LRBase? lr = find_lr(player);
 
         if(lr != null)
         {
-            return lr.weapon_pickup(name);
+            lr.weapon_pickup(name);
         }
-
-        return true;
     }
 
     // end an lr
@@ -324,7 +323,7 @@ public class LastRequest
                 return lr;
             }
 
-            else if(lr.partner != null && lr.partner.player_slot == slot)
+            if(lr.partner != null && lr.partner.player_slot == slot)
             {
                 return lr.partner;
             }

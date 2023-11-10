@@ -41,6 +41,14 @@ public class Warden
 
         var player = Utilities.GetPlayerFromSlot(warden_slot);
 
+        // one last saftey check
+        if(!player.is_valid())
+        {
+            warden_slot = INAVLID_SLOT;
+            return;
+        }
+        
+
         announce($"{player.PlayerName} is now the warden");
 
         // change player color!
@@ -228,9 +236,24 @@ public class Warden
         }
     }
 
+
+
     public void map_start()
     {
         warday.map_start();
+    }
+
+    void set_warden_if_last()
+    {
+        // if there is only one ct automatically give them warden!
+        var ct_players = Lib.get_alive_ct();
+
+        if(ct_players.Count == 1)
+        {
+            int? slot = ct_players[0].slot();
+        
+            set_warden(slot);
+        }
     }
 
     public void round_start()
@@ -242,40 +265,12 @@ public class Warden
         block.round_start();
         warday.round_start();
 
-        // if there is only one ct automatically give them warden!
-
-        // setup each player
-        foreach(CCSPlayerController player in Utilities.GetPlayers())
-        {
-            if(!player.is_valid_alive())
-            {
-                continue;
-            }
-
-            // handle guns and block
-            player.strip_weapons();
-
-            // all players have knifes
-            if(player.is_t())
-            {
-                player.GiveNamedItem("weapon_knife");
-            }
-
-            // give ct kevlar deagle m4
-            else if(player.is_ct())
-            {
-                player.GiveNamedItem("item_assaultsuit");
-                player.GiveNamedItem("weapon_knife");
-                player.GiveNamedItem("weapon_deagle");
-                player.GiveNamedItem("weapon_m4a1");
-            }
-        }
+        set_warden_if_last();
     }
 
     public void round_end()
     {
         mute.round_end();
-
         purge_round();
     }
 
@@ -297,11 +292,28 @@ public class Warden
         remove_if_warden(player);
     }
 
+
+
     public void spawn(CCSPlayerController? player)
     {
+        if(player == null || !player.is_valid_alive())
+        {
+            return;
+        }
+
+        player.strip_weapons();
+
+        // NOTE: we use cvars for the rest of the guns
+        // because its just easier
+        if(player.is_ct())
+        {
+            player.GiveNamedItem("weapon_deagle");
+            player.GiveNamedItem("weapon_m4a1");  
+            player.GiveNamedItem("item_assaultsuit");
+        }
+
         mute.spawn(player);
     }   
-
 
     public void switch_team(CCSPlayerController? player,int new_team)
     {
@@ -335,6 +347,8 @@ public class Warden
         {
             jail_player.rebel_death(player,killer);
         }
+
+        set_warden_if_last();
     }
 
 

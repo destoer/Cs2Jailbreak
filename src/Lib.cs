@@ -51,10 +51,30 @@ public static class Lib
         return player != null && player.is_valid() && player.PawnIsAlive;
     }
 
+    static public void set_health(this CCSPlayerController? player, int hp)
+    {
+        if(player == null || !player.is_valid())
+        {
+            return;
+        }
+
+        player.PlayerPawn.Value.Health = hp;
+    }
+
+    static public void set_armour(this CCSPlayerController? player, int hp)
+    {
+        if(player == null || !player.is_valid())
+        {
+            return;
+        }
+
+        player.PlayerPawn.Value.ArmorValue = hp;
+    }
+
     static public void strip_weapons(this CCSPlayerController? player)
     {
         // only care if player is valid
-        if(player == null || !player.is_valid())
+        if(player == null || !player.is_valid_alive())
         {
             return;
         }
@@ -68,13 +88,16 @@ public static class Lib
 
         foreach (var weapon in weapons)
         {
-            if (!weapon.IsValid) 
+            if (!weapon.IsValid)
             { 
                 continue;
             }
             
             weapon.Value.Remove();
         }
+
+        // dont remove knife its buggy
+        player.GiveNamedItem("weapon_knife");
     }
 
     static public bool is_generic_admin(this CCSPlayerController? player)
@@ -112,6 +135,8 @@ public static class Lib
             }
         }
     }
+
+
 
     static public void kill_timer(ref CSTimer.Timer? timer)
     {
@@ -155,7 +180,6 @@ public static class Lib
 
         strip_weapons(player);
 
-        player.GiveNamedItem("weapon_knife");
         player.GiveNamedItem("weapon_" + option.Text);
         player.GiveNamedItem("weapon_deagle");
 
@@ -260,6 +284,17 @@ public static class Lib
         if(block_cvar != null)
         {
             block_cvar.SetValue(0);
+        }
+    }
+
+    // why doesn't this work lol
+    static public void set_cvar_str(String name, String value)
+    {
+        ConVar? cvar = ConVar.Find(name);
+
+        if(cvar != null)
+        {
+            cvar.StringValue = value;
         }
     }
 

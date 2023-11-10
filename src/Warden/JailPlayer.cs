@@ -79,6 +79,5 @@ public class JailPlayer
     // TODO: Laser stuff needs to go here!
     // but we dont have access to the necessary primtives yet
 
-
     public bool is_rebel = false;
 };

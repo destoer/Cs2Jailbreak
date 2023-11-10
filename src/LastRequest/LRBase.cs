@@ -73,14 +73,8 @@ public abstract class LRBase
         if(player.is_ct())
         {
             player.GiveNamedItem("item_assaultsuit");
-            player.GiveNamedItem("weapon_knife");
             player.GiveNamedItem("weapon_deagle");
             player.GiveNamedItem("weapon_m4a1");           
-        }
-
-        else if(player.is_t())
-        {
-            player.GiveNamedItem("weapon_knife");
         }
     }
 
@@ -147,9 +141,19 @@ public abstract class LRBase
         return !restrict_drop;
     }
 
-    public virtual bool weapon_pickup(String name) 
+    public virtual void weapon_pickup(String name) 
     {
-        return weapon_restrict == name;
+        if(weapon_restrict != name)
+        {
+            CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
+
+            if(player != null && player.is_valid_alive())
+            {
+                // TODO: this needs to restore bullets
+                player.strip_weapons();
+                player.GiveNamedItem(weapon_restrict);
+            }
+        }
     }
 
     public virtual void ent_created(String name) {}

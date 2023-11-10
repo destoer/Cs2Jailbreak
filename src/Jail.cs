@@ -11,6 +11,7 @@ using CounterStrikeSharp.API.Modules.Memory;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
+using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 // main plugin file, controls central hooking
 // defers to warden, lr and sd
@@ -111,8 +112,21 @@ public class JailPlugin : BasePlugin
         RegisterEventHandler<EventMapTransition>(OnMapChange);
         RegisterEventHandler<EventPlayerDeath>(OnPlayerDeath);
         RegisterEventHandler<EventPlayerHurt>(OnPlayerHurt);
+        RegisterEventHandler<EventItemPickup>(OnItemPickup);
 
         // TODO: need to hook weapon drop
+    }
+
+    HookResult OnItemPickup(EventItemPickup @event, GameEventInfo info)
+    {
+        CCSPlayerController? player = @event.Userid;
+
+        if(player != null && player.is_valid())
+        {
+            lr.weapon_pickup(player,@event.Item);
+        }
+
+        return HookResult.Continue;
     }
 
     HookResult OnPlayerHurt(EventPlayerHurt @event, GameEventInfo info)
@@ -125,13 +139,8 @@ public class JailPlugin : BasePlugin
 
         if(player != null && player.is_valid())
         {
-            lr.take_damage(player,attacker,ref damage,ref health);
-            player.PawnHealth = (uint)health;
+            lr.take_damage(player,attacker,damage,health);
         }
-
-        // TOOD: this dont work like ontake damage
-        @event.DmgHealth = damage;
-        @event.Health = health;
 
         return HookResult.Changed;
     }
