@@ -29,6 +29,19 @@ public static class Lib
         }
     }
 
+    static public void print_console_all(String str)
+    {
+        foreach(CCSPlayerController player in Utilities.GetPlayers())
+        {
+            if(!player.is_valid())
+            {
+                continue;
+            }
+
+            player.PrintToConsole(str);
+        }
+    }
+
     // Cheers Kill for suggesting method extenstions
     static public bool is_valid(this CCSPlayerController? player)
     {
@@ -88,7 +101,7 @@ public static class Lib
 
         foreach (var weapon in weapons)
         {
-            if (!weapon.IsValid)
+            if (!weapon.IsValid || !weapon.Value.IsValid)
             { 
                 continue;
             }

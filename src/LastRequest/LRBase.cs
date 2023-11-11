@@ -33,6 +33,9 @@ public abstract class LRBase
         // while lr is pending damage is off
         restrict_damage = true;
         manager = lr_manager;
+
+        // make sure we cant get guns during startup
+        weapon_restrict = "knife";
     }
 
 
@@ -141,17 +144,34 @@ public abstract class LRBase
         return !restrict_drop;
     }
 
-    public virtual void weapon_pickup(String name) 
+    public virtual void weapon_equip(String name) 
     {
-        if(weapon_restrict != name)
+        if(weapon_restrict != name && weapon_restrict != "")
         {
             CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
 
             if(player != null && player.is_valid_alive())
             {
-                // TODO: this needs to restore bullets
-                player.strip_weapons();
-                player.GiveNamedItem(weapon_restrict);
+                // strip all weapons that aint the restricted one
+                var weapons = player.Pawn.Value.WeaponServices?.MyWeapons;
+
+                if(weapons == null)
+                {
+                    return;
+                }
+
+                foreach (var weapon in weapons)
+                {
+                    if (!weapon.IsValid || !weapon.Value.IsValid)
+                    { 
+                        continue;
+                    }
+                    
+                    if(!weapon.Value.DesignerName.Contains(weapon_restrict))
+                    {
+                        weapon.Value.Remove();
+                    }
+                }     
             }
         }
     }

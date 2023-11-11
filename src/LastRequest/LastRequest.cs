@@ -193,17 +193,17 @@ public class LastRequest
 
     bool is_pair(CCSPlayerController? v1, CCSPlayerController? v2)
     {
-        LRBase? l1 = find_lr(v1);
-        LRBase? l2 = find_lr(v2);
+        LRBase? lr1 = find_lr(v1);
+        LRBase? lr2 = find_lr(v2);
 
         // if either aint in lr they aernt a pair
-        if(l1 == null || l2 == null)
+        if(lr1 == null || lr2 == null)
         {
             return false;
         }
 
         // same slot must be a pair!
-        return v1.slot == v2.slot;
+        return lr1.slot == lr2.slot;
     }
 
     public void take_damage(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health)
@@ -221,6 +221,8 @@ public class LastRequest
             return;
         }
 
+        Server.PrintToChatAll($"{lr.restrict_damage} {!is_pair(player,attacker)}");
+
         // lr has restricted damage or player is not in the same lr
         // dont deal any damage
         if(lr.restrict_damage || !is_pair(player,attacker))
@@ -229,13 +231,13 @@ public class LastRequest
         }
     }
 
-    public void weapon_pickup(CCSPlayerController? player,String name) 
+    public void weapon_equip(CCSPlayerController? player,String name) 
     {
         LRBase? lr = find_lr(player);
 
         if(lr != null)
         {
-            lr.weapon_pickup(name);
+            lr.weapon_equip(name);
         }
     }
 

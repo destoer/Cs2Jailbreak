@@ -112,18 +112,18 @@ public class JailPlugin : BasePlugin
         RegisterEventHandler<EventMapTransition>(OnMapChange);
         RegisterEventHandler<EventPlayerDeath>(OnPlayerDeath);
         RegisterEventHandler<EventPlayerHurt>(OnPlayerHurt);
-        RegisterEventHandler<EventItemPickup>(OnItemPickup);
+        RegisterEventHandler<EventItemEquip>(OnItemEquip);
 
         // TODO: need to hook weapon drop
     }
 
-    HookResult OnItemPickup(EventItemPickup @event, GameEventInfo info)
+    HookResult OnItemEquip(EventItemEquip @event, GameEventInfo info)
     {
         CCSPlayerController? player = @event.Userid;
 
         if(player != null && player.is_valid())
         {
-            lr.weapon_pickup(player,@event.Item);
+            lr.weapon_equip(player,@event.Item);
         }
 
         return HookResult.Continue;
@@ -140,9 +140,10 @@ public class JailPlugin : BasePlugin
         if(player != null && player.is_valid())
         {
             lr.take_damage(player,attacker,damage,health);
+            warden.take_damage(player,attacker,damage,health);
         }
 
-        return HookResult.Changed;
+        return HookResult.Continue;
     }
 
     HookResult OnMapChange(EventMapTransition @event, GameEventInfo info)

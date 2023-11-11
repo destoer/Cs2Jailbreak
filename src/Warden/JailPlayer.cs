@@ -76,6 +76,26 @@ public class JailPlayer
         }
     }
 
+    public void take_damage(CCSPlayerController? player, CCSPlayerController? attacker, int health, int damage)
+    {
+        if(player == null || attacker == null || !player.is_valid() || !attacker.is_valid())
+        {
+            return;
+        }
+
+        // ct hit by T they are a rebel
+        if(player.is_ct() && attacker.is_t())
+        {
+            set_rebel(attacker);
+        }
+
+        // log any ct damage
+        else if(attacker.is_ct())
+        {
+            //Lib.print_console_all($"CT {attacker.PlayerName} hit {player.PlayerName} for {damage}");
+        }
+    }
+
     // TODO: Laser stuff needs to go here!
     // but we dont have access to the necessary primtives yet
 

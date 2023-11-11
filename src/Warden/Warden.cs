@@ -352,6 +352,16 @@ public class Warden
     }
 
 
+    public void take_damage(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health)
+    {
+        var jail_player = jail_player_from_player(player);
+
+        if(jail_player != null)
+        {  
+            jail_player.take_damage(player,attacker,damage, health);
+        }  
+    }
+
     public void weapon_fire(EventWeaponFire @event, GameEventInfo info)
     {
         // attempt to get player and weapon
