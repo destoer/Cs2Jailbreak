@@ -14,11 +14,24 @@ using CounterStrikeSharp.API.Modules.Admin;
 
 using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
+/*
+    i think we can implement at the moment
+    gun dropping might be an issue but ah well
+    dodgeball,
+    grenade,
+    no_scope,
+    shot_for_shot,
+    mag_for_mag,
+    shotgun_war,
+    russian_roulette,
+    headshot_only,
+    rebel
+    knife_rebel
+*/
+
+
 public class LastRequest
 {
-    // TODO: need lookup from player id
-    // to a LR!
-
     public LastRequest()
     {
         for(int c = 0; c < lr_choice.Length; c++)
@@ -206,6 +219,25 @@ public class LastRequest
         return lr1.slot == lr2.slot;
     }
 
+    void restore_hp(CCSPlayerController? player, int damage, int health)
+    {
+        if(player == null || !player.is_valid())
+        {
+            return;
+        }
+
+        // TODO: why does this sometimes mess up?
+        if(health < 100)
+        {
+            player.set_health(Math.Min(health + damage,100));
+        }
+
+        else
+        {
+            player.set_health(health + damage);
+        }
+    }
+
     public void take_damage(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health)
     {
         // neither player is in lr we dont care
@@ -214,20 +246,20 @@ public class LastRequest
             return;
         }
 
-        LRBase? lr = find_lr(player);
-
-        if(lr == null)
+        // not a pair restore hp
+        if(!is_pair(player,attacker))
         {
+            restore_hp(player,damage,health);
             return;
         }
 
-        Server.PrintToChatAll($"{lr.restrict_damage} {!is_pair(player,attacker)}");
+        // check no damage restrict
+        LRBase? lr = find_lr(player);
 
-        // lr has restricted damage or player is not in the same lr
-        // dont deal any damage
-        if(lr.restrict_damage || !is_pair(player,attacker))
+        if(lr != null && lr.restrict_damage)
         {
-            player.set_health(health + damage);
+            restore_hp(player,damage,health);
+            return;
         }
     }
 
@@ -443,22 +475,48 @@ public class LastRequest
 
         choice.option = name;
 
-        // scan for avaiable CT's that are alive and add as choice
-        var alive_ct = Lib.get_alive_ct();
-
-        var lr_menu = new ChatMenu("Partner Menu");
-
-        foreach(var ct in alive_ct)
+        // Debugging pick t's
+        if(choice.bypass && player.is_ct())
         {
-            if(!ct.is_valid())
+
+            // scan for avaiable CT's that are alive and add as choice
+            var alive_t = Lib.get_alive_t();
+
+            var lr_menu = new ChatMenu("Partner Menu");
+
+            foreach(var t in alive_t)
             {
-                continue;
+                if(!t.is_valid())
+                {
+                    continue;
+                }
+
+                lr_menu.AddMenuOption(t.PlayerName, finialise_choice);
             }
 
-            lr_menu.AddMenuOption(ct.PlayerName, finialise_choice);
+            ChatMenus.OpenMenu(player, lr_menu);
         }
 
-        ChatMenus.OpenMenu(player, lr_menu);
+        else
+        {
+
+            // scan for avaiable CT's that are alive and add as choice
+            var alive_ct = Lib.get_alive_ct();
+
+            var lr_menu = new ChatMenu("Partner Menu");
+
+            foreach(var ct in alive_ct)
+            {
+                if(!ct.is_valid())
+                {
+                    continue;
+                }
+
+                lr_menu.AddMenuOption(ct.PlayerName, finialise_choice);
+            }
+
+            ChatMenus.OpenMenu(player, lr_menu);
+        }
     }
 
     public void lr_cmd_internal(CCSPlayerController? player,bool bypass, CommandInfo command)
