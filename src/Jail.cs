@@ -72,7 +72,17 @@ public class JailPlugin : BasePlugin
         
         register_hook();
 
+        register_listener();
+
         Console.WriteLine("Sucessfully started JB");
+    }
+
+    void register_listener()
+    {
+        RegisterListener<Listeners.OnEntitySpawned>(entity =>
+        {
+            lr.ent_created(entity);
+        });
     }
 
     void register_commands()

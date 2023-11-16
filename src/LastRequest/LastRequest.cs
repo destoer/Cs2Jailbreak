@@ -16,7 +16,9 @@ using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 /*
     i think we can implement at the moment
-    gun dropping might be an issue but ah well
+    gun dropping might be an issue
+    so maybe just nade and dodgeball along with rebel
+
     dodgeball,
     grenade,
     no_scope,
@@ -125,6 +127,20 @@ public class LastRequest
                 t_lr = new LRKnife(this,slot,choice.t_slot,choice.option);
                 ct_lr = new LRKnife(this,slot,choice.ct_slot,choice.option);
                 break;
+            }
+
+            case LRType.DODGEBALL:
+            {
+                t_lr = new LRDodgeball(this,slot,choice.t_slot,choice.option);
+                ct_lr = new LRDodgeball(this,slot,choice.ct_slot,choice.option);
+                break;              
+            }
+
+            case LRType.GRENADE:
+            {
+                t_lr = new LRGrenade(this,slot,choice.t_slot,choice.option);
+                ct_lr = new LRGrenade(this,slot,choice.ct_slot,choice.option);
+                break;              
             }
 
             case LRType.NONE:
@@ -256,10 +272,14 @@ public class LastRequest
         // check no damage restrict
         LRBase? lr = find_lr(player);
 
-        if(lr != null && lr.restrict_damage)
+        if(lr != null)
         {
-            restore_hp(player,damage,health);
-            return;
+            if(lr.restrict_damage)
+            {
+                restore_hp(player,damage,health);
+            }
+            
+            lr.take_damage(damage,health);
         }
     }
 
@@ -270,6 +290,19 @@ public class LastRequest
         if(lr != null)
         {
             lr.weapon_equip(name);
+        }
+    }
+
+    public void ent_created(CEntityInstance entity)
+    {
+        for(int l = 0; l < active_lr.Length; l++)
+        {
+            LRBase? lr = active_lr[l];
+
+            if(lr != null && entity.IsValid)
+            {
+                lr.ent_created(entity);
+            }
         }
     }
 
@@ -614,11 +647,15 @@ public class LastRequest
     public enum LRType
     {
         KNIFE,
+        DODGEBALL,
+        GRENADE,
         NONE,
     };
 
     static String[] LR_NAME = {
         "Knife Fight",
+        "Dodgeball",
+        "Grenade",
         "None",
     };
 

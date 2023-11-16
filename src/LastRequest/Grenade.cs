@@ -13,9 +13,9 @@ using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 
-public class LRDodgeball : LRBase
+public class LRGrenade : LRBase
 {
-    public LRDodgeball(LastRequest manager,int lr_slot, int player_slot, String choice) : base(manager,"Dodgeball",lr_slot,player_slot,choice)
+    public LRGrenade(LastRequest manager,int lr_slot, int player_slot, String choice) : base(manager,"Grenade",lr_slot,player_slot,choice)
     {
 
     }
@@ -23,31 +23,21 @@ public class LRDodgeball : LRBase
     public override void init_player(CCSPlayerController player)
     {    
         // give player a knife and restrict them to it
-        weapon_restrict = "flashbang";
+        weapon_restrict = "hegrenade";
 
         if(player.is_valid_alive())
         {
-            player.set_health(1);
+            player.set_health(150);
 
             // Handle options
-            player.GiveNamedItem("weapon_flashbang");
+            player.GiveNamedItem("weapon_hegrenade");
         }
     }
     
-    public override void take_damage(int damage, int health)
-    {
-        CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
-    
-        if(player != null && player.is_valid_alive())
-        {
-            player.PlayerPawn.Value.CommitSuicide(true, true);
-        }
-    }
-
     public override void ent_created(CEntityInstance entity)
     {
         // remove projectile and give new nade
-        if(entity.DesignerName == "flashbang_projectile")
+        if(entity.DesignerName == "hegrenade_projectile")
         {
             if(JailPlugin.global_ctx != null)
             {
@@ -57,14 +47,8 @@ public class LRDodgeball : LRBase
                 
                     if(player != null && player.is_valid_alive())
                     {
-                        player.GiveNamedItem("weapon_flashbang");
+                        player.GiveNamedItem("weapon_hegrenade");
                     }
-                
-                    if(entity.IsValid)
-                    {
-                        entity.Remove();
-                    }
-                
                 });
             }
         }

@@ -68,7 +68,7 @@ public abstract class LRBase
 
 
         // restore hp
-        player.PawnHealth = 100;
+        player.set_health(100);
 
         // restore weapons
         player.strip_weapons();
@@ -138,6 +138,10 @@ public abstract class LRBase
 
     // what events might we want access to?
     public virtual void weapon_fire(String name) {}
+
+    public virtual void ent_created(CEntityInstance entity) {}
+
+    public virtual void take_damage(int health,int damage) {}
 
     public virtual bool weapon_drop(String name) 
     {
