@@ -12,6 +12,7 @@ using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 using CounterStrikeSharp.API.Modules.Admin;
+using System.Drawing;
 
 public static class Lib
 {
@@ -115,7 +116,7 @@ public static class Lib
         player.PlayerPawn.Value.ArmorValue = hp;
     }
 
-    static public void strip_weapons(this CCSPlayerController? player)
+    static public void strip_weapons(this CCSPlayerController? player, bool remove_knife = false)
     {
         // only care if player is valid
         if(player == null || !player.is_valid_alive())
@@ -141,7 +142,21 @@ public static class Lib
         }
 
         // dont remove knife its buggy
-        player.GiveNamedItem("weapon_knife");
+        if(!remove_knife)
+        {
+            player.GiveNamedItem("weapon_knife");
+        }
+    }
+
+    static public void set_colour(this CCSPlayerController? player, Color colour)
+    {
+        if(player == null || !player.is_valid_alive())
+        {
+            return;
+        }
+
+        player.PlayerPawn.Value.RenderMode = RenderMode_t.kRenderTransColor;
+        player.PlayerPawn.Value.Render = colour;
     }
 
     static public bool is_generic_admin(this CCSPlayerController? player)

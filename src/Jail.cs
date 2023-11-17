@@ -235,7 +235,12 @@ public class JailPlugin : BasePlugin
 
     HookResult OnWeaponFire(EventWeaponFire @event, GameEventInfo info)
     {
-        warden.weapon_fire(@event,info);
+        // attempt to get player and weapon
+        var player = @event.Userid;
+        String name = @event.Weapon;
+
+        warden.weapon_fire(player,name);
+        lr.weapon_fire(player,name);
 
         return HookResult.Continue;
     }

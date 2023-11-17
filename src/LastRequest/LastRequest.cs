@@ -15,13 +15,13 @@ using CounterStrikeSharp.API.Modules.Admin;
 using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 /*
-    rebel,
+    these should be doable
 
-    shot_for_shot,
-    mag_for_mag,
+    rebel,
+    knife_rebel
+
     russian_roulette,
 
-    knife_rebel
 */
 
 
@@ -54,10 +54,27 @@ public class LastRequest
         player.GiveNamedItem("item_assaultsuit");
     }
 
+    bool lr_exists(LRBase lr)
+    {
+        for(int l = 0; l < active_lr.Count(); l++)
+        {
+            if(active_lr[l] == lr)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     void activate_lr(LRBase lr)
     {
-        // call the final LR init function and mark it as truly active
-        lr.activate();
+        if(lr_exists(lr))
+        {
+            // call the final LR init function and mark it as truly active
+            lr.activate();
+            lr.pair_activate();
+        }
     }
 
     public void death(CCSPlayerController? player)
@@ -152,6 +169,20 @@ public class LastRequest
                 break;              
             }
 
+            case LRType.SHOT_FOR_SHOT:
+            {
+                t_lr = new LRShotForShot(this,slot,choice.t_slot,choice.option);
+                ct_lr = new LRShotForShot(this,slot,choice.ct_slot,choice.option);
+                break;              
+            }
+
+            case LRType.MAG_FOR_MAG:
+            {
+                t_lr = new LRShotForShot(this,slot,choice.t_slot,choice.option,true);
+                ct_lr = new LRShotForShot(this,slot,choice.ct_slot,choice.option,true);
+                break;              
+            }
+
             case LRType.HEADSHOT_ONLY:
             {
                 t_lr = new LRHeadshotOnly(this,slot,choice.t_slot,choice.option);
@@ -186,7 +217,7 @@ public class LastRequest
         // Finally setup final timer for start!
         if(JailPlugin.global_ctx != null)
         {
-            JailPlugin.global_ctx.AddTimer(5.0f,t_lr.activate,CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
+            JailPlugin.global_ctx.AddTimer(5.0f,() => activate_lr(t_lr),CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
         }
 
         // print init to players
@@ -234,6 +265,16 @@ public class LastRequest
         }
 
         return true;
+    }
+
+    public void weapon_fire(CCSPlayerController? player,String name) 
+    {
+        LRBase? lr = find_lr(player);
+
+        if(lr != null)
+        {
+            lr.weapon_fire(name);
+        }
     }
 
     bool is_pair(CCSPlayerController? v1, CCSPlayerController? v2)
@@ -303,32 +344,31 @@ public class LastRequest
 
         if(lr != null)
         {
-            if(!lr.weapon_equip(name))
+            if(player != null && player.is_valid_alive())
             {
-                if(player != null && player.is_valid_alive())
+                // strip all weapons that aint the restricted one
+                var weapons = player.Pawn.Value.WeaponServices?.MyWeapons;
+
+                if(weapons == null)
                 {
-                    // strip all weapons that aint the restricted one
-                    var weapons = player.Pawn.Value.WeaponServices?.MyWeapons;
-
-                    if(weapons == null)
-                    {
-                        return;
-                    }
-
-                    foreach (var weapon in weapons)
-                    {
-                        if (!weapon.IsValid || !weapon.Value.IsValid)
-                        { 
-                            continue;
-                        }
-                        
-                        if(!weapon.Value.DesignerName.Contains(name))
-                        {
-                            weapon.Value.Remove();
-                        }
-                    }     
+                    return;
                 }
-            }
+
+                foreach (var weapon in weapons)
+                {
+                    if (!weapon.is_valid())
+                    { 
+                        continue;
+                    }
+                    
+                    var weapon_name = weapon.Value.DesignerName;
+
+                    if(!lr.weapon_equip(weapon_name) && !weapon_name.Contains("knife"))
+                    {
+                        weapon.Value.Remove();
+                    }
+                }       
+            }   
         }
     }
 
@@ -725,6 +765,8 @@ public class LastRequest
         SHOTGUN_WAR,
         SCOUT_KNIFE,
         HEADSHOT_ONLY,
+        SHOT_FOR_SHOT,
+        MAG_FOR_MAG,
         NONE,
     };
 
@@ -735,6 +777,8 @@ public class LastRequest
         "Shotgun war",
         "Scout knife",
         "Headshot only",
+        "Shot for shot",
+        "Mag for mag",
         "None",
     };
 

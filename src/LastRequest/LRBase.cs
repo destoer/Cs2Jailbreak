@@ -106,6 +106,12 @@ public abstract class LRBase
         manager.end_lr(slot);
     }
 
+    // NOTE: this is called once for a pair on the starting slot
+    public virtual void pair_activate()
+    {
+
+    }
+
     public void activate()
     {
         // this is a timer callback set it to null
@@ -119,9 +125,12 @@ public abstract class LRBase
             return;         
         }
 
-        var player = Utilities.GetPlayerFromSlot(player_slot);
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
 
-        player.announce(LastRequest.LR_PREFIX,"Fight!");
+        if(player != null && player.is_valid_alive())
+        {
+            player.announce(LastRequest.LR_PREFIX,"Fight!");
+        }
 
         // renable damage
         // NOTE: start_lr can override this if it so pleases
@@ -138,6 +147,47 @@ public abstract class LRBase
         }
     }
     
+    protected void pick_clip(int clip_size)
+    {
+        Random rnd = new Random((int)DateTime.Now.Ticks);
+
+        CCSPlayerController? winner = null;
+        CCSPlayerController? loser = null;
+
+        if(rnd.Next(0,2) == 0)
+        {
+            if(partner != null)
+            {
+                winner = Utilities.GetPlayerFromSlot(player_slot);
+                loser =  Utilities.GetPlayerFromSlot(partner.player_slot);
+            }
+        }
+
+        else
+        {
+            if(partner != null)
+            {
+                winner =  Utilities.GetPlayerFromSlot(partner.player_slot);
+                loser =  Utilities.GetPlayerFromSlot(player_slot);
+            }
+        }
+
+
+        // Give the lucky player the first shot
+        if(winner != null && loser != null)
+        {
+            winner.announce(LastRequest.LR_PREFIX,$"Randomly chose {winner.PlayerName} to shoot first");
+            loser.announce(LastRequest.LR_PREFIX,$"Randomly chose {winner.PlayerName} to shoot first");
+
+            var deagle = Lib.find_weapon(winner,weapon_restrict);
+
+            if(deagle != null)
+            {
+                deagle.set_ammo(clip_size,0);
+            }
+        }
+    }
+
     // player setup -> NOTE: hp and gun stripping is done for us
     abstract public void init_player(CCSPlayerController player);
 
@@ -158,7 +208,8 @@ public abstract class LRBase
 
     public virtual bool weapon_equip(String name) 
     {
-        return weapon_restrict == "" || weapon_restrict == name;  
+        //Server.PrintToChatAll($"{name} : {weapon_restrict}");
+        return weapon_restrict == "" || name.Contains(weapon_restrict); 
     }
 
     public virtual void ent_created(String name) {}

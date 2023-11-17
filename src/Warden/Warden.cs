@@ -14,6 +14,7 @@ using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CounterStrikeSharp.API.Modules.Admin;
 using CSTimer = CounterStrikeSharp.API.Modules.Timers;
+using System.Drawing;
 
 public class Warden
 {
@@ -53,7 +54,7 @@ public class Warden
         announce($"{player.PlayerName} is now the warden");
 
         // change player color!
-        //player.PlayerPawn.Value.Render = 0.0;
+        player.set_colour(Color.FromArgb(255, 0, 0, 255));
     }
 
     public bool is_warden(CCSPlayerController? player)
@@ -67,6 +68,7 @@ public class Warden
 
         if(player.is_valid())
         {
+            player.set_colour(Color.FromArgb(255, 255, 255, 255));
             announce($"{player.PlayerName} is no longer the warden");
         }
 
@@ -268,6 +270,7 @@ public class Warden
 
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
+            player.set_colour(Color.FromArgb(255, 255, 255, 255));
             setup_player_guns(player);
         }
 
@@ -383,18 +386,14 @@ public class Warden
         }  
     }
 
-    public void weapon_fire(EventWeaponFire @event, GameEventInfo info)
+    public void weapon_fire(CCSPlayerController? player, String name)
     {
-        // attempt to get player and weapon
-        var player = @event.Userid;
-        String weapon = @event.Weapon;
-
         // attempt to set rebel
         var jail_player = jail_player_from_player(player);
 
         if(jail_player != null)
         {
-            jail_player.rebel_weapon_fire(player,weapon);
+            jail_player.rebel_weapon_fire(player,name);
         }
     }
 
