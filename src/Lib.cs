@@ -74,6 +74,16 @@ public static class Lib
         player.PlayerPawn.Value.Health = hp;
     }
 
+    static public void set_gravity(this CCSPlayerController? player, float value)
+    {
+        if(player == null || !player.is_valid())
+        {
+            return;
+        }
+
+        player.PlayerPawn.Value.GravityScale = value;
+    }
+
     static public void set_armour(this CCSPlayerController? player, int hp)
     {
         if(player == null || !player.is_valid())
@@ -101,8 +111,8 @@ public static class Lib
 
         foreach (var weapon in weapons)
         {
-            if (!weapon.IsValid || !weapon.Value.IsValid)
-            { 
+            if(weapon == null || !is_valid(weapon))
+            {
                 continue;
             }
             
@@ -169,6 +179,58 @@ public static class Lib
                 player.unmute();
             }
         }
+    }
+
+    static public bool is_valid(this CHandle<CBasePlayerWeapon>? weapon)
+    {
+        return weapon != null && weapon.IsValid && weapon.Value.IsValid;
+    }
+
+    static public bool is_valid(this CBasePlayerWeapon? weapon)
+    {
+        return weapon != null && weapon.IsValid;
+    }
+
+    static public CBasePlayerWeapon? find_weapon(this CCSPlayerController? player, String name)
+    {
+        // only care if player is valid
+        if(player == null || !player.is_valid_alive())
+        {
+            return null;
+        }
+
+        var weapons = player.Pawn.Value.WeaponServices?.MyWeapons;
+
+        if(weapons == null)
+        {
+            return null;
+        }
+
+        foreach (var weapon in weapons)
+        {
+            if(weapon == null || !is_valid(weapon))
+            {
+                continue;
+            }
+
+            if(weapon.Value.DesignerName.Contains(name))
+            {
+                return weapon.Value;
+            }
+        }
+
+        return null;
+    }
+
+    static public void set_ammo(this CBasePlayerWeapon? weapon, int clip, int reserve)
+    {
+        if(weapon == null || !weapon.is_valid())
+        {
+            return;
+        }
+
+        weapon.Clip1 = clip;
+        weapon.ReserveAmmo[0] = reserve;
     }
 
     // TODO: for now this is just a give guns
@@ -336,4 +398,6 @@ public static class Lib
     // CONST DEFS
     public const int TEAM_T = 2;
     public const int TEAM_CT = 3;
+
+    public const int HITGROUP_HEAD = 0x1;
 }

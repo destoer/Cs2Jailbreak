@@ -19,15 +19,15 @@ using CSTimer = CounterStrikeSharp.API.Modules.Timers;
     gun dropping might be an issue
     so maybe just nade and dodgeball along with rebel
 
-    dodgeball,
-    grenade,
+    shotgun_war
     no_scope,
+    headshot_only,
+    rebel,
+
     shot_for_shot,
     mag_for_mag,
-    shotgun_war,
     russian_roulette,
-    headshot_only,
-    rebel
+
     knife_rebel
 */
 
@@ -69,6 +69,8 @@ public class LastRequest
 
     public void death(CCSPlayerController? player)
     {
+        // TODO: add auto menu open
+
         LRBase? lr = find_lr(player);
 
         if(lr != null)
@@ -140,6 +142,27 @@ public class LastRequest
             {
                 t_lr = new LRGrenade(this,slot,choice.t_slot,choice.option);
                 ct_lr = new LRGrenade(this,slot,choice.ct_slot,choice.option);
+                break;              
+            }
+
+            case LRType.SHOTGUN_WAR:
+            {
+                t_lr = new LRShotgunWar(this,slot,choice.t_slot,choice.option);
+                ct_lr = new LRShotgunWar(this,slot,choice.ct_slot,choice.option);
+                break;              
+            }
+    
+            case LRType.SCOUT_KNIFE:
+            {
+                t_lr = new LRScoutKnife(this,slot,choice.t_slot,choice.option);
+                ct_lr = new LRScoutKnife(this,slot,choice.ct_slot,choice.option);
+                break;              
+            }
+
+            case LRType.HEADSHOT_ONLY:
+            {
+                t_lr = new LRHeadshotOnly(this,slot,choice.t_slot,choice.option);
+                ct_lr = new LRHeadshotOnly(this,slot,choice.ct_slot,choice.option);
                 break;              
             }
 
@@ -254,7 +277,7 @@ public class LastRequest
         }
     }
 
-    public void take_damage(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health)
+    public void take_damage(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health, int hitgroup)
     {
         // neither player is in lr we dont care
         if(!in_lr(player) && !in_lr(attacker))
@@ -274,12 +297,10 @@ public class LastRequest
 
         if(lr != null)
         {
-            if(lr.restrict_damage)
+            if(!lr.take_damage(damage,health,hitgroup))
             {
                 restore_hp(player,damage,health);
             }
-            
-            lr.take_damage(damage,health);
         }
     }
 
@@ -289,7 +310,32 @@ public class LastRequest
 
         if(lr != null)
         {
-            lr.weapon_equip(name);
+            if(!lr.weapon_equip(name))
+            {
+                if(player != null && player.is_valid_alive())
+                {
+                    // strip all weapons that aint the restricted one
+                    var weapons = player.Pawn.Value.WeaponServices?.MyWeapons;
+
+                    if(weapons == null)
+                    {
+                        return;
+                    }
+
+                    foreach (var weapon in weapons)
+                    {
+                        if (!weapon.IsValid || !weapon.Value.IsValid)
+                        { 
+                            continue;
+                        }
+                        
+                        if(!weapon.Value.DesignerName.Contains(name))
+                        {
+                            weapon.Value.Remove();
+                        }
+                    }     
+                }
+            }
         }
     }
 
@@ -649,6 +695,9 @@ public class LastRequest
         KNIFE,
         DODGEBALL,
         GRENADE,
+        SHOTGUN_WAR,
+        SCOUT_KNIFE,
+        HEADSHOT_ONLY,
         NONE,
     };
 
@@ -656,6 +705,9 @@ public class LastRequest
         "Knife Fight",
         "Dodgeball",
         "Grenade",
+        "Shotgun war",
+        "Scout knife",
+        "Headshot only",
         "None",
     };
 

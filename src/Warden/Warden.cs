@@ -13,6 +13,7 @@ using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CounterStrikeSharp.API.Modules.Admin;
+using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 public class Warden
 {
@@ -265,6 +266,11 @@ public class Warden
         block.round_start();
         warday.round_start();
 
+        foreach(CCSPlayerController player in Utilities.GetPlayers())
+        {
+            setup_player_guns(player);
+        }
+
         set_warden_if_last();
     }
 
@@ -292,7 +298,31 @@ public class Warden
         remove_if_warden(player);
     }
 
+    public void setup_player_guns(CCSPlayerController? player)
+    {
+        if(player == null || !player.is_valid_alive())
+        {
+            return;
+        }
 
+        var jail_player = jail_player_from_player(player);
+
+        if(jail_player != null && !jail_player.init_weapon)
+        {
+            jail_player.init_weapon = true;
+
+            player.strip_weapons();
+
+            // NOTE: we use cvars for the rest of the guns
+            // because its just easier
+            if(player.is_ct())
+            {
+                player.GiveNamedItem("weapon_deagle");
+                player.GiveNamedItem("weapon_m4a1");  
+                player.GiveNamedItem("item_assaultsuit");
+            }
+        }
+    }
 
     public void spawn(CCSPlayerController? player)
     {
@@ -301,16 +331,7 @@ public class Warden
             return;
         }
 
-        player.strip_weapons();
-
-        // NOTE: we use cvars for the rest of the guns
-        // because its just easier
-        if(player.is_ct())
-        {
-            player.GiveNamedItem("weapon_deagle");
-            player.GiveNamedItem("weapon_m4a1");  
-            player.GiveNamedItem("item_assaultsuit");
-        }
+        setup_player_guns(player);
 
         mute.spawn(player);
     }   

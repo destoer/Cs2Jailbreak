@@ -22,7 +22,6 @@ public class LRGrenade : LRBase
 
     public override void init_player(CCSPlayerController player)
     {    
-        // give player a knife and restrict them to it
         weapon_restrict = "hegrenade";
 
         if(player.is_valid_alive())

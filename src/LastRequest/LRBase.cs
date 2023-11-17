@@ -73,6 +73,9 @@ public abstract class LRBase
         // restore weapons
         player.strip_weapons();
 
+        // reset gravity
+        player.set_gravity(1.0f);
+
         if(player.is_ct())
         {
             player.GiveNamedItem("item_assaultsuit");
@@ -141,43 +144,19 @@ public abstract class LRBase
 
     public virtual void ent_created(CEntityInstance entity) {}
 
-    public virtual void take_damage(int health,int damage) {}
+    public virtual bool take_damage(int health,int damage, int hitgroup) 
+    {
+        return !restrict_damage;
+    }
 
     public virtual bool weapon_drop(String name) 
     {
         return !restrict_drop;
     }
 
-    public virtual void weapon_equip(String name) 
+    public virtual bool weapon_equip(String name) 
     {
-        if(weapon_restrict != name && weapon_restrict != "")
-        {
-            CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
-
-            if(player != null && player.is_valid_alive())
-            {
-                // strip all weapons that aint the restricted one
-                var weapons = player.Pawn.Value.WeaponServices?.MyWeapons;
-
-                if(weapons == null)
-                {
-                    return;
-                }
-
-                foreach (var weapon in weapons)
-                {
-                    if (!weapon.IsValid || !weapon.Value.IsValid)
-                    { 
-                        continue;
-                    }
-                    
-                    if(!weapon.Value.DesignerName.Contains(weapon_restrict))
-                    {
-                        weapon.Value.Remove();
-                    }
-                }     
-            }
-        }
+        return weapon_restrict == "" || weapon_restrict == name;  
     }
 
     public virtual void ent_created(String name) {}
@@ -195,7 +174,7 @@ public abstract class LRBase
 
     public bool restrict_damage = true;
 
-    public bool restrict_drop = false;
+    public bool restrict_drop = true;
 
     LrState state;
 

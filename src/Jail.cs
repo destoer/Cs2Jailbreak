@@ -118,7 +118,7 @@ public class JailPlugin : BasePlugin
         RegisterEventHandler<EventWeaponFire>(OnWeaponFire);
         RegisterEventHandler<EventPlayerSpawn>(OnPlayerSpawn);
         RegisterEventHandler<EventPlayerDisconnect>(OnPlayerDisconnect);
-        RegisterEventHandler<EventSwitchTeam>(OnSwitchTeam);
+        RegisterEventHandler<EventTeamchangePending>(OnSwitchTeam);
         RegisterEventHandler<EventMapTransition>(OnMapChange);
         RegisterEventHandler<EventPlayerDeath>(OnPlayerDeath);
         RegisterEventHandler<EventPlayerHurt>(OnPlayerHurt);
@@ -146,10 +146,11 @@ public class JailPlugin : BasePlugin
 
         int damage = @event.DmgHealth;
         int health = @event.Health;
+        int hitgroup = @event.Hitgroup;
 
         if(player != null && player.is_valid())
         {
-            lr.take_damage(player,attacker,damage,health);
+            lr.take_damage(player,attacker,damage,health,hitgroup);
             warden.take_damage(player,attacker,damage,health);
         }
 
@@ -197,17 +198,17 @@ public class JailPlugin : BasePlugin
         return HookResult.Continue;
     }
 
-    // TODO: how do we hook this?
-    HookResult OnSwitchTeam(EventSwitchTeam @event, GameEventInfo info)
+    HookResult OnSwitchTeam(EventTeamchangePending @event, GameEventInfo info)
     {
-    /*
         CCSPlayerController? player = @event.Userid;
+
+        int new_team = @event.Toteam;
 
         if(player != null && player.is_valid())
         {
-            warden.switch_team(player,player.TeamNum);
+            warden.switch_team(player,new_team);
         }
-    */
+
         return HookResult.Continue;
     }
 

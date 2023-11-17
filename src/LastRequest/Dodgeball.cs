@@ -22,7 +22,6 @@ public class LRDodgeball : LRBase
 
     public override void init_player(CCSPlayerController player)
     {    
-        // give player a knife and restrict them to it
         weapon_restrict = "flashbang";
 
         if(player.is_valid_alive())
@@ -34,7 +33,7 @@ public class LRDodgeball : LRBase
         }
     }
     
-    public override void take_damage(int damage, int health)
+    public override bool take_damage(int damage, int health, int hitgroup)
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
     
@@ -42,6 +41,8 @@ public class LRDodgeball : LRBase
         {
             player.PlayerPawn.Value.CommitSuicide(true, true);
         }
+
+        return true;
     }
 
     public override void ent_created(CEntityInstance entity)

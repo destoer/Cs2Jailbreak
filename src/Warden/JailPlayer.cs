@@ -16,6 +16,7 @@ public class JailPlayer
     public void purge_round()
     {
         is_rebel = false;
+        init_weapon = false;
     }
 
     public void reset()
@@ -100,4 +101,5 @@ public class JailPlayer
     // but we dont have access to the necessary primtives yet
 
     public bool is_rebel = false;
+    public bool init_weapon = false;
 };
