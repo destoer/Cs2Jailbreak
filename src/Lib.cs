@@ -74,6 +74,16 @@ public static class Lib
         player.PlayerPawn.Value.Health = hp;
     }
 
+    static public void set_movetype(this CCSPlayerController? player, MoveType_t type)
+    {
+        if(player == null || !player.is_valid())
+        {
+            return;
+        }
+
+        player.PlayerPawn.Value.MoveType = type;
+    }
+
     static public void set_gravity(this CCSPlayerController? player, float value)
     {
         if(player == null || !player.is_valid())
@@ -83,6 +93,17 @@ public static class Lib
 
         player.PlayerPawn.Value.GravityScale = value;
     }
+
+    static public void set_velocity(this CCSPlayerController? player, float value)
+    {
+        if(player == null || !player.is_valid())
+        {
+            return;
+        }
+
+        player.PlayerPawn.Value.Speed = value;
+    }
+
 
     static public void set_armour(this CCSPlayerController? player, int hp)
     {

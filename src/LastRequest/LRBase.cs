@@ -76,6 +76,8 @@ public abstract class LRBase
         // reset gravity
         player.set_gravity(1.0f);
 
+        player.set_velocity(1.0f);
+
         if(player.is_ct())
         {
             player.GiveNamedItem("item_assaultsuit");
@@ -182,7 +184,7 @@ public abstract class LRBase
     public LRBase? partner;
 
     // custom choice
-    String choice = "";
+    protected String choice = "";
 
     // managed timer
     CSTimer.Timer? timer = null;

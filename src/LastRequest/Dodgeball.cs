@@ -28,8 +28,21 @@ public class LRDodgeball : LRBase
         {
             player.set_health(1);
 
-            // Handle options
             player.GiveNamedItem("weapon_flashbang");
+
+            switch(choice)
+            {
+                case "Vanilla": 
+                {
+                    break;
+                }
+                
+                case "Low gravity":
+                {
+                    player.set_gravity(0.6f);
+                    break;
+                }
+            }
         }
     }
     

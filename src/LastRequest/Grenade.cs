@@ -28,8 +28,21 @@ public class LRGrenade : LRBase
         {
             player.set_health(150);
 
-            // Handle options
             player.GiveNamedItem("weapon_hegrenade");
+
+            switch(choice)
+            {
+                case "Vanilla": 
+                {
+                    break;
+                }
+                
+                case "Low gravity":
+                {
+                    player.set_gravity(0.6f);
+                    break;
+                }
+            }
         }
     }
     

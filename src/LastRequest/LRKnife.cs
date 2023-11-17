@@ -24,5 +24,30 @@ public class LRKnife : LRBase
         weapon_restrict = "knife";
 
         // Handle options
+        switch(choice)
+        {
+            case "Vanilla":
+            {
+                break;
+            }
+
+            case "Low gravity":
+            {
+                player.set_gravity(0.6f);
+                break;
+            }
+
+            case "High speed":
+            {
+                player.set_velocity(2.5f);
+                break;
+            }
+                
+            case "One hit":
+            {
+                player.set_health(50);
+                break;
+            }
+        }
     }
 }

@@ -15,13 +15,6 @@ using CounterStrikeSharp.API.Modules.Admin;
 using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 /*
-    i think we can implement at the moment
-    gun dropping might be an issue
-    so maybe just nade and dodgeball along with rebel
-
-    shotgun_war
-    no_scope,
-    headshot_only,
     rebel,
 
     shot_for_shot,
@@ -509,13 +502,18 @@ public class LastRequest
         init_lr(choice);
     }
 
+    public void picked_option(CCSPlayerController? player, ChatMenuOption option)
+    {
+        pick_partner_internal(player,option.Text);
+    }
+
     public void pick_option(CCSPlayerController? player, ChatMenuOption option)
     {
         // called from lr_type selection
         // save type
         LrChoice? choice = choice_from_player(player);
 
-        if(choice == null)
+        if(choice == null || player == null)
         {
             return;
         }
@@ -529,7 +527,36 @@ public class LastRequest
         {
             case LRType.KNIFE:
             {
-                pick_partner_internal(player,"");
+                var lr_menu = new ChatMenu("Choice Menu");
+
+                lr_menu.AddMenuOption("Vanilla", picked_option);
+                lr_menu.AddMenuOption("Low gravity", picked_option);
+                lr_menu.AddMenuOption("High speed", picked_option);
+                lr_menu.AddMenuOption("One hit", picked_option);
+                
+                ChatMenus.OpenMenu(player, lr_menu);                
+                break;
+            }
+
+            case LRType.DODGEBALL:
+            {
+                var lr_menu = new ChatMenu("Choice Menu");
+
+                lr_menu.AddMenuOption("Vanilla", picked_option);
+                lr_menu.AddMenuOption("Low gravity", picked_option);
+
+                ChatMenus.OpenMenu(player, lr_menu);
+                break;
+            }
+
+            case LRType.GRENADE:
+            {
+                var lr_menu = new ChatMenu("Choice Menu");
+
+                lr_menu.AddMenuOption("Vanilla", picked_option);
+                lr_menu.AddMenuOption("Low gravity", picked_option);
+
+                ChatMenus.OpenMenu(player, lr_menu);
                 break;
             }
 
