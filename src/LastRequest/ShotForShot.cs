@@ -21,32 +21,110 @@ public class LRShotForShot : LRBase
     }
 
     public override void init_player(CCSPlayerController player)
-    {    
-        weapon_restrict = "deagle";
+    {   
+        // NOTE: clip size assumes mag for mag
+        switch(choice)
+        {
+            case "Deagle":
+            {
+                weapon_restrict = "deagle";
+                clip_size = 7;
+                break;
+            }
 
-        player.GiveNamedItem("weapon_deagle");
+            // this crashes because?
+        /*
+            case "Usp":
+            {
+                weapon_restrict = "usp_silencer";
+                clip_size = 12;
+                break;
+            }
+        */
+            case "Glock":
+            {
+                weapon_restrict = "glock";
+                clip_size = 20;
+                break;
+            }
 
-        var deagle = Lib.find_weapon(player,"weapon_deagle");
+            case "Five seven":
+            {
+                weapon_restrict = "fiveseven";
+                clip_size = 20;
+                break;
+            }
+
+            case "Dual Elite":
+            {
+                weapon_restrict = "elite";
+                clip_size = 30;
+                break;
+            }
+
+        }
+        
+        // override to 1 if mag for mag
+        if(!mag_for_mag)
+        {
+            clip_size = 1;
+        }
+
+        player.GiveNamedItem("weapon_" + weapon_restrict);
+
+
+
+        var deagle = Lib.find_weapon(player,"weapon_" + weapon_restrict);
 
         if(deagle != null)
         {
             deagle.set_ammo(0,0);
-        }
+        } 
 
-        if(mag_for_mag)
+    }
+
+    void pick_clip()
+    {
+        Random rnd = new Random((int)DateTime.Now.Ticks);
+
+        CCSPlayerController? winner = null;
+        CCSPlayerController? loser = null;
+        LRShotForShot? winner_lr = null;
+
+        if(rnd.Next(0,2) == 0)
         {
-            clip_size = 7;
+            if(partner != null)
+            {
+                winner = Utilities.GetPlayerFromSlot(player_slot);
+                loser =  Utilities.GetPlayerFromSlot(partner.player_slot);
+                winner_lr = this;
+            }
         }
 
         else
         {
-            clip_size = 1;
+            if(partner != null)
+            {
+                winner =  Utilities.GetPlayerFromSlot(partner.player_slot);
+                loser =  Utilities.GetPlayerFromSlot(player_slot);
+                winner_lr = (LRShotForShot)partner;
+            }
+        }
+
+
+        // Give the lucky player the first shot
+        if(winner != null && loser != null && winner_lr != null)
+        {
+            winner.announce(LastRequest.LR_PREFIX,$"Randomly chose {winner.PlayerName} to shoot first");
+            loser.announce(LastRequest.LR_PREFIX,$"Randomly chose {winner.PlayerName} to shoot first");
+
+            winner_lr.reload_clip();
         }
     }
 
     public override void pair_activate()
     {
-        pick_clip(clip_size);
+        pick_clip();
     }
 
     public override void weapon_fire(String name)
@@ -65,7 +143,7 @@ public class LRShotForShot : LRBase
         {     
             player.PrintToChat($"{LastRequest.LR_PREFIX} Reload!");
 
-            var deagle = Lib.find_weapon(player,weapon_restrict);
+            var deagle = Lib.find_weapon(player,"weapon_" + weapon_restrict);
 
             if(deagle != null)
             {
@@ -84,6 +162,8 @@ public class LRShotForShot : LRBase
         }
 
         cur_clip -= 1;
+
+        //Server.PrintToChatAll($"Fired {cur_clip}");
 
         if(cur_clip <= 0 && partner != null)
         {

@@ -611,6 +611,21 @@ public class LastRequest
                 break;
             }
 
+            case LRType.SHOT_FOR_SHOT:
+            case LRType.MAG_FOR_MAG:
+            {
+                var lr_menu = new ChatMenu("Choice Menu");
+
+                lr_menu.AddMenuOption("Deagle",picked_option);
+                //lr_menu.AddMenuOption("Usp",picked_option);
+                lr_menu.AddMenuOption("Glock",picked_option);
+                lr_menu.AddMenuOption("Five seven",picked_option);
+                lr_menu.AddMenuOption("Dual Elite",picked_option);
+
+                ChatMenus.OpenMenu(player, lr_menu);
+                break;
+            }
+
             // no choices just pick a partner
             default:
             {
