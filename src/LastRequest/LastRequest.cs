@@ -141,6 +141,13 @@ public class LastRequest
                 break;
             }
 
+            case LRType.GUN_TOSS:
+            {
+                t_lr = new LRGunToss(this,slot,choice.t_slot,choice.option);
+                ct_lr = new LRGunToss(this,slot,choice.ct_slot,choice.option);
+                break;
+            }
+
             case LRType.DODGEBALL:
             {
                 t_lr = new LRDodgeball(this,slot,choice.t_slot,choice.option);
@@ -863,6 +870,7 @@ public class LastRequest
     public enum LRType
     {
         KNIFE,
+        GUN_TOSS,
         DODGEBALL,
         GRENADE,
         SHOTGUN_WAR,
@@ -875,6 +883,7 @@ public class LastRequest
 
     static String[] LR_NAME = {
         "Knife Fight",
+        "Gun toss",
         "Dodgeball",
         "Grenade",
         "Shotgun war",
