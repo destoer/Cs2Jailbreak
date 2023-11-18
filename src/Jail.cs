@@ -123,9 +123,23 @@ public class JailPlugin : BasePlugin
         RegisterEventHandler<EventPlayerDeath>(OnPlayerDeath);
         RegisterEventHandler<EventPlayerHurt>(OnPlayerHurt);
         RegisterEventHandler<EventItemEquip>(OnItemEquip);
+        RegisterEventHandler<EventGrenadeThrown>(OnGrenadeThrown);
 
         // TODO: need to hook weapon drop
     }
+
+    HookResult OnGrenadeThrown(EventGrenadeThrown @event, GameEventInfo info)
+    {
+        CCSPlayerController? player = @event.Userid;
+
+        if(player != null && player.is_valid())
+        {
+            lr.grenade_thrown(player);
+        }
+
+        return HookResult.Continue;
+    }
+  
 
     HookResult OnItemEquip(EventItemEquip @event, GameEventInfo info)
     {

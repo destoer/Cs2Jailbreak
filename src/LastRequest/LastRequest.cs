@@ -390,6 +390,18 @@ public class LastRequest
         }
     }
 
+    // couldnt get pulling the owner from the projectile ent working
+    // so instead we opt for this
+    public void grenade_thrown(CCSPlayerController? player)
+    {
+        LRBase? lr = find_lr(player);
+
+        if(lr != null)
+        {
+            lr.grenade_thrown();
+        }       
+    }
+
     public void ent_created(CEntityInstance entity)
     {
         for(int l = 0; l < active_lr.Length; l++)

@@ -173,6 +173,8 @@ public abstract class LRBase
 
     public virtual void ent_created(String name) {}
 
+    public virtual void grenade_thrown() {}
+
     public String lr_name = "";
 
     // player and lr info

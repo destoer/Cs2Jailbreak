@@ -46,23 +46,21 @@ public class LRGrenade : LRBase
         }
     }
     
-    public override void ent_created(CEntityInstance entity)
+    public override void grenade_thrown()
     {
-        // remove projectile and give new nade
-        if(entity.DesignerName == "hegrenade_projectile")
+        if(JailPlugin.global_ctx == null)
         {
-            if(JailPlugin.global_ctx != null)
-            {
-                JailPlugin.global_ctx.AddTimer(1.4f,() => 
-                {
-                    CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
-                
-                    if(player != null && player.is_valid_alive())
-                    {
-                        player.GiveNamedItem("weapon_hegrenade");
-                    }
-                });
-            }
+            return;
         }
+
+        JailPlugin.global_ctx.AddTimer(1.4f,() => 
+        {
+            CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
+        
+            if(player != null && player.is_valid_alive())
+            {
+                player.GiveNamedItem("weapon_hegrenade");
+            }
+        });
     }
 }
