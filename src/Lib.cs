@@ -219,7 +219,7 @@ public static class Lib
 
     static public bool is_valid(this CHandle<CBasePlayerWeapon>? weapon)
     {
-        return weapon != null && weapon.IsValid && weapon.Value.IsValid;
+        return weapon != null && weapon.IsValid && weapon.Value != null && weapon.Value.IsValid;
     }
 
     static public bool is_valid(this CBasePlayerWeapon? weapon)
@@ -305,8 +305,7 @@ public static class Lib
         "famas", "xm1014","ssg08","awp"
         
     };
-
-    static public void gun_menu(this CCSPlayerController? player, bool no_awp)
+    static public void gun_menu_internal(this CCSPlayerController? player, bool no_awp, Action<CCSPlayerController, ChatMenuOption> callback)
     {
         // player must be alive and active!
         if(player == null || !player.is_valid_alive())
@@ -324,10 +323,15 @@ public static class Lib
                 continue;
             }
 
-            gun_menu.AddMenuOption(weapon_name, give_menu_weapon);
+            gun_menu.AddMenuOption(weapon_name, callback);
         }
 
         ChatMenus.OpenMenu(player, gun_menu);
+    }
+
+    static public void gun_menu(this CCSPlayerController? player, bool no_awp)
+    {
+        gun_menu_internal(player,no_awp,give_menu_weapon);
     }
 
     // chat + centre text print

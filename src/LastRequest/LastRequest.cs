@@ -232,6 +232,9 @@ public class LastRequest
         {
             end_lr(l);
         }
+        
+        rebel_active = false;
+        knife_rebel_active = false;
     }
 
     public void round_start()
@@ -340,35 +343,43 @@ public class LastRequest
 
     public void weapon_equip(CCSPlayerController? player,String name) 
     {
+        if(player == null || !player.is_valid_alive())
+        {
+            return;
+        }
+
+        if(knife_rebel_active && !name.Contains("knife"))
+        {
+            player.strip_weapons();
+            return;
+        }
+
         LRBase? lr = find_lr(player);
 
         if(lr != null)
         {
-            if(player != null && player.is_valid_alive())
+            // strip all weapons that aint the restricted one
+            var weapons = player.Pawn.Value.WeaponServices?.MyWeapons;
+
+            if(weapons == null)
             {
-                // strip all weapons that aint the restricted one
-                var weapons = player.Pawn.Value.WeaponServices?.MyWeapons;
+                return;
+            }
 
-                if(weapons == null)
-                {
-                    return;
+            foreach (var weapon in weapons)
+            {
+                if (!weapon.is_valid())
+                { 
+                    continue;
                 }
+                
+                var weapon_name = weapon.Value.DesignerName;
 
-                foreach (var weapon in weapons)
+                if(!lr.weapon_equip(weapon_name) && !weapon_name.Contains("knife"))
                 {
-                    if (!weapon.is_valid())
-                    { 
-                        continue;
-                    }
-                    
-                    var weapon_name = weapon.Value.DesignerName;
-
-                    if(!lr.weapon_equip(weapon_name) && !weapon_name.Contains("knife"))
-                    {
-                        weapon.Value.Remove();
-                    }
-                }       
-            }   
+                    weapon.Value.Remove();
+                }
+            }    
         }
     }
 
@@ -665,6 +676,76 @@ public class LastRequest
         }
     }
 
+    bool can_rebel()
+    {
+        return Lib.alive_t_count() == 1;
+    }
+
+    public void rebel_guns(CCSPlayerController player, ChatMenuOption option)
+    {
+        if(player == null || !player.is_valid())
+        {
+            return;
+        }
+
+        if(!can_rebel())
+        {
+            player.PrintToChat($"{LR_PREFIX} You must be the last player alive to rebel");
+            return;
+        }
+
+        player.strip_weapons();
+
+        player.GiveNamedItem("weapon_" + option.Text);
+        player.GiveNamedItem("weapon_deagle");
+
+        player.GiveNamedItem("item_assaultsuit");
+    
+        player.set_health(Lib.alive_ct_count() * 100);
+
+        rebel_active = true;
+
+        Lib.announce(LR_PREFIX,$"{player.PlayerName} is a rebel!");
+    }
+
+    public void start_rebel(CCSPlayerController? player, ChatMenuOption option)
+    {
+        if(player == null || !player.is_valid())
+        {
+            return;
+        }
+
+        player.gun_menu_internal(false,rebel_guns);
+    }
+
+    public void start_knife_rebel(CCSPlayerController? rebel, ChatMenuOption option)
+    {
+        if(rebel == null || !rebel.is_valid())
+        {
+            return;
+        }
+
+        if(!can_rebel())
+        {
+            rebel.PrintToChat($"{LR_PREFIX} You must be the last player alive to rebel");
+            return;
+        }
+
+        knife_rebel_active = true;
+        rebel_active = true;
+
+        Lib.announce(LR_PREFIX,$"{rebel.PlayerName} is knife a rebel!");
+        rebel.set_health(Lib.alive_ct_count() * 100);
+
+        foreach(CCSPlayerController? player in Utilities.GetPlayers())
+        {
+            if(player != null && player.is_valid_alive())
+            {
+                player.strip_weapons();
+            }
+        }
+    }
+
     public void lr_cmd_internal(CCSPlayerController? player,bool bypass, CommandInfo command)
     {
         int? player_slot_opt = player.slot();
@@ -672,7 +753,7 @@ public class LastRequest
         // check player can start lr
         // NOTE: higher level function checks its valid to start an lr
         // so we can do a bypass for debugging
-        if(player == null  || !player.is_valid() || player_slot_opt == null)
+        if(player == null  || !player.is_valid() || player_slot_opt == null || rebel_active)
         {
             return;
         }
@@ -689,6 +770,13 @@ public class LastRequest
             lr_menu.AddMenuOption(LR_NAME[t], pick_option);
         }
         
+        // rebel
+        if(can_rebel())
+        {
+            lr_menu.AddMenuOption("Knife rebel",start_knife_rebel);
+            lr_menu.AddMenuOption("Rebel",start_rebel);
+        }
+
         ChatMenus.OpenMenu(player, lr_menu);
     }
 
@@ -791,6 +879,9 @@ public class LastRequest
         public int ct_slot = -1;
         public bool bypass = false;
     } 
+
+    bool rebel_active = false;
+    bool knife_rebel_active = false;
 
     LrChoice[] lr_choice = new LrChoice[64];
 
