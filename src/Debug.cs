@@ -28,6 +28,12 @@ public static class Debug
         }       
     }
 
+    [RequiresPermissions("@jail/debug")]
+    public static void force_open_cmd(CCSPlayerController? invoke, CommandInfo command)
+    {
+        Lib.force_open();
+    }
+
     // are these commands allowed or not?
     public static readonly bool enable  = true;
 

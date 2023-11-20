@@ -108,6 +108,7 @@ public class JailPlugin : BasePlugin
         if(Debug.enable)
         {
             AddCommand("nuke","debug : kill every player",Debug.nuke);
+            AddCommand("force_open","debug : force open every door and vent",Debug.force_open_cmd);
             AddCommand("is_rebel","debug : print rebel state to console",warden.is_rebel_cmd);
             AddCommand("lr_debug","debug : start an lr without restriction",lr.lr_debug_cmd);
         }
@@ -211,7 +212,7 @@ public class JailPlugin : BasePlugin
 
         if(player != null && player.is_valid())
         {
-            warden.spawn(player);
+            AddTimer(0.5f,() => warden.spawn(player));
         }
 
         return HookResult.Continue;

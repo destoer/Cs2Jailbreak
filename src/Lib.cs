@@ -124,22 +124,7 @@ public static class Lib
             return;
         }
 
-        var weapons = player.Pawn.Value.WeaponServices?.MyWeapons;
-
-        if(weapons == null)
-        {
-            return;
-        }
-
-        foreach (var weapon in weapons)
-        {
-            if(weapon == null || !is_valid(weapon))
-            {
-                continue;
-            }
-            
-            weapon.Value.Remove();
-        }
+        player.RemoveWeapons();
 
         // dont remove knife its buggy
         if(!remove_knife)
@@ -324,6 +309,7 @@ public static class Lib
         "famas", "xm1014","ssg08","awp"
         
     };
+    
     static public void gun_menu_internal(this CCSPlayerController? player, bool no_awp, Action<CCSPlayerController, ChatMenuOption> callback)
     {
         // player must be alive and active!
@@ -437,9 +423,11 @@ public static class Lib
         }
     }
 
-    // why doesn't this work lol
+    
     static public void set_cvar_str(String name, String value)
     {
+        // why doesn't this work lol
+        
         ConVar? cvar = ConVar.Find(name);
 
         if(cvar != null)
@@ -466,6 +454,17 @@ public static class Lib
         }
 
         return to_slot(player.UserId);
+    }
+
+    public static void force_open()
+    {
+        announce("[Door control]: ","Forcing open all doors!");
+
+        /*
+        // search for door entitys and open all of them!
+        var doors = Utilities.FindAllEntitiesByDesignerName<CBaseDoor>("func_door");
+
+        */
     }
 
     static ConVar? block_cvar = ConVar.Find("mp_solid_teammates");
