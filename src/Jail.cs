@@ -101,6 +101,9 @@ public class JailPlugin : BasePlugin
         AddCommand("lr","start an lr",lr.lr_cmd);
         AddCommand("cancel_lr","admin : cancel lr",lr.cancel_lr_cmd);
 
+        // reg sd commands
+        AddCommand("sd","start and sd",sd.sd_cmd);
+
         // debug 
         if(Debug.enable)
         {
@@ -166,6 +169,7 @@ public class JailPlugin : BasePlugin
         {
             lr.take_damage(player,attacker,damage,health,hitgroup);
             warden.take_damage(player,attacker,damage,health);
+            sd.take_damage(player,attacker,damage,health,hitgroup);
         }
 
         return HookResult.Continue;
@@ -182,6 +186,7 @@ public class JailPlugin : BasePlugin
     {
         warden.round_start();
         lr.round_start();
+        sd.round_start();
 
         return HookResult.Continue;
     }
@@ -243,6 +248,7 @@ public class JailPlugin : BasePlugin
     {
         warden.round_end();
         lr.round_end();
+        sd.round_end();
 
         return HookResult.Continue;
     }
@@ -262,4 +268,5 @@ public class JailPlugin : BasePlugin
 
     static Warden warden = new Warden();
     static LastRequest lr = new LastRequest();
+    static SpecialDay sd = new SpecialDay();
 }

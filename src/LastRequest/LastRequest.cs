@@ -302,25 +302,6 @@ public class LastRequest
         return lr1.slot == lr2.slot;
     }
 
-    void restore_hp(CCSPlayerController? player, int damage, int health)
-    {
-        if(player == null || !player.is_valid())
-        {
-            return;
-        }
-
-        // TODO: why does this sometimes mess up?
-        if(health < 100)
-        {
-            player.set_health(Math.Min(health + damage,100));
-        }
-
-        else
-        {
-            player.set_health(health + damage);
-        }
-    }
-
     public void take_damage(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health, int hitgroup)
     {
         // neither player is in lr we dont care
@@ -332,7 +313,7 @@ public class LastRequest
         // not a pair restore hp
         if(!is_pair(player,attacker))
         {
-            restore_hp(player,damage,health);
+            Lib.restore_hp(player,damage,health);
             return;
         }
 
@@ -343,7 +324,7 @@ public class LastRequest
         {
             if(!lr.take_damage(damage,health,hitgroup))
             {
-                restore_hp(player,damage,health);
+                Lib.restore_hp(player,damage,health);
             }
         }
     }

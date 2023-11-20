@@ -269,6 +269,25 @@ public static class Lib
         weapon.ReserveAmmo[0] = reserve;
     }
 
+    public static void restore_hp(CCSPlayerController? player, int damage, int health)
+    {
+        if(player == null || !player.is_valid())
+        {
+            return;
+        }
+
+        // TODO: why does this sometimes mess up?
+        if(health < 100)
+        {
+            player.set_health(Math.Min(health + damage,100));
+        }
+
+        else
+        {
+            player.set_health(health + damage);
+        }
+    }
+
     // TODO: for now this is just a give guns
     // because menus dont work
     static public void event_gun_menu(this CCSPlayerController? player)
@@ -347,6 +366,22 @@ public static class Lib
         {
             player.PrintToChat(prefix + str);
             player.PrintToCenter(str);
+        }
+    }
+
+    static public void enable_friendly_fire()
+    {
+        if(ff != null)
+        {
+            ff.SetValue(true);
+        }
+    }
+
+    static public void disable_friendly_fire()
+    {
+        if(ff != null)
+        {
+            ff.SetValue(false);
         }
     }
 
@@ -434,6 +469,7 @@ public static class Lib
     }
 
     static ConVar? block_cvar = ConVar.Find("mp_solid_teammates");
+    static ConVar? ff = ConVar.Find("mp_teammates_are_enemies");
 
     // CONST DEFS
     public const int TEAM_T = 2;
