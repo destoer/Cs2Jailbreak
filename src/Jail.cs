@@ -122,7 +122,7 @@ public class JailPlugin : BasePlugin
         RegisterEventHandler<EventRoundStart>(OnRoundStart);
         RegisterEventHandler<EventRoundEnd>(OnRoundEnd);
         RegisterEventHandler<EventWeaponFire>(OnWeaponFire);
-        RegisterEventHandler<EventPlayerSpawned>(OnPlayerSpawn);
+        RegisterEventHandler<EventPlayerSpawn>(OnPlayerSpawn);
         RegisterEventHandler<EventPlayerDisconnect>(OnPlayerDisconnect);
         RegisterEventHandler<EventTeamchangePending>(OnSwitchTeam);
         RegisterEventHandler<EventMapTransition>(OnMapChange);
@@ -208,13 +208,14 @@ public class JailPlugin : BasePlugin
         return HookResult.Continue;
     }
 
-    HookResult OnPlayerSpawn(EventPlayerSpawned @event, GameEventInfo info)
+    HookResult OnPlayerSpawn(EventPlayerSpawn @event, GameEventInfo info)
     {
         CCSPlayerController? player = @event.Userid;
 
         if(player != null && player.is_valid())
         {
-            warden.spawn(player);
+            AddTimer(0.5f,() => warden.spawn(player));
+            //warden.spawn(player);
         }
 
         return HookResult.Continue;
