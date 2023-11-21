@@ -34,8 +34,15 @@ public static class Debug
         Lib.force_open();
     }
 
+    [RequiresPermissions("@jail/debug")]
+    public static void test_laser(CCSPlayerController? invoke, CommandInfo command)
+    {
+        // new Vector(-1181.000000f, -754.000000f, 182.934967f), new Vector(-1181.000000f, -800.000000f, 182.934967f)
+        Lib.draw_laser(invoke);
+    }
+    
     // are these commands allowed or not?
     public static readonly bool enable  = true;
 
-    static readonly String DEBUG_PREFIX = $"{ChatColors.Green}[DEBUG]: {ChatColors.White}";    
+    public static readonly String DEBUG_PREFIX = $"{ChatColors.Green}[DEBUG]: {ChatColors.White}";    
 }

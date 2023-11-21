@@ -111,6 +111,8 @@ public class JailPlugin : BasePlugin
             AddCommand("force_open","debug : force open every door and vent",Debug.force_open_cmd);
             AddCommand("is_rebel","debug : print rebel state to console",warden.is_rebel_cmd);
             AddCommand("lr_debug","debug : start an lr without restriction",lr.lr_debug_cmd);
+            AddCommand("is_blocked","debug : print block state",warden.block.is_blocked);
+            AddCommand("test_laser","test laser",Debug.test_laser);
         }
     }
 
@@ -120,7 +122,7 @@ public class JailPlugin : BasePlugin
         RegisterEventHandler<EventRoundStart>(OnRoundStart);
         RegisterEventHandler<EventRoundEnd>(OnRoundEnd);
         RegisterEventHandler<EventWeaponFire>(OnWeaponFire);
-        RegisterEventHandler<EventPlayerSpawn>(OnPlayerSpawn);
+        RegisterEventHandler<EventPlayerSpawned>(OnPlayerSpawn);
         RegisterEventHandler<EventPlayerDisconnect>(OnPlayerDisconnect);
         RegisterEventHandler<EventTeamchangePending>(OnSwitchTeam);
         RegisterEventHandler<EventMapTransition>(OnMapChange);
@@ -206,13 +208,13 @@ public class JailPlugin : BasePlugin
         return HookResult.Continue;
     }
 
-    HookResult OnPlayerSpawn(EventPlayerSpawn @event, GameEventInfo info)
+    HookResult OnPlayerSpawn(EventPlayerSpawned @event, GameEventInfo info)
     {
         CCSPlayerController? player = @event.Userid;
 
         if(player != null && player.is_valid())
         {
-            AddTimer(0.5f,() => warden.spawn(player));
+            warden.spawn(player);
         }
 
         return HookResult.Continue;

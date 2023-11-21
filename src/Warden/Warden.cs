@@ -273,7 +273,6 @@ public class Warden
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
             player.set_colour(Color.FromArgb(255, 255, 255, 255));
-            setup_player_guns(player);
         }
 
         set_warden_if_last();
@@ -426,7 +425,7 @@ public class Warden
 
     JailPlayer[] jail_players = new JailPlayer[64];
 
-    Warday warday = new Warday();
-    Block block = new Block();
-    Mute mute = new Mute();
+    public Warday warday = new Warday();
+    public Block block = new Block();
+    public Mute mute = new Mute();
 };

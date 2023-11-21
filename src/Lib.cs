@@ -154,6 +154,36 @@ public static class Lib
         return AdminManager.PlayerHasPermissions(player,new String[] {"@css/generic"});
     }
 
+    static public void draw_laser(CCSPlayerController? player)
+    {
+    /*
+        CEnvLaser? laser = Utilities.CreateEntityByName<CEnvLaser>("env_laser");
+        CEnvBeam? end = Utilities.CreateEntityByName<CEnvBeam>("env_beam");
+
+        end.Globalname = "boop!";
+
+        if(laser == null)
+        {
+            return;
+        }
+
+        laser.Render = Color.FromArgb(255, 153, 255, 255);
+        laser.Width = 2.0f;
+        //laser.Life = 1.0f;
+
+        Vector player_vec = player.PlayerPawn.Value.AbsOrigin;
+        Vector end_pos = new Vector(player_vec.X + 100.0f,player_vec.Y + 100.0f, player_vec.Z + 100.0f);
+
+        end.Teleport(end_pos, player.PlayerPawn.Value.AbsRotation, player.PlayerPawn.Value.AbsVelocity);
+        end.DispatchSpawn(); 
+
+        laser.LaserTarget = "boop!";
+
+        laser.Teleport(player.PlayerPawn.Value.AbsOrigin, player.PlayerPawn.Value.AbsRotation, player.PlayerPawn.Value.AbsVelocity);
+        laser.DispatchSpawn(); 
+    */
+    }
+
     static public void mute(this CCSPlayerController? player)
     {
         // admins cannot be muted by the plugin
@@ -405,6 +435,16 @@ public static class Lib
     static public int alive_t_count()
     {
         return get_alive_t().Count;
+    }
+
+    static public bool block_enabled()
+    {
+        if(block_cvar != null)
+        {
+            return block_cvar.GetPrimitiveValue<int>() == 1;
+        }
+
+        return true;
     }
 
     static public void block_all()
