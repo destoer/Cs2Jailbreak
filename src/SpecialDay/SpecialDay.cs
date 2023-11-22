@@ -126,7 +126,7 @@ public class SpecialDay
         NONE
     };
 
-    public static readonly String SPECIALDAY_PREFIX = "[Special day]: ";
+    public static readonly String SPECIALDAY_PREFIX = $"  {ChatColors.Green}[Special day]: {ChatColors.White}";
 
     static String[] SD_NAME = {
         "Friendly fire",

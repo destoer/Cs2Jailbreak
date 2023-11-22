@@ -29,7 +29,7 @@ public class Warday
                 }
             }
 
-            Lib.announce("[WARDAY]: ","Weapons live!");
+            Lib.announce(WARDAY_PREFIX,"Weapons live!");
         }
 
         warday_timer = null;
@@ -39,7 +39,7 @@ public class Warday
     {
         if(round_counter >= ROUND_LIMIT)
         {
-            Lib.announce("[WARDAY]: ",$"warday will start in 20 seconds at {location}");
+            Lib.announce(WARDAY_PREFIX,$"warday will start in 20 seconds at {location}");
 
             // must wait again to start a warday
             round_counter = 0;
@@ -85,6 +85,8 @@ public class Warday
         // give a warday on map start
         round_counter = ROUND_LIMIT;
     }
+
+    String WARDAY_PREFIX = $" {ChatColors.Green} [Warday]: {ChatColors.White}";
 
     bool warday_active = false;
 

@@ -130,7 +130,7 @@ public class Mute
 
     CSTimer.Timer? mute_timer = null;
 
-    static readonly String MUTE_PREFIX = $"{ChatColors.Green}[MUTE]: {ChatColors.White}";
+    static readonly String MUTE_PREFIX = $" {ChatColors.Green}[MUTE]: {ChatColors.White}";
 
     // has the mute timer finished?
     bool mute_active = false;

@@ -44,5 +44,5 @@ public static class Debug
     // are these commands allowed or not?
     public static readonly bool enable  = true;
 
-    public static readonly String DEBUG_PREFIX = $"{ChatColors.Green}[DEBUG]: {ChatColors.White}";    
+    public static readonly String DEBUG_PREFIX = $" {ChatColors.Green}[DEBUG]: {ChatColors.White}";    
 }

@@ -902,5 +902,5 @@ public class LastRequest
 
     LrChoice[] lr_choice = new LrChoice[64];
 
-    public static readonly String LR_PREFIX = $"{ChatColors.Green}[LR]: {ChatColors.White}";
+    public static readonly String LR_PREFIX = $" {ChatColors.Green}[LR]: {ChatColors.White}";
 }
