@@ -14,28 +14,38 @@ using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 
-public class SDFriendlyFire : SDBase
+public class SDScoutKnife : SDBase
 {
     public override void setup()
     {
-        announce("Friendly fire day started");
-        announce("Please 15 seconds for friendly fire to be enabled");
+        announce("Scout knife started");
+        announce("Please 15 seconds for damage be enabled");
     }
 
     public override void start()
     {
-        announce("Friendly fire enabled");
-        Lib.enable_friendly_fire();
+        announce("Fight!");
     }
 
     public override void end()
     {
-        announce("Friendly fire day is over");
-        Lib.disable_friendly_fire();
+        announce("Scout knife is over");
     }
 
-    public override void setup_player(CCSPlayerController? player)
+    public override void setup_player(CCSPlayerController player)
     {
-        player.event_gun_menu();
+        player.strip_weapons();
+        player.GiveNamedItem("weapon_ssg08");
+        player.set_gravity(0.1f);
+    }
+
+    public override bool weapon_equip(String name) 
+    {
+        return name.Contains("knife") || name.Contains("ssg08");
+    }
+
+    public override void cleanup_player(CCSPlayerController player)
+    {
+        player.set_gravity(1.0f);
     }
 }

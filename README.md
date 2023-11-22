@@ -38,4 +38,13 @@ Add stats leaderboard
 Improve damage blocking 
 
 # SD TODO
-start SD after lr and warden is is nearly finished 
+Waiting on player colour issues fixed for alot of these
+
+Tank, Juggernaut, Hide and Seek 
+
+Dodgeball, Grenade, Zombie 
+
+Gun game, Knife, 
+
+Spectre, Headshot, Laser wars
+

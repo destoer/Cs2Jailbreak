@@ -373,7 +373,11 @@ public class Warden
             jail_player.rebel_death(player,killer);
         }
 
-        set_warden_if_last();
+        // if a t dies we dont need to regive the warden
+        if(player.is_ct())
+        {
+            set_warden_if_last();
+        }
     }
 
 

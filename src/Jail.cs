@@ -154,6 +154,7 @@ public class JailPlugin : BasePlugin
         if(player != null && player.is_valid())
         {
             lr.weapon_equip(player,@event.Item);
+            sd.weapon_equip(player,@event.Item);
         }
 
         return HookResult.Continue;

@@ -31,6 +31,8 @@ public abstract class SDBase
 
         state = SDState.INACTIVE;
         setup();
+
+        setup_players();
     }
 
     public void start_common()
@@ -45,17 +47,40 @@ public abstract class SDBase
     {
         state = SDState.INACTIVE;
         end();
+
+        cleanup_players();
+    }
+
+    public virtual bool weapon_equip(String name) 
+    {
+        return weapon_restrict == "" || name.Contains(weapon_restrict); 
     }
 
     public abstract void setup_player(CCSPlayerController player);
+
+    public virtual void cleanup_player(CCSPlayerController player)
+    {
+
+    }
 
     public void setup_players()
     {
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            if(player.is_valid())
+            if(player.is_valid_alive())
             {
                 setup_player(player);
+            }
+        }       
+    }
+
+    public void cleanup_players()
+    {
+        foreach(CCSPlayerController player in Utilities.GetPlayers())
+        {
+            if(player.is_valid_alive())
+            {
+                cleanup_player(player);
             }
         }       
     }
@@ -73,5 +98,6 @@ public abstract class SDBase
     };
 
     public bool restrict_damage = false;
+    String weapon_restrict = "";
     public SDState state = SDState.INACTIVE;
 }

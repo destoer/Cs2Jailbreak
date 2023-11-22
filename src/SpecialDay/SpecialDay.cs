@@ -63,6 +63,13 @@ public class SpecialDay
                 type = SDType.FREIENDLY_FIRE;
                 break;
             }
+
+            case "Scout knife":
+            {
+                active_sd = new SDScoutKnife();
+                type = SDType.SCOUT_KNIFE;
+                break;
+            }
         }
 
         // call the intiail sd setup
@@ -76,6 +83,23 @@ public class SpecialDay
         if(JailPlugin.global_ctx != null)
         {
             JailPlugin.global_ctx.AddTimer(15.0f,start_sd,CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
+        }
+    }
+
+    public void weapon_equip(CCSPlayerController? player,String name) 
+    {
+        if(player == null || !player.is_valid_alive())
+        {
+            return;
+        }
+
+        if(active_sd != null)
+        {
+            // weapon equip not valid reset the player state
+            if(!active_sd.weapon_equip(name))
+            {
+                active_sd.setup_player(player);
+            }
         }
     }
 
@@ -123,6 +147,7 @@ public class SpecialDay
     public enum SDType
     {
         FREIENDLY_FIRE,
+        SCOUT_KNIFE,
         NONE
     };
 
@@ -130,6 +155,7 @@ public class SpecialDay
 
     static String[] SD_NAME = {
         "Friendly fire",
+        "Scout knife",
         "None"
     };
 
