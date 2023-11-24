@@ -154,10 +154,15 @@ public abstract class LRBase
     public virtual void weapon_fire(String name) {}
 
     public virtual void ent_created(CEntityInstance entity) {}
-
-    public virtual bool take_damage(int health,int damage, int hitgroup) 
+    
+    public virtual bool take_damage()
     {
         return !restrict_damage;
+    }
+
+    public virtual void player_hurt(int health,int damage, int hitgroup) 
+    {
+       
     }
 
     public virtual bool weapon_drop(String name) 

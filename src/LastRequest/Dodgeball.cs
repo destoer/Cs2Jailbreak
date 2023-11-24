@@ -46,7 +46,7 @@ public class LRDodgeball : LRBase
         }
     }
     
-    public override bool take_damage(int damage, int health, int hitgroup)
+    public override void player_hurt(int damage, int health, int hitgroup)
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
     
@@ -54,8 +54,6 @@ public class LRDodgeball : LRBase
         {
             player.PlayerPawn.Value.CommitSuicide(true, true);
         }
-
-        return true;
     }
 
     public override void grenade_thrown()

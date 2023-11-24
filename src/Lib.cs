@@ -156,6 +156,7 @@ public static class Lib
 
     static public void draw_laser(CCSPlayerController? player)
     {
+    /*
         CEnvBeam? laser = Utilities.CreateEntityByName<CEnvBeam>("env_beam");
         CEnvBeam? end = Utilities.CreateEntityByName<CEnvBeam>("env_beam");
 
@@ -180,6 +181,53 @@ public static class Lib
 
         laser.Teleport(player.PlayerPawn.Value.AbsOrigin, player.PlayerPawn.Value.AbsRotation, player.PlayerPawn.Value.AbsVelocity);
         laser.DispatchSpawn(); 
+    */
+    }
+
+    static public CCSPlayerController? player(this CEntityInstance? instance)
+    {
+        if(instance == null)
+        {
+            return null;
+        }
+
+        // grab the pawn index
+        CEntityIndex? ent_index = instance.EntityIndex;
+
+        if(ent_index == null)
+        {
+            return null;
+        }
+
+        int player_index = (int)ent_index.Value.Value;
+
+        // grab player controller from pawn
+        CCSPlayerPawn? player_pawn =  Utilities.GetEntityFromIndex<CCSPlayerPawn>(player_index);
+
+        // pawn valid
+        if(player_pawn == null || !player_pawn.IsValid)
+        {
+            return null;
+        }
+
+        // controller valid
+        if(player_pawn.OriginalController == null || !player_pawn.OriginalController.IsValid)
+        {
+            return null;
+        }
+
+        // any further validity is up to the caller
+        return player_pawn.OriginalController.Value;
+    }
+
+    static public CCSPlayerController? player(this CHandle<CBaseEntity> handle)
+    {
+        if(handle.IsValid && handle.Value.IsValid)
+        {
+            return handle.Value.player();
+        }
+
+        return null;
     }
 
     static public void mute(this CCSPlayerController? player)

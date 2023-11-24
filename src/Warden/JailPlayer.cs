@@ -77,7 +77,7 @@ public class JailPlayer
         }
     }
 
-    public void take_damage(CCSPlayerController? player, CCSPlayerController? attacker, int health, int damage)
+    public void player_hurt(CCSPlayerController? player, CCSPlayerController? attacker, int health, int damage)
     {
         if(player == null || attacker == null || !player.is_valid() || !attacker.is_valid())
         {

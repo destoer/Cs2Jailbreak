@@ -27,13 +27,13 @@ public class SpecialDay
             JailPlugin.end_event();
             active_sd.end_common();
             active_sd = null;
-        }
 
-        // restore all players if from a cancel
-        if(forced)
-        {
-
-        }       
+            // restore all players if from a cancel
+            if(forced)
+            {
+                Lib.announce(SPECIALDAY_PREFIX,"Special day cancelled");
+            }  
+        }     
     }
 
     public void round_end()
@@ -50,6 +50,12 @@ public class SpecialDay
     {
         if(player == null  || !player.is_valid())
         {
+            return;
+        }
+
+        if(active_sd != null)
+        {
+            player.announce(SPECIALDAY_PREFIX,"You cannot call two SD's at once");
             return;
         }
 
@@ -111,7 +117,7 @@ public class SpecialDay
         }  
     }
 
-    public void take_damage(CCSPlayerController? player,CCSPlayerController? attacker, int damage,int health, int hitgroup)
+    public void take_damage(CCSPlayerController? player, CCSPlayerController? attacker, ref float damage)
     {
         if(active_sd == null || player == null || !player.is_valid())
         {
@@ -120,8 +126,24 @@ public class SpecialDay
 
         if(active_sd.restrict_damage)
         {
-            Lib.restore_hp(player,damage,health);
+            damage = 0.0f;
         }
+    }
+
+    public void player_hurt(CCSPlayerController? player,CCSPlayerController? attacker, int damage,int health, int hitgroup)
+    {
+        if(active_sd == null || player == null || !player.is_valid())
+        {
+            return;
+        }
+
+
+    }
+
+    [RequiresPermissions("@css/generic")]
+    public void cancel_sd_cmd(CCSPlayerController? player,CommandInfo command)
+    {
+        end_sd(true);
     }
 
     [RequiresPermissions("@css/generic")]

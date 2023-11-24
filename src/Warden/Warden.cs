@@ -381,13 +381,13 @@ public class Warden
     }
 
 
-    public void take_damage(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health)
+    public void player_hurt(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health)
     {
         var jail_player = jail_player_from_player(player);
 
         if(jail_player != null)
         {  
-            jail_player.take_damage(player,attacker,damage, health);
+            jail_player.player_hurt(player,attacker,damage, health);
         }  
     }
 

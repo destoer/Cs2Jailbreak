@@ -302,7 +302,29 @@ public class LastRequest
         return lr1.slot == lr2.slot;
     }
 
-    public void take_damage(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health, int hitgroup)
+
+
+    public void player_hurt(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health, int hitgroup)
+    {
+        // check no damage restrict
+        LRBase? lr = find_lr(player);
+
+        // no lr
+        if(lr == null)
+        {
+            return;
+        }
+        
+        // not a pair
+        if(!is_pair(player,attacker))
+        {
+            return;
+        }
+
+        lr.player_hurt(damage,health,hitgroup);
+    }
+
+    public void take_damage(CCSPlayerController? player, CCSPlayerController? attacker, ref float damage)
     {
         // neither player is in lr we dont care
         if(!in_lr(player) && !in_lr(attacker))
@@ -313,20 +335,22 @@ public class LastRequest
         // not a pair restore hp
         if(!is_pair(player,attacker))
         {
-            Lib.restore_hp(player,damage,health);
+            damage = 0.0f;
             return;
         }
 
         // check no damage restrict
         LRBase? lr = find_lr(player);
 
-        if(lr != null)
+        if(lr == null)
         {
-            if(!lr.take_damage(damage,health,hitgroup))
-            {
-                Lib.restore_hp(player,damage,health);
-            }
+            return;
         }
+
+        if(!lr.take_damage())
+        {
+            damage = 0.0f;
+        }   
     }
 
     public void weapon_equip(CCSPlayerController? player,String name) 

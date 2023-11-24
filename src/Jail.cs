@@ -12,6 +12,7 @@ using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CSTimer = CounterStrikeSharp.API.Modules.Timers;
+using CounterStrikeSharp.API.Modules.Memory.DynamicFunctions;
 
 // main plugin file, controls central hooking
 // defers to warden, lr and sd
@@ -103,6 +104,7 @@ public class JailPlugin : BasePlugin
 
         // reg sd commands
         AddCommand("sd","start and sd",sd.sd_cmd);
+        AddCommand("cancel_sd","cancel an sd",sd.cancel_sd_cmd);
 
         // debug 
         if(Debug.enable)
@@ -128,11 +130,18 @@ public class JailPlugin : BasePlugin
         RegisterEventHandler<EventTeamchangePending>(OnSwitchTeam);
         RegisterEventHandler<EventMapTransition>(OnMapChange);
         RegisterEventHandler<EventPlayerDeath>(OnPlayerDeath);
-        RegisterEventHandler<EventPlayerHurt>(OnPlayerHurt);
         RegisterEventHandler<EventItemEquip>(OnItemEquip);
         RegisterEventHandler<EventGrenadeThrown>(OnGrenadeThrown);
+        RegisterEventHandler<EventPlayerHurt>(OnPlayerHurt);
+        VirtualFunctions.CBaseEntity_TakeDamageOldFunc.Hook(OnTakeDamage,HookMode.Pre);
+        
 
         // TODO: need to hook weapon drop
+    }
+
+    public override void Unload(bool hotReload)
+    {
+        VirtualFunctions.CBaseEntity_TakeDamageOldFunc.Unhook(OnTakeDamage,HookMode.Pre);
     }
 
     HookResult OnGrenadeThrown(EventGrenadeThrown @event, GameEventInfo info)
@@ -172,10 +181,29 @@ public class JailPlugin : BasePlugin
 
         if(player != null && player.is_valid())
         {
-            lr.take_damage(player,attacker,damage,health,hitgroup);
-            warden.take_damage(player,attacker,damage,health);
-            sd.take_damage(player,attacker,damage,health,hitgroup);
+            lr.player_hurt(player,attacker,damage,health,hitgroup);
+            warden.player_hurt(player,attacker,damage,health);
+            sd.player_hurt(player,attacker,damage,health,hitgroup);
         }
+
+        return HookResult.Continue;
+    }
+
+    HookResult OnTakeDamage(DynamicHook handle)
+    {
+        CEntityInstance victim = handle.GetParam<CEntityInstance>(0);
+        CTakeDamageInfo damage_info = handle.GetParam<CTakeDamageInfo>(1);
+
+        CHandle<CBaseEntity> dealer = damage_info.Attacker;
+
+        // get player and attacker
+        CCSPlayerController? player = victim.player();
+        CCSPlayerController? attacker = dealer.player();
+
+
+
+        sd.take_damage(player,attacker,ref damage_info.Damage);
+        lr.take_damage(player,attacker,ref damage_info.Damage);
 
         return HookResult.Continue;
     }
