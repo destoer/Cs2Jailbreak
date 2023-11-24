@@ -113,6 +113,7 @@ public class JailPlugin : BasePlugin
             AddCommand("lr_debug","debug : start an lr without restriction",lr.lr_debug_cmd);
             AddCommand("is_blocked","debug : print block state",warden.block.is_blocked);
             AddCommand("test_laser","test laser",Debug.test_laser);
+            AddCommand("test_strip","test weapon strip",Debug.test_strip_cmd);
         }
     }
 

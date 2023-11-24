@@ -156,13 +156,10 @@ public static class Lib
 
     static public void draw_laser(CCSPlayerController? player)
     {
-    /*
-        CEnvLaser? laser = Utilities.CreateEntityByName<CEnvLaser>("env_laser");
+        CEnvBeam? laser = Utilities.CreateEntityByName<CEnvBeam>("env_beam");
         CEnvBeam? end = Utilities.CreateEntityByName<CEnvBeam>("env_beam");
 
-        end.Globalname = "boop!";
-
-        if(laser == null)
+        if(laser == null || end == null)
         {
             return;
         }
@@ -171,17 +168,18 @@ public static class Lib
         laser.Width = 2.0f;
         //laser.Life = 1.0f;
 
+        end.Globalname = "boop!";
+
         Vector player_vec = player.PlayerPawn.Value.AbsOrigin;
         Vector end_pos = new Vector(player_vec.X + 100.0f,player_vec.Y + 100.0f, player_vec.Z + 100.0f);
 
         end.Teleport(end_pos, player.PlayerPawn.Value.AbsRotation, player.PlayerPawn.Value.AbsVelocity);
         end.DispatchSpawn(); 
 
-        laser.LaserTarget = "boop!";
+        laser.EndEntity = "boop!";
 
         laser.Teleport(player.PlayerPawn.Value.AbsOrigin, player.PlayerPawn.Value.AbsRotation, player.PlayerPawn.Value.AbsVelocity);
         laser.DispatchSpawn(); 
-    */
     }
 
     static public void mute(this CCSPlayerController? player)

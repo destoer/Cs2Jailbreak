@@ -41,6 +41,12 @@ public static class Debug
         Lib.draw_laser(invoke);
     }
     
+    [RequiresPermissions("@jail/debug")]
+    public static void test_strip_cmd(CCSPlayerController? invoke, CommandInfo command)
+    {
+        invoke.strip_weapons(true);
+    }
+
     // are these commands allowed or not?
     public static readonly bool enable  = true;
 

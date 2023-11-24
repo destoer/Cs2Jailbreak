@@ -50,7 +50,7 @@ public class LastRequest
         // strip weapons restore hp
         player.set_health(100);
         player.set_armour(100);
-        player.strip_weapons();
+        player.strip_weapons(true);
         player.GiveNamedItem("item_assaultsuit");
     }
 
