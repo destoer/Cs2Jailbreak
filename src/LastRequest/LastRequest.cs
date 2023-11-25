@@ -31,7 +31,7 @@ public class LastRequest
     {
         for(int c = 0; c < lr_choice.Length; c++)
         {
-            lr_choice[c] = new LrChoice();
+            lr_choice[c] = new LRChoice();
         }
 
         for(int lr = 0; lr < active_lr.Length; lr++)
@@ -91,7 +91,7 @@ public class LastRequest
 
 
     // init_lr
-    void init_lr(LrChoice choice)
+    void init_lr(LRChoice choice)
     {
         // Okay type, choice, partner selected
         // now we have all the info we need to setup the lr
@@ -538,7 +538,7 @@ public class LastRequest
     public void finialise_choice(CCSPlayerController? player, ChatMenuOption option)
     {
         // called from pick_parter -> finalise the type struct
-        LrChoice? choice = choice_from_player(player);
+        LRChoice? choice = choice_from_player(player);
 
         if(choice == null)
         {
@@ -586,7 +586,7 @@ public class LastRequest
     {
         // called from lr_type selection
         // save type
-        LrChoice? choice = choice_from_player(player);
+        LRChoice? choice = choice_from_player(player);
 
         if(choice == null || player == null)
         {
@@ -662,7 +662,7 @@ public class LastRequest
     void pick_partner_internal(CCSPlayerController? player, String name)
     {
         // called from pick_choice -> pick partner
-        LrChoice? choice = choice_from_player(player);
+        LRChoice? choice = choice_from_player(player);
 
         if(choice == null || player == null)
         {
@@ -868,7 +868,7 @@ public class LastRequest
         return LRType.NONE;
     }
 
-    LrChoice? choice_from_player(CCSPlayerController? player)
+    LRChoice? choice_from_player(CCSPlayerController? player)
     {
         int? player_slot_opt = player.slot();
 
@@ -911,8 +911,10 @@ public class LastRequest
         "None",
     };
 
+    static public readonly int LR_SIZE = 9;
+
     // Selection for LR
-    internal class LrChoice
+    internal class LRChoice
     {
         public LRType type = LRType.NONE;
         public String option = "";
@@ -924,7 +926,9 @@ public class LastRequest
     bool rebel_active = false;
     bool knife_rebel_active = false;
 
-    LrChoice[] lr_choice = new LrChoice[64];
+    LRChoice[] lr_choice = new LRChoice[64];
+    LRStats lr_stats = new LRStats();
+
 
     public static readonly String LR_PREFIX = $" {ChatColors.Green}[LR]: {ChatColors.White}";
 }

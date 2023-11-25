@@ -261,8 +261,6 @@ public class Warden
 
     public void round_start()
     {
-        Lib.set_cvar_str("mp_t_default_secondary","");
-
         purge_round();
 
         // handle submodules

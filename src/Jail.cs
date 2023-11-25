@@ -200,8 +200,6 @@ public class JailPlugin : BasePlugin
         CCSPlayerController? player = victim.player();
         CCSPlayerController? attacker = dealer.player();
 
-
-
         sd.take_damage(player,attacker,ref damage_info.Damage);
         lr.take_damage(player,attacker,ref damage_info.Damage);
 

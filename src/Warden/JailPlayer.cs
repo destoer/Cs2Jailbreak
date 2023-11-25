@@ -70,7 +70,6 @@ public class JailPlayer
     public void rebel_weapon_fire(CCSPlayerController? player, String weapon)
     {
         // ignore weapons players are meant to have
-        // TODO: we need to use the damage hook when we get our hands on it
         if(weapon != "knife" && weapon != "c4")
         {
             set_rebel(player);
