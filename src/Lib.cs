@@ -91,6 +91,45 @@ public static class Lib
         return player.PlayerPawn.Value.Health;
     }
 
+    static public void give_weapon_delay(CCSPlayerController? player,float delay, String name)
+    {
+        if(JailPlugin.global_ctx == null)
+        {
+            return;
+        }
+
+        JailPlugin.global_ctx.AddTimer(delay,() => 
+        {
+            if(player != null && player.is_valid_alive())
+            {
+                player.GiveNamedItem(name);
+            }
+        });
+    }
+
+    static public void remove_ent_delay(CEntityInstance entity, float delay, String name)
+    {
+        if(JailPlugin.global_ctx == null)
+        {
+            return;
+        }
+
+        // remove projectile
+        if(entity.DesignerName == name)
+        {
+            if(JailPlugin.global_ctx != null)
+            {
+                JailPlugin.global_ctx.AddTimer(delay,() => 
+                {
+                    if(entity.IsValid)
+                    {
+                        entity.Remove();
+                    }
+                });
+            }
+        }
+    }
+
     static public void set_movetype(this CCSPlayerController? player, MoveType_t type)
     {
         if(player == null || !player.is_valid())

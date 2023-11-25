@@ -83,6 +83,35 @@ public class SpecialDay
                 type = SDType.SCOUT_KNIFE;
                 break;
             }
+
+            case "Headshot only":
+            {
+                active_sd = new SDHeadshotOnly();
+                type = SDType.HEADSHOT_ONLY;
+                break;             
+            }
+
+            case "Knife warday":
+            {
+                active_sd = new SDKnifeWarday();
+                type = SDType.KNIFE_WARDAY;
+                break;             
+            }
+
+            case "Dodgeball":
+            {
+                active_sd = new SDDodgeball();
+                type = SDType.DODGEBALL;
+                break;             
+            }
+
+            case "Grenade":
+            {
+                active_sd = new SDGrenade();
+                type = SDType.GRENADE;
+                break;             
+            }
+
         }
 
         // call the intiail sd setup
@@ -116,6 +145,23 @@ public class SpecialDay
         }
     }
 
+    public void grenade_thrown(CCSPlayerController? player)
+    {
+        if(active_sd != null)
+        {
+            active_sd.grenade_thrown(player);
+        }       
+    }
+
+    public void ent_created(CEntityInstance entity)
+    {
+        if(active_sd != null)
+        {
+            active_sd.ent_created(entity);
+        }
+    }
+        
+
     public void death(CCSPlayerController? player, CCSPlayerController? attacker)
     {
         if(active_sd != null)
@@ -124,10 +170,25 @@ public class SpecialDay
         }
     }
 
+    public void player_hurt(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health, int hitgroup)
+    {
+        if(active_sd != null && player != null && player.is_valid())
+        {
+            active_sd.player_hurt(player,damage,health,hitgroup);
+        }
+    }
+
     public void start_sd()
     {
         if(active_sd != null)
         {
+            // force ff active
+            if(override_ff)
+            {
+                Lib.announce(SPECIALDAY_PREFIX,"Friendly fire enabled!");
+                Lib.enable_friendly_fire();
+            }
+
             active_sd.start_common();
         }  
     }
@@ -145,24 +206,13 @@ public class SpecialDay
         }
     }
 
-    public void player_hurt(CCSPlayerController? player,CCSPlayerController? attacker, int damage,int health, int hitgroup)
-    {
-        if(active_sd == null || player == null || !player.is_valid())
-        {
-            return;
-        }
-
-
-    }
-
     [RequiresPermissions("@css/generic")]
     public void cancel_sd_cmd(CCSPlayerController? player,CommandInfo command)
     {
         end_sd(true);
     }
 
-    [RequiresPermissions("@css/generic")]
-    public void sd_cmd(CCSPlayerController? player,CommandInfo command)
+    public void sd_cmd_internal(CCSPlayerController? player)
     {
         if(player == null  || !player.is_valid())
         {
@@ -178,14 +228,34 @@ public class SpecialDay
         }
         
         ChatMenus.OpenMenu(player, sd_menu);
+    }
+
+
+    [RequiresPermissions("@css/generic")]
+    public void sd_cmd(CCSPlayerController? player,CommandInfo command)
+    {
+        override_ff = false;
+
+        sd_cmd_internal(player);
     }   
 
+    [RequiresPermissions("@css/generic")]
+    public void sd_ff_cmd(CCSPlayerController? player,CommandInfo command)
+    {
+        override_ff = true;
+
+        sd_cmd_internal(player);
+    }   
 
     public enum SDType
     {
         FREIENDLY_FIRE,
         JUGGERNAUT,
+        DODGEBALL,
+        GRENADE,
         SCOUT_KNIFE,
+        HEADSHOT_ONLY,
+        KNIFE_WARDAY,
         NONE
     };
 
@@ -194,11 +264,17 @@ public class SpecialDay
     static String[] SD_NAME = {
         "Friendly fire",
         "Juggernaut",
+        "Dodgeball",
+        "Grenade",
         "Scout knife",
+        "Headshot only",
+        "Knife warday",
         "None"
     };
 
     SDBase? active_sd = null;
+
+    bool override_ff = false;
 
     SDType type = SDType.NONE;
 };

@@ -48,19 +48,7 @@ public class LRGrenade : LRBase
     
     public override void grenade_thrown()
     {
-        if(JailPlugin.global_ctx == null)
-        {
-            return;
-        }
-
-        JailPlugin.global_ctx.AddTimer(1.4f,() => 
-        {
-            CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
-        
-            if(player != null && player.is_valid_alive())
-            {
-                player.GiveNamedItem("weapon_hegrenade");
-            }
-        });
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
+        Lib.give_weapon_delay(player,1.4f,"weapon_hegrenade");
     }
 }

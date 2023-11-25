@@ -31,7 +31,6 @@ public class SDFriendlyFire : SDBase
     public override void end()
     {
         announce("Friendly fire day is over");
-        Lib.disable_friendly_fire();
     }
 
     public override void setup_player(CCSPlayerController? player)

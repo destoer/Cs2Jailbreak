@@ -67,6 +67,12 @@ public class JailPlugin : BasePlugin
 
     public override void Load(bool hotReload)
     {
+        if(Lib.is_windows())
+        {
+            Console.WriteLine("This plugin only works on linux - (OnTakeDamage and others are broken)");
+            return;
+        }
+
         global_ctx = this;
 
         register_commands();
@@ -83,6 +89,7 @@ public class JailPlugin : BasePlugin
         RegisterListener<Listeners.OnEntitySpawned>(entity =>
         {
             lr.ent_created(entity);
+            sd.ent_created(entity);
         });
     }
 
@@ -104,7 +111,8 @@ public class JailPlugin : BasePlugin
         AddCommand("lr_stats","list lr stats",lr.lr_stats.lr_stats_cmd);
 
         // reg sd commands
-        AddCommand("sd","start and sd",sd.sd_cmd);
+        AddCommand("sd","start a sd",sd.sd_cmd);
+        AddCommand("sd_ff","start a ff sd",sd.sd_ff_cmd);
         AddCommand("cancel_sd","cancel an sd",sd.cancel_sd_cmd);
 
         // debug 
@@ -152,6 +160,7 @@ public class JailPlugin : BasePlugin
         if(player != null && player.is_valid())
         {
             lr.grenade_thrown(player);
+            sd.grenade_thrown(player);
         }
 
         return HookResult.Continue;

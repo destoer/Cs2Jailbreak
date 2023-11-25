@@ -1,3 +1,4 @@
+// base lr class
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
@@ -13,38 +14,42 @@ using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 
-public class SDJuggernaut : SDBase
+public class SDHeadshotOnly : SDBase
 {
     public override void setup()
     {
-        announce("Juggernaut started");
-        announce("Please 15 seconds for friendly fire to be enabled");
+        announce("Headshot only started");
+        announce("Please 15 seconds for damage be enabled");
     }
 
     public override void start()
     {
-        announce("Friendly fire enabled");
-        Lib.enable_friendly_fire();
+        announce("Fight!");
     }
 
     public override void end()
     {
-        announce("Juggernaut is over");
+        announce("Headshot only is over");
     }
 
-    public override void death(CCSPlayerController? player, CCSPlayerController? attacker)
+    public override void setup_player(CCSPlayerController player)
     {
-        if(player == null || !player.is_valid() || attacker == null || !attacker.is_valid_alive())
+        player.strip_weapons(true);
+        player.GiveNamedItem("weapon_deagle");
+        weapon_restrict = "deagle";
+    }
+
+    public override void player_hurt(CCSPlayerController? player,int health,int damage, int hitgroup) 
+    {
+        if(player == null || !player.is_valid_alive())
         {
             return;
         }
 
-        // Give attacker 100 hp
-        attacker.set_health(attacker.get_health() + 100);
-    }
-
-    public override void setup_player(CCSPlayerController? player)
-    {
-        player.event_gun_menu();
+        // dont allow damage when its not to head
+        if(hitgroup != Lib.HITGROUP_HEAD)
+        {
+            Lib.restore_hp(player,damage,health);
+        }
     }
 }

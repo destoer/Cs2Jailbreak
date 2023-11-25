@@ -40,11 +40,5 @@ Improve damage blocking
 # SD TODO
 Waiting on player colour issues fixed for alot of these
 
-Tank, Hide and Seek 
-
-Dodgeball, Grenade, Zombie 
-
-Gun game, Knife, 
-
-Spectre, Headshot, Laser wars
-
+Tank, Hide and Seek, Zombie 
+Gun game, Spectre, Laser wars

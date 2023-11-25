@@ -58,42 +58,12 @@ public class LRDodgeball : LRBase
 
     public override void grenade_thrown()
     {
-        if(JailPlugin.global_ctx == null)
-        {
-            return;
-        }
-
-        JailPlugin.global_ctx.AddTimer(1.4f,() => 
-        {
-            CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
-        
-            if(player != null && player.is_valid_alive())
-            {
-                player.GiveNamedItem("weapon_flashbang");
-            }
-        });
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
+        Lib.give_weapon_delay(player,1.4f,"weapon_flashbang");
     }
 
     public override void ent_created(CEntityInstance entity)
     {
-        if(JailPlugin.global_ctx == null)
-        {
-            return;
-        }
-
-        // remove projectile
-        if(entity.DesignerName == "flashbang_projectile")
-        {
-            if(JailPlugin.global_ctx != null)
-            {
-                JailPlugin.global_ctx.AddTimer(1.4f,() => 
-                {
-                    if(entity.IsValid)
-                    {
-                        entity.Remove();
-                    }
-                });
-            }
-        }
+        Lib.remove_ent_delay(entity,1.4f,"flashbang_projectile");
     }
 }

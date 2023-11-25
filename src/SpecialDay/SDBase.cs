@@ -48,6 +48,8 @@ public abstract class SDBase
         state = SDState.INACTIVE;
         end();
 
+        Lib.disable_friendly_fire();
+
         cleanup_players();
     }
 
@@ -55,6 +57,13 @@ public abstract class SDBase
     {
         return weapon_restrict == "" || name.Contains(weapon_restrict); 
     }
+
+    public virtual void player_hurt(CCSPlayerController? player,int health,int damage, int hitgroup) {}
+
+    public virtual void ent_created(CEntityInstance entity) {}
+    public virtual void grenade_thrown(CCSPlayerController? player) {}
+
+    
 
     public virtual void death(CCSPlayerController? player, CCSPlayerController? attacker) {}
 
@@ -97,6 +106,6 @@ public abstract class SDBase
     };
 
     public bool restrict_damage = false;
-    String weapon_restrict = "";
+    public String weapon_restrict = "";
     public SDState state = SDState.INACTIVE;
 }
