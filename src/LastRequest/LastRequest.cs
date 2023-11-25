@@ -684,7 +684,7 @@ public class LastRequest
 
             foreach(var t in alive_t)
             {
-                if(!t.is_valid())
+                if(!t.is_valid() || in_lr(t))
                 {
                     continue;
                 }
@@ -705,7 +705,7 @@ public class LastRequest
 
             foreach(var ct in alive_ct)
             {
-                if(!ct.is_valid())
+                if(!ct.is_valid() || in_lr(ct))
                 {
                     continue;
                 }

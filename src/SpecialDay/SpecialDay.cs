@@ -70,6 +70,13 @@ public class SpecialDay
                 break;
             }
 
+            case "Juggernaut":
+            {
+                active_sd = new SDJuggernaut();
+                type = SDType.JUGGERNAUT;
+                break;             
+            }
+
             case "Scout knife":
             {
                 active_sd = new SDScoutKnife();
@@ -106,6 +113,14 @@ public class SpecialDay
             {
                 active_sd.setup_player(player);
             }
+        }
+    }
+
+    public void death(CCSPlayerController? player, CCSPlayerController? attacker)
+    {
+        if(active_sd != null)
+        {
+            active_sd.death(player,attacker);
         }
     }
 
@@ -169,6 +184,7 @@ public class SpecialDay
     public enum SDType
     {
         FREIENDLY_FIRE,
+        JUGGERNAUT,
         SCOUT_KNIFE,
         NONE
     };
@@ -177,6 +193,7 @@ public class SpecialDay
 
     static String[] SD_NAME = {
         "Friendly fire",
+        "Juggernaut",
         "Scout knife",
         "None"
     };

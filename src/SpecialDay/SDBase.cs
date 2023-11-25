@@ -56,12 +56,11 @@ public abstract class SDBase
         return weapon_restrict == "" || name.Contains(weapon_restrict); 
     }
 
+    public virtual void death(CCSPlayerController? player, CCSPlayerController? attacker) {}
+
     public abstract void setup_player(CCSPlayerController player);
 
-    public virtual void cleanup_player(CCSPlayerController player)
-    {
-
-    }
+    public virtual void cleanup_player(CCSPlayerController player) {}
 
     public void setup_players()
     {

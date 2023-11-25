@@ -232,6 +232,7 @@ public class JailPlugin : BasePlugin
         {
             warden.death(player,killer);
             lr.death(player);
+            sd.death(player,killer);
         }
 
         return HookResult.Continue;
@@ -243,8 +244,15 @@ public class JailPlugin : BasePlugin
 
         if(player != null && player.is_valid())
         {
-            AddTimer(0.5f,() => warden.spawn(player));
-            //warden.spawn(player);
+            if(Lib.is_windows())
+            {
+                warden.spawn(player);
+            }
+            
+            else
+            {
+                AddTimer(0.5f,() => warden.spawn(player));
+            }
         }
 
         return HookResult.Continue;

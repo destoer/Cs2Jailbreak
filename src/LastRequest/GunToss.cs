@@ -21,6 +21,7 @@ public class LRGunToss : LRBase
     public override void init_player(CCSPlayerController player)
     {    
         weapon_restrict = "deagle";
+        player.GiveNamedItem("weapon_knife");
         player.GiveNamedItem("weapon_deagle");
 
         // empty ammo so players dont shoot eachother
@@ -30,5 +31,10 @@ public class LRGunToss : LRBase
         {
             deagle.set_ammo(0,0);
         }         
+    }
+
+    public override bool weapon_equip(String name) 
+    {
+        return name.Contains("knife") || name.Contains("deagle");  
     }
 }

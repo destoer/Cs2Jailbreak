@@ -9,6 +9,7 @@ using CounterStrikeSharp.API.Modules.Events;
 using CounterStrikeSharp.API.Modules.Memory;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
+using System.Runtime.InteropServices;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 using CounterStrikeSharp.API.Modules.Admin;
@@ -75,6 +76,21 @@ public static class Lib
         player.PlayerPawn.Value.Health = hp;
     }
 
+    static public bool is_windows()
+    {
+        return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+    }
+
+    static public int get_health(this CCSPlayerController? player)
+    {
+        if(player == null || !player.is_valid_alive())
+        {
+            return 100;
+        }
+
+        return player.PlayerPawn.Value.Health;
+    }
+
     static public void set_movetype(this CCSPlayerController? player, MoveType_t type)
     {
         if(player == null || !player.is_valid())
@@ -124,7 +140,11 @@ public static class Lib
             return;
         }
 
-        player.RemoveWeapons();
+        // TODO: why is this call messed up on windows?
+        if(!is_windows())
+        {
+            player.RemoveWeapons();
+        }
 
         // dont remove knife its buggy
         if(!remove_knife)

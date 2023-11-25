@@ -40,7 +40,7 @@ Improve damage blocking
 # SD TODO
 Waiting on player colour issues fixed for alot of these
 
-Tank, Juggernaut, Hide and Seek 
+Tank, Hide and Seek 
 
 Dodgeball, Grenade, Zombie 
 
