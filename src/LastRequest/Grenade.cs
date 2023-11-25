@@ -15,7 +15,7 @@ using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 public class LRGrenade : LRBase
 {
-    public LRGrenade(LastRequest manager,int lr_slot, int player_slot, String choice) : base(manager,"Grenade",lr_slot,player_slot,choice)
+    public LRGrenade(LastRequest manager,LastRequest.LRType type,int lr_slot, int player_slot, String choice) : base(manager,type,lr_slot,player_slot,choice)
     {
 
     }

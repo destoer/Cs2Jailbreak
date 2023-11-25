@@ -101,6 +101,7 @@ public class JailPlugin : BasePlugin
         // reg lr commands
         AddCommand("lr","start an lr",lr.lr_cmd);
         AddCommand("cancel_lr","admin : cancel lr",lr.cancel_lr_cmd);
+        AddCommand("lr_stats","list lr stats",lr.lr_stats.lr_stats_cmd);
 
         // reg sd commands
         AddCommand("sd","start and sd",sd.sd_cmd);

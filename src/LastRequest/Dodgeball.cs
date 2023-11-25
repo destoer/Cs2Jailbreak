@@ -15,7 +15,7 @@ using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 public class LRDodgeball : LRBase
 {
-    public LRDodgeball(LastRequest manager,int lr_slot, int player_slot, String choice) : base(manager,"Dodgeball",lr_slot,player_slot,choice)
+    public LRDodgeball(LastRequest manager,LastRequest.LRType type,int lr_slot, int player_slot, String choice) : base(manager,type,lr_slot,player_slot,choice)
     {
 
     }

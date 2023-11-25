@@ -15,7 +15,7 @@ using CounterStrikeSharp.API.Modules.Entities.Constants;
 
 public class LRShotForShot : LRBase
 {
-    public LRShotForShot(LastRequest manager,int lr_slot, int player_slot, String choice, bool mag = false) : base(manager,"Shot for shot",lr_slot,player_slot,choice)
+    public LRShotForShot(LastRequest manager,LastRequest.LRType type,int lr_slot, int player_slot, String choice, bool mag = false) : base(manager,type,lr_slot,player_slot,choice)
     {
         mag_for_mag = mag;
     }

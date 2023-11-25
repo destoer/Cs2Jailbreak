@@ -13,7 +13,7 @@ using CounterStrikeSharp.API.Modules.Entities.Constants;
 
 public class LRGunToss : LRBase
 {
-    public LRGunToss(LastRequest manager,int lr_slot, int player_slot, String choice) : base(manager,"Gun toss",lr_slot,player_slot,choice)
+    public LRGunToss(LastRequest manager,LastRequest.LRType type,int lr_slot, int player_slot, String choice) : base(manager,type,lr_slot,player_slot,choice)
     {
 
     }

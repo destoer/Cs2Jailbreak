@@ -13,7 +13,7 @@ using CounterStrikeSharp.API.Modules.Entities.Constants;
 
 public class LRHeadshotOnly : LRBase
 {
-    public LRHeadshotOnly(LastRequest manager,int lr_slot, int player_slot, String choice) : base(manager,"Headshot only",lr_slot,player_slot,choice)
+    public LRHeadshotOnly(LastRequest manager,LastRequest.LRType type,int lr_slot, int player_slot, String choice) : base(manager,type,lr_slot,player_slot,choice)
     {
 
     }

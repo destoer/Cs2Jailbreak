@@ -136,64 +136,64 @@ public class LastRequest
         {
             case LRType.KNIFE:
             {
-                t_lr = new LRKnife(this,slot,choice.t_slot,choice.option);
-                ct_lr = new LRKnife(this,slot,choice.ct_slot,choice.option);
+                t_lr = new LRKnife(this,choice.type,slot,choice.t_slot,choice.option);
+                ct_lr = new LRKnife(this,choice.type,slot,choice.ct_slot,choice.option);
                 break;
             }
 
             case LRType.GUN_TOSS:
             {
-                t_lr = new LRGunToss(this,slot,choice.t_slot,choice.option);
-                ct_lr = new LRGunToss(this,slot,choice.ct_slot,choice.option);
+                t_lr = new LRGunToss(this,choice.type,slot,choice.t_slot,choice.option);
+                ct_lr = new LRGunToss(this,choice.type,slot,choice.ct_slot,choice.option);
                 break;
             }
 
             case LRType.DODGEBALL:
             {
-                t_lr = new LRDodgeball(this,slot,choice.t_slot,choice.option);
-                ct_lr = new LRDodgeball(this,slot,choice.ct_slot,choice.option);
+                t_lr = new LRDodgeball(this,choice.type,slot,choice.t_slot,choice.option);
+                ct_lr = new LRDodgeball(this,choice.type,slot,choice.ct_slot,choice.option);
                 break;              
             }
 
             case LRType.GRENADE:
             {
-                t_lr = new LRGrenade(this,slot,choice.t_slot,choice.option);
-                ct_lr = new LRGrenade(this,slot,choice.ct_slot,choice.option);
+                t_lr = new LRGrenade(this,choice.type,slot,choice.t_slot,choice.option);
+                ct_lr = new LRGrenade(this,choice.type,slot,choice.ct_slot,choice.option);
                 break;              
             }
 
             case LRType.SHOTGUN_WAR:
             {
-                t_lr = new LRShotgunWar(this,slot,choice.t_slot,choice.option);
-                ct_lr = new LRShotgunWar(this,slot,choice.ct_slot,choice.option);
+                t_lr = new LRShotgunWar(this,choice.type,slot,choice.t_slot,choice.option);
+                ct_lr = new LRShotgunWar(this,choice.type,slot,choice.ct_slot,choice.option);
                 break;              
             }
     
             case LRType.SCOUT_KNIFE:
             {
-                t_lr = new LRScoutKnife(this,slot,choice.t_slot,choice.option);
-                ct_lr = new LRScoutKnife(this,slot,choice.ct_slot,choice.option);
+                t_lr = new LRScoutKnife(this,choice.type,slot,choice.t_slot,choice.option);
+                ct_lr = new LRScoutKnife(this,choice.type,slot,choice.ct_slot,choice.option);
                 break;              
             }
 
             case LRType.SHOT_FOR_SHOT:
             {
-                t_lr = new LRShotForShot(this,slot,choice.t_slot,choice.option);
-                ct_lr = new LRShotForShot(this,slot,choice.ct_slot,choice.option);
+                t_lr = new LRShotForShot(this,choice.type,slot,choice.t_slot,choice.option);
+                ct_lr = new LRShotForShot(this,choice.type,slot,choice.ct_slot,choice.option);
                 break;              
             }
 
             case LRType.MAG_FOR_MAG:
             {
-                t_lr = new LRShotForShot(this,slot,choice.t_slot,choice.option,true);
-                ct_lr = new LRShotForShot(this,slot,choice.ct_slot,choice.option,true);
+                t_lr = new LRShotForShot(this,choice.type,slot,choice.t_slot,choice.option,true);
+                ct_lr = new LRShotForShot(this,choice.type,slot,choice.ct_slot,choice.option,true);
                 break;              
             }
 
             case LRType.HEADSHOT_ONLY:
             {
-                t_lr = new LRHeadshotOnly(this,slot,choice.t_slot,choice.option);
-                ct_lr = new LRHeadshotOnly(this,slot,choice.ct_slot,choice.option);
+                t_lr = new LRHeadshotOnly(this,choice.type,slot,choice.t_slot,choice.option);
+                ct_lr = new LRHeadshotOnly(this,choice.type,slot,choice.ct_slot,choice.option);
                 break;              
             }
 
@@ -256,6 +256,8 @@ public class LastRequest
 
     public void disconnect(CCSPlayerController? player)
     {
+        lr_stats.purge_player(player);
+
         LRBase? lr = find_lr(player);
 
         if(lr != null)
@@ -898,7 +900,7 @@ public class LastRequest
         NONE,
     };
 
-    static String[] LR_NAME = {
+    public static String[] LR_NAME = {
         "Knife Fight",
         "Gun toss",
         "Dodgeball",
@@ -927,7 +929,7 @@ public class LastRequest
     bool knife_rebel_active = false;
 
     LRChoice[] lr_choice = new LRChoice[64];
-    LRStats lr_stats = new LRStats();
+    public LRStats lr_stats = new LRStats();
 
 
     public static readonly String LR_PREFIX = $" {ChatColors.Green}[LR]: {ChatColors.White}";

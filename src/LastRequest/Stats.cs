@@ -26,10 +26,11 @@ public class LRStats
     {
         var lr_player = lr_player_from_player(player);
 
-        if(lr_player != null && type != LastRequest.LRType.NONE)
+        if(lr_player != null && type != LastRequest.LRType.NONE && player != null && player.is_valid())
         {
             int idx = (int)type;
             lr_player.win[idx] += 1;
+            Lib.announce(LastRequest.LR_PREFIX,$"{player.PlayerName} won {LastRequest.LR_NAME[idx]} win {lr_player.win[idx]} : loss {lr_player.loss[idx]}");
         }
     }
 
@@ -37,10 +38,11 @@ public class LRStats
     {
         var lr_player = lr_player_from_player(player);
 
-        if(lr_player != null && type != LastRequest.LRType.NONE)
+        if(lr_player != null && type != LastRequest.LRType.NONE && player != null && player.is_valid())
         {
             int idx = (int)type;
             lr_player.loss[idx] += 1;
+            Lib.announce(LastRequest.LR_PREFIX,$"{player.PlayerName} lost {LastRequest.LR_NAME[idx]} win {lr_player.win[idx]} : loss {lr_player.loss[idx]}");
         }        
     }
 
@@ -59,6 +61,48 @@ public class LRStats
         }
 
         return  lr_players[slot.Value];        
+    }
+
+
+
+    void print_stats(CCSPlayerController? invoke, CCSPlayerController? player)
+    {
+        if(invoke == null || !invoke.is_valid())
+        {
+            return;
+        }
+
+        var lr_player = lr_player_from_player(player);
+
+        if(lr_player != null && player != null && player.is_valid())
+        {
+            invoke.PrintToChat($"{LastRequest.LR_PREFIX} lr stats for {player.PlayerName}");
+
+            for(int i = 0; i < LastRequest.LR_SIZE; i++)
+            {
+                invoke.PrintToChat($"{LastRequest.LR_PREFIX} {LastRequest.LR_NAME[i]} win {lr_player.win[i]} : loss {lr_player.loss[i]}");
+            }
+        }
+    }
+
+    public void lr_stats_cmd(CCSPlayerController? player, CommandInfo command)
+    {
+        // just do own player for now
+        print_stats(player,player);
+    }
+
+    public void purge_player(CCSPlayerController? player)
+    {
+        var lr_player = lr_player_from_player(player);
+
+        if(lr_player != null)
+        {
+            for(int i = 0; i < LastRequest.LR_SIZE; i++)
+            {
+                lr_player.win[i] = 0;
+                lr_player.loss[i] = 0;
+            }
+        }
     }
 
     class PlayerStat

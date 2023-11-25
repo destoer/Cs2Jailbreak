@@ -22,13 +22,14 @@ public abstract class LRBase
         ACTIVE,
     }
 
-    protected LRBase(LastRequest lr_manager,String name,int lr_slot,int actor_slot, String lr_choice)
+    protected LRBase(LastRequest lr_manager,LastRequest.LRType lr_type,int lr_slot,int actor_slot, String lr_choice)
     {
         state = LrState.PENDING;
         slot = lr_slot;
         player_slot = actor_slot;
         choice = lr_choice;
-        lr_name = name;
+        lr_name = LastRequest.LR_NAME[(int)type];
+        type = lr_type;
 
         // while lr is pending damage is off
         restrict_damage = true;
@@ -102,7 +103,9 @@ public abstract class LRBase
             return;
         }
 
-        Lib.announce(LastRequest.LR_PREFIX,$"{player.PlayerName} lost {lr_name}, {winner.PlayerName} won!");
+        manager.lr_stats.win(winner,type);
+        manager.lr_stats.loss(player,type);
+
         manager.end_lr(slot);
     }
 
@@ -196,6 +199,8 @@ public abstract class LRBase
     public bool restrict_drop = true;
 
     LrState state;
+
+    LastRequest.LRType type;
 
     // who are we playing against, set up in create_pair
     public LRBase? partner;
