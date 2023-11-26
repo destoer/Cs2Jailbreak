@@ -63,13 +63,13 @@ public class JailPlugin : BasePlugin
 
     public override string ModuleName => "CS2 Jailbreak - destoer";
 
-    public override string ModuleVersion => "0.0.1";
+    public override string ModuleVersion => "v0.1.4";
 
     public override void Load(bool hotReload)
     {
         if(Lib.is_windows())
         {
-            Console.WriteLine("This plugin only works on linux - (OnTakeDamage and others are broken)");
+            Console.WriteLine("This plugin only works on linux - (RemoveWeapons and others are broken)");
             return;
         }
 

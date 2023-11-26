@@ -197,6 +197,13 @@ public class LastRequest
                 break;              
             }
 
+            case LRType.RUSSIAN_ROULETTE:
+            {
+                t_lr = new LRRussianRoulette(this,choice.type,slot,choice.t_slot,choice.option);
+                ct_lr = new LRRussianRoulette(this,choice.type,slot,choice.ct_slot,choice.option);
+                break;              
+            }
+
             case LRType.NONE:
             {
                 return;
@@ -893,6 +900,7 @@ public class LastRequest
         DODGEBALL,
         GRENADE,
         SHOTGUN_WAR,
+        RUSSIAN_ROULETTE,
         SCOUT_KNIFE,
         HEADSHOT_ONLY,
         SHOT_FOR_SHOT,
@@ -906,6 +914,7 @@ public class LastRequest
         "Dodgeball",
         "Grenade",
         "Shotgun war",
+        "Russian roulette",
         "Scout knife",
         "Headshot only",
         "Shot for shot",

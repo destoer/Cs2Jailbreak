@@ -85,31 +85,9 @@ public class LRShotForShot : LRBase
 
     void pick_clip()
     {
-        Random rnd = new Random((int)DateTime.Now.Ticks);
+        (CCSPlayerController? winner,CCSPlayerController? loser,LRBase? winner_lr_base) = pick_rand_player();
 
-        CCSPlayerController? winner = null;
-        CCSPlayerController? loser = null;
-        LRShotForShot? winner_lr = null;
-
-        if(rnd.Next(0,2) == 0)
-        {
-            if(partner != null)
-            {
-                winner = Utilities.GetPlayerFromSlot(player_slot);
-                loser =  Utilities.GetPlayerFromSlot(partner.player_slot);
-                winner_lr = this;
-            }
-        }
-
-        else
-        {
-            if(partner != null)
-            {
-                winner =  Utilities.GetPlayerFromSlot(partner.player_slot);
-                loser =  Utilities.GetPlayerFromSlot(player_slot);
-                winner_lr = (LRShotForShot)partner;
-            }
-        }
+        LRShotForShot? winner_lr = (LRShotForShot?)winner_lr_base;
 
 
         // Give the lucky player the first shot

@@ -179,6 +179,38 @@ public abstract class LRBase
         return weapon_restrict == "" || name.Contains(weapon_restrict); 
     }
 
+    public (CCSPlayerController? winner, CCSPlayerController? loser, LRBase? winner_lr) pick_rand_player()
+    {
+        Random rnd = new Random((int)DateTime.Now.Ticks);
+
+        CCSPlayerController? winner = null;
+        CCSPlayerController? loser = null;
+        LRBase? winner_lr = null;
+
+        if(rnd.Next(0,2) == 0)
+        {
+            if(partner != null)
+            {
+                winner = Utilities.GetPlayerFromSlot(player_slot);
+                loser =  Utilities.GetPlayerFromSlot(partner.player_slot);
+                winner_lr = this;
+            }
+        }
+
+        else
+        {
+            if(partner != null)
+            {
+                winner =  Utilities.GetPlayerFromSlot(partner.player_slot);
+                loser =  Utilities.GetPlayerFromSlot(player_slot);
+                winner_lr = partner;
+            }
+        }
+
+
+        return (winner,loser,winner_lr);
+    }
+
     public virtual void ent_created(String name) {}
 
     public virtual void grenade_thrown() {}
