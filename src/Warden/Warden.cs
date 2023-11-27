@@ -53,6 +53,8 @@ public class Warden
 
         announce($"{player.PlayerName} is now the warden");
 
+        player.announce(WARDEN_PREFIX,"Type !wcommands to see a full list of warden commands");
+
         // change player color!
         player.set_colour(Color.FromArgb(255, 0, 0, 255));
     }
@@ -190,6 +192,21 @@ public class Warden
                 invoke.PrintToConsole($"{jail_players[slot.Value].is_rebel} : {player.PlayerName}\n");
             }
         }
+    }
+
+    public void cmd_info(CCSPlayerController? player, CommandInfo command)
+    {
+        if(player == null || !player.is_valid())
+        {
+            return;
+        }
+
+        player.PrintToChat("!w - take warden");
+        player.PrintToChat("!wd - start a warday");
+        player.PrintToChat("!uw - leave warden");
+        player.PrintToChat("!wb - enable block");
+        player.PrintToChat("!wub - disable block");
+        player.PrintToChat("!rw - admin remove warden");
     }
 
     public void take_warden_cmd(CCSPlayerController? player, CommandInfo command)

@@ -117,6 +117,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<LRStatDBConfig>
         AddCommand("wb","warden : enable block",warden.wb_cmd);
 
         AddCommand("wd","warden : start warday",warden.warday_cmd);
+        AddCommand("wcommands", "warden : show all commands",warden.cmd_info);
 
         // reg lr commands
         AddCommand("lr","start an lr",lr.lr_cmd);
