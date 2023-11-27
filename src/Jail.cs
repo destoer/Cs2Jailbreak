@@ -65,7 +65,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<LRStatDBConfig>
 
     public override string ModuleName => "CS2 Jailbreak - destoer";
 
-    public override string ModuleVersion => "v0.1.5";
+    public override string ModuleVersion => "v0.1.6";
 
     public override void Load(bool hotReload)
     {
@@ -291,6 +291,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<LRStatDBConfig>
         if(player != null && player.is_valid())
         {
             warden.switch_team(player,new_team);
+            lr.lr_stats.connect(player);
         }
 
         return HookResult.Continue;

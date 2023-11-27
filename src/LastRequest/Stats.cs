@@ -23,7 +23,13 @@ public class LRStatDBConfig : BasePluginConfig
     public String password { get; set; } = "";
 
     [JsonPropertyName("server")]
-    public String server { get; set; } = "";
+    public String server { get; set; } = "127.0.0.1";
+
+    [JsonPropertyName("port")]
+    public String port { get; set; } = "3306";
+
+    [JsonPropertyName("database")]
+    public String database { get; set; } = "cs2_jail";
 }
 
 public class LRStats
@@ -323,20 +329,22 @@ public class LRStats
             return null;
         }
 
-        MySqlConnection? database = new MySqlConnection($"Server={config.server};User ID={config.username};Password={config.password};Database=cs2_jail");
-
         try
         {
+
+            MySqlConnection? database = new MySqlConnection(
+                $"Server={config.server};User ID={config.username};Password={config.password};Database={config.database};Port={config.port}");
+
             database.Open();
+
+            return database;
         }
 
         catch (Exception ex)
         {
-            Console.WriteLine(ex.ToString());
-            database = null;
+            //Console.WriteLine(ex.ToString());
+            return null;
         }
-
-        return database;
     }
 
     public LRStatDBConfig? config = null;
