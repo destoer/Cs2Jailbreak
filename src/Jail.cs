@@ -16,7 +16,7 @@ using CounterStrikeSharp.API.Modules.Memory.DynamicFunctions;
 
 // main plugin file, controls central hooking
 // defers to warden, lr and sd
-public class JailPlugin : BasePlugin
+public class JailPlugin : BasePlugin, IPluginConfig<LRStatDBConfig>
 {
     // workaround to query global state!
     public static JailPlugin? global_ctx;
@@ -24,6 +24,8 @@ public class JailPlugin : BasePlugin
     // Global event settings, used to filter plugin activits
     // during warday and SD
     bool is_event_active = false;
+
+    public LRStatDBConfig Config  { get; set; } = new LRStatDBConfig();
 
     public static bool is_warden(CCSPlayerController? player)
     {
@@ -63,7 +65,7 @@ public class JailPlugin : BasePlugin
 
     public override string ModuleName => "CS2 Jailbreak - destoer";
 
-    public override string ModuleVersion => "v0.1.4";
+    public override string ModuleVersion => "v0.1.5";
 
     public override void Load(bool hotReload)
     {
@@ -82,6 +84,17 @@ public class JailPlugin : BasePlugin
         register_listener();
 
         Console.WriteLine("Sucessfully started JB");
+    }
+
+    public void OnConfigParsed(LRStatDBConfig config)
+    {
+        this.Config = config;
+        
+        lr.lr_stats.config = config;
+
+        var database = lr.lr_stats.connect_db();
+
+        lr.lr_stats.setup_db(database);
     }
 
     void register_listener()
@@ -136,6 +149,7 @@ public class JailPlugin : BasePlugin
         RegisterEventHandler<EventWeaponFire>(OnWeaponFire);
         RegisterEventHandler<EventPlayerSpawn>(OnPlayerSpawn);
         RegisterEventHandler<EventPlayerDisconnect>(OnPlayerDisconnect);
+        RegisterEventHandler<EventPlayerConnect>(OnPlayerConnect);
         RegisterEventHandler<EventTeamchangePending>(OnSwitchTeam);
         RegisterEventHandler<EventMapTransition>(OnMapChange);
         RegisterEventHandler<EventPlayerDeath>(OnPlayerDeath);
@@ -276,6 +290,18 @@ public class JailPlugin : BasePlugin
         if(player != null && player.is_valid())
         {
             warden.switch_team(player,new_team);
+        }
+
+        return HookResult.Continue;
+    }
+
+    HookResult OnPlayerConnect(EventPlayerConnect @event, GameEventInfo info)
+    {
+        CCSPlayerController? player = @event.Userid;
+
+        if(player != null && player.is_valid())
+        {
+            lr.lr_stats.connect(player);
         }
 
         return HookResult.Continue;

@@ -216,27 +216,26 @@ public static class Lib
     static public void draw_laser(CCSPlayerController? player)
     {
     /*
-        CEnvBeam? laser = Utilities.CreateEntityByName<CEnvBeam>("env_beam");
-        CEnvBeam? end = Utilities.CreateEntityByName<CEnvBeam>("env_beam");
-
-        if(laser == null || end == null)
+        if(player == null || !player.is_valid())
         {
+            Server.PrintToChatAll("INVALID PLAYER");
             return;
         }
+
+
+        CEnvBeam? laser = Utilities.CreateEntityByName<CEnvBeam>("env_beam");
+
+        if(laser == null)
+        {
+            player.PrintToChat("could not create laser");
+            return;
+        }
+
+        player.PrintToChat("drawing test laser");
 
         laser.Render = Color.FromArgb(255, 153, 255, 255);
         laser.Width = 2.0f;
         //laser.Life = 1.0f;
-
-        end.Globalname = "boop!";
-
-        Vector player_vec = player.PlayerPawn.Value.AbsOrigin;
-        Vector end_pos = new Vector(player_vec.X + 100.0f,player_vec.Y + 100.0f, player_vec.Z + 100.0f);
-
-        end.Teleport(end_pos, player.PlayerPawn.Value.AbsRotation, player.PlayerPawn.Value.AbsVelocity);
-        end.DispatchSpawn(); 
-
-        laser.EndEntity = "boop!";
 
         laser.Teleport(player.PlayerPawn.Value.AbsOrigin, player.PlayerPawn.Value.AbsRotation, player.PlayerPawn.Value.AbsVelocity);
         laser.DispatchSpawn(); 

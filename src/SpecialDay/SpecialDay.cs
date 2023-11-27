@@ -46,16 +46,16 @@ public class SpecialDay
         end_sd();
     }
 
-    public void setup_sd(CCSPlayerController? player, ChatMenuOption option)
+    public void setup_sd(CCSPlayerController? invoke, ChatMenuOption option)
     {
-        if(player == null  || !player.is_valid())
+        if(invoke == null  || !invoke.is_valid())
         {
             return;
         }
 
         if(active_sd != null)
         {
-            player.announce(SPECIALDAY_PREFIX,"You cannot call two SD's at once");
+            invoke.announce(SPECIALDAY_PREFIX,"You cannot call two SD's at once");
             return;
         }
 
@@ -112,6 +112,15 @@ public class SpecialDay
                 break;             
             }
 
+        }
+
+        // 1up all dead players
+        foreach(CCSPlayerController player in Utilities.GetPlayers())
+        {
+            if(player.is_valid() && !player.is_valid_alive())
+            {
+                player.Respawn();
+            }
         }
 
         // call the intiail sd setup
