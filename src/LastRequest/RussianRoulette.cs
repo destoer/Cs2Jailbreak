@@ -62,7 +62,7 @@ public class LRRussianRoulette : LRBase
             // Bang!
             if(rnd.Next(0,7) == 6)
             {
-                player.PlayerPawn.Value.CommitSuicide(true, true);
+                player.slay();
                 Lib.announce(LastRequest.LR_PREFIX,$"{player.PlayerName} brains splattered against the wall");
             }
 

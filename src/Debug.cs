@@ -24,7 +24,7 @@ public static class Debug
 
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            player.PlayerPawn.Value.CommitSuicide(true,true);
+            player.slay();
         }       
     }
 
@@ -37,8 +37,14 @@ public static class Debug
     [RequiresPermissions("@jail/debug")]
     public static void test_laser(CCSPlayerController? invoke, CommandInfo command)
     {
-        // new Vector(-1181.000000f, -754.000000f, 182.934967f), new Vector(-1181.000000f, -800.000000f, 182.934967f)
-        Lib.draw_laser(invoke);
+        CCSPlayerPawn? pawn = invoke.pawn();
+
+        if(pawn != null && pawn.AbsOrigin != null)
+        {
+            Vector end = new Vector(pawn.AbsOrigin.X + 100.0f,pawn.AbsOrigin.Y + 100.0f,pawn.AbsOrigin.Z + 100.0f);
+
+            Lib.draw_laser(pawn.AbsOrigin,end,2.0f,10.0f,Lib.CYAN);
+        }
     }
     
     [RequiresPermissions("@jail/debug")]

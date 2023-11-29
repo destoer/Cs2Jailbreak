@@ -47,7 +47,7 @@ public class SDDodgeball : SDBase
     {
         if(player != null && player.is_valid_alive())
         {
-            player.PlayerPawn.Value.CommitSuicide(true, true);
+            player.slay();
         }
     }
 

@@ -44,6 +44,14 @@ public static class Lib
         }
     }
 
+    static public void slay(this CCSPlayerController? player)
+    {
+        if(player != null && player.is_valid_alive())
+        {
+            player.PlayerPawn.Value?.CommitSuicide(true, true);
+        }
+    }
+
     // Cheers Kill for suggesting method extenstions
     static public bool is_valid(this CCSPlayerController? player)
     {
@@ -66,14 +74,26 @@ public static class Lib
         return player != null && player.is_valid() && player.PawnIsAlive;
     }
 
-    static public void set_health(this CCSPlayerController? player, int hp)
+    static public CCSPlayerPawn? pawn(this CCSPlayerController? player)
     {
         if(player == null || !player.is_valid())
         {
-            return;
+            return null;
         }
 
-        player.PlayerPawn.Value.Health = hp;
+        CCSPlayerPawn? pawn = player.PlayerPawn.Value;
+
+        return pawn;
+    }
+
+    static public void set_health(this CCSPlayerController? player, int hp)
+    {
+        CCSPlayerPawn? pawn = player.pawn();
+
+        if(pawn != null)
+        {
+            pawn.Health = hp;
+        }
     }
 
     static public bool is_windows()
@@ -83,12 +103,14 @@ public static class Lib
 
     static public int get_health(this CCSPlayerController? player)
     {
-        if(player == null || !player.is_valid_alive())
+        CCSPlayerPawn? pawn = player.pawn();
+
+        if(pawn == null)
         {
             return 100;
         }
 
-        return player.PlayerPawn.Value.Health;
+        return pawn.Health;
     }
 
     static public void give_weapon_delay(CCSPlayerController? player,float delay, String name)
@@ -132,43 +154,43 @@ public static class Lib
 
     static public void set_movetype(this CCSPlayerController? player, MoveType_t type)
     {
-        if(player == null || !player.is_valid())
-        {
-            return;
-        }
+        CCSPlayerPawn? pawn = player.pawn();
 
-        player.PlayerPawn.Value.MoveType = type;
+        if(pawn != null)
+        {
+            pawn.MoveType = type;
+        }
     }
 
     static public void set_gravity(this CCSPlayerController? player, float value)
     {
-        if(player == null || !player.is_valid())
-        {
-            return;
-        }
+        CCSPlayerPawn? pawn = player.pawn();
 
-        player.PlayerPawn.Value.GravityScale = value;
+        if(pawn != null)
+        {
+            pawn.GravityScale = value;
+        }
     }
 
     static public void set_velocity(this CCSPlayerController? player, float value)
     {
-        if(player == null || !player.is_valid())
-        {
-            return;
-        }
+        CCSPlayerPawn? pawn = player.pawn();
 
-        player.PlayerPawn.Value.Speed = value;
+        if(pawn != null)
+        {
+            pawn.Speed = value;
+        }
     }
 
 
     static public void set_armour(this CCSPlayerController? player, int hp)
     {
-        if(player == null || !player.is_valid())
-        {
-            return;
-        }
+        CCSPlayerPawn? pawn = player.pawn();
 
-        player.PlayerPawn.Value.ArmorValue = hp;
+        if(pawn != null)
+        {
+            pawn.ArmorValue = hp;
+        }
     }
 
     static public void strip_weapons(this CCSPlayerController? player, bool remove_knife = false)
@@ -179,12 +201,8 @@ public static class Lib
             return;
         }
 
-        // TODO: why is this call messed up on windows?
-        if(!is_windows())
-        {
-            player.RemoveWeapons();
-        }
-
+        player.RemoveWeapons();
+    
         // dont remove knife its buggy
         if(!remove_knife)
         {
@@ -194,13 +212,13 @@ public static class Lib
 
     static public void set_colour(this CCSPlayerController? player, Color colour)
     {
-        if(player == null || !player.is_valid_alive())
-        {
-            return;
-        }
+        CCSPlayerPawn? pawn = player.pawn();
 
-        player.PlayerPawn.Value.RenderMode = RenderMode_t.kRenderTransColor;
-        player.PlayerPawn.Value.Render = colour;
+        if(pawn != null)
+        {
+            pawn.RenderMode = RenderMode_t.kRenderTransColor;
+            pawn.Render = colour;
+        }
     }
 
     static public bool is_generic_admin(this CCSPlayerController? player)
@@ -213,33 +231,45 @@ public static class Lib
         return AdminManager.PlayerHasPermissions(player,new String[] {"@css/generic"});
     }
 
-    static public void draw_laser(CCSPlayerController? player)
+    static Vector VEC_ZERO = new Vector(0.0f,0.0f,0.0f);
+    static QAngle ANGLE_ZERO = new QAngle(0.0f,0.0f,0.0f);
+
+    static public void draw_laser(Vector start, Vector end, float life, float width, Color color)
     {
-    /*
-        if(player == null || !player.is_valid())
-        {
-            Server.PrintToChatAll("INVALID PLAYER");
-            return;
-        }
-
-
         CEnvBeam? laser = Utilities.CreateEntityByName<CEnvBeam>("env_beam");
 
         if(laser == null)
         {
-            player.PrintToChat("could not create laser");
             return;
         }
 
-        player.PrintToChat("drawing test laser");
-
-        laser.Render = Color.FromArgb(255, 153, 255, 255);
+        // setup looks
+        laser.Render = color;
         laser.Width = 2.0f;
-        //laser.Life = 1.0f;
 
-        laser.Teleport(player.PlayerPawn.Value.AbsOrigin, player.PlayerPawn.Value.AbsRotation, player.PlayerPawn.Value.AbsVelocity);
+        // set pos
+        laser.Teleport(start, ANGLE_ZERO, VEC_ZERO);
+
+        // end pos
+        // NOTE: we cant just move the whole vec
+        laser.EndPos.X = end.X;
+        laser.EndPos.Y = end.Y;
+        laser.EndPos.Z = end.Z;
+
+        // start spawn
         laser.DispatchSpawn(); 
-    */
+
+        // create a timer to remove it
+        if(JailPlugin.global_ctx != null)
+        {
+            JailPlugin.global_ctx.AddTimer(life,() => 
+            {
+                if(laser.IsValid)
+                {
+                    laser.Remove();
+                }
+            });
+        }
     }
 
     static public CCSPlayerController? player(this CEntityInstance? instance)
@@ -250,14 +280,7 @@ public static class Lib
         }
 
         // grab the pawn index
-        CEntityIndex? ent_index = instance.EntityIndex;
-
-        if(ent_index == null)
-        {
-            return null;
-        }
-
-        int player_index = (int)ent_index.Value.Value;
+        int player_index = (int)instance.Index;
 
         // grab player controller from pawn
         CCSPlayerPawn? player_pawn =  Utilities.GetEntityFromIndex<CCSPlayerPawn>(player_index);
@@ -280,9 +303,14 @@ public static class Lib
 
     static public CCSPlayerController? player(this CHandle<CBaseEntity> handle)
     {
-        if(handle.IsValid && handle.Value.IsValid)
+        if(handle.IsValid)
         {
-            return handle.Value.player();
+            CBaseEntity? ent = handle.Value;
+
+            if(ent != null)
+            {
+                return handle.Value.player();
+            }
         }
 
         return null;
@@ -336,11 +364,6 @@ public static class Lib
         }
     }
 
-    static public bool is_valid(this CHandle<CBasePlayerWeapon>? weapon)
-    {
-        return weapon != null && weapon.IsValid && weapon.Value != null && weapon.Value.IsValid;
-    }
-
     static public bool is_valid(this CBasePlayerWeapon? weapon)
     {
         return weapon != null && weapon.IsValid;
@@ -348,29 +371,38 @@ public static class Lib
 
     static public CBasePlayerWeapon? find_weapon(this CCSPlayerController? player, String name)
     {
-        // only care if player is valid
-        if(player == null || !player.is_valid_alive())
+        // only care if player is alive
+        if(!player.is_valid_alive())
         {
             return null;
         }
 
-        var weapons = player.Pawn.Value.WeaponServices?.MyWeapons;
+        CCSPlayerPawn? pawn = player.pawn();
+
+        if(pawn == null)
+        {
+            return null;
+        }
+
+        var weapons = pawn.WeaponServices?.MyWeapons;
 
         if(weapons == null)
         {
             return null;
         }
 
-        foreach (var weapon in weapons)
+        foreach (var weapon_opt in weapons)
         {
-            if(weapon == null || !is_valid(weapon))
+            CBasePlayerWeapon? weapon = weapon_opt.Value;
+
+            if(weapon == null)
             {
                 continue;
             }
-
-            if(weapon.Value.DesignerName.Contains(name))
+         
+            if(weapon.DesignerName.Contains(name))
             {
-                return weapon.Value;
+                return weapon;
             }
         }
 
@@ -522,20 +554,6 @@ public static class Lib
         return players.FindAll(player => player.is_valid_alive() && player.is_t());;
     }
 
-    // this doesnt work?
-    static public void set_pickup(this CCSPlayerController? player,bool v)
-    {
-        if(player == null || !player.is_valid())
-        {
-            return; 
-        }
-
-        if(player.Pawn.Value.WeaponServices != null)
-        {
-            player.Pawn.Value.WeaponServices.PreventWeaponPickup = v;
-        }
-    }
-
     static public int alive_t_count()
     {
         return get_alive_t().Count;
@@ -610,6 +628,10 @@ public static class Lib
 
         */
     }
+
+
+    public static readonly Color CYAN = Color.FromArgb(255, 153, 255, 255);
+
 
     static ConVar? block_cvar = ConVar.Find("mp_solid_teammates");
     static ConVar? ff = ConVar.Find("mp_teammates_are_enemies");

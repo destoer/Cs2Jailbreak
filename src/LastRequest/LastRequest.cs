@@ -379,26 +379,35 @@ public class LastRequest
 
         if(lr != null)
         {
+            CCSPlayerPawn? pawn = player.pawn();
+
+            if(pawn == null)
+            {
+                return;
+            }
+
             // strip all weapons that aint the restricted one
-            var weapons = player.Pawn.Value.WeaponServices?.MyWeapons;
+            var weapons = pawn.WeaponServices?.MyWeapons;
 
             if(weapons == null)
             {
                 return;
             }
 
-            foreach (var weapon in weapons)
+            foreach (var weapon_opt in weapons)
             {
-                if (!weapon.is_valid())
+                CBasePlayerWeapon? weapon = weapon_opt.Value;
+
+                if (weapon == null)
                 { 
                     continue;
                 }
                 
-                var weapon_name = weapon.Value.DesignerName;
+                var weapon_name = weapon.DesignerName;
 
                 if(!lr.weapon_equip(weapon_name) && !weapon_name.Contains("knife"))
                 {
-                    weapon.Value.Remove();
+                    weapon.Remove();
                 }
             }    
         }

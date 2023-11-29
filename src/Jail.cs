@@ -69,12 +69,6 @@ public class JailPlugin : BasePlugin, IPluginConfig<LRStatDBConfig>
 
     public override void Load(bool hotReload)
     {
-        if(Lib.is_windows())
-        {
-            Console.WriteLine("This plugin only works on linux - (RemoveWeapons and others are broken)");
-            return;
-        }
-
         global_ctx = this;
 
         register_commands();

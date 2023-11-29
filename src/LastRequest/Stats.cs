@@ -340,7 +340,7 @@ public class LRStats
             return database;
         }
 
-        catch (Exception ex)
+        catch
         {
             //Console.WriteLine(ex.ToString());
             return null;
