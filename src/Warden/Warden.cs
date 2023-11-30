@@ -491,11 +491,7 @@ public class Warden
         {
             invoke.slay();
 
-            // under 20 seconds respawn them
-            if(start_timer != null && alive)
-            {
-                invoke.Respawn();
-            }
+            Lib.respawn_delay(invoke,1.0f);
         }
     }
 

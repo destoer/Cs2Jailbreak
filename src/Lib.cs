@@ -646,6 +646,27 @@ public static class Lib
         return (team == Lib.TEAM_T || team == Lib.TEAM_CT);
     }
 
+    static void respawn_callback(int? slot)
+    {
+        if(slot != null)
+        {
+            var player = Utilities.GetPlayerFromSlot(slot.Value);
+
+            if(player != null && player.is_valid())
+            {
+                player.Respawn();
+            }
+        }   
+    }
+
+    static public void respawn_delay(this CCSPlayerController? player, float delay)
+    {
+        if(JailPlugin.global_ctx != null)
+        {
+            JailPlugin.global_ctx.AddTimer(delay,() => respawn_callback(player.slot()),CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
+        }
+    }
+
 
     public static readonly Color CYAN = Color.FromArgb(255, 153, 255, 255);
 
