@@ -71,7 +71,7 @@ public static class Lib
     // yes i know the null check is redundant but C# is dumb
     static public bool is_valid_alive(this CCSPlayerController? player)
     {
-        return player != null && player.is_valid() && player.PawnIsAlive;
+        return player != null && player.is_valid() && player.PawnIsAlive && player.get_health() > 0;
     }
 
     static public CCSPlayerPawn? pawn(this CCSPlayerController? player)
@@ -246,6 +246,9 @@ public static class Lib
         // setup looks
         laser.Render = color;
         laser.Width = 2.0f;
+
+        // circle not working?
+        //laser.Flags |= 8;
 
         // set pos
         laser.Teleport(start, ANGLE_ZERO, VEC_ZERO);

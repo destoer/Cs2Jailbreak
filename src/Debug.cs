@@ -41,8 +41,8 @@ public static class Debug
 
         if(pawn != null && pawn.AbsOrigin != null)
         {
-            //Vector end = new Vector(pawn.AbsOrigin.X + 100.0f,pawn.AbsOrigin.Y + 100.0f,pawn.AbsOrigin.Z + 100.0f);
-            Vector end = pawn.LookTargetPosition;
+            Vector end = new Vector(pawn.AbsOrigin.X + 100.0f,pawn.AbsOrigin.Y,pawn.AbsOrigin.Z + 100.0f);
+            //Vector end = pawn.LookTargetPosition;
 
             if(invoke != null)
             {
