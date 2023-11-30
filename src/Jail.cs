@@ -14,9 +14,28 @@ using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 using CounterStrikeSharp.API.Modules.Memory.DynamicFunctions;
 
+﻿using System.Text.Json.Serialization;
+public class JailConfig : BasePluginConfig
+{
+    [JsonPropertyName("username")]
+    public String username { get; set; } = "";
+
+    [JsonPropertyName("password")]
+    public String password { get; set; } = "";
+
+    [JsonPropertyName("server")]
+    public String server { get; set; } = "127.0.0.1";
+
+    [JsonPropertyName("port")]
+    public String port { get; set; } = "3306";
+
+    [JsonPropertyName("database")]
+    public String database { get; set; } = "cs2_jail";
+}
+
 // main plugin file, controls central hooking
 // defers to warden, lr and sd
-public class JailPlugin : BasePlugin, IPluginConfig<LRStatDBConfig>
+public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 {
     // workaround to query global state!
     public static JailPlugin? global_ctx;
@@ -25,7 +44,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<LRStatDBConfig>
     // during warday and SD
     bool is_event_active = false;
 
-    public LRStatDBConfig Config  { get; set; } = new LRStatDBConfig();
+    public JailConfig Config  { get; set; } = new JailConfig();
 
     public static bool is_warden(CCSPlayerController? player)
     {
@@ -80,7 +99,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<LRStatDBConfig>
         Console.WriteLine("Sucessfully started JB");
     }
 
-    public void OnConfigParsed(LRStatDBConfig config)
+    public void OnConfigParsed(JailConfig config)
     {
         this.Config = config;
         
@@ -122,6 +141,8 @@ public class JailPlugin : BasePlugin, IPluginConfig<LRStatDBConfig>
         AddCommand("sd","start a sd",sd.sd_cmd);
         AddCommand("sd_ff","start a ff sd",sd.sd_ff_cmd);
         AddCommand("cancel_sd","cancel an sd",sd.cancel_sd_cmd);
+
+        AddCommand("jointeam","boop",warden.join_team);
 
         // debug 
         if(Debug.enable)

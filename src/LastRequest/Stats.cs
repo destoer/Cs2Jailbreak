@@ -13,25 +13,6 @@ using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CounterStrikeSharp.API.Modules.Admin;
 using MySqlConnector;
 
-﻿using System.Text.Json.Serialization;
-public class LRStatDBConfig : BasePluginConfig
-{
-    [JsonPropertyName("username")]
-    public String username { get; set; } = "";
-
-    [JsonPropertyName("password")]
-    public String password { get; set; } = "";
-
-    [JsonPropertyName("server")]
-    public String server { get; set; } = "127.0.0.1";
-
-    [JsonPropertyName("port")]
-    public String port { get; set; } = "3306";
-
-    [JsonPropertyName("database")]
-    public String database { get; set; } = "cs2_jail";
-}
-
 public class LRStats
 {
     public LRStats()
@@ -347,7 +328,7 @@ public class LRStats
         }
     }
 
-    public LRStatDBConfig? config = null;
+    public JailConfig? config = null;
 
     PlayerStat[] lr_players = new PlayerStat[64];
 }

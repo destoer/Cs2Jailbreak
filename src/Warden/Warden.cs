@@ -276,9 +276,19 @@ public class Warden
         }
     }
 
+    void round_timer_callback()
+    {
+        start_timer = null;   
+    }
+
     public void round_start()
     {
         purge_round();
+
+        if(JailPlugin.global_ctx != null)
+        {
+            start_timer = JailPlugin.global_ctx.AddTimer(20.0F,round_timer_callback,CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
+        }
 
         // handle submodules
         mute.round_start();
@@ -295,6 +305,7 @@ public class Warden
 
     public void round_end()
     {
+        Lib.kill_timer(ref start_timer);
         mute.round_end();
         purge_round();
     }
@@ -395,6 +406,98 @@ public class Warden
         }
     }
 
+    static readonly String TEAM_PREFIX = $" {ChatColors.Green}[TEAM]: {ChatColors.White}";
+    
+    public void join_team(CCSPlayerController? invoke, CommandInfo command)
+    {
+        if(invoke == null || !invoke.is_valid())
+        {
+            return;
+        }
+
+        if(command.ArgCount != 3)
+        {
+            invoke.SwitchTeam(CsTeam.Terrorist);
+            invoke.announce(TEAM_PREFIX,"You cannot join that team");
+            return;
+        }
+
+        CCSPlayerPawn? pawn = invoke.pawn(); 
+
+        int old_team = -1;
+
+        if(pawn != null)
+        {
+            old_team = pawn.TeamNum;
+        }
+
+
+        if(!Int32.TryParse(command.ArgByIndex(1),out int team))
+        {
+            return;
+        }
+
+        switch(team)
+        {
+            case Lib.TEAM_CT:
+            {
+                int ct_count = Lib.ct_count();
+
+                // check CT aint full
+                if((ct_count * 2) < Lib.t_count() || ct_count == 0)
+                {
+                    invoke.SwitchTeam(CsTeam.CounterTerrorist);
+                }
+
+                // switch to T
+                else
+                {
+                    invoke.SwitchTeam(CsTeam.Terrorist);
+                    invoke.announce(TEAM_PREFIX,"Sorry CT has too many players");
+
+                    // update to actual switch
+                    team = Lib.TEAM_T;
+                }
+
+                break;
+            }
+
+            case Lib.TEAM_T:
+            {
+                invoke.SwitchTeam(CsTeam.Terrorist);
+                break;
+            }
+
+            // spec
+            case Lib.TEAM_SPEC:
+            {
+                invoke.SwitchTeam(CsTeam.Spectator);
+                break;
+            }
+
+            default:
+            {
+                invoke.SwitchTeam(CsTeam.Terrorist);
+                invoke.announce(TEAM_PREFIX,"You cannot join that team");
+                break;
+            }
+        }
+
+        bool alive = invoke.is_valid_alive();
+
+        // team has changed between active
+        // make sure the player cannot just switch teams in a spawn
+        if(old_team != team && Lib.active_team(old_team) && Lib.active_team(team))
+        {
+            invoke.slay();
+
+            // under 20 seconds respawn them
+            if(start_timer != null && alive)
+            {
+                invoke.Respawn();
+            }
+        }
+    }
 
     public void player_hurt(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health)
     {
@@ -441,6 +544,8 @@ public class Warden
 
     public static readonly String WARDEN_PREFIX = $" {ChatColors.Green}[WARDEN]: {ChatColors.White}";
 
+
+    CSTimer.Timer? start_timer = null;
 
     JailPlayer[] jail_players = new JailPlayer[64];
 

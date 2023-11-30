@@ -543,6 +543,18 @@ public static class Lib
         return players.FindAll(player => player.is_valid_alive() && player.is_ct());
     }
 
+    static public int ct_count()
+    {
+        List<CCSPlayerController> players = Utilities.GetPlayers();
+        return players.FindAll(player => player.is_valid() && player.is_ct()).Count;        
+    }
+
+    static public int t_count()
+    {
+        List<CCSPlayerController> players = Utilities.GetPlayers();
+        return players.FindAll(player => player.is_valid() && player.is_t()).Count;        
+    }
+
     static public int alive_ct_count()
     {
         return get_alive_ct().Count;
@@ -629,6 +641,11 @@ public static class Lib
         */
     }
 
+    static public bool active_team(int team)
+    {
+        return (team == Lib.TEAM_T || team == Lib.TEAM_CT);
+    }
+
 
     public static readonly Color CYAN = Color.FromArgb(255, 153, 255, 255);
 
@@ -637,6 +654,7 @@ public static class Lib
     static ConVar? ff = ConVar.Find("mp_teammates_are_enemies");
 
     // CONST DEFS
+    public const int TEAM_SPEC = 1;
     public const int TEAM_T = 2;
     public const int TEAM_CT = 3;
 

@@ -41,7 +41,13 @@ public static class Debug
 
         if(pawn != null && pawn.AbsOrigin != null)
         {
-            Vector end = new Vector(pawn.AbsOrigin.X + 100.0f,pawn.AbsOrigin.Y + 100.0f,pawn.AbsOrigin.Z + 100.0f);
+            //Vector end = new Vector(pawn.AbsOrigin.X + 100.0f,pawn.AbsOrigin.Y + 100.0f,pawn.AbsOrigin.Z + 100.0f);
+            Vector end = pawn.LookTargetPosition;
+
+            if(invoke != null)
+            {
+                invoke.PrintToChat($"end: {end.X} {end.Y} {end.Z}");
+            }
 
             Lib.draw_laser(pawn.AbsOrigin,end,2.0f,10.0f,Lib.CYAN);
         }
