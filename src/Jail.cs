@@ -132,6 +132,8 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         AddCommand("wd","warden : start warday",warden.warday_cmd);
         AddCommand("wcommands", "warden : show all commands",warden.cmd_info);
 
+        AddCommand("guns","give ct guns",warden.cmd_ct_guns);
+
         // reg lr commands
         AddCommand("lr","start an lr",lr.lr_cmd);
         AddCommand("cancel_lr","admin : cancel lr",lr.cancel_lr_cmd);
@@ -154,6 +156,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
             AddCommand("is_blocked","debug : print block state",warden.block.is_blocked);
             AddCommand("test_laser","test laser",Debug.test_laser);
             AddCommand("test_strip","test weapon strip",Debug.test_strip_cmd);
+            AddCommand("join_ct_debug","debug : force join ct",Debug.join_ct_cmd);
         }
     }
 

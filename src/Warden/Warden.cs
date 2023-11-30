@@ -343,8 +343,6 @@ public class Warden
 
             player.strip_weapons();
 
-            // NOTE: we use cvars for the rest of the guns
-            // because its just easier
             if(player.is_ct())
             {
                 player.GiveNamedItem("weapon_deagle");
@@ -493,6 +491,38 @@ public class Warden
 
             Lib.respawn_delay(invoke,1.0f);
         }
+    }
+
+
+    public void ct_guns(CCSPlayerController player, ChatMenuOption option)
+    {
+        if(player == null || !player.is_valid_alive() || !player.is_ct()) 
+        {
+            return;
+        }
+
+        player.strip_weapons();
+
+        player.GiveNamedItem("weapon_" + option.Text);
+        player.GiveNamedItem("weapon_deagle");
+
+        player.GiveNamedItem("item_assaultsuit");
+    }
+
+    public void cmd_ct_guns(CCSPlayerController? player, CommandInfo command)
+    {
+        if(player == null || !player.is_valid())
+        {
+            return;
+        }
+
+        if(!player.is_ct())
+        {
+            player.announce(WARDEN_PREFIX,"You must be a ct to use the gun menu!");
+            return;
+        }
+
+        player.gun_menu_internal(true,ct_guns);     
     }
 
     public void player_hurt(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health)

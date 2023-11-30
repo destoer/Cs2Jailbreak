@@ -59,6 +59,15 @@ public static class Debug
         invoke.strip_weapons(true);
     }
 
+    [RequiresPermissions("@jail/debug")]
+    public static void join_ct_cmd(CCSPlayerController? invoke, CommandInfo command)
+    {
+        if(invoke != null && invoke.is_valid())
+        {
+            invoke.SwitchTeam(CsTeam.CounterTerrorist);
+        }
+    }
+
     // are these commands allowed or not?
     public static readonly bool enable  = true;
 
