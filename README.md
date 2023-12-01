@@ -26,7 +26,7 @@ Player color
 
 
 # LR TODO
-Port russian roulette, crash, sumo 
+Port crash, sumo 
 
 Improve anti cheat
 
@@ -34,7 +34,7 @@ Add beacons
 
 
 # SD TODO
-Waiting on player colour issues fixed for alot of these
+Waiting on player colour and respawn issues fixed for these
 
 Tank, Hide and Seek, Zombie 
 Gun game, Spectre, Laser wars
