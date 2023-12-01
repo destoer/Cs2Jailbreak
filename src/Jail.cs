@@ -31,6 +31,13 @@ public class JailConfig : BasePluginConfig
 
     [JsonPropertyName("database")]
     public String database { get; set; } = "cs2_jail";
+
+    // ratio of t to CT
+    [JsonPropertyName("bal_guards")]
+    public int bal_guards { get; set; } = 0;
+
+    [JsonPropertyName("enable_riot")]
+    public bool riot_enable { get; set; } = false;
 }
 
 // main plugin file, controls central hooking
@@ -104,6 +111,8 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         this.Config = config;
         
         lr.lr_stats.config = config;
+        lr.config = config;
+        warden.config = config;
 
         var database = lr.lr_stats.connect_db();
 

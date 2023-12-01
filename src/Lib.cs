@@ -275,6 +275,16 @@ public static class Lib
         }
     }
 
+    static public void play_sound(this CCSPlayerController? player, String sound)
+    {
+        if(player == null || !player.is_valid())
+        {
+            return;
+        }
+
+        player.ExecuteClientCommand($"play {sound}");
+    }
+
     static public CCSPlayerController? player(this CEntityInstance? instance)
     {
         if(instance == null)

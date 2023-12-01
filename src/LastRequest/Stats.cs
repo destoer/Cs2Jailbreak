@@ -305,11 +305,6 @@ public class LRStats
 
     public MySqlConnection? connect_db()
     {
-        if(config == null)
-        {
-            return null;
-        }
-
         try
         {
 
@@ -328,7 +323,7 @@ public class LRStats
         }
     }
 
-    public JailConfig? config = null;
+    public JailConfig config = new JailConfig();
 
     PlayerStat[] lr_players = new PlayerStat[64];
 }

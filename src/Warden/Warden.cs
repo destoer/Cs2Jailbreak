@@ -440,9 +440,11 @@ public class Warden
             case Lib.TEAM_CT:
             {
                 int ct_count = Lib.ct_count();
+                int t_count = Lib.t_count();
 
-                // check CT aint full
-                if((ct_count * 2) < Lib.t_count() || ct_count == 0)
+                // check CT aint full 
+                // i.e at a suitable raito or either team is empty
+                if((ct_count * config.bal_guards) < t_count || ct_count == 0 || t_count == 0)
                 {
                     invoke.SwitchTeam(CsTeam.CounterTerrorist);
                 }
@@ -451,12 +453,13 @@ public class Warden
                 else
                 {
                     invoke.SwitchTeam(CsTeam.Terrorist);
-                    invoke.announce(TEAM_PREFIX,"Sorry CT has too many players");
+                    invoke.announce(TEAM_PREFIX,$"Sorry, CT has too many players {config.bal_guards}:1 ratio maximum");
+                    invoke.play_sound("sounds/ui/counter_beep.vsnd");
 
                     // update to actual switch
                     team = Lib.TEAM_T;
                 }
-
+                
                 break;
             }
 
@@ -477,6 +480,7 @@ public class Warden
             {
                 invoke.SwitchTeam(CsTeam.Terrorist);
                 invoke.announce(TEAM_PREFIX,"You cannot join that team");
+                invoke.play_sound("sounds/ui/counter_beep.vsnd");
                 break;
             }
         }
@@ -572,6 +576,8 @@ public class Warden
 
 
     CSTimer.Timer? start_timer = null;
+
+    public JailConfig config = new JailConfig();
 
     JailPlayer[] jail_players = new JailPlayer[64];
 

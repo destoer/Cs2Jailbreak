@@ -246,9 +246,8 @@ public class LastRequest
         {
             end_lr(l);
         }
-        
-        rebel_active = false;
-        knife_rebel_active = false;
+
+        rebel_type = RebelType.NONE;
     }
 
     public void round_start()
@@ -369,7 +368,7 @@ public class LastRequest
             return;
         }
 
-        if(knife_rebel_active && !name.Contains("knife"))
+        if(rebel_type == RebelType.KNIFE && !name.Contains("knife"))
         {
             player.strip_weapons();
             return;
@@ -405,9 +404,11 @@ public class LastRequest
                 
                 var weapon_name = weapon.DesignerName;
 
-                if(!lr.weapon_equip(weapon_name) && !weapon_name.Contains("knife"))
+                // TODO: Ideally we should just deny the equip all together but this works well enough
+                if(!lr.weapon_equip(weapon_name))
                 {
-                    weapon.Remove();
+                    //Server.PrintToChatAll($"drop player gun: {player.PlayerName} : {weapon_name}");
+                    player.DropActiveWeapon();
                 }
             }    
         }
@@ -745,7 +746,7 @@ public class LastRequest
             return;
         }
 
-        if(!can_rebel())
+        if(!can_rebel() || rebel_type != RebelType.KNIFE)
         {
             player.PrintToChat($"{LR_PREFIX} You must be the last player alive to rebel");
             return;
@@ -760,7 +761,7 @@ public class LastRequest
     
         player.set_health(Lib.alive_ct_count() * 100);
 
-        rebel_active = true;
+        rebel_type = RebelType.REBEL;
 
         Lib.announce(LR_PREFIX,$"{player.PlayerName} is a rebel!");
     }
@@ -788,8 +789,7 @@ public class LastRequest
             return;
         }
 
-        knife_rebel_active = true;
-        rebel_active = true;
+        rebel_type = RebelType.KNIFE;
 
         Lib.announce(LR_PREFIX,$"{rebel.PlayerName} is knife a rebel!");
         rebel.set_health(Lib.alive_ct_count() * 100);
@@ -803,6 +803,58 @@ public class LastRequest
         }
     }
 
+    public void riot_respawn()
+    {
+        // riot cancelled in mean time
+        if(rebel_type != RebelType.RIOT)
+        {
+            return;
+        }
+
+
+        Lib.announce(LR_PREFIX,"Riot active");
+
+        foreach(CCSPlayerController? player in Utilities.GetPlayers())
+        {
+            if(player != null && player.is_valid() && !player.is_valid_alive())
+            {
+                Server.PrintToChatAll($"Respawn {player.PlayerName}");
+                player.Respawn();
+            }
+
+            else
+            {
+                Server.PrintToChatAll("could not respawn");
+            }
+        }
+    }
+
+
+    public void start_riot(CCSPlayerController? rebel, ChatMenuOption option)
+    {
+        if(rebel == null || !rebel.is_valid())
+        {
+            return;
+        }
+
+        if(!can_rebel())
+        {
+            rebel.PrintToChat($"{LR_PREFIX} You must be the last player alive to rebel");
+            return;
+        }
+
+
+        rebel_type = RebelType.RIOT;
+
+        Lib.announce(LR_PREFIX,"A riot has started CT's have 15 seconds to hide");
+
+        if(JailPlugin.global_ctx != null)
+        {
+            JailPlugin.global_ctx.AddTimer(15.0f,riot_respawn,CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
+        }
+    }
+
+
     public void lr_cmd_internal(CCSPlayerController? player,bool bypass, CommandInfo command)
     {
         int? player_slot_opt = player.slot();
@@ -810,7 +862,7 @@ public class LastRequest
         // check player can start lr
         // NOTE: higher level function checks its valid to start an lr
         // so we can do a bypass for debugging
-        if(player == null  || !player.is_valid() || player_slot_opt == null || rebel_active)
+        if(player == null  || !player.is_valid() || player_slot_opt == null || rebel_type != RebelType.NONE)
         {
             return;
         }
@@ -832,6 +884,11 @@ public class LastRequest
         {
             lr_menu.AddMenuOption("Knife rebel",start_knife_rebel);
             lr_menu.AddMenuOption("Rebel",start_rebel);
+
+            if(config.riot_enable)
+            {
+                lr_menu.AddMenuOption("Riot",start_riot);
+            }
         }
 
         ChatMenus.OpenMenu(player, lr_menu);
@@ -943,8 +1000,17 @@ public class LastRequest
         public bool bypass = false;
     } 
 
-    bool rebel_active = false;
-    bool knife_rebel_active = false;
+    enum RebelType
+    {
+        NONE,
+        REBEL,
+        KNIFE,
+        RIOT,
+    };
+
+    RebelType rebel_type = RebelType.NONE;
+
+    public JailConfig config = new JailConfig();
 
     LRChoice[] lr_choice = new LRChoice[64];
     public LRStats lr_stats = new LRStats();

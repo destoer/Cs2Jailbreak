@@ -68,6 +68,9 @@ public abstract class LRBase
         }
 
 
+        // make sure our weapons dont get taken off 
+        weapon_restrict = "";
+
         // restore hp
         player.set_health(100);
 
