@@ -23,7 +23,6 @@ Warden Ring
 
 Player color 
 
-Team Balance 
 
 
 # LR TODO
@@ -33,9 +32,6 @@ Improve anti cheat
 
 Add beacons 
 
-Add stats leaderboard 
-
-Improve damage blocking 
 
 # SD TODO
 Waiting on player colour issues fixed for alot of these
