@@ -818,13 +818,8 @@ public class LastRequest
         {
             if(player != null && player.is_valid() && !player.is_valid_alive())
             {
-                Server.PrintToChatAll($"Respawn {player.PlayerName}");
+                //Server.PrintToChatAll($"Respawn {player.PlayerName}");
                 player.Respawn();
-            }
-
-            else
-            {
-                Server.PrintToChatAll("could not respawn");
             }
         }
     }
