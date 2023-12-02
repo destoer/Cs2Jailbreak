@@ -14,7 +14,7 @@ using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 public class Warday
 {
-    void gun_callback()
+    void gun_callback(int unused)
     {
         // if warday is no longer active dont allow guns
 
@@ -31,16 +31,12 @@ public class Warday
 
             Lib.announce(WARDAY_PREFIX,"Weapons live!");
         }
-
-        warday_timer = null;
     }
 
     public bool start_warday(String location)
     {
         if(round_counter >= ROUND_LIMIT)
         {
-            Lib.announce(WARDAY_PREFIX,$"warday will start in 20 seconds at {location}");
-
             // must wait again to start a warday
             round_counter = 0;
 
@@ -56,16 +52,17 @@ public class Warday
                 }
             }
 
-            // start gun callback
-            if(JailPlugin.global_ctx != null)
-            {
-                JailPlugin.global_ctx.AddTimer(20.0f,gun_callback,CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
-            }
 
+            countdown.start($"warday at {location}",20,0,null,gun_callback);
             return true;
         }        
 
         return false;
+    }
+
+    public void round_end()
+    {
+        countdown.kill();
     }
 
 
@@ -74,7 +71,7 @@ public class Warday
         // one less round till a warday can be called
         round_counter++;
 
-        Lib.kill_timer(ref warday_timer);
+        countdown.kill();
 
         warday_active = false;
         JailPlugin.end_event();
@@ -94,5 +91,5 @@ public class Warday
 
     public const int ROUND_LIMIT = 3;
 
-    CSTimer.Timer? warday_timer = null;
+    Countdown<int> countdown = new Countdown<int>();
 };

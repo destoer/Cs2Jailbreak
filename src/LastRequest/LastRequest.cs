@@ -67,7 +67,8 @@ public class LastRequest
         return false;
     }
 
-    void activate_lr(LRBase lr)
+    // called back by the lr countdown function
+    public void activate_lr(LRBase lr)
     {
         if(lr_exists(lr))
         {
@@ -228,18 +229,11 @@ public class LastRequest
 
         active_lr[slot] = t_lr;
         
-        // Finally setup final timer for start!
-        if(JailPlugin.global_ctx != null)
-        {
-            JailPlugin.global_ctx.AddTimer(5.0f,() => activate_lr(t_lr),CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
-        }
-
-        // print init to players
-        String lr_name = LR_NAME[(int)choice.type];
-        t_player.announce(LR_PREFIX,$"Starting {lr_name} against {ct_player.PlayerName} in 5 seconds");
-        ct_player.announce(LR_PREFIX,$"Starting {lr_name} against {t_player.PlayerName} in 5 seconds");
+        // begin counting down the lr
+        t_lr.countdown_start();
     }
     
+
     public void purge_lr()
     {
         for(int l = 0; l < active_lr.Length; l++)

@@ -28,6 +28,8 @@ public class SpecialDay
             active_sd.end_common();
             active_sd = null;
 
+            countdown.kill();
+
             // restore all players if from a cancel
             if(forced)
             {
@@ -133,7 +135,7 @@ public class SpecialDay
         // start the countdown for enable
         if(JailPlugin.global_ctx != null)
         {
-            JailPlugin.global_ctx.AddTimer(15.0f,start_sd,CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
+            countdown.start($"{name} specialday",15,0,null,start_sd);
         }
     }
 
@@ -187,7 +189,7 @@ public class SpecialDay
         }
     }
 
-    public void start_sd()
+    public void start_sd(int unused)
     {
         if(active_sd != null)
         {
@@ -284,6 +286,8 @@ public class SpecialDay
     SDBase? active_sd = null;
 
     bool override_ff = false;
+
+    Countdown<int> countdown = new Countdown<int>();
 
     SDType type = SDType.NONE;
 };

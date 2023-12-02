@@ -15,6 +15,79 @@ using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 using CounterStrikeSharp.API.Modules.Admin;
 using System.Drawing;
 
+
+// NOTE: this is a timer wrapper, and should be owned the class
+// wanting to use the timer
+public class Countdown<T>
+{
+    public void start(String countdown_name, int countdown_delay,
+        T countdown_data,Action<T,int>? countdown_print_func, Action <T> countdown_callback)
+    {
+        this.delay = countdown_delay;
+        this.callback = countdown_callback;
+        this.name = countdown_name;
+        this.data = countdown_data;
+        this.print_func = countdown_print_func;
+
+
+        if(JailPlugin.global_ctx != null)
+        {
+            this.handle = JailPlugin.global_ctx.AddTimer(1.0f,countdown,CSTimer.TimerFlags.STOP_ON_MAPCHANGE | CSTimer.TimerFlags.REPEAT);
+        }
+    }
+
+    public void kill()
+    {
+       Lib.kill_timer(ref handle);
+    }
+
+    void countdown()
+    {
+        delay -= 1;
+
+        // countdown over
+        if(delay <= 0)
+        {
+            // kill the timer
+            // and then call the callback
+            kill();
+
+            if(callback != null && data != null)
+            {
+                callback(data);
+            }
+        }
+
+        // countdown still active
+        else
+        {
+            // custom print
+            if(print_func != null && data != null)
+            {
+                print_func(data,delay);
+            }
+
+            // default print
+            else
+            {
+                Lib.print_centre_all($"{name} is starting in {delay} seconds");
+            }
+        }
+    }
+
+
+    public int delay = 0;
+    public Action<T>? callback = null;
+    public String name = "";
+    public Action<T,int>? print_func = null;
+    CSTimer.Timer? handle = null;
+
+    // callback data
+    T? data = default(T);
+}
+
+    
+
 public static class Lib
 {
     // TODO: i dont think there is a builtin func for this...

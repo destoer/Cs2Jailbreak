@@ -307,6 +307,7 @@ public class Warden
     {
         Lib.kill_timer(ref start_timer);
         mute.round_end();
+        warday.round_end();
         purge_round();
     }
 

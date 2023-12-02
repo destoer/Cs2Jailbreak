@@ -22,6 +22,8 @@ public abstract class LRBase
         ACTIVE,
     }
 
+    
+
     protected LRBase(LastRequest lr_manager,LastRequest.LRType lr_type,int lr_slot,int actor_slot, String lr_choice)
     {
         state = LrState.PENDING;
@@ -58,6 +60,8 @@ public abstract class LRBase
     {
         // clean up timer
         Lib.kill_timer(ref timer);
+
+        countdown.kill();
 
         // reset alive player
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
@@ -214,6 +218,30 @@ public abstract class LRBase
         return (winner,loser,winner_lr);
     }
 
+    static public void print_countdown(LRBase lr, int delay)
+    {
+        if(lr.partner == null)
+        {
+            return;
+        }
+
+        CCSPlayerController? t_player = Utilities.GetPlayerFromSlot(lr.player_slot);
+        CCSPlayerController? ct_player = Utilities.GetPlayerFromSlot(lr.partner.player_slot);
+
+        if(t_player == null || !t_player.is_valid() || ct_player == null || !ct_player.is_valid())
+        {
+            return;
+        }
+
+        t_player.PrintToCenter($"Starting {lr.lr_name} against {ct_player.PlayerName} in {delay} seconds");
+        ct_player.PrintToCenter($"Starting {lr.lr_name} against {t_player.PlayerName} in {delay} seconds");
+    }
+
+    public void countdown_start()
+    {
+        countdown.start(lr_name,5,this,print_countdown,manager.activate_lr);
+    }
+
     public virtual void ent_created(String name) {}
 
     public virtual void grenade_thrown() {}
@@ -242,6 +270,9 @@ public abstract class LRBase
 
     // custom choice
     protected String choice = "";
+
+    // countdown for start
+    public Countdown<LRBase> countdown = new Countdown<LRBase>();
 
     // managed timer
     CSTimer.Timer? timer = null;
