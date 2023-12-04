@@ -402,6 +402,8 @@ public static class Lib
         return null;
     }
 
+    // NOTE: i dont think we call this in the right context
+    // OnPostThink doesn't appear to be good enough?
     static public void hide_weapon(this CCSPlayerController? player)
     {
         CCSPlayerPawn? pawn = player.pawn();
