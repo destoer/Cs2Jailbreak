@@ -49,7 +49,7 @@ public static class Debug
                 invoke.PrintToChat($"end: {end.X} {end.Y} {end.Z}");
             }
 
-            Lib.draw_laser(pawn.AbsOrigin,end,2.0f,10.0f,Lib.CYAN);
+            Lib.draw_laser(pawn.AbsOrigin,end,10.0f,2.0f,Lib.CYAN);
         }
     }
     
@@ -66,6 +66,17 @@ public static class Debug
         {
             invoke.SwitchTeam(CsTeam.CounterTerrorist);
         }
+    }
+
+    [RequiresPermissions("@jail/debug")]
+    public static void hide_weapon_cmd(CCSPlayerController? invoke, CommandInfo command)
+    {
+        if(invoke != null && invoke.is_valid())
+        {
+            invoke.PrintToChat("hiding weapons");
+        }
+
+        invoke.hide_weapon();
     }
 
     // are these commands allowed or not?

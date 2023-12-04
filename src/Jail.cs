@@ -38,6 +38,9 @@ public class JailConfig : BasePluginConfig
 
     [JsonPropertyName("enable_riot")]
     public bool riot_enable { get; set; } = false;
+
+    [JsonPropertyName("hide_kills")]
+    public bool hide_kills { get; set; } = false;
 }
 
 // main plugin file, controls central hooking
@@ -166,6 +169,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
             AddCommand("test_laser","test laser",Debug.test_laser);
             AddCommand("test_strip","test weapon strip",Debug.test_strip_cmd);
             AddCommand("join_ct_debug","debug : force join ct",Debug.join_ct_cmd);
+            AddCommand("hide_weapon_debug","debug : hide player weapon on back",Debug.hide_weapon_cmd);
         }
     }
 
@@ -180,7 +184,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         RegisterEventHandler<EventPlayerConnect>(OnPlayerConnect);
         RegisterEventHandler<EventTeamchangePending>(OnSwitchTeam);
         RegisterEventHandler<EventMapTransition>(OnMapChange);
-        RegisterEventHandler<EventPlayerDeath>(OnPlayerDeath);
+        RegisterEventHandler<EventPlayerDeath>(OnPlayerDeath,HookMode.Pre);
         RegisterEventHandler<EventItemEquip>(OnItemEquip);
         RegisterEventHandler<EventGrenadeThrown>(OnGrenadeThrown);
         RegisterEventHandler<EventPlayerHurt>(OnPlayerHurt);
@@ -276,14 +280,47 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     HookResult OnPlayerDeath(EventPlayerDeath @event, GameEventInfo info)
     {
-        CCSPlayerController? player = @event.Userid;
+        CCSPlayerController? victim = @event.Userid;
         CCSPlayerController? killer = @event.Attacker;
 
-        if(player != null && player.is_valid())
+        // hide t killing ct
+        if(Config.hide_kills && killer.is_t() && victim.is_ct())
         {
-            warden.death(player,killer);
-            lr.death(player);
-            sd.death(player,killer);
+            //@event.Attacker = player;
+            // fire event as is to T
+            foreach(CCSPlayerController? player in Utilities.GetPlayers())
+            {
+                if(player != null && player.is_valid())
+                {
+                    if(player.is_t())
+                    {
+                        // T gets full event
+                        @event.Userid = victim;
+                        @event.Attacker = killer;
+
+                        @event.FireEventToClient(player);
+                    }
+
+                    else
+                    {
+                        // ct gets a suicide
+                        @event.Userid = victim;
+                        @event.Attacker = victim;
+
+                        @event.FireEventToClient(player);
+                    }
+                }
+            }
+
+            info.DontBroadcast = true;
+        }
+
+
+        if(victim != null && victim.is_valid())
+        {
+            warden.death(victim,killer);
+            lr.death(victim);
+            sd.death(victim,killer);
         }
 
         return HookResult.Continue;

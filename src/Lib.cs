@@ -402,6 +402,19 @@ public static class Lib
         return null;
     }
 
+    static public void hide_weapon(this CCSPlayerController? player)
+    {
+        CCSPlayerPawn? pawn = player.pawn();
+
+        if(pawn != null)
+        {
+            pawn.PrimaryAddon = 0;
+            pawn.SecondaryAddon = 0;
+            pawn.AddonBits = 0;
+        }
+    }
+
+
     static public void mute(this CCSPlayerController? player)
     {
         // admins cannot be muted by the plugin
