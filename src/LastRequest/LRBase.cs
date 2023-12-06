@@ -104,7 +104,7 @@ public abstract class LRBase
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
         CCSPlayerController? winner = Utilities.GetPlayerFromSlot(partner.player_slot);
 
-        if(player == null || !player.is_valid_alive() || winner == null || !winner.is_valid_alive())
+        if(player == null || !player.is_valid() || winner == null || !winner.is_valid())
         {
             manager.end_lr(slot);
             return;

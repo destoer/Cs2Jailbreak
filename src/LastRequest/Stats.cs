@@ -106,6 +106,8 @@ public class LRStats
                 lr_player.win[i] = 0;
                 lr_player.loss[i] = 0;
             }
+
+            lr_player.cached = false;
         }
     }
 
@@ -113,6 +115,7 @@ public class LRStats
     {
         public int[] win = new int[LastRequest.LR_SIZE];
         public int[] loss = new int[LastRequest.LR_SIZE]; 
+        public bool cached = false;
     }
 
     async void insert_player(String steam_id, String player_name)
@@ -194,6 +197,23 @@ public class LRStats
             return;
         }
 
+        // repull player from steamid if they are still around
+        CCSPlayerController? player = Utilities.GetPlayerFromSteamId(id);
+        int? slot_opt = player.slot();
+
+        if(slot_opt == null)
+        {
+            return;
+        }
+
+        int slot = slot_opt.Value;
+
+        // allready cached we dont care
+        if(lr_players[slot].cached)
+        {
+            return;
+        }
+
         // query steamid
         var query_steam_id = new MySqlCommand("SELECT * FROM stats WHERE steamid = @steam_id",database);
         query_steam_id.Parameters.AddWithValue("@steam_id",steam_id);
@@ -204,17 +224,12 @@ public class LRStats
             
             if(reader.Read())
             {
-                // repull player from steamid if they are still around
-                CCSPlayerController? player = Utilities.GetPlayerFromSteamId(id);
-
-                int? slot_opt = player.slot();
-
                 if(player == null || !player.is_valid() || slot_opt == null)
                 {
                     return;
                 }
 
-                int slot = slot_opt.Value;
+                Console.WriteLine($"reading out lr stats {player.PlayerName}");
 
                 for(int i = 0; i < LastRequest.LR_SIZE; i++)
                 {
@@ -223,12 +238,16 @@ public class LRStats
                     lr_players[slot].win[i] = (int)reader[name + "_win"];
                     lr_players[slot].loss[i] = (int)reader[name + "_loss"];
                 }
+
+                lr_players[slot].cached = true;
             }
 
             // failed to pull player stats
             // insert a new entry
             else
             {
+                Console.WriteLine("insert new entry");
+
                 insert_player(steam_id,player_name);
             }
 

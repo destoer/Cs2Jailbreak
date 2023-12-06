@@ -156,7 +156,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         AddCommand("sd_ff","start a ff sd",sd.sd_ff_cmd);
         AddCommand("cancel_sd","cancel an sd",sd.cancel_sd_cmd);
 
-        AddCommand("jointeam","boop",warden.join_team);
+        AddCommand("jointeam","boop",join_team);
 
         // debug 
         if(Debug.enable)
@@ -173,7 +173,13 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         }
     }
 
+    public void join_team(CCSPlayerController? invoke, CommandInfo command)
+    {
+        lr.lr_stats.connect(invoke);
+        warden.join_team(invoke,command);
+    }
 
+    
     void register_hook()
     {
         RegisterEventHandler<EventRoundStart>(OnRoundStart);
@@ -367,7 +373,6 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         if(player != null && player.is_valid())
         {
             warden.switch_team(player,new_team);
-            lr.lr_stats.connect(player);
         }
 
         return HookResult.Continue;
