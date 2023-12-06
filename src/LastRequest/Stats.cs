@@ -229,7 +229,7 @@ public class LRStats
                     return;
                 }
 
-                Console.WriteLine($"reading out lr stats {player.PlayerName}");
+                //Console.WriteLine($"reading out lr stats {player.PlayerName}");
 
                 for(int i = 0; i < LastRequest.LR_SIZE; i++)
                 {
@@ -246,7 +246,7 @@ public class LRStats
             // insert a new entry
             else
             {
-                Console.WriteLine("insert new entry");
+                //Console.WriteLine("insert new entry");
 
                 insert_player(steam_id,player_name);
             }

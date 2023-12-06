@@ -80,7 +80,11 @@ public class LastRequest
 
     public void death(CCSPlayerController? player)
     {
-        // TODO: add auto menu open
+        if(Lib.alive_t_count() == 2 && player.is_t())
+        {
+            Lib.announce(LR_PREFIX,"Last request is available type !lr");
+        }
+
 
         LRBase? lr = find_lr(player);
 
