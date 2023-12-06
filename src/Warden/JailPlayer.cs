@@ -33,6 +33,15 @@ public class JailPlayer
             return;
         }
 
+        // ignore if they are in lr
+        if(JailPlugin.global_ctx != null)
+        {
+            if(JailPlugin.lr.in_lr(player))
+            {
+                return;
+            }
+        }
+
         // dont care if player is invalid
         if(!player.is_valid() || player == null)
         {

@@ -425,7 +425,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     }
 
 
-    static Warden warden = new Warden();
-    static LastRequest lr = new LastRequest();
-    static SpecialDay sd = new SpecialDay();
+    public static Warden warden = new Warden();
+    public static LastRequest lr = new LastRequest();
+    public static SpecialDay sd = new SpecialDay();
 }

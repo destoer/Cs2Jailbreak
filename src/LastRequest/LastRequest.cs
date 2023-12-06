@@ -550,7 +550,7 @@ public class LastRequest
         return null;
     }
 
-    bool in_lr(CCSPlayerController? player)
+    public bool in_lr(CCSPlayerController? player)
     {
         return find_lr(player) != null;        
     }
