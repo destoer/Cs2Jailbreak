@@ -30,7 +30,7 @@ public abstract class LRBase
         slot = lr_slot;
         player_slot = actor_slot;
         choice = lr_choice;
-        lr_name = LastRequest.LR_NAME[(int)type];
+        lr_name = LastRequest.LR_NAME[(int)lr_type];
         type = lr_type;
 
         // while lr is pending damage is off
@@ -245,6 +245,8 @@ public abstract class LRBase
     public virtual void ent_created(String name) {}
 
     public virtual void grenade_thrown() {}
+
+    public virtual void weapon_zoom() {}
 
     public String lr_name = "";
 

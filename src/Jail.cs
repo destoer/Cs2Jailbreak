@@ -188,6 +188,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         RegisterEventHandler<EventItemEquip>(OnItemEquip);
         RegisterEventHandler<EventGrenadeThrown>(OnGrenadeThrown);
         RegisterEventHandler<EventPlayerHurt>(OnPlayerHurt);
+        RegisterEventHandler<EventWeaponZoom>(OnWeaponZoom);
         VirtualFunctions.CBaseEntity_TakeDamageOldFunc.Hook(OnTakeDamage,HookMode.Pre);
         
 
@@ -212,6 +213,17 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         return HookResult.Continue;
     }
   
+    HookResult OnWeaponZoom(EventWeaponZoom @event, GameEventInfo info)
+    {
+        CCSPlayerController? player = @event.Userid;
+
+        if(player != null && player.is_valid())
+        {
+            lr.weapon_zoom(player);
+        }
+
+        return HookResult.Continue;
+    }
 
     HookResult OnItemEquip(EventItemEquip @event, GameEventInfo info)
     {

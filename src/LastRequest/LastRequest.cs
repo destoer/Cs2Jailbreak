@@ -205,6 +205,13 @@ public class LastRequest
                 break;              
             }
 
+            case LRType.NO_SCOPE:
+            {
+                t_lr = new LRNoScope(this,choice.type,slot,choice.t_slot,choice.option);
+                ct_lr = new LRNoScope(this,choice.type,slot,choice.ct_slot,choice.option);
+                break;                 
+            }
+
             case LRType.NONE:
             {
                 return;
@@ -406,6 +413,18 @@ public class LastRequest
                 }
             }    
         }
+    }
+
+    // couldnt get pulling the owner from the projectile ent working
+    // so instead we opt for this
+    public void weapon_zoom(CCSPlayerController? player)
+    {
+        LRBase? lr = find_lr(player);
+
+        if(lr != null)
+        {
+            lr.weapon_zoom();
+        }       
     }
 
     // couldnt get pulling the owner from the projectile ent working
@@ -635,6 +654,17 @@ public class LastRequest
 
                 ChatMenus.OpenMenu(player, lr_menu);
                 break;
+            }
+
+            case LRType.NO_SCOPE:
+            {
+                var lr_menu = new ChatMenu("Choice Menu");
+
+                lr_menu.AddMenuOption("Awp", picked_option);
+                lr_menu.AddMenuOption("Scout", picked_option);
+
+                ChatMenus.OpenMenu(player, lr_menu);
+                break;                
             }
 
             case LRType.GRENADE:
@@ -953,6 +983,7 @@ public class LastRequest
         KNIFE,
         GUN_TOSS,
         DODGEBALL,
+        NO_SCOPE,
         GRENADE,
         SHOTGUN_WAR,
         RUSSIAN_ROULETTE,
@@ -967,6 +998,7 @@ public class LastRequest
         "Knife Fight",
         "Gun toss",
         "Dodgeball",
+        "No Scope",
         "Grenade",
         "Shotgun war",
         "Russian roulette",
@@ -977,7 +1009,7 @@ public class LastRequest
         "None",
     };
 
-    static public readonly int LR_SIZE = 9;
+    static public readonly int LR_SIZE = 10;
 
     // Selection for LR
     internal class LRChoice
