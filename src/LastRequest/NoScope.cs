@@ -55,6 +55,7 @@ public class LRNoScope : LRBase
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
 
+        // re give the weapons so they cannot zoom
         give_weapon(player);
     }
 }

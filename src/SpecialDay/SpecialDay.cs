@@ -35,6 +35,8 @@ public class SpecialDay
             {
                 Lib.announce(SPECIALDAY_PREFIX,"Special day cancelled");
             }  
+
+            team_save.restore();
         }     
     }
 
@@ -77,6 +79,13 @@ public class SpecialDay
                 active_sd = new SDJuggernaut();
                 type = SDType.JUGGERNAUT;
                 break;             
+            }
+
+            case "Tank":
+            {
+                active_sd = new SDTank();
+                type = SDType.TANK;
+                break;                          
             }
 
             case "Scout knife":
@@ -137,6 +146,8 @@ public class SpecialDay
         {
             countdown.start($"{name} specialday",15,0,null,start_sd);
         }
+
+        team_save.save();
     }
 
     public void weapon_equip(CCSPlayerController? player,String name) 
@@ -155,6 +166,20 @@ public class SpecialDay
             }
         }
     }
+
+    public void disconnect(CCSPlayerController? player)
+    {
+        if(player == null || !player.is_valid())
+        {
+            return;
+        }
+
+        if(active_sd != null)
+        {
+            active_sd.disconnect(player);
+        }
+    }
+
 
     public void grenade_thrown(CCSPlayerController? player)
     {
@@ -262,6 +287,7 @@ public class SpecialDay
     {
         FREIENDLY_FIRE,
         JUGGERNAUT,
+        TANK,
         DODGEBALL,
         GRENADE,
         SCOUT_KNIFE,
@@ -275,6 +301,7 @@ public class SpecialDay
     static String[] SD_NAME = {
         "Friendly fire",
         "Juggernaut",
+        "Tank",
         "Dodgeball",
         "Grenade",
         "Scout knife",
@@ -290,4 +317,6 @@ public class SpecialDay
     Countdown<int> countdown = new Countdown<int>();
 
     SDType type = SDType.NONE;
+
+    TeamSave team_save = new TeamSave();
 };

@@ -12,6 +12,7 @@ using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CSTimer = CounterStrikeSharp.API.Modules.Timers;
+using System.Drawing;
 
 public abstract class SDBase
 {
@@ -43,12 +44,63 @@ public abstract class SDBase
         start();
     }
 
+    // NOTE: this will be recalled by the disconnect function if the boss dc's
+    public virtual void make_boss(CCSPlayerController? tank, int count)
+    {
+
+    }
+
+    public (CCSPlayerController, int) pick_boss()
+    {
+        // get valid players
+        List<CCSPlayerController> players = Utilities.GetPlayers();
+        var valid = players.FindAll(player => player.is_valid_alive());
+
+        // override pick
+        if(rigged != null)
+        {
+            var player = rigged;
+            rigged = null;
+            return (player,valid.Count);
+        }
+
+        // pick one back at random
+        Random rnd = new Random((int)DateTime.Now.Ticks);
+
+        int boss = rnd.Next(0,valid.Count);
+
+        return (valid[boss],valid.Count);
+    }
+
+    
+    public void disconnect(CCSPlayerController? player)
+    {
+        if(player == null || !player.is_valid())
+        {
+            return;
+        }
+
+        // player has dced re roll the boss if we have one
+        if(player.slot() == boss.slot())
+        {
+            (CCSPlayerController boss, int count) = pick_boss();
+
+            make_boss(boss,count);
+        }
+    }
+
     public void end_common()
     {
         state = SDState.INACTIVE;
         end();
 
         Lib.disable_friendly_fire();
+
+        // reset the boss colour
+        if(boss != null && boss.is_valid_alive())
+        {
+            boss.set_colour(Color.FromArgb(255, 255, 255, 255));
+        }
 
         cleanup_players();
     }
@@ -104,6 +156,9 @@ public abstract class SDBase
         STARTED,
         ACTIVE
     };
+
+    public CCSPlayerController? boss = null;
+    public CCSPlayerController? rigged = null;
 
     public bool restrict_damage = false;
     public String weapon_restrict = "";

@@ -490,7 +490,7 @@ public class Warden
 
         // team has changed between active
         // make sure the player cannot just switch teams in a spawn
-        if(old_team != team && Lib.active_team(old_team) && Lib.active_team(team))
+        if(old_team != team && Lib.is_active_team(old_team) && Lib.is_active_team(team))
         {
             invoke.slay();
 

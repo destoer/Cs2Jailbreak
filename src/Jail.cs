@@ -398,6 +398,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         {
             warden.disconnect(player);
             lr.disconnect(player);
+            sd.disconnect(player);
         }
 
         return HookResult.Continue;

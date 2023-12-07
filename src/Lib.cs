@@ -603,6 +603,13 @@ public static class Lib
 
     static public void gun_menu(this CCSPlayerController? player, bool no_awp)
     {
+        // give bots some test guns
+        if(player != null && player.is_valid_alive() && player.IsBot)
+        {
+            player.GiveNamedItem("weapon_ak47");
+            player.GiveNamedItem("weapon_deagle");
+        }
+
         gun_menu_internal(player,no_awp,give_menu_weapon);
     }
 
@@ -635,6 +642,18 @@ public static class Lib
         if(ff != null)
         {
             ff.SetValue(false);
+        }
+    }
+
+    static public void swap_all_t()
+    {
+        // get valid players
+        List<CCSPlayerController> players = Utilities.GetPlayers();
+        var valid = players.FindAll(player => player.is_valid_alive());
+
+        foreach(var player in valid)
+        {
+            player.SwitchTeam(CsTeam.Terrorist);
         }
     }
 
@@ -742,7 +761,7 @@ public static class Lib
         */
     }
 
-    static public bool active_team(int team)
+    static public bool is_active_team(int team)
     {
         return (team == Lib.TEAM_T || team == Lib.TEAM_CT);
     }
@@ -770,7 +789,7 @@ public static class Lib
 
 
     public static readonly Color CYAN = Color.FromArgb(255, 153, 255, 255);
-
+    public static readonly Color RED = Color.FromArgb(255, 255, 0, 0);
 
     static ConVar? block_cvar = ConVar.Find("mp_solid_teammates");
     static ConVar? ff = ConVar.Find("mp_teammates_are_enemies");
