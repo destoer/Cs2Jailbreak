@@ -251,7 +251,7 @@ public static class Lib
 
         if(pawn != null)
         {
-            pawn.Speed = value;
+            pawn.VelocityModifier = value;
         }
     }
 
@@ -560,7 +560,7 @@ public static class Lib
             return;
         }
 
-        strip_weapons(player);
+        player.strip_weapons();
 
         player.GiveNamedItem("weapon_" + option.Text);
         player.GiveNamedItem("weapon_deagle");

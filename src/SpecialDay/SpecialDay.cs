@@ -14,6 +14,13 @@ using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 using CounterStrikeSharp.API.Modules.Admin;
 
+public enum SDState
+{
+    INACTIVE,
+    STARTED,
+    ACTIVE
+};
+
 // TODO: this will be done after lr and warden
 // are in a decent state as its just an extra, and should 
 // not take too long to port from css
@@ -116,6 +123,13 @@ public class SpecialDay
                 break;             
             }
 
+            case "Spectre":
+            {
+                active_sd = new SDSpectre();
+                type = SDType.SPECTRE;
+                break;                            
+            }
+
             case "Grenade":
             {
                 active_sd = new SDGrenade();
@@ -159,8 +173,8 @@ public class SpecialDay
 
         if(active_sd != null)
         {
-            // weapon equip not valid reset the player state
-            if(!active_sd.weapon_equip(name))
+            // weapon equip not valid drop the weapons
+            if(!active_sd.weapon_equip(player,name))
             {
                 active_sd.setup_player(player);
             }
@@ -267,6 +281,21 @@ public class SpecialDay
     }
 
 
+    [RequiresPermissions("@jail/debug")]
+    public void sd_rig_cmd(CCSPlayerController? player,CommandInfo command)
+    {
+        if(player == null || !player.is_valid())
+        {
+            return;
+        }
+
+        if(active_sd != null && active_sd.state == SDState.STARTED)
+        {
+            player.PrintToChat($"Rigged sd boss to {player.PlayerName}");
+            active_sd.rigged = player;
+        }
+    }   
+
     [RequiresPermissions("@css/generic")]
     public void sd_cmd(CCSPlayerController? player,CommandInfo command)
     {
@@ -288,6 +317,7 @@ public class SpecialDay
         FREIENDLY_FIRE,
         JUGGERNAUT,
         TANK,
+        SPECTRE,
         DODGEBALL,
         GRENADE,
         SCOUT_KNIFE,
@@ -302,6 +332,7 @@ public class SpecialDay
         "Friendly fire",
         "Juggernaut",
         "Tank",
+        "Spectre",
         "Dodgeball",
         "Grenade",
         "Scout knife",

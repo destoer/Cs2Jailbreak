@@ -170,6 +170,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
             AddCommand("test_strip","test weapon strip",Debug.test_strip_cmd);
             AddCommand("join_ct_debug","debug : force join ct",Debug.join_ct_cmd);
             AddCommand("hide_weapon_debug","debug : hide player weapon on back",Debug.hide_weapon_cmd);
+            AddCommand("rig","debug : force player to boss on sd",sd.sd_rig_cmd);
         }
     }
 

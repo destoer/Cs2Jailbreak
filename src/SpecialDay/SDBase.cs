@@ -30,7 +30,7 @@ public abstract class SDBase
         // revive all dead players
 
 
-        state = SDState.INACTIVE;
+        state = SDState.STARTED;
         setup();
 
         setup_players();
@@ -99,13 +99,19 @@ public abstract class SDBase
         // reset the boss colour
         if(boss != null && boss.is_valid_alive())
         {
+            boss.set_velocity(1.0f);
             boss.set_colour(Color.FromArgb(255, 255, 255, 255));
         }
 
         cleanup_players();
     }
 
-    public virtual bool weapon_equip(String name) 
+    public bool is_boss(CCSPlayerController? player)
+    {
+        return boss.slot() != null && player.slot() == boss.slot();
+    }
+
+    public virtual bool weapon_equip(CCSPlayerController player, String name) 
     {
         return weapon_restrict == "" || name.Contains(weapon_restrict); 
     }
@@ -149,13 +155,6 @@ public abstract class SDBase
     {
         Lib.announce(SpecialDay.SPECIALDAY_PREFIX,str);
     }
-
-    public enum SDState
-    {
-        INACTIVE,
-        STARTED,
-        ACTIVE
-    };
 
     public CCSPlayerController? boss = null;
     public CCSPlayerController? rigged = null;

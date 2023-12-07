@@ -36,5 +36,5 @@ Add beacons
 # SD TODO
 Waiting on player colour and respawn issues fixed for these
 
-Tank, Hide and Seek, Zombie 
-Gun game, Spectre, Laser wars
+Hide and Seek, Zombie 
+Gun game, Laser wars
