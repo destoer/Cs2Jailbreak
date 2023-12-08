@@ -186,7 +186,7 @@ public static class Lib
         return pawn.Health;
     }
 
-    static public void give_weapon_delay(CCSPlayerController? player,float delay, String name)
+    static public void give_event_nade_delay(CCSPlayerController? player,float delay, String name)
     {
         if(JailPlugin.global_ctx == null)
         {
@@ -197,6 +197,7 @@ public static class Lib
         {
             if(player != null && player.is_valid_alive())
             {
+                player.strip_weapons(true);
                 player.GiveNamedItem(name);
             }
         });

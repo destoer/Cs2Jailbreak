@@ -41,6 +41,6 @@ public class SDGrenade : SDBase
 
     public override void grenade_thrown(CCSPlayerController? player)
     {
-        Lib.give_weapon_delay(player,1.4f,"weapon_hegrenade");
+        Lib.give_event_nade_delay(player,1.4f,"weapon_hegrenade");
     }
 }

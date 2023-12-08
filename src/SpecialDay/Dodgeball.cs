@@ -40,7 +40,7 @@ public class SDDodgeball : SDBase
 
     public override void grenade_thrown(CCSPlayerController? player)
     {
-        Lib.give_weapon_delay(player,1.4f,"weapon_flashbang");
+        Lib.give_event_nade_delay(player,1.4f,"weapon_flashbang");
     }
 
     public override void player_hurt(CCSPlayerController? player,int damage, int health, int hitgroup)
