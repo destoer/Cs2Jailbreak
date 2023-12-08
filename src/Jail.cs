@@ -198,8 +198,29 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         RegisterEventHandler<EventWeaponZoom>(OnWeaponZoom);
         VirtualFunctions.CBaseEntity_TakeDamageOldFunc.Hook(OnTakeDamage,HookMode.Pre);
         
+        HookEntityOutput("func_button", "OnPressed", OnButtonPressed);
+        
 
         // TODO: need to hook weapon drop
+    }
+
+    // button log
+    HookResult OnButtonPressed(CEntityIOOutput output, String name, CEntityInstance activator, CEntityInstance caller, CVariant value, float delay)
+    {
+        // implement button log
+
+        CCSPlayerController? player = activator.player();
+
+        // grab player controller from pawn
+        CBaseEntity? ent =  Utilities.GetEntityFromIndex<CBaseEntity>((int)caller.Index);
+
+        if(player != null && player.is_valid() && ent != null && ent.IsValid)
+        {
+            // why is the entity name this?
+            Lib.print_console_all($"{player.PlayerName} pressed button '{ent.Entity?.Name}'",true);
+        }
+
+        return HookResult.Continue;
     }
 
     public override void Unload(bool hotReload)

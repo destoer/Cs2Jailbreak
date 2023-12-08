@@ -104,13 +104,18 @@ public static class Lib
         }
     }
 
-    static public void print_console_all(String str)
+    static public void print_console_all(String str, bool admin_only = false)
     {
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
             if(!player.is_valid())
             {
                 continue;
+            }
+
+            if(admin_only && !player.is_generic_admin())
+            {
+                return;
             }
 
             player.PrintToConsole(str);
