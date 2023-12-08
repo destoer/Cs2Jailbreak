@@ -207,8 +207,6 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     // button log
     HookResult OnButtonPressed(CEntityIOOutput output, String name, CEntityInstance activator, CEntityInstance caller, CVariant value, float delay)
     {
-        // implement button log
-
         CCSPlayerController? player = activator.player();
 
         // grab player controller from pawn
