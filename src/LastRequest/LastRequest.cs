@@ -846,7 +846,7 @@ public class LastRequest
         {
             if(player != null && player.is_valid() && !player.is_valid_alive())
             {
-                //Server.PrintToChatAll($"Respawn {player.PlayerName}");
+                Server.PrintToChatAll($"Respawn {player.PlayerName}");
                 player.Respawn();
             }
         }
@@ -907,11 +907,12 @@ public class LastRequest
         {
             lr_menu.AddMenuOption("Knife rebel",start_knife_rebel);
             lr_menu.AddMenuOption("Rebel",start_rebel);
-
+        /*
             if(config.riot_enable)
             {
                 lr_menu.AddMenuOption("Riot",start_riot);
             }
+        */
         }
 
         ChatMenus.OpenMenu(player, lr_menu);

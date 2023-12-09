@@ -407,95 +407,45 @@ public class Warden
 
     static readonly String TEAM_PREFIX = $" {ChatColors.Green}[TEAM]: {ChatColors.White}";
     
-    public void join_team(CCSPlayerController? invoke, CommandInfo command)
+    public bool join_team(CCSPlayerController? invoke, CommandInfo command)
     {
         if(invoke == null || !invoke.is_valid())
         {
-            return;
+            return true;
         }
 
         if(command.ArgCount != 3)
         {
-            invoke.SwitchTeam(CsTeam.Terrorist);
-            invoke.announce(TEAM_PREFIX,"You cannot join that team");
-            return;
+            return true;
         }
 
         CCSPlayerPawn? pawn = invoke.pawn(); 
 
-        int old_team = -1;
-
-        if(pawn != null)
-        {
-            old_team = pawn.TeamNum;
-        }
-
 
         if(!Int32.TryParse(command.ArgByIndex(1),out int team))
         {
-            return;
+            return true;
         }
 
-        switch(team)
+
+        if(team == Lib.TEAM_CT)
         {
-            case Lib.TEAM_CT:
+            int ct_count = Lib.ct_count();
+            int t_count = Lib.t_count();
+
+            // check CT aint full 
+            // i.e at a suitable raito or either team is empty
+            if((ct_count * config.bal_guards) > t_count && ct_count != 0 && t_count != 0)
             {
-                int ct_count = Lib.ct_count();
-                int t_count = Lib.t_count();
-
-                // check CT aint full 
-                // i.e at a suitable raito or either team is empty
-                if((ct_count * config.bal_guards) < t_count || ct_count == 0 || t_count == 0)
-                {
-                    invoke.SwitchTeam(CsTeam.CounterTerrorist);
-                }
-
-                // switch to T
-                else
-                {
-                    invoke.SwitchTeam(CsTeam.Terrorist);
-                    invoke.announce(TEAM_PREFIX,$"Sorry, CT has too many players {config.bal_guards}:1 ratio maximum");
-                    invoke.play_sound("sounds/ui/counter_beep.vsnd");
-
-                    // update to actual switch
-                    team = Lib.TEAM_T;
-                }
-                
-                break;
-            }
-
-            case Lib.TEAM_T:
-            {
-                invoke.SwitchTeam(CsTeam.Terrorist);
-                break;
-            }
-
-            // spec
-            case Lib.TEAM_SPEC:
-            {
-                invoke.SwitchTeam(CsTeam.Spectator);
-                break;
-            }
-
-            default:
-            {
-                invoke.SwitchTeam(CsTeam.Terrorist);
-                invoke.announce(TEAM_PREFIX,"You cannot join that team");
+                invoke.announce(TEAM_PREFIX,$"Sorry, CT has too many players {config.bal_guards}:1 ratio maximum");
                 invoke.play_sound("sounds/ui/counter_beep.vsnd");
-                break;
+                return false;
             }
+
         }
 
-        bool alive = invoke.is_valid_alive();
 
-        // team has changed between active
-        // make sure the player cannot just switch teams in a spawn
-        if(old_team != team && Lib.is_active_team(old_team) && Lib.is_active_team(team))
-        {
-            invoke.slay();
-
-            Lib.respawn_delay(invoke,1.0f);
-        }
+        return true;
     }
 
 

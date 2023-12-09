@@ -156,7 +156,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         AddCommand("sd_ff","start a ff sd",sd.sd_ff_cmd);
         AddCommand("cancel_sd","cancel an sd",sd.cancel_sd_cmd);
 
-        AddCommand("jointeam","boop",join_team);
+        AddCommandListener("jointeam",join_team);
 
         // debug 
         if(Debug.enable)
@@ -174,17 +174,23 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         }
     }
 
-    public void join_team(CCSPlayerController? invoke, CommandInfo command)
+    public HookResult join_team(CCSPlayerController? invoke, CommandInfo command)
     {
         lr.lr_stats.connect(invoke);
-        warden.join_team(invoke,command);
+        
+        if(!warden.join_team(invoke,command))
+        {
+            return HookResult.Stop;
+        }
+
+        return HookResult.Continue;
     }
 
     
     void register_hook()
     {
         RegisterEventHandler<EventRoundStart>(OnRoundStart);
-        RegisterEventHandler<EventRoundEnd>(OnRoundEnd);
+        RegisterEventHandler<EventRoundEnd>(OnRoundEnd,HookMode.Pre);
         RegisterEventHandler<EventWeaponFire>(OnWeaponFire);
         RegisterEventHandler<EventPlayerSpawn>(OnPlayerSpawn);
         RegisterEventHandler<EventPlayerDisconnect>(OnPlayerDisconnect);
@@ -215,7 +221,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         if(player != null && player.is_valid() && ent != null && ent.IsValid)
         {
             // why is the entity name this?
-            Lib.print_console_all($"{player.PlayerName} pressed button '{ent.Entity?.Name}'",true);
+            Lib.print_console_all($"{player.PlayerName} pressed button '{ent.Target}' '{ent.Entity?.Name}'",true);
         }
 
         return HookResult.Continue;
