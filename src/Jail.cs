@@ -13,8 +13,8 @@ using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 using CounterStrikeSharp.API.Modules.Memory.DynamicFunctions;
+using System.Text.Json.Serialization;
 
-﻿using System.Text.Json.Serialization;
 public class JailConfig : BasePluginConfig
 {
     [JsonPropertyName("username")]
@@ -32,6 +32,15 @@ public class JailConfig : BasePluginConfig
     [JsonPropertyName("database")]
     public String database { get; set; } = "cs2_jail";
 
+    [JsonPropertyName("ct_guns")]
+    public bool ct_guns { get; set; } = true;
+
+    [JsonPropertyName("ct_gun_menu")]
+    public bool ct_gun_menu { get; set; } = true;
+
+    [JsonPropertyName("ct_armour")]
+    public bool ct_armour { get; set; } = true;
+
     // ratio of t to CT
     [JsonPropertyName("bal_guards")]
     public int bal_guards { get; set; } = 0;
@@ -41,6 +50,39 @@ public class JailConfig : BasePluginConfig
 
     [JsonPropertyName("hide_kills")]
     public bool hide_kills { get; set; } = false;
+
+    [JsonPropertyName("lr_knife")]
+    public bool lr_knife { get; set; } = true;
+
+    [JsonPropertyName("lr_gun_toss")]
+    public bool lr_gun_toss { get; set; } = true;
+
+    [JsonPropertyName("lr_dodgeball")]
+    public bool lr_dodgeball { get; set; } = true;
+
+    [JsonPropertyName("lr_no_scope")]
+    public bool lr_no_scope { get; set; } = true;
+
+    [JsonPropertyName("lr_shotgun_war")]
+    public bool lr_shotgun_war { get; set; } = true;
+
+    [JsonPropertyName("lr_grenade")]
+    public bool lr_grenade { get; set; } = true;
+
+    [JsonPropertyName("lr_russian_roulette")]
+    public bool lr_russian_roulette { get; set; } = true;
+
+    [JsonPropertyName("lr_scout_knife")]
+    public bool lr_scout_knife { get; set; } = true;
+
+    [JsonPropertyName("lr_headshot_only")]
+    public bool lr_headshot_only { get; set; } = true;
+
+    [JsonPropertyName("lr_shot_for_shot")]
+    public bool lr_shot_for_shot { get; set; } = true;
+
+    [JsonPropertyName("lr_mag_for_mag")]
+    public bool lr_mag_for_mag { get; set; } = true;
 }
 
 // main plugin file, controls central hooking
@@ -94,7 +136,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public override string ModuleName => "CS2 Jailbreak - destoer";
 
-    public override string ModuleVersion => "v0.1.6";
+    public override string ModuleVersion => "v0.2.2";
 
     public override void Load(bool hotReload)
     {

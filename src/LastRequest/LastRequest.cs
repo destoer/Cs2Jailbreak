@@ -877,6 +877,13 @@ public class LastRequest
         }
     }
 
+    public void add_lr(ChatMenu menu, bool cond, LRType type)
+    {
+        if(cond)
+        {
+            menu.AddMenuOption(LR_NAME[(int)type],pick_option);
+        }
+    }
 
     public void lr_cmd_internal(CCSPlayerController? player,bool bypass, CommandInfo command)
     {
@@ -896,12 +903,19 @@ public class LastRequest
 
         var lr_menu = new ChatMenu("LR Menu");
 
-        // Build the basic LR menu
-        for(int t = 0; t < LR_NAME.Length - 1; t++)
-        {
-            lr_menu.AddMenuOption(LR_NAME[t], pick_option);
-        }
-        
+        add_lr(lr_menu,config.lr_knife,LRType.KNIFE);
+        add_lr(lr_menu,config.lr_gun_toss,LRType.GUN_TOSS);
+        add_lr(lr_menu,config.lr_dodgeball,LRType.DODGEBALL);
+        add_lr(lr_menu,config.lr_no_scope,LRType.NO_SCOPE);
+        add_lr(lr_menu,config.lr_grenade,LRType.GRENADE);
+        add_lr(lr_menu,config.lr_shotgun_war,LRType.SHOTGUN_WAR);
+        add_lr(lr_menu,config.lr_russian_roulette,LRType.RUSSIAN_ROULETTE);
+        add_lr(lr_menu,config.lr_scout_knife,LRType.SCOUT_KNIFE);
+        add_lr(lr_menu,config.lr_headshot_only,LRType.HEADSHOT_ONLY);
+        add_lr(lr_menu,config.lr_shot_for_shot,LRType.SHOT_FOR_SHOT);
+        add_lr(lr_menu,config.lr_mag_for_mag,LRType.MAG_FOR_MAG);
+
+
         // rebel
         if(can_rebel())
         {

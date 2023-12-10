@@ -346,9 +346,16 @@ public class Warden
 
             if(player.is_ct())
             {
-                player.GiveNamedItem("weapon_deagle");
-                player.GiveNamedItem("weapon_m4a1");  
-                player.GiveNamedItem("item_assaultsuit");
+                if(config.ct_guns)
+                {
+                    player.GiveNamedItem("weapon_deagle");
+                    player.GiveNamedItem("weapon_m4a1");
+                }
+
+                if(config.ct_armour)
+                {  
+                    player.GiveNamedItem("item_assaultsuit");
+                }
             }
         }
     }
@@ -458,10 +465,14 @@ public class Warden
 
         player.strip_weapons();
 
+
         player.GiveNamedItem("weapon_" + option.Text);
         player.GiveNamedItem("weapon_deagle");
 
-        player.GiveNamedItem("item_assaultsuit");
+        if(config.ct_armour)
+        {
+            player.GiveNamedItem("item_assaultsuit");
+        }
     }
 
     public void cmd_ct_guns(CCSPlayerController? player, CommandInfo command)
@@ -474,6 +485,12 @@ public class Warden
         if(!player.is_ct())
         {
             player.announce(WARDEN_PREFIX,"You must be a ct to use the gun menu!");
+            return;
+        }
+
+        if(!config.ct_gun_menu)
+        {
+            player.announce(WARDEN_PREFIX,"Gun menu is disabled!");
             return;
         }
 

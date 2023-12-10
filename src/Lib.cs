@@ -193,22 +193,12 @@ public static class Lib
 
     static public void freeze(this CCSPlayerController? player)
     {
-        CCSPlayerPawn? pawn = player.pawn();
-
-        if(pawn != null)
-        {
-            pawn.PlayerLocked = 1;
-        }
+        player.set_movetype(MoveType_t.MOVETYPE_NONE);
     }
 
     static public void unfreeze(this CCSPlayerController? player)
     {
-        CCSPlayerPawn? pawn = player.pawn();
-
-        if(pawn != null)
-        {
-            pawn.PlayerLocked = 0;
-        }
+        player.set_movetype(MoveType_t.MOVETYPE_WALK);
     }
 
     static public void give_event_nade_delay(CCSPlayerController? target,float delay, String name)
