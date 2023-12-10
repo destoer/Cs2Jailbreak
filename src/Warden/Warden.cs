@@ -435,24 +435,40 @@ public class Warden
         }
 
 
-        if(team == Lib.TEAM_CT)
+        switch(team)
         {
-            int ct_count = Lib.ct_count();
-            int t_count = Lib.t_count();
-
-            // check CT aint full 
-            // i.e at a suitable raito or either team is empty
-            if((ct_count * config.bal_guards) > t_count && ct_count != 0 && t_count != 0)
+            case Lib.TEAM_CT:
             {
-                invoke.announce(TEAM_PREFIX,$"Sorry, CT has too many players {config.bal_guards}:1 ratio maximum");
-                invoke.play_sound("sounds/ui/counter_beep.vsnd");
-                return false;
+                int ct_count = Lib.ct_count();
+                int t_count = Lib.t_count();
+
+                // check CT aint full 
+                // i.e at a suitable raito or either team is empty
+                if((ct_count * config.bal_guards) > t_count && ct_count != 0 && t_count != 0)
+                {
+                    invoke.announce(TEAM_PREFIX,$"Sorry, CT has too many players {config.bal_guards}:1 ratio maximum");
+                    invoke.play_sound("sounds/ui/counter_beep.vsnd");
+                    return false;
+                }
+
+                return true;         
             }
 
+            case Lib.TEAM_T:
+            {
+                return true;
+            }
+
+            case Lib.TEAM_SPEC:
+            {
+                return true;
+            }
+
+            default:
+            {
+                return false;
+            }
         }
-
-
-        return true;
     }
 
 

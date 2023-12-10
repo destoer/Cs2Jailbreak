@@ -228,11 +228,6 @@ public static class Lib
 
     static public void remove_ent_delay(CEntityInstance entity, float delay, String name)
     {
-        if(JailPlugin.global_ctx == null)
-        {
-            return;
-        }
-
         // remove projectile
         if(entity.DesignerName == name)
         {
