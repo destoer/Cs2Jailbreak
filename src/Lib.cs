@@ -581,7 +581,7 @@ public static class Lib
 
         player.strip_weapons();
 
-        player.GiveNamedItem("weapon_" + option.Text);
+        player.GiveNamedItem("weapon_" + gun_give_name(option.Text));
         player.GiveNamedItem("weapon_deagle");
 
         player.GiveNamedItem("item_assaultsuit");
@@ -595,7 +595,29 @@ public static class Lib
         "famas", "xm1014","ssg08","awp"
         
     };
+
+    static String[] GUN_NAMES = 
+    {
+        "AK47","M4","M3","P90","M249","MP5",
+        "FAL","SG556","BIZON","AUG",
+        "FAMAS","XM1014","SCOUT","AWP"
+    };
+
     
+    public static String gun_give_name(String name)
+    {
+        // TODO: a linear scan shouldn't matter on a list this small
+        for(int i = 0; i < GUN_NAMES.Count(); i++)
+        {
+            if(name == GUN_NAMES[i])
+            {
+                return GUN_LIST[i];
+            }
+        }
+
+        return "";
+    }
+
     static public void gun_menu_internal(this CCSPlayerController? player, bool no_awp, Action<CCSPlayerController, ChatMenuOption> callback)
     {
         // player must be alive and active!
@@ -607,7 +629,7 @@ public static class Lib
     
         var gun_menu = new ChatMenu("Gun Menu");
 
-        foreach(var weapon_name in GUN_LIST)
+        foreach(var weapon_name in GUN_NAMES)
         {
             if(no_awp && weapon_name == "awp")
             {

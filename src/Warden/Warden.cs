@@ -466,7 +466,7 @@ public class Warden
         player.strip_weapons();
 
 
-        player.GiveNamedItem("weapon_" + option.Text);
+        player.GiveNamedItem("weapon_" + Lib.gun_give_name(option.Text));
         player.GiveNamedItem("weapon_deagle");
 
         if(config.ct_armour)
