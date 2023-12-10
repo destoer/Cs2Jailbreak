@@ -58,3 +58,5 @@ https://github.com/DeadSwimek/cs2-ctban
 Call admin
 https://github.com/1Mack/CS2-CallAdmin
 
+Roll the dice
+https://github.com/Quantor97/CS2-RollTheDice-Plugin
