@@ -48,3 +48,13 @@ Add beacons
 Waiting on player colour and respawn issues fixed for these
 
 Zombie, Gun game, Laser wars
+
+
+# Useful thirdparty plugins for jailbreak
+
+CT Bans
+https://github.com/DeadSwimek/cs2-ctban
+
+Call admin
+https://github.com/1Mack/CS2-CallAdmin
+
