@@ -191,19 +191,47 @@ public static class Lib
         return pawn.Health;
     }
 
-    static public void give_event_nade_delay(CCSPlayerController? player,float delay, String name)
+    static public void freeze(this CCSPlayerController? player)
+    {
+        CCSPlayerPawn? pawn = player.pawn();
+
+        if(pawn != null)
+        {
+            pawn.PlayerLocked = 1;
+        }
+    }
+
+    static public void unfreeze(this CCSPlayerController? player)
+    {
+        CCSPlayerPawn? pawn = player.pawn();
+
+        if(pawn != null)
+        {
+            pawn.PlayerLocked = 0;
+        }
+    }
+
+    static public void give_event_nade_delay(CCSPlayerController? target,float delay, String name)
     {
         if(JailPlugin.global_ctx == null)
         {
             return;
         }
 
+        int? slot = target.slot();
+
         JailPlugin.global_ctx.AddTimer(delay,() => 
         {
-            if(player != null && player.is_valid_alive())
+            if(slot != null)
             {
-                player.strip_weapons(true);
-                player.GiveNamedItem(name);
+                CCSPlayerController? player = Utilities.GetPlayerFromSlot(slot.Value);
+
+                if(player != null && player.is_valid_alive())
+                {
+                    Server.PrintToChatAll("give nade");
+                    player.strip_weapons(true);
+                    player.GiveNamedItem(name);
+                }
             }
         });
     }
@@ -218,13 +246,17 @@ public static class Lib
         // remove projectile
         if(entity.DesignerName == name)
         {
+            int index = (int)entity.Index;
+
             if(JailPlugin.global_ctx != null)
             {
                 JailPlugin.global_ctx.AddTimer(delay,() => 
                 {
-                    if(entity.IsValid)
+                    CBaseEntity? grenade = Utilities.GetEntityFromIndex<CBaseEntity>(index);
+
+                    if(grenade != null && grenade.DesignerName == name)
                     {
-                        entity.Remove();
+                        grenade.Remove();
                     }
                 });
             }
@@ -342,16 +374,7 @@ public static class Lib
         laser.DispatchSpawn(); 
 
         // create a timer to remove it
-        if(JailPlugin.global_ctx != null)
-        {
-            JailPlugin.global_ctx.AddTimer(life,() => 
-            {
-                if(laser.IsValid)
-                {
-                    laser.Remove();
-                }
-            });
-        }
+        remove_ent_delay(laser,life,"env_beam");
     }
 
     static public void play_sound(this CCSPlayerController? player, String sound)

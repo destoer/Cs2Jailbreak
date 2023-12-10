@@ -220,8 +220,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         if(player != null && player.is_valid() && ent != null && ent.IsValid)
         {
-            // why is the entity name this?
-            Lib.print_console_all($"{player.PlayerName} pressed button '{ent.Target}' '{ent.Entity?.Name}'",true);
+            Lib.print_console_all($"{player.PlayerName} pressed button '{ent.Entity?.Name}' -> '{output?.Connections?.TargetDesc}'",true);
         }
 
         return HookResult.Continue;
@@ -376,15 +375,16 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         if(player != null && player.is_valid())
         {
-            if(Lib.is_windows())
+            int? slot = player.slot();
+
+            AddTimer(0.5f,() =>  
             {
-                warden.spawn(player);
-            }
+                if(slot != null)
+                {
+                    warden.spawn(Utilities.GetPlayerFromSlot(slot.Value));
+                }
+            });
             
-            else
-            {
-                AddTimer(0.5f,() => warden.spawn(player));
-            }
         }
 
         return HookResult.Continue;

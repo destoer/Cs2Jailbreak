@@ -49,6 +49,7 @@ public class LRGrenade : LRBase
     public override void grenade_thrown()
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
+        player.strip_weapons(true);
         Lib.give_event_nade_delay(player,1.4f,"weapon_hegrenade");
     }
 }

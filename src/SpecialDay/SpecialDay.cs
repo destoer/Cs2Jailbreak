@@ -116,6 +116,13 @@ public class SpecialDay
                 break;             
             }
 
+            case "Hide and seek":
+            {
+                active_sd = new SDHideAndSeek();
+                type = SDType.HIDE_AND_SEEK;
+                break;               
+            }
+
             case "Dodgeball":
             {
                 active_sd = new SDDodgeball();
@@ -321,6 +328,7 @@ public class SpecialDay
         DODGEBALL,
         GRENADE,
         SCOUT_KNIFE,
+        HIDE_AND_SEEK,
         HEADSHOT_ONLY,
         KNIFE_WARDAY,
         NONE
@@ -336,6 +344,7 @@ public class SpecialDay
         "Dodgeball",
         "Grenade",
         "Scout knife",
+        "Hide and seek",
         "Headshot only",
         "Knife warday",
         "None"
