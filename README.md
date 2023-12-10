@@ -26,8 +26,6 @@ Warden Laser and T laser
 
 Muting 
 
-Config 
-
 Auto unstuck 
 
 Handicap 
@@ -49,5 +47,4 @@ Add beacons
 # SD TODO
 Waiting on player colour and respawn issues fixed for these
 
-Hide and Seek, Zombie 
-Gun game, Laser wars
+Zombie, Gun game, Laser wars
