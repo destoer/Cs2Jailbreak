@@ -24,8 +24,6 @@ Tank and spectre SD sometimes puts players in wrong spawn the round after even t
 # Warden TODO
 Warden Laser and T laser 
 
-Muting 
-
 Auto unstuck 
 
 Handicap 
