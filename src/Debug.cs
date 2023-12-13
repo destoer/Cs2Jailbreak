@@ -79,6 +79,22 @@ public static class Debug
         invoke.hide_weapon();
     }
 
+    [RequiresPermissions("@jail/debug")]
+    public static void is_muted_cmd(CCSPlayerController? invoke, CommandInfo command)
+    {
+        if(invoke == null || !invoke.is_valid())
+        {
+            return;
+        }
+
+        invoke.PrintToConsole("Is muted?");
+
+        foreach(CCSPlayerController player in Utilities.GetPlayers())
+        {
+            invoke.PrintToConsole($"{player.PlayerName} : {player.VoiceFlags.HasFlag(VoiceFlags.Muted)} : {player.VoiceFlags.HasFlag(VoiceFlags.ListenAll)} : {player.VoiceFlags.HasFlag(VoiceFlags.ListenTeam)}");
+        } 
+    }
+
     // are these commands allowed or not?
     public static readonly bool enable  = true;
 

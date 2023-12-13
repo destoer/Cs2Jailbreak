@@ -32,6 +32,12 @@ public class JailConfig : BasePluginConfig
     [JsonPropertyName("database")]
     public String database { get; set; } = "cs2_jail";
 
+    [JsonPropertyName("ct_voice_only")]
+    public bool ct_voice_only { get; set; } = false;
+
+    [JsonPropertyName("ct_swap_only")]
+    public bool ct_swap_only { get; set; } = false;
+
     [JsonPropertyName("ct_guns")]
     public bool ct_guns { get; set; } = true;
 
@@ -183,6 +189,8 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         AddCommand("wub","warden : disable block",warden.wub_cmd);
         AddCommand("wb","warden : enable block",warden.wb_cmd);
 
+        AddCommand("swap_guard","admin : move a player to ct",warden.swap_guard_cmd);
+
         AddCommand("wd","warden : start warday",warden.warday_cmd);
         AddCommand("wcommands", "warden : show all commands",warden.cmd_info);
 
@@ -213,6 +221,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
             AddCommand("join_ct_debug","debug : force join ct",Debug.join_ct_cmd);
             AddCommand("hide_weapon_debug","debug : hide player weapon on back",Debug.hide_weapon_cmd);
             AddCommand("rig","debug : force player to boss on sd",sd.sd_rig_cmd);
+            AddCommand("is_muted","debug : print voice flags",Debug.is_muted_cmd);
         }
     }
 

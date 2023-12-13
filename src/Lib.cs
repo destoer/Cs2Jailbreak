@@ -430,20 +430,51 @@ public static class Lib
         }
     }
 
+    static public void listen_all(this CCSPlayerController? player)
+    {
+        if(player == null || !player.is_valid())
+        {
+            return;
+        }
+
+        player.VoiceFlags |= VoiceFlags.ListenAll;
+        player.VoiceFlags &= ~VoiceFlags.ListenTeam;
+    }
+
+    static public void listen_team(this CCSPlayerController? player)
+    {
+        if(player == null || !player.is_valid())
+        {
+            return;
+        }
+
+        player.VoiceFlags &= ~VoiceFlags.ListenAll;
+        player.VoiceFlags |= VoiceFlags.ListenTeam;
+    }
 
     static public void mute(this CCSPlayerController? player)
     {
+        if(player == null || !player.is_valid())
+        {
+            return;
+        }
+
         // admins cannot be muted by the plugin
         if(!player.is_generic_admin())
         {
-
+            player.VoiceFlags |= VoiceFlags.Muted;
         }
     }
 
     // TODO: this needs to be hooked into the ban system that becomes used
     static public void unmute(this CCSPlayerController? player)
     {
+        if(player == null || !player.is_valid())
+        {
+            return;
+        }
 
+        player.VoiceFlags &= ~VoiceFlags.Muted;
     }
 
     static public void mute_all()

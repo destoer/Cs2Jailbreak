@@ -71,12 +71,26 @@ public class Mute
         player.mute();
     }
 
-    public void spawn(CCSPlayerController? player)
+    public void apply_listen_flags(CCSPlayerController player, bool team_mute)
+    {
+        // default to listen all
+        player.listen_all();
+
+        // if ct cannot hear team, change listen flags to team only
+        if(player.is_ct() && team_mute)
+        {
+            player.listen_team();
+        }
+    }
+
+    public void spawn(CCSPlayerController? player, bool team_mute)
     {
         if(!player.is_valid() || player == null)
         {
             return;
         }
+
+        apply_listen_flags(player,team_mute);
 
         // no mute active or on ct unmute
 		if(!mute_active || player.TeamNum == Lib.TEAM_CT)
@@ -98,12 +112,14 @@ public class Mute
         player.mute();
     }
 
-    public void switch_team(CCSPlayerController? player,int new_team)
+    public void switch_team(CCSPlayerController? player,int new_team, bool team_mute)
     {
         if(!player.is_valid() || player == null)
         {
             return;
         }
+
+        apply_listen_flags(player,team_mute);
 
         // player not alive mute
 		if(!player.PawnIsAlive)
@@ -120,11 +136,14 @@ public class Mute
                 player.unmute();
 			}
 
-			// mute timer active, mute the client
-			else if(mute_active)
-			{
-				player.mute();
-			}
+            else
+            {
+                // mute timer active, mute the client
+                if(mute_active)
+                {
+                    player.mute();
+                }
+            }
 		}
     }
 

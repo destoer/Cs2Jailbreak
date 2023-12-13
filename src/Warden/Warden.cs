@@ -369,13 +369,13 @@ public class Warden
 
         setup_player_guns(player);
 
-        mute.spawn(player);
+        mute.spawn(player,config.ct_voice_only);
     }   
 
     public void switch_team(CCSPlayerController? player,int new_team)
     {
         remove_if_warden(player);
-        mute.switch_team(player,new_team);
+        mute.switch_team(player,new_team,config.ct_voice_only);
     }
 
     // warden death has occured
@@ -439,6 +439,13 @@ public class Warden
         {
             case Lib.TEAM_CT:
             {
+                if(config.ct_swap_only)
+                {
+                    invoke.announce(TEAM_PREFIX,$"Sorry guards must be swapped to CT by admin");
+                    invoke.play_sound("sounds/ui/counter_beep.vsnd");
+                    return false;
+                }
+
                 int ct_count = Lib.ct_count();
                 int t_count = Lib.t_count();
 
@@ -466,7 +473,34 @@ public class Warden
 
             default:
             {
+                invoke.play_sound("sounds/ui/counter_beep.vsnd");
                 return false;
+            }
+        }
+    }
+
+    [RequiresPermissions("@css/generic")]
+    public void swap_guard_cmd(CCSPlayerController? invoke, CommandInfo command)
+    {
+        if(invoke == null || !invoke.is_valid())
+        {
+            return;
+        }
+
+        if(command.ArgCount != 2)
+        {
+            invoke.PrintToChat("Expected usage: !swap_guard <player name>");
+            return;
+        }
+
+        var target = command.GetArgTargetResult(1);
+
+        foreach(CCSPlayerController player in target)
+        {
+            if(player.is_valid())
+            {
+                invoke.PrintToChat($"swapped: {player.PlayerName}");
+                player.SwitchTeam(CsTeam.CounterTerrorist);
             }
         }
     }
