@@ -40,6 +40,25 @@ public class LastRequest
         }
     }
 
+    public void lr_config_reload()
+    {
+        create_lr_slots(config.lr_count);
+
+        var database = lr_stats.connect_db();
+
+        lr_stats.setup_db(database);
+    }
+
+    void create_lr_slots(uint slots)
+    {
+        active_lr = new LRBase[slots];
+
+        for(int lr = 0; lr < active_lr.Length; lr++)
+        {
+            active_lr[lr] = null;
+        }
+    }
+
     void init_player_common(CCSPlayerController? player)
     {
         if(!player.is_valid_alive() || player == null)
@@ -80,7 +99,7 @@ public class LastRequest
 
     public void death(CCSPlayerController? player)
     {
-        if(Lib.alive_t_count() == 2 && player.is_t())
+        if(Lib.alive_t_count() == config.lr_count && player.is_t())
         {
             Lib.announce(LR_PREFIX,"Last request is available type !lr");
         }
@@ -564,7 +583,7 @@ public class LastRequest
         
         if(Lib.alive_t_count() > active_lr.Length)
         {
-            player.PrintToChat($"{LR_PREFIX}There are too many t's alive to start an lr");
+            player.PrintToChat($"{LR_PREFIX}There are too many t's alive to start an lr {active_lr.Length}");
             return false;
         }
 
@@ -774,7 +793,7 @@ public class LastRequest
             return;
         }
 
-        if(!can_rebel() || rebel_type != RebelType.KNIFE)
+        if(!can_rebel() || rebel_type != RebelType.NONE)
         {
             player.PrintToChat($"{LR_PREFIX} You must be the last player alive to rebel");
             return;

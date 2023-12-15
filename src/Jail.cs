@@ -89,6 +89,9 @@ public class JailConfig : BasePluginConfig
 
     [JsonPropertyName("lr_mag_for_mag")]
     public bool lr_mag_for_mag { get; set; } = true;
+
+    [JsonPropertyName("lr_count")]
+    public uint lr_count { get; set; } = 2;
 }
 
 // main plugin file, controls central hooking
@@ -165,9 +168,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         lr.config = config;
         warden.config = config;
 
-        var database = lr.lr_stats.connect_db();
-
-        lr.lr_stats.setup_db(database);
+        lr.lr_config_reload();
     }
 
     void register_listener()
