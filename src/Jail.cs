@@ -35,6 +35,12 @@ public class JailConfig : BasePluginConfig
     [JsonPropertyName("ct_voice_only")]
     public bool ct_voice_only { get; set; } = false;
 
+    [JsonPropertyName("mute_t_allways")]
+    public bool mute_t_allways { get; set; } = false;
+
+    [JsonPropertyName("warden_on_voice")]
+    public bool warden_on_voice { get; set; } = true;
+
     [JsonPropertyName("ct_swap_only")]
     public bool ct_swap_only { get; set; } = false;
 
@@ -167,6 +173,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         lr.lr_stats.config = config;
         lr.config = config;
         warden.config = config;
+        warden.mute.config = config;
 
         lr.lr_config_reload();
     }
@@ -258,8 +265,19 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         
         HookEntityOutput("func_button", "OnPressed", OnButtonPressed);
         
+        RegisterListener<Listeners.OnClientVoice>(OnClientVoice);
 
         // TODO: need to hook weapon drop
+    }
+
+    void OnClientVoice(int slot)
+    {
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(slot);
+
+        if(player != null && player.is_valid())
+        {
+            warden.voice(player);
+        }
     }
 
     // button log

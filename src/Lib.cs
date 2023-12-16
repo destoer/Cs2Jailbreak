@@ -477,11 +477,11 @@ public static class Lib
         player.VoiceFlags &= ~VoiceFlags.Muted;
     }
 
-    static public void mute_all()
+    static public void mute_t()
     {
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            if(player.is_valid())
+            if(player.is_valid() && player.is_t())
             {
                 player.mute();
             }

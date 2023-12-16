@@ -24,6 +24,7 @@ public class JailPlayer
         purge_round();
 
         // TODO: reset client specific settings
+        joined_team = false;
     }
 
     public void set_rebel(CCSPlayerController? player)
@@ -110,4 +111,5 @@ public class JailPlayer
 
     public bool is_rebel = false;
     public bool init_weapon = false;
+    public bool joined_team = false;
 };

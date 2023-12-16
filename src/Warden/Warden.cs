@@ -360,6 +360,24 @@ public class Warden
         }
     }
 
+    public void voice(CCSPlayerController? player)
+    {
+        if(player == null || !player.is_valid_alive())
+        {
+            return;
+        }
+
+        if(!config.warden_on_voice)
+        {
+            return;
+        }
+
+        if(warden_slot == INAVLID_SLOT && player.is_ct())
+        {
+            set_warden(player.slot());
+        }
+    }
+
     public void spawn(CCSPlayerController? player)
     {
         if(player == null || !player.is_valid_alive())
@@ -367,15 +385,30 @@ public class Warden
             return;
         }
 
+        JailPlayer? jail_player = jail_player_from_player(player);
+
+        // switch to account for auto join...
+        if(jail_player != null && !jail_player.joined_team)
+        {
+            jail_player.joined_team = true;
+
+            if(!player.IsBot)
+            {
+                player.SwitchTeam(CsTeam.Terrorist);
+                player.Respawn();
+            }
+        }
+
+
         setup_player_guns(player);
 
-        mute.spawn(player,config.ct_voice_only);
+        mute.spawn(player);
     }   
 
     public void switch_team(CCSPlayerController? player,int new_team)
     {
         remove_if_warden(player);
-        mute.switch_team(player,new_team,config.ct_voice_only);
+        mute.switch_team(player,new_team);
     }
 
     // warden death has occured
@@ -435,6 +468,13 @@ public class Warden
         }
 
 
+        JailPlayer? jail_player = jail_player_from_player(invoke);
+
+        if(jail_player == null)
+        {
+            return false;
+        }
+
         switch(team)
         {
             case Lib.TEAM_CT:
@@ -458,16 +498,19 @@ public class Warden
                     return false;
                 }
 
+                jail_player.joined_team = true;
                 return true;         
             }
 
             case Lib.TEAM_T:
             {
+                jail_player.joined_team = true;
                 return true;
             }
 
             case Lib.TEAM_SPEC:
             {
+                jail_player.joined_team = true;
                 return true;
             }
 

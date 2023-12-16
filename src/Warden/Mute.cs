@@ -19,9 +19,14 @@ public class Mute
 
     void mute_t()
     {
+        if(config.mute_t_allways)
+        {
+            return;
+        }
+
         Lib.announce(MUTE_PREFIX,"All t's are muted for the first 30 seconds");
 
-        Lib.mute_all();
+        Lib.mute_t();
 
         if(JailPlugin.global_ctx != null)
         {
@@ -71,29 +76,35 @@ public class Mute
         player.mute();
     }
 
-    public void apply_listen_flags(CCSPlayerController player, bool team_mute)
+    public void apply_listen_flags(CCSPlayerController player)
     {
         // default to listen all
         player.listen_all();
 
         // if ct cannot hear team, change listen flags to team only
-        if(player.is_ct() && team_mute)
+        if(player.is_ct() && config.ct_voice_only)
         {
             player.listen_team();
         }
     }
 
-    public void spawn(CCSPlayerController? player, bool team_mute)
+    public void spawn(CCSPlayerController? player)
     {
         if(!player.is_valid() || player == null)
         {
             return;
         }
 
-        apply_listen_flags(player,team_mute);
+        apply_listen_flags(player);
+
+        if(config.mute_t_allways && player.is_t())
+        {
+            player.mute();
+            return;
+        }
 
         // no mute active or on ct unmute
-		if(!mute_active || player.TeamNum == Lib.TEAM_CT)
+		if(!mute_active || player.is_ct())
 		{
             player.unmute();
 		}
@@ -112,14 +123,14 @@ public class Mute
         player.mute();
     }
 
-    public void switch_team(CCSPlayerController? player,int new_team, bool team_mute)
+    public void switch_team(CCSPlayerController? player,int new_team)
     {
         if(!player.is_valid() || player == null)
         {
             return;
         }
 
-        apply_listen_flags(player,team_mute);
+        apply_listen_flags(player);
 
         // player not alive mute
 		if(!player.PawnIsAlive)
@@ -139,13 +150,16 @@ public class Mute
             else
             {
                 // mute timer active, mute the client
-                if(mute_active)
+                if(mute_active || config.mute_t_allways)
                 {
                     player.mute();
                 }
             }
 		}
     }
+
+    public JailConfig config = new JailConfig();
+
 
     CSTimer.Timer? mute_timer = null;
 
