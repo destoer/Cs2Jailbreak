@@ -283,6 +283,8 @@ public class Warden
 
     public void round_start()
     {
+        Server.ExecuteCommand("mp_force_pick_time 3000");
+
         purge_round();
 
         if(JailPlugin.global_ctx != null)
@@ -338,10 +340,8 @@ public class Warden
 
         var jail_player = jail_player_from_player(player);
 
-        if(jail_player != null && !jail_player.init_weapon)
+        if(jail_player != null)
         {
-            jail_player.init_weapon = true;
-
             player.strip_weapons();
 
             if(player.is_ct())
@@ -384,22 +384,6 @@ public class Warden
         {
             return;
         }
-
-        JailPlayer? jail_player = jail_player_from_player(player);
-
-        // switch to account for auto join...
-        if(jail_player != null && !jail_player.joined_team)
-        {
-            jail_player.joined_team = true;
-
-            if(!player.IsBot && player.is_ct())
-            {
-                player.SwitchTeam(CsTeam.Terrorist);
-                player.Respawn();
-                player.strip_weapons();
-            }
-        }
-
 
         setup_player_guns(player);
 
@@ -499,19 +483,16 @@ public class Warden
                     return false;
                 }
 
-                jail_player.joined_team = true;
                 return true;         
             }
 
             case Lib.TEAM_T:
             {
-                jail_player.joined_team = true;
                 return true;
             }
 
             case Lib.TEAM_SPEC:
             {
-                jail_player.joined_team = true;
                 return true;
             }
 
