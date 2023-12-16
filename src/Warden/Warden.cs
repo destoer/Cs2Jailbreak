@@ -392,10 +392,11 @@ public class Warden
         {
             jail_player.joined_team = true;
 
-            if(!player.IsBot)
+            if(!player.IsBot && player.is_ct())
             {
                 player.SwitchTeam(CsTeam.Terrorist);
                 player.Respawn();
+                player.strip_weapons();
             }
         }
 
