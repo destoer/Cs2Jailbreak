@@ -347,26 +347,22 @@ public class Warden
             return;
         }
 
-        var jail_player = jail_player_from_player(player);
+        // cvars take care of this for us now
+        // player.strip_weapons();
 
-        if(jail_player != null)
+        if(player.is_ct())
         {
-            player.strip_weapons();
-
-            if(player.is_ct())
+            if(config.ct_guns)
             {
-                if(config.ct_guns)
-                {
-                    player.GiveNamedItem("weapon_deagle");
-                    player.GiveNamedItem("weapon_m4a1");
-                }
-
-                if(config.ct_armour)
-                {  
-                    player.GiveNamedItem("item_assaultsuit");
-                }
+                player.GiveNamedItem("weapon_deagle");
+                player.GiveNamedItem("weapon_m4a1");
             }
-        }
+
+            if(config.ct_armour)
+            {  
+                player.GiveNamedItem("item_assaultsuit");
+            }
+        } 
     }
 
     public void voice(CCSPlayerController? player)
