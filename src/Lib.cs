@@ -218,7 +218,7 @@ public static class Lib
 
                 if(player != null && player.is_valid_alive())
                 {
-                    Server.PrintToChatAll("give nade");
+                    //Server.PrintToChatAll("give nade");
                     player.strip_weapons(true);
                     player.GiveNamedItem(name);
                 }
