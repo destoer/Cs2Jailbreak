@@ -290,6 +290,8 @@ public class Warden
 
     public void round_start()
     {
+        setup_cvar();
+
         purge_round();
 
         if(JailPlugin.global_ctx != null)
