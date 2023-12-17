@@ -281,10 +281,15 @@ public class Warden
         start_timer = null;   
     }
 
-    public void round_start()
+    void setup_cvar()
     {
         Server.ExecuteCommand("mp_force_pick_time 3000");
+        Server.ExecuteCommand("mp_autoteambalance 0");
 
+    }
+
+    public void round_start()
+    {
         purge_round();
 
         if(JailPlugin.global_ctx != null)
@@ -436,12 +441,14 @@ public class Warden
     {
         if(invoke == null || !invoke.is_valid())
         {
-            return true;
+            invoke.play_sound("sounds/ui/counter_beep.vsnd");
+            return false;
         }
 
-        if(command.ArgCount != 3)
+        if(command.ArgCount < 2)
         {
-            return true;
+            invoke.play_sound("sounds/ui/counter_beep.vsnd");
+            return false;
         }
 
         CCSPlayerPawn? pawn = invoke.pawn(); 
@@ -449,14 +456,7 @@ public class Warden
 
         if(!Int32.TryParse(command.ArgByIndex(1),out int team))
         {
-            return true;
-        }
-
-
-        JailPlayer? jail_player = jail_player_from_player(invoke);
-
-        if(jail_player == null)
-        {
+            invoke.play_sound("sounds/ui/counter_beep.vsnd");
             return false;
         }
 

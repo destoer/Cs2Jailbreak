@@ -18,7 +18,7 @@ public class SDSpectre : SDBase
     public override void setup()
     {
         announce("spectre started");
-        announce("Please 15 seconds for damage be enabled");
+        announce($"Please {delay} seconds for damage be enabled");
     }
 
     public override void make_boss(CCSPlayerController? spectre, int count)

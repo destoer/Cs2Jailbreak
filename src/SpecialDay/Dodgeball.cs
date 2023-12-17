@@ -18,7 +18,7 @@ public class SDDodgeball : SDBase
     public override void setup()
     {
         announce("Dodgeball started");
-        announce("Please 15 seconds for damage be enabled");
+        announce($"Please {delay} seconds for damage be enabled");
     }
 
     public override void start()

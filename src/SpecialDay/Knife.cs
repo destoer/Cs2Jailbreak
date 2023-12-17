@@ -18,7 +18,7 @@ public class SDKnifeWarday : SDBase
     public override void setup()
     {
         announce("knife warday started");
-        announce("Please 15 seconds for damage be enabled");
+        announce($"Please {delay} seconds for damage be enabled");
     }
 
     public override void start()

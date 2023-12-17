@@ -19,7 +19,7 @@ public class SDHideAndSeek : SDBase
     public override void setup()
     {
         announce("hide and seek started");
-        announce("T's have 15 seconds to hide");
+        announce($"T's have {delay} seconds to hide");
     }
 
     public override void start()

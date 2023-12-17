@@ -18,7 +18,7 @@ public class SDTank : SDBase
     public override void setup()
     {
         announce("tank day started");
-        announce("Please 15 seconds for damage be enabled");
+        announce($"Please {delay} seconds for damage be enabled");
     }
 
     public override void make_boss(CCSPlayerController? tank, int count)

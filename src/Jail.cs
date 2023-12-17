@@ -102,6 +102,7 @@ public class JailConfig : BasePluginConfig
 
 // main plugin file, controls central hooking
 // defers to warden, lr and sd
+[MinimumApiVersion(128)]
 public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 {
     // workaround to query global state!

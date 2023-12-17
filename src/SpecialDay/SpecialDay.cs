@@ -159,13 +159,15 @@ public class SpecialDay
         if(active_sd != null)
         {
             JailPlugin.start_event();
+
+            active_sd.delay = delay;
             active_sd.setup_common();
         }
 
         // start the countdown for enable
         if(JailPlugin.global_ctx != null)
         {
-            countdown.start($"{name} specialday",15,0,null,start_sd);
+            countdown.start($"{name} specialday",delay,0,null,start_sd);
         }
 
         team_save.save();
@@ -269,14 +271,22 @@ public class SpecialDay
         end_sd(true);
     }
 
-    public void sd_cmd_internal(CCSPlayerController? player)
+    public void sd_cmd_internal(CCSPlayerController? player,CommandInfo command)
     {
         if(player == null  || !player.is_valid())
         {
             return;
         }
 
-        var sd_menu = new ChatMenu("SD Menu");
+        delay = 15;
+
+        if(Int32.TryParse(command.ArgByIndex(1),out int delay_opt))
+        {
+            delay = delay_opt;
+        }
+
+
+        ChatMenu sd_menu = new ChatMenu("Specialday");
 
         // Build the basic LR menu
         for(int s = 0; s < SD_NAME.Length - 1; s++)
@@ -308,7 +318,7 @@ public class SpecialDay
     {
         override_ff = false;
 
-        sd_cmd_internal(player);
+        sd_cmd_internal(player,command);
     }   
 
     [RequiresPermissions("@css/generic")]
@@ -316,7 +326,7 @@ public class SpecialDay
     {
         override_ff = true;
 
-        sd_cmd_internal(player);
+        sd_cmd_internal(player,command);
     }   
 
     public enum SDType
@@ -349,6 +359,8 @@ public class SpecialDay
         "Knife warday",
         "None"
     };
+
+    int delay = 15;
 
     SDBase? active_sd = null;
 

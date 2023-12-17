@@ -19,7 +19,7 @@ public class SDFriendlyFire : SDBase
     public override void setup()
     {
         announce("Friendly fire day started");
-        announce("Please 15 seconds for friendly fire to be enabled");
+        announce($"Please {delay} seconds for friendly fire to be enabled");
     }
 
     public override void start()

@@ -162,4 +162,6 @@ public abstract class SDBase
     public bool restrict_damage = false;
     public String weapon_restrict = "";
     public SDState state = SDState.INACTIVE;
+
+    public int delay = 15;
 }
