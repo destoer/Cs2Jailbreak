@@ -297,8 +297,16 @@ public static class Lib
             return;
         }
 
-        player.RemoveWeapons();
-    
+        if(is_windows())
+        {
+           return; 
+        }
+
+        else
+        {
+            player.RemoveWeapons();
+        }
+
         // dont remove knife its buggy
         if(!remove_knife)
         {

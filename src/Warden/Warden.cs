@@ -260,6 +260,7 @@ public class Warden
 
     public void map_start()
     {
+        setup_cvar();
         warday.map_start();
     }
 
@@ -285,7 +286,8 @@ public class Warden
     {
         Server.ExecuteCommand("mp_force_pick_time 3000");
         Server.ExecuteCommand("mp_autoteambalance 0");
-
+        Server.ExecuteCommand("mp_equipment_reset_rounds 1");
+        Server.ExecuteCommand("mp_t_default_secondary \"\" ");
     }
 
     public void round_start()
