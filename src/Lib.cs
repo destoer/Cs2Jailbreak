@@ -318,7 +318,7 @@ public static class Lib
     {
         CCSPlayerPawn? pawn = player.pawn();
 
-        if(pawn != null)
+        if(pawn != null && player.is_valid_alive())
         {
             pawn.RenderMode = RenderMode_t.kRenderTransColor;
             pawn.Render = colour;
