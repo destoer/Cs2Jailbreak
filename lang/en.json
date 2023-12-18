@@ -16,6 +16,11 @@
     "warden.wub_restrict": "You must be a warden to use wub",
     "warden.wb_restrict": "You must be a warden to use wb",
     "warden.guard_swap": "swapped: {0}",
+    "warden.took_warden": "{0} is now the warden",
+    "warden.wcommand": "Type !wcommands to see a full list of warden commands",
+    "warden.removed": "{0} is no longer the warden",
+    "warden.ct_gun_menu": "You must be a ct to use the gun menu!",
+    "warden.gun_menu_disabled": "Gun menu is disabled!",
 
     "mute.thirty": "All t's are muted for the first 30 seconds",
     "mute.speak_quietly": "T's may now speak quietly",

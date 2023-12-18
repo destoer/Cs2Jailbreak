@@ -30,11 +30,6 @@ public class Warden
         }
     }
 
-    void announce(String message)
-    {
-        Lib.announce(WARDEN_PREFIX,message);
-    }
-
     // Give a player warden
     public void set_warden(int? new_slot_opt)
     {
@@ -55,9 +50,9 @@ public class Warden
         }
         
 
-        announce($"{player.PlayerName} is now the warden");
+        Lib.localise_announce(WARDEN_PREFIX,"warden.taken",player.PlayerName);
 
-        player.announce(WARDEN_PREFIX,"Type !wcommands to see a full list of warden commands");
+        player.localise_announce(WARDEN_PREFIX,"warden.wcommand");
 
         // change player color!
         player.set_colour(Color.FromArgb(255, 0, 0, 255));
@@ -75,7 +70,7 @@ public class Warden
         if(player.is_valid())
         {
             player.set_colour(Color.FromArgb(255, 255, 255, 255));
-            announce($"{player.PlayerName} is no longer the warden");
+            Lib.localise_announce(WARDEN_PREFIX,"warden.removed",player.PlayerName);
         }
 
         warden_slot = INAVLID_SLOT;
@@ -102,7 +97,7 @@ public class Warden
     [RequiresPermissions("@css/generic")]
     public void remove_warden_cmd(CCSPlayerController? player, CommandInfo command)
     {
-        announce(Lib.localise("warden.remove"));
+        Lib.localise_announce(WARDEN_PREFIX,"warden.remove");
         remove_warden();
     }
 
@@ -563,13 +558,13 @@ public class Warden
 
         if(!player.is_ct())
         {
-            player.announce(WARDEN_PREFIX,"You must be a ct to use the gun menu!");
+            player.localise_announce(WARDEN_PREFIX,"warden.ct_gun_menu");
             return;
         }
 
         if(!config.ct_gun_menu)
         {
-            player.announce(WARDEN_PREFIX,"Gun menu is disabled!");
+            player.localise_announce(WARDEN_PREFIX,"warden.gun_menu_disabled");
             return;
         }
 
