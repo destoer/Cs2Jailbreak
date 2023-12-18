@@ -17,15 +17,15 @@ public class SDSpectre : SDBase
 {
     public override void setup()
     {
-        announce("spectre started");
-        announce($"Please {delay} seconds for damage be enabled");
+        localise_announce("sd.spectre_start");
+        localise_announce("sd.damage_enable",delay);
     }
 
     public override void make_boss(CCSPlayerController? spectre, int count)
     {
         if(spectre != null && spectre.is_valid_alive())
         {
-            announce($"{spectre.PlayerName} is the spectre!");
+            localise_announce($"sd.spectre",spectre.PlayerName);
 
             // give the spectre the HP and swap him
             spectre.set_health(count * 60);
@@ -36,7 +36,7 @@ public class SDSpectre : SDBase
 
         else
         {
-            announce("Error picking spectre");
+            Lib.announce("[ERROR] ","Error picking spectre");
         }
     }
 
@@ -53,6 +53,7 @@ public class SDSpectre : SDBase
 
     public override void start()
     {
+        localise_announce("sd.fight");
         Lib.swap_all_t();
 
         (boss, int count) = pick_boss();
@@ -61,7 +62,7 @@ public class SDSpectre : SDBase
 
     public override void end()
     {
-        announce("spectre is over");
+        localise_announce("sd.spectre_end");
     }
 
     public override void setup_player(CCSPlayerController player)

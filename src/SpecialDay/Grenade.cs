@@ -17,18 +17,18 @@ public class SDGrenade : SDBase
 {
     public override void setup()
     {
-        announce("Grenade started");
-        announce($"Please {delay} seconds for damage be enabled");
+        localise_announce("sd.grenade_start");
+        localise_announce("sd.damage_enable",delay);
     }
 
     public override void start()
     {
-        announce("Fight!");
+        localise_announce("sd.fight");
     }
 
     public override void end()
     {
-        announce("Grenade is over");
+        localise_announce("sd.grenade_end");
     }
 
     public override void setup_player(CCSPlayerController player)

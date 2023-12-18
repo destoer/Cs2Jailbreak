@@ -151,9 +151,9 @@ public abstract class SDBase
         }       
     }
 
-    public void announce(String str)
+    public void localise_announce(String name, params Object[] args)
     {
-        Lib.announce(SpecialDay.SPECIALDAY_PREFIX,str);
+        Lib.localise_announce(SpecialDay.SPECIALDAY_PREFIX,name,args);
     }
 
     public CCSPlayerController? boss = null;

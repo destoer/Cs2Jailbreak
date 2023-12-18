@@ -18,19 +18,19 @@ public class SDFriendlyFire : SDBase
 {
     public override void setup()
     {
-        announce("Friendly fire day started");
-        announce($"Please {delay} seconds for friendly fire to be enabled");
+        localise_announce("sd.ffd_start");
+        localise_announce("sd.damage_enable",delay);
     }
 
     public override void start()
     {
-        announce("Friendly fire enabled");
+        localise_announce("sd.ffd_enable");
         Lib.enable_friendly_fire();
     }
 
     public override void end()
     {
-        announce("Friendly fire day is over");
+        localise_announce("sd.ffd_end");
     }
 
     public override void setup_player(CCSPlayerController? player)

@@ -17,15 +17,15 @@ public class SDTank : SDBase
 {
     public override void setup()
     {
-        announce("tank day started");
-        announce($"Please {delay} seconds for damage be enabled");
+        localise_announce("sd.tank_start");
+        localise_announce("sd.damage_enable",delay);
     }
 
     public override void make_boss(CCSPlayerController? tank, int count)
     {
         if(tank != null && tank.is_valid_alive())
         {
-            announce($"{tank.PlayerName} is the tank!");
+            localise_announce($"sd.tank",tank.PlayerName);
 
             // give the tank the HP and swap him
             tank.set_health(count * 100);
@@ -38,12 +38,13 @@ public class SDTank : SDBase
 
         else
         {
-            announce("Error picking tank");
+            Lib.announce("[ERROR]: ","Error picking tank");
         }
     }
 
     public override void start()
     {
+        localise_announce("sd.fight");
         Lib.swap_all_t();
 
         (boss, int count) = pick_boss();
@@ -52,7 +53,7 @@ public class SDTank : SDBase
 
     public override void end()
     {
-        announce("tank day is over");
+        localise_announce("sd.tank_end");
     }
 
     public override void setup_player(CCSPlayerController player)

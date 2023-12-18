@@ -17,19 +17,19 @@ public class SDJuggernaut : SDBase
 {
     public override void setup()
     {
-        announce("Juggernaut started");
-        announce($"Please {delay} seconds for friendly fire to be enabled");
+        localise_announce("sd.juggernaut_start");
+        localise_announce("sd.damage_enable",delay);
     }
 
     public override void start()
     {
-        announce("Friendly fire enabled");
+        localise_announce("sd.ffd_enable");
         Lib.enable_friendly_fire();
     }
 
     public override void end()
     {
-        announce("Juggernaut is over");
+        localise_announce("sd.juggernaut_start");
     }
 
     public override void death(CCSPlayerController? player, CCSPlayerController? attacker)

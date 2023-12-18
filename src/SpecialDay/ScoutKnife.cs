@@ -18,18 +18,18 @@ public class SDScoutKnife : SDBase
 {
     public override void setup()
     {
-        announce("Scout knife started");
-        announce($"Please {delay} seconds for damage be enabled");
+        localise_announce("sd.scout_start");
+        localise_announce("sd.damage_enable",delay);
     }
 
     public override void start()
     {
-        announce("Fight!");
+        localise_announce("sd.fight");
     }
 
     public override void end()
     {
-        announce("Scout knife is over");
+        localise_announce("sd.scout_end");
     }
 
     public override void setup_player(CCSPlayerController player)
