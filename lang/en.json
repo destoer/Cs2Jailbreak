@@ -35,7 +35,7 @@
     "block.disable": "No block enabled",
     
     "sd.fight": "Fight",
-    "sd.damage_enable": "Please {0} seconds for damage be enabled",
+    "sd.damage_enable": "Please wait {0} seconds for damage be enabled",
     "sd.dodgeball_start": "Dodgeball started",
     "sd.dodgeball_end": "Dodgeball end",
     "sd.ffd_start": "Friendly fire day started",
