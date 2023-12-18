@@ -169,6 +169,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public void OnConfigParsed(JailConfig config)
     {
+        // give each sub plugin the config
         this.Config = config;
         
         lr.lr_stats.config = config;
@@ -522,6 +523,16 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         return HookResult.Continue;
     }
 
+
+    public static String localise(string name)
+    {
+        if(global_ctx != null)
+        {
+            return global_ctx.Localizer[name];
+        }
+
+        return "";
+    }
 
     public static Warden warden = new Warden();
     public static LastRequest lr = new LastRequest();

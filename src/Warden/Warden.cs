@@ -13,6 +13,10 @@ using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CounterStrikeSharp.API.Modules.Admin;
+using CounterStrikeSharp.API.Core.Translations;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.DependencyInjection;
+using System.Globalization;
 using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 using System.Drawing;
 
@@ -20,10 +24,17 @@ public class Warden
 {
     public Warden()
     {
+        jail = JailPlugin.global_ctx;
+
         for(int p = 0; p < jail_players.Length; p++)
         {
             jail_players[p] = new JailPlayer();
         }
+    }
+
+    String localise(String name)
+    {
+        return JailPlugin.localise(name);
     }
 
     void announce(String message)
@@ -98,7 +109,7 @@ public class Warden
     [RequiresPermissions("@css/generic")]
     public void remove_warden_cmd(CCSPlayerController? player, CommandInfo command)
     {
-        announce("Warden removed");
+        announce(localise("warden.remove"));
         remove_warden();
     }
 
@@ -627,4 +638,6 @@ public class Warden
     public Warday warday = new Warday();
     public Block block = new Block();
     public Mute mute = new Mute();
+
+    JailPlugin? jail;
 };
