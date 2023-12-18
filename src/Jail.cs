@@ -371,9 +371,12 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         CCSPlayerController? player = victim.player();
         CCSPlayerController? attacker = dealer.player();
 
-        sd.take_damage(player,attacker,ref damage_info.Damage);
-        lr.take_damage(player,attacker,ref damage_info.Damage);
-
+        if(player != null && player.is_valid())
+        {
+            sd.take_damage(player,attacker,ref damage_info.Damage);
+            lr.take_damage(player,attacker,ref damage_info.Damage);
+        }
+        
         return HookResult.Continue;
     }
 

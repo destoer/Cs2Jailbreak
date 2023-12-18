@@ -8,18 +8,11 @@ admin commands locked under @css/generic
 debug commands locked under @jail/debug
 
 
-# Known issues
-LR weapon drop prevention
+# Info
+For further config and feature info please see the wiki
 
-Hud does not update bullets in shot for shot, mag for mag, Russian roulette
+https://github.com/destoer/Cs2Jailbreak/wiki
 
-Mute messages are a stub muting does not work yet
-
-Warden colour does not work unless it is auto warden at round start (waiting on user message support)
-
-Respawn does not work reliably in riot lr
-
-Tank and spectre SD sometimes puts players in wrong spawn the round after even though they on the correct team
 
 # Warden TODO
 Warden Laser and T laser 

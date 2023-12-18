@@ -77,7 +77,7 @@ public class SpecialDay
             case "Friendly fire":
             {
                 active_sd = new SDFriendlyFire();
-                type = SDType.FREIENDLY_FIRE;
+                type = SDType.FRIENDLY_FIRE;
                 break;
             }
 
@@ -244,7 +244,7 @@ public class SpecialDay
             // force ff active
             if(override_ff)
             {
-                Lib.announce(SPECIALDAY_PREFIX,"Friendly fire enabled!");
+                Lib.localise_announce(SPECIALDAY_PREFIX,"sd.ffd_enable");
                 Lib.enable_friendly_fire();
             }
 
@@ -331,7 +331,7 @@ public class SpecialDay
 
     public enum SDType
     {
-        FREIENDLY_FIRE,
+        FRIENDLY_FIRE,
         JUGGERNAUT,
         TANK,
         SPECTRE,
