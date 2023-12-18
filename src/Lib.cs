@@ -712,6 +712,18 @@ public static class Lib
         }
     }
 
+    static public void localise_announce(this CCSPlayerController? player,String prefix, String name, params Object[] args)
+    {
+        player.announce(prefix,localise(name,args));
+    }
+
+    static public void localise_announce(String prefix, String name, params Object[] args)
+    {
+        String str = localise(name,args);
+
+        Server.PrintToChatAll(prefix + str);
+        print_centre_all(str);
+    }
 
     public static String localise(String name, params Object[] args)
     {

@@ -71,7 +71,7 @@ public class JailPlayer
         // print death if player is rebel and killer on CT
         if(is_rebel && killer.TeamNum == Lib.TEAM_CT)
         {
-            Server.PrintToChatAll($" {ChatColors.Green}[REBEL]: {ChatColors.White}{killer.PlayerName} killed the rebel {player.PlayerName}");
+            Lib.localise_announce($" {ChatColors.Green}[REBEL]: {ChatColors.White}","rebel.kill",killer.PlayerName,player.PlayerName);
         }
     }
 

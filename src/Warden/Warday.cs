@@ -29,7 +29,7 @@ public class Warday
                 }
             }
 
-            Lib.announce(WARDAY_PREFIX,"Weapons live!");
+            Lib.localise_announce(WARDAY_PREFIX,"warday.live");
         }
     }
 
@@ -53,7 +53,7 @@ public class Warday
             }
 
 
-            countdown.start($"warday at {location}",20,0,null,gun_callback);
+            countdown.start(Lib.localise("warday.location",location),20,0,null,gun_callback);
             return true;
         }        
 

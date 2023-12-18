@@ -24,7 +24,7 @@ public class Mute
             return;
         }
 
-        Lib.announce(MUTE_PREFIX,"All t's are muted for the first 30 seconds");
+        Lib.localise_announce(MUTE_PREFIX,"mute.thirty");
 
         Lib.mute_t();
 
@@ -38,7 +38,7 @@ public class Mute
 
     public void unmute_all()
     {
-        Lib.announce(MUTE_PREFIX,"T's may now speak quietly");
+        Lib.localise_announce(MUTE_PREFIX,"mute.speak_quietly");
 
         // Go through and unmute all alive players!
         foreach(CCSPlayerController player in Utilities.GetPlayers())
@@ -118,7 +118,7 @@ public class Mute
             return;
         }
 
-        player.PrintToChat($"{MUTE_PREFIX}You are muted until the end of the round");
+        player.localise_prefix(MUTE_PREFIX,"mute.end_round");
 
         player.mute();
     }

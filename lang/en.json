@@ -16,4 +16,16 @@
     "warden.wub_restrict": "You must be a warden to use wub",
     "warden.wb_restrict": "You must be a warden to use wb",
     "warden.guard_swap": "swapped: {0}",
+
+    "mute.thirty": "All t's are muted for the first 30 seconds",
+    "mute.speak_quietly": "T's may now speak quietly",
+    "mute.end_round": "You are muted until the end of the round",
+
+    "warday.live": "Weapons live!",
+    "warday.location": "warday at {0}",
+
+    "rebel.kill": "{0} killed the rebel {1}",
+    
+    "block.enable": "Block enabled",
+    "block.disable": "No block enabled",
 }

@@ -116,7 +116,7 @@ public class Warden
         // must be warden
         if(!is_warden(player))
         {
-            player.localise(WARDEN_PREFIX,"warden.warday_restrict");
+            player.localise_prefix(WARDEN_PREFIX,"warden.warday_restrict");
             return;
         }
 
