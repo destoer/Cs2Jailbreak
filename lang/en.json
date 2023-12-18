@@ -1,3 +1,19 @@
 {
-    "warden.remove": "Warden Removed";
+    "warden.remove": "Warden Removed",
+    "warden.warden_command_desc": "!w - take warden",
+    "warden.warday_command_desc": "!wd - start a warday",
+    "warden.unwarden_command_desc": "!uw - leave warden",
+    "warden.block_command_desc": "!wb - enable block",
+    "warden.unblock_command_desc": "!wub - disable block",
+    "warden.remove_warden_command_desc": "!rw - admin remove warden",
+    "warden.swap_guard_desc": "Expected usage: !swap_guard <player name>",
+    "warden.warden_req_alive": "You must be alive to warden",
+    "warden.warden_req_ct": "You must be a CT to warden",
+    "warden.warden_taken": "{0} is allready a warden",
+    "warden.warday_restrict": "You must be a warden to call a warday",
+    "warden.warday_usage": "Usage !wd <location>",
+    "warden.warday_round_restrict": "You cannot call a warday for another {0} rounds",
+    "warden.wub_restrict": "You must be a warden to use wub",
+    "warden.wb_restrict": "You must be a warden to use wb",
+    "warden.guard_swap": "swapped: {0}",
 }

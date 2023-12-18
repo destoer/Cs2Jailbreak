@@ -695,13 +695,43 @@ public static class Lib
         print_centre_all(str);
     }
 
-    static public void announce(this CCSPlayerController? player,String prefix,String str)
+    static public void print_prefix(this CCSPlayerController? player, String prefix, String str)
     {
         if(player != null && player.is_valid())
         {
             player.PrintToChat(prefix + str);
+        }
+    }
+
+    static public void announce(this CCSPlayerController? player,String prefix,String str)
+    {
+        if(player != null && player.is_valid())
+        {
+            player.print_prefix(prefix,str);
             player.PrintToCenter(str);
         }
+    }
+
+
+    public static String localise(String name, params Object[] args)
+    {
+        return JailPlugin.localise(name,args);
+    }
+
+    static public void localise(this CCSPlayerController? player,String name, params Object[] args)
+    {
+        if(player != null && player.is_valid())
+        {
+            player.PrintToChat(localise(name,args));
+        }    
+    }
+
+    static public void localise_prefix(this CCSPlayerController? player,String prefix, String name, params Object[] args)
+    {
+        if(player != null && player.is_valid())
+        {
+            player.PrintToChat(prefix + localise(name,args));
+        }    
     }
 
     static public void enable_friendly_fire()

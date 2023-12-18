@@ -24,17 +24,10 @@ public class Warden
 {
     public Warden()
     {
-        jail = JailPlugin.global_ctx;
-
         for(int p = 0; p < jail_players.Length; p++)
         {
             jail_players[p] = new JailPlayer();
         }
-    }
-
-    String localise(String name)
-    {
-        return JailPlugin.localise(name);
     }
 
     void announce(String message)
@@ -109,7 +102,7 @@ public class Warden
     [RequiresPermissions("@css/generic")]
     public void remove_warden_cmd(CCSPlayerController? player, CommandInfo command)
     {
-        announce(localise("warden.remove"));
+        announce(Lib.localise("warden.remove"));
         remove_warden();
     }
 
@@ -123,14 +116,14 @@ public class Warden
         // must be warden
         if(!is_warden(player))
         {
-            player.PrintToChat($"{WARDEN_PREFIX}You must be a warden to call a warday");
+            player.localise(WARDEN_PREFIX,"warden.warday_restrict");
             return;
         }
 
         // must specify location
         if(command.ArgCount != 2)
         {
-            player.PrintToChat($"{WARDEN_PREFIX}Usage !wd <location>");
+            player.localise_prefix(WARDEN_PREFIX,"warden.warday_usage");
             return;
         }
 
@@ -139,7 +132,7 @@ public class Warden
 
         if(!warday.start_warday(location))
         {
-            player.PrintToChat($"{WARDEN_PREFIX}You cannot call a warday for another {Warday.ROUND_LIMIT - warday.round_counter} rounds");
+            player.localise_prefix(WARDEN_PREFIX,"warden.warday_round_restrict",Warday.ROUND_LIMIT - warday.round_counter);
         }
     }
 
@@ -154,7 +147,7 @@ public class Warden
         // must be warden
         if(!is_warden(player))
         {
-            player.PrintToChat($"{WARDEN_PREFIX}You must be a warden to use wub");
+            player.localise_prefix(WARDEN_PREFIX,"warden.wub_restrict");
             return;
         }
 
@@ -171,7 +164,7 @@ public class Warden
         // must be warden
         if(!is_warden(player))
         {
-            player.PrintToChat($"{WARDEN_PREFIX}You must be a warden to use wb");
+            player.localise_prefix(WARDEN_PREFIX,"warden.wb_restrict");
             return;
         }
 
@@ -212,12 +205,12 @@ public class Warden
             return;
         }
 
-        player.PrintToChat("!w - take warden");
-        player.PrintToChat("!wd - start a warday");
-        player.PrintToChat("!uw - leave warden");
-        player.PrintToChat("!wb - enable block");
-        player.PrintToChat("!wub - disable block");
-        player.PrintToChat("!rw - admin remove warden");
+        player.localise("warden.warden_command_desc");
+        player.localise("warden.warday_command_desc");
+        player.localise("warden.unwarden_command_desc");
+        player.localise("warden.block_command_desc");
+        player.localise("warden.unblock_command_desc");
+        player.localise("warden.remove_warden_command_desc");
     }
 
     public void take_warden_cmd(CCSPlayerController? player, CommandInfo command)
@@ -231,13 +224,13 @@ public class Warden
         // player must be alive
         if(!player.PawnIsAlive)
         {
-            player.PrintToChat($"{WARDEN_PREFIX}You must be alive to warden");
+            player.localise_prefix(WARDEN_PREFIX,"warden.warden_req_alive");
         }        
 
         // check team is valid
         else if(!player.is_ct())
         {
-            player.PrintToChat($"{WARDEN_PREFIX}You must be a CT to warden");
+            player.localise_prefix(WARDEN_PREFIX,"warden.warden_req_ct");
         }
 
         // check there is no warden
@@ -245,7 +238,7 @@ public class Warden
         {
             var warden = Utilities.GetPlayerFromSlot(warden_slot);
 
-            player.PrintToChat($"{WARDEN_PREFIX}{warden.PlayerName} is allready a warden");
+            player.localise_prefix(WARDEN_PREFIX,"warden.warden_taken",warden.PlayerName);
         }
 
         // player is valid to take warden
@@ -525,7 +518,7 @@ public class Warden
 
         if(command.ArgCount != 2)
         {
-            invoke.PrintToChat("Expected usage: !swap_guard <player name>");
+            invoke.localise("warden.swap_guard_desc");
             return;
         }
 
@@ -535,7 +528,7 @@ public class Warden
         {
             if(player.is_valid())
             {
-                invoke.PrintToChat($"swapped: {player.PlayerName}");
+                invoke.localise("warden.guard_swapped",player.PlayerName);
                 player.SwitchTeam(CsTeam.CounterTerrorist);
             }
         }
@@ -638,6 +631,4 @@ public class Warden
     public Warday warday = new Warday();
     public Block block = new Block();
     public Mute mute = new Mute();
-
-    JailPlugin? jail;
 };

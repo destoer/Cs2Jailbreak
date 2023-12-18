@@ -523,12 +523,11 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         return HookResult.Continue;
     }
 
-
-    public static String localise(string name)
+    public static String localise(string name,params Object[] args)
     {
         if(global_ctx != null)
         {
-            return global_ctx.Localizer[name];
+            return String.Format(global_ctx.Localizer[name],args);
         }
 
         return "";
