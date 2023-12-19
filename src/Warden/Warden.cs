@@ -50,7 +50,7 @@ public class Warden
         }
         
 
-        Lib.localise_announce(WARDEN_PREFIX,"warden.taken",player.PlayerName);
+        Lib.localise_announce(WARDEN_PREFIX,"warden.took_warden",player.PlayerName);
 
         player.localise_announce(WARDEN_PREFIX,"warden.wcommand");
 
@@ -116,7 +116,7 @@ public class Warden
         }
 
         // must specify location
-        if(command.ArgCount != 2)
+        if(command.ArgCount < 2)
         {
             player.localise_prefix(WARDEN_PREFIX,"warden.warday_usage");
             return;
@@ -125,7 +125,18 @@ public class Warden
         // attempt the start the warday
         String location = command.ArgByIndex(1);
 
-        if(!warday.start_warday(location))
+        // attempt to parse optional delay
+        int delay = 20;
+
+        if(command.ArgCount >= 3)
+        {
+            if(Int32.TryParse(command.ArgByIndex(2),out int delay_opt))
+            {
+                delay = delay_opt;
+            }       
+        }
+
+        if(!warday.start_warday(location,delay))
         {
             player.localise_prefix(WARDEN_PREFIX,"warden.warday_round_restrict",Warday.ROUND_LIMIT - warday.round_counter);
         }

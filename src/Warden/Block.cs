@@ -35,7 +35,7 @@ public class Block
     {
         if(Lib.block_enabled())
         {
-            Lib.announce(Warden.WARDEN_PREFIX,"block.disable");
+            Lib.localise_announce(Warden.WARDEN_PREFIX,"block.disable");
             Lib.unblock_all();
             block_state = false;
         }

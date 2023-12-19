@@ -101,7 +101,7 @@ public class LastRequest
     {
         if(Lib.alive_t_count() == config.lr_count && player.is_t())
         {
-            Lib.announce(LR_PREFIX,"Last request is available type !lr");
+            Lib.localise_announce(LR_PREFIX,"lr.ready");
         }
 
 
@@ -508,19 +508,19 @@ public class LastRequest
 
         if(!player.PawnIsAlive)
         {
-            player.PrintToChat($"{LR_PREFIX}You must be alive to start an lr");
+            player.localise_announce(LR_PREFIX,"lr.alive");
             return false;
         }
 
         if(in_lr(player))
         {
-            player.PrintToChat($"{LR_PREFIX}You are allready in a lr");
+            player.localise_announce(LR_PREFIX,"lr.in_lr");
             return false;            
         }
 
         if(!player.is_t())
         {
-            player.PrintToChat($"{LR_PREFIX}You must be on T to start an lr");
+            player.localise_announce(LR_PREFIX,"lr.req_t");
             return false;        
         }
 
@@ -583,7 +583,7 @@ public class LastRequest
         
         if(Lib.alive_t_count() > active_lr.Length)
         {
-            player.PrintToChat($"{LR_PREFIX}There are too many t's alive to start an lr {active_lr.Length}");
+            player.localise_prefix(LR_PREFIX,"lr.too_many",active_lr.Length);
             return false;
         }
 
@@ -795,7 +795,7 @@ public class LastRequest
 
         if(!can_rebel() || rebel_type != RebelType.NONE)
         {
-            player.PrintToChat($"{LR_PREFIX} You must be the last player alive to rebel");
+            player.localise_prefix(LR_PREFIX,"lr.rebel_last");
             return;
         }
 
@@ -810,7 +810,7 @@ public class LastRequest
 
         rebel_type = RebelType.REBEL;
 
-        Lib.announce(LR_PREFIX,$"{player.PlayerName} is a rebel!");
+        Lib.localise_announce(LR_PREFIX,"lr.player_name",player.PlayerName);
     }
 
     public void start_rebel(CCSPlayerController? player, ChatMenuOption option)
@@ -832,13 +832,13 @@ public class LastRequest
 
         if(!can_rebel())
         {
-            rebel.PrintToChat($"{LR_PREFIX} You must be the last player alive to rebel");
+            rebel.localise_prefix(LR_PREFIX,"rebel.last_alive");
             return;
         }
 
         rebel_type = RebelType.KNIFE;
 
-        Lib.announce(LR_PREFIX,$"{rebel.PlayerName} is knife a rebel!");
+        Lib.localise_announce(LR_PREFIX,"lr.knife_rebel",rebel.PlayerName);
         rebel.set_health(Lib.alive_ct_count() * 100);
 
         foreach(CCSPlayerController? player in Utilities.GetPlayers())
@@ -859,7 +859,7 @@ public class LastRequest
         }
 
 
-        Lib.announce(LR_PREFIX,"Riot active");
+        Lib.localise_announce(LR_PREFIX,"lr.riot_active");
 
         foreach(CCSPlayerController? player in Utilities.GetPlayers())
         {
@@ -881,14 +881,14 @@ public class LastRequest
 
         if(!can_rebel())
         {
-            rebel.PrintToChat($"{LR_PREFIX} You must be the last player alive to rebel");
+            rebel.localise_prefix(LR_PREFIX,"lr.rebel_last");
             return;
         }
 
 
         rebel_type = RebelType.RIOT;
 
-        Lib.announce(LR_PREFIX,"A riot has started CT's have 15 seconds to hide");
+        Lib.localise_announce(LR_PREFIX,"lr.riot_start");
 
         if(JailPlugin.global_ctx != null)
         {
@@ -978,11 +978,11 @@ public class LastRequest
         // must be admin or warden
         if(!player.is_generic_admin() && !JailPlugin.is_warden(player))
         {
-            player.PrintToChat($"{LR_PREFIX} You must be an admin or warden to cancel lr");
+            player.localise_prefix(LR_PREFIX,"lr.cancel_admin");
             return;
         }
 
-        Lib.announce(LR_PREFIX,"LR cancelled");
+        Lib.localise_announce(LR_PREFIX,"lr.cancel");
         purge_lr();
     }
 

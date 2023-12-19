@@ -11,7 +11,7 @@
     "warden.warden_req_ct": "You must be a CT to warden",
     "warden.warden_taken": "{0} is allready a warden",
     "warden.warday_restrict": "You must be a warden to call a warday",
-    "warden.warday_usage": "Usage !wd <location>",
+    "warden.warday_usage": "Usage !wd <location> <delay>",
     "warden.warday_round_restrict": "You cannot call a warday for another {0} rounds",
     "warden.wub_restrict": "You must be a warden to use wub",
     "warden.wb_restrict": "You must be a warden to use wb",
@@ -60,5 +60,18 @@
     "sd.spectre": "{0} is the spectre!",
     "sd.tank_start": "Tank day started",
     "sd.tank_end": "Tank day ended",
-    "sd.tank": "{0} is the tank!"
+    "sd.tank": "{0} is the tank!",
+
+    "lr.rebel_last": "You must be the last player alive to rebel",
+    "lr.riot_start": "A riot has started CT's have 15 seconds to hide",
+    "lr.riot_active": "Riot active",
+    "lr.cancel": "LR cancelled",
+    "lr.cancel_admin": "You must be an admin or warden to cancel lr",
+    "lr.alive":  "You must be alive to start an lr",
+    "lr.in_lr": "You are allready in a lr",
+    "lr.req_t": "You must be on T to start an lr",
+    "lr.too_many": "There are too many t's alive to start an lr {0}",
+    "lr.player_rebel": "{0} is a rebel!",
+    "lr.knife_rebel": "{0} is knife a rebel!",
+    "lr.ready": "Last request is available type !lr",
 }

@@ -19,7 +19,7 @@ public class Mute
 
     void mute_t()
     {
-        if(config.mute_t_allways)
+        if(config.mute_t_allways || !config.thirty_sec_mute)
         {
             return;
         }

@@ -33,7 +33,7 @@ public class Warday
         }
     }
 
-    public bool start_warday(String location)
+    public bool start_warday(String location, int delay)
     {
         if(round_counter >= ROUND_LIMIT)
         {
@@ -53,7 +53,7 @@ public class Warday
             }
 
 
-            countdown.start(Lib.localise("warday.location",location),20,0,null,gun_callback);
+            countdown.start(Lib.localise("warday.location",location),delay,0,null,gun_callback);
             return true;
         }        
 

@@ -35,6 +35,9 @@ public class JailConfig : BasePluginConfig
     [JsonPropertyName("ct_voice_only")]
     public bool ct_voice_only { get; set; } = false;
 
+    [JsonPropertyName("thirty_sec_mute")]
+    public bool thirty_sec_mute { get; set; } = true;
+
     [JsonPropertyName("mute_t_allways")]
     public bool mute_t_allways { get; set; } = false;
 
