@@ -171,6 +171,7 @@ public static class Lib
         if(pawn != null)
         {
             pawn.Health = hp;
+            Utilities.SetStateChanged(pawn,"CBaseEntity","m_iHealth");
         }
     }
 
@@ -322,6 +323,7 @@ public static class Lib
         {
             pawn.RenderMode = RenderMode_t.kRenderTransColor;
             pawn.Render = colour;
+            Utilities.SetStateChanged(pawn,"CBaseModelEntity","m_clrRender");
         }
     }
 
@@ -571,7 +573,9 @@ public static class Lib
         }
 
         weapon.Clip1 = clip;
+        Utilities.SetStateChanged(weapon,"CBasePlayerWeapon","m_iClip1");
         weapon.ReserveAmmo[0] = reserve;
+        Utilities.SetStateChanged(weapon,"CBasePlayerWeapon","m_pReserveAmmo");
     }
 
     public static void restore_hp(CCSPlayerController? player, int damage, int health)

@@ -168,6 +168,8 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         register_listener();
 
         Console.WriteLine("Sucessfully started JB");
+
+        //AddTimer(Warden.LASER_TIME,warden.laser_tick,CSTimer.TimerFlags.REPEAT);
     }
 
     public void OnConfigParsed(JailConfig config)
@@ -266,6 +268,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         RegisterEventHandler<EventGrenadeThrown>(OnGrenadeThrown);
         RegisterEventHandler<EventPlayerHurt>(OnPlayerHurt);
         RegisterEventHandler<EventWeaponZoom>(OnWeaponZoom);
+        RegisterEventHandler<EventPlayerPing>(OnPlayerPing);
         VirtualFunctions.CBaseEntity_TakeDamageOldFunc.Hook(OnTakeDamage,HookMode.Pre);
         
         HookEntityOutput("func_button", "OnPressed", OnButtonPressed);
@@ -273,6 +276,18 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         RegisterListener<Listeners.OnClientVoice>(OnClientVoice);
 
         // TODO: need to hook weapon drop
+    }
+
+    HookResult OnPlayerPing(EventPlayerPing  @event, GameEventInfo inf)
+    {
+        var player = @event.Userid;
+
+        if(player.is_valid())
+        {
+            warden.ping(player,@event.X,@event.Y,@event.Z);
+        }
+
+        return HookResult.Continue;
     }
 
     void OnClientVoice(int slot)

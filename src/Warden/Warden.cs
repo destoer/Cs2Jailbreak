@@ -620,6 +620,85 @@ public class Warden
 
         return jail_players[slot.Value];
     }
+    
+    public void ping(CCSPlayerController? player, float x, float y, float z)
+    {
+        // draw marker
+        if(is_warden(player) && player != null && player.is_valid())
+        {
+            Vector start = new Vector(x,y,z);
+
+            // line up
+            Vector end = new Vector(x,y,z + 61.0f);
+            Lib.draw_laser(start,end,20.0f,2.0f,Lib.CYAN);
+
+            // draw cross
+            start = new Vector(x,y - 50.0f,z + 3.0f);
+            end = new Vector(x,y + 50.0f,z + 3.0f);
+            Lib.draw_laser(start,end,20.0f,2.0f,Lib.CYAN);
+
+            start = new Vector(x - 50.0f,y,z + 3.0f);
+            end = new Vector(x + 50.0f,y,z + 3.0f);
+            Lib.draw_laser(start,end,20.0f,2.0f,Lib.CYAN);
+        }
+    }
+
+    public void laser_tick()
+    {
+        if(warden_slot == INAVLID_SLOT)
+        {
+            return;
+        }
+
+        CCSPlayerController? warden = Utilities.GetPlayerFromSlot(warden_slot);
+
+        if(warden == null || !warden.is_valid())
+        {
+            return;
+        }
+
+        bool use_key = (warden.Buttons & PlayerButtons.Use) == PlayerButtons.Use;
+
+        if(!use_key)
+        {
+            return;
+        }
+
+        CCSPlayerPawn? pawn = warden.pawn();
+
+        if(pawn != null && pawn.AbsOrigin != null)
+        {
+            // Ideally we would use Get Client Eye posistion
+            // because this will break when we crouch etc
+            Vector eye = new Vector(pawn.AbsOrigin.X,pawn.AbsOrigin.Y,pawn.AbsOrigin.Z + 61.0f);
+
+            Vector end = new Vector(eye.X,eye.Y,eye.Z);
+
+            QAngle eye_angle = pawn.EyeAngles;
+
+            // convert angles to rad 
+            double pitch = (Math.PI/180) * eye_angle.X;
+            double yaw = (Math.PI/180) * eye_angle.Y;
+
+            // get direction vector from angles
+            Vector eye_vector = new Vector((float)(Math.Cos(yaw) * Math.Cos(pitch)),(float)(Math.Sin(yaw) * Math.Cos(pitch)),(float)(-Math.Sin(pitch)));
+
+            int t = 3000;
+
+            end.X += (t * eye_vector.X);
+            end.Y += (t * eye_vector.Y);
+            end.Z += (t * eye_vector.Z);
+
+            /*
+                warden.PrintToChat($"end: {end.X} {end.Y} {end.Z}");
+                warden.PrintToChat($"angle: {eye_angle.X} {eye_angle.Y}");
+            */
+
+            Lib.draw_laser(eye,end,LASER_TIME + 0.05f,2.0f,Lib.CYAN);
+        }
+    }
+
+    public static readonly float LASER_TIME = (float)(1.0 / 30.0);
 
     const int INAVLID_SLOT = -3;   
 
