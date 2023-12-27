@@ -66,6 +66,10 @@ public class JailConfig : BasePluginConfig
     [JsonPropertyName("hide_kills")]
     public bool hide_kills { get; set; } = false;
 
+
+    [JsonPropertyName("colour_rebel")]
+    public bool colour_rebel { get; set; } = false;
+
     [JsonPropertyName("lr_knife")]
     public bool lr_knife { get; set; } = true;
 
@@ -181,6 +185,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         lr.config = config;
         warden.config = config;
         warden.mute.config = config;
+        JailPlayer.config = config;
 
         lr.lr_config_reload();
     }

@@ -50,6 +50,10 @@ public class JailPlayer
         // on T with no warday or sd active
         if(player.TeamNum == Lib.TEAM_T)
         {
+            if(config.colour_rebel)
+            {
+                player.set_colour(Lib.RED);
+            }
             is_rebel = true;
         }
     }
@@ -78,7 +82,7 @@ public class JailPlayer
     public void rebel_weapon_fire(CCSPlayerController? player, String weapon)
     {
         // ignore weapons players are meant to have
-        if(weapon != "knife" && weapon != "c4")
+        if(!weapon.Contains("knife") && !weapon.Contains("c4"))
         {
             set_rebel(player);
         }
@@ -106,6 +110,7 @@ public class JailPlayer
 
     // TODO: Laser stuff needs to go here!
     // but we dont have access to the necessary primtives yet
+    public static JailConfig config = new JailConfig();
 
     public bool is_rebel = false;
 };
