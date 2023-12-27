@@ -56,6 +56,9 @@ public class JailConfig : BasePluginConfig
     [JsonPropertyName("ct_armour")]
     public bool ct_armour { get; set; } = true;
 
+    [JsonPropertyName("warday_guns")]
+    public bool warday_guns { get; set; } = false;
+
     // ratio of t to CT
     [JsonPropertyName("bal_guards")]
     public int bal_guards { get; set; } = 0;
@@ -183,8 +186,10 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         
         lr.lr_stats.config = config;
         lr.config = config;
+
         warden.config = config;
         warden.mute.config = config;
+        warden.warday.config = config;
         JailPlayer.config = config;
 
         lr.lr_config_reload();

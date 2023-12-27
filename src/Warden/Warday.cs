@@ -44,11 +44,14 @@ public class Warday
             JailPlugin.start_event();
             
 
-            foreach(CCSPlayerController player in Utilities.GetPlayers())
+            if(config.warday_guns)
             {
-                if(player.is_valid() && player.TeamNum == Lib.TEAM_CT)
+                foreach(CCSPlayerController player in Utilities.GetPlayers())
                 {
-                    player.event_gun_menu();
+                    if(player.is_valid() && player.TeamNum == Lib.TEAM_CT)
+                    {
+                        player.event_gun_menu();
+                    }
                 }
             }
 
@@ -82,6 +85,8 @@ public class Warday
         // give a warday on map start
         round_counter = ROUND_LIMIT;
     }
+
+    public JailConfig config = new JailConfig();
 
     String WARDAY_PREFIX = $" {ChatColors.Green} [Warday]: {ChatColors.White}";
 
