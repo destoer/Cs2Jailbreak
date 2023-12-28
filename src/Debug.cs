@@ -29,12 +29,6 @@ public static class Debug
     }
 
     [RequiresPermissions("@jail/debug")]
-    public static void force_open_cmd(CCSPlayerController? invoke, CommandInfo command)
-    {
-        Lib.force_open();
-    }
-
-    [RequiresPermissions("@jail/debug")]
     public static void test_laser(CCSPlayerController? invoke, CommandInfo command)
     {
         CCSPlayerPawn? pawn = invoke.pawn();

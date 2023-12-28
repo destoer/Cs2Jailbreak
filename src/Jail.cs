@@ -221,6 +221,8 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         AddCommand("guns","give ct guns",warden.cmd_ct_guns);
 
+        AddCommand("force_open","force open every door and vent",warden.force_open_cmd);
+
         // reg lr commands
         AddCommand("lr","start an lr",lr.lr_cmd);
         AddCommand("cancel_lr","admin : cancel lr",lr.cancel_lr_cmd);
@@ -237,7 +239,6 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         if(Debug.enable)
         {
             AddCommand("nuke","debug : kill every player",Debug.nuke);
-            AddCommand("force_open","debug : force open every door and vent",Debug.force_open_cmd);
             AddCommand("is_rebel","debug : print rebel state to console",warden.is_rebel_cmd);
             AddCommand("lr_debug","debug : start an lr without restriction",lr.lr_debug_cmd);
             AddCommand("is_blocked","debug : print block state",warden.block.is_blocked);

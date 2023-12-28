@@ -101,6 +101,13 @@ public class Warden
         remove_warden();
     }
 
+    [RequiresPermissions("@css/generic")]
+    public void force_open_cmd(CCSPlayerController? invoke, CommandInfo command)
+    {
+        Lib.force_open();
+    }
+
+
     public void warday_cmd(CCSPlayerController? player, CommandInfo command)
     {
         if(player == null || !player.is_valid())
