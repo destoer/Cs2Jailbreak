@@ -227,6 +227,16 @@ public static class Lib
         });
     }
 
+    static public void remove_ent(int index, String name)
+    {
+        CBaseEntity? ent = Utilities.GetEntityFromIndex<CBaseEntity>(index);
+
+        if(ent != null && ent.DesignerName == name)
+        {
+            ent.Remove();
+        }
+    }
+
     static public void remove_ent_delay(CEntityInstance entity, float delay, String name)
     {
         // remove projectile
@@ -238,12 +248,7 @@ public static class Lib
             {
                 JailPlugin.global_ctx.AddTimer(delay,() => 
                 {
-                    CBaseEntity? grenade = Utilities.GetEntityFromIndex<CBaseEntity>(index);
-
-                    if(grenade != null && grenade.DesignerName == name)
-                    {
-                        grenade.Remove();
-                    }
+                    remove_ent(index,name);
                 });
             }
         }
@@ -340,13 +345,13 @@ public static class Lib
     static Vector VEC_ZERO = new Vector(0.0f,0.0f,0.0f);
     static QAngle ANGLE_ZERO = new QAngle(0.0f,0.0f,0.0f);
 
-    static public void draw_laser(Vector start, Vector end, float life, float width, Color color)
+    static public int draw_laser(Vector start, Vector end, float life, float width, Color color)
     {
         CEnvBeam? laser = Utilities.CreateEntityByName<CEnvBeam>("env_beam");
 
         if(laser == null)
         {
-            return;
+            return -1;
         }
 
         // setup looks
@@ -369,7 +374,12 @@ public static class Lib
         laser.DispatchSpawn(); 
 
         // create a timer to remove it
-        remove_ent_delay(laser,life,"env_beam");
+        if(life != 0.0f)
+        {
+            remove_ent_delay(laser,life,"env_beam");
+        }
+
+        return (int)laser.Index;
     }
 
     static public void play_sound(this CCSPlayerController? player, String sound)

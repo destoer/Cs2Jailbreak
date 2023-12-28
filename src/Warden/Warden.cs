@@ -652,6 +652,13 @@ public class Warden
 
     public void laser_tick()
     {
+        if(laser_index != -1)
+        {
+            Lib.remove_ent(laser_index,"env_beam");
+        }
+
+        laser_index = -1;
+
         if(warden_slot == INAVLID_SLOT)
         {
             return;
@@ -666,14 +673,9 @@ public class Warden
 
         bool use_key = (warden.Buttons & PlayerButtons.Use) == PlayerButtons.Use;
 
-        if(!use_key)
-        {
-            return;
-        }
-
         CCSPlayerPawn? pawn = warden.pawn();
 
-        if(pawn != null && pawn.AbsOrigin != null)
+        if(pawn != null && pawn.AbsOrigin != null && use_key)
         {
             // Ideally we would use Get Client Eye posistion
             // because this will break when we crouch etc
@@ -701,15 +703,16 @@ public class Warden
                 warden.PrintToChat($"angle: {eye_angle.X} {eye_angle.Y}");
             */
 
-            Lib.draw_laser(eye,end,LASER_TIME + 0.05f,2.0f,Lib.CYAN);
+            laser_index = Lib.draw_laser(eye,end,0.0f,2.0f,Lib.CYAN);
         }
     }
 
-    public static readonly float LASER_TIME = (float)(1.0 / 30.0);
+    public static readonly float LASER_TIME = 0.1f;
 
     const int INAVLID_SLOT = -3;   
 
     int warden_slot = INAVLID_SLOT;
+    int laser_index = -1;
 
     public static readonly String WARDEN_PREFIX = $" {ChatColors.Green}[WARDEN]: {ChatColors.White}";
 
