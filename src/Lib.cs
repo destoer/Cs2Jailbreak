@@ -897,9 +897,21 @@ public static class Lib
         }
     }
 
+    static String DOOR_PREFIX =  "{ChatColors.Green}[Door control]: {ChatColors.White}";
+
+    public static void force_close()
+    {
+        announce(DOOR_PREFIX,"Forcing closing all doors!");
+
+        force_ent_input("func_door","Close");
+        force_ent_input("func_movelinear","Close");
+        force_ent_input("func_door_rotating","Close");
+        force_ent_input("prop_door_rotating","Close");
+    }
+
     public static void force_open()
     {
-        announce("[Door control]: ","Forcing open all doors!");
+        announce(DOOR_PREFIX,"Forcing open all doors!");
 
         force_ent_input("func_door","Open");
         force_ent_input("func_movelinear","Open");

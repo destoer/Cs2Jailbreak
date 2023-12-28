@@ -222,6 +222,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         AddCommand("guns","give ct guns",warden.cmd_ct_guns);
 
         AddCommand("force_open","force open every door and vent",warden.force_open_cmd);
+        AddCommand("force_close","force close every door",warden.force_close_cmd);
 
         // reg lr commands
         AddCommand("lr","start an lr",lr.lr_cmd);

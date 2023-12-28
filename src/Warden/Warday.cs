@@ -49,6 +49,7 @@ public class Warday
             warday_active = true;
             JailPlugin.start_event();
             
+            Lib.force_close();
 
             if(config.warday_guns)
             {

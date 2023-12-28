@@ -108,6 +108,13 @@ public class Warden
     }
 
 
+    [RequiresPermissions("@css/generic")]
+    public void force_close_cmd(CCSPlayerController? invoke, CommandInfo command)
+    {
+        Lib.force_close();
+    }
+
+
     public void warday_cmd(CCSPlayerController? player, CommandInfo command)
     {
         if(player == null || !player.is_valid())
