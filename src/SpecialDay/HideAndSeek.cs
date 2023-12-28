@@ -34,7 +34,6 @@ public class SDHideAndSeek : SDBase
 
             if(player.is_t())
             {
-                // dumb workaround
                 player.GiveNamedItem("weapon_knife");
             }
 

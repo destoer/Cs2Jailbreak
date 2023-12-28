@@ -74,9 +74,6 @@ public class SDSpectre : SDBase
             player.set_velocity(2.5f);
 
             player.strip_weapons();
-
-            // Work around for colour updates
-            player.GiveNamedItem("weapon_decoy");
         }
 
         else

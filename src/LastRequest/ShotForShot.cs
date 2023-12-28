@@ -123,9 +123,6 @@ public class LRShotForShot : LRBase
 
             var deagle = Lib.find_weapon(player,"weapon_" + weapon_restrict);
 
-            // NOTE: this doesn't update the unload state
-            // however giving a new gun doesn't work either because it doesnt register fast enough
-            // also taking a gun away too quickly after a shot will cause it not to register
             if(deagle != null)
             {
                 deagle.set_ammo(clip_size,0);

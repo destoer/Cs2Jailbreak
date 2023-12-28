@@ -31,9 +31,6 @@ public class SDTank : SDBase
             tank.set_health(count * 100);
             tank.set_colour(Lib.RED);
             tank.SwitchTeam(CsTeam.CounterTerrorist);
-            
-            // Work around for colour updates
-            tank.GiveNamedItem("weapon_decoy");
         }
 
         else
