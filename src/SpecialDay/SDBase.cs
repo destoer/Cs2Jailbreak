@@ -41,6 +41,7 @@ public abstract class SDBase
         restrict_damage = false;
 
         state = SDState.ACTIVE;
+        Lib.force_open();
         start();
     }
 

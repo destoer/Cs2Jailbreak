@@ -20,14 +20,20 @@ public class Warday
 
         if(warday_active)
         {
-            // give T guns
-            foreach(CCSPlayerController player in Utilities.GetPlayers())
+
+            if(config.warday_guns)
             {
-                if(player.is_valid() && player.TeamNum == Lib.TEAM_T)
+                // give T guns
+                foreach(CCSPlayerController player in Utilities.GetPlayers())
                 {
-                    player.event_gun_menu();
+                    if(player.is_valid() && player.TeamNum == Lib.TEAM_T)
+                    {
+                        player.event_gun_menu();
+                    }
                 }
             }
+
+            Lib.force_open();
 
             Lib.localise_announce(WARDAY_PREFIX,"warday.live");
         }

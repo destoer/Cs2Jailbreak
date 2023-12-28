@@ -871,15 +871,31 @@ public static class Lib
         return to_slot(player.UserId);
     }
 
+    static void force_ent_input(String name, String input)
+    {
+        // search for door entitys and open all of them!
+        var target = Utilities.FindAllEntitiesByDesignerName<CBaseEntity>(name);
+
+        foreach(var ent in target)
+        {
+            if(!ent.IsValid)
+            {
+                continue;
+            }
+
+            ent.AcceptInput(input);
+        }
+    }
+
     public static void force_open()
     {
         announce("[Door control]: ","Forcing open all doors!");
 
-        /*
-        // search for door entitys and open all of them!
-        var doors = Utilities.FindAllEntitiesByDesignerName<CBaseDoor>("func_door");
-
-        */
+        force_ent_input("func_door","Open");
+        force_ent_input("func_movelinear","Open");
+        force_ent_input("func_door_rotating","Open");
+        force_ent_input("prop_door_rotating","Open");
+        force_ent_input("func_breakable","Break");
     }
 
     static public bool is_active_team(int team)
