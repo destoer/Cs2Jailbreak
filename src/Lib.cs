@@ -133,7 +133,7 @@ public static class Lib
     // Cheers Kill for suggesting method extenstions
     static public bool is_valid(this CCSPlayerController? player)
     {
-        return player != null && player.IsValid &&  player.PlayerPawn.IsValid;
+        return player != null && player.IsValid &&  player.PlayerPawn.IsValid && player.PlayerPawn.Value?.IsValid == true;
     }
 
     static public bool is_t(this CCSPlayerController? player)
@@ -897,7 +897,7 @@ public static class Lib
         }
     }
 
-    static String DOOR_PREFIX =  "{ChatColors.Green}[Door control]: {ChatColors.White}";
+    static String DOOR_PREFIX =  $" {ChatColors.Green}[Door control]: {ChatColors.White}";
 
     public static void force_close()
     {
