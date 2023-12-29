@@ -186,7 +186,7 @@ public static class Lib
 
         if(pawn == null)
         {
-            return 100;
+            return 0;
         }
 
         return pawn.Health;
