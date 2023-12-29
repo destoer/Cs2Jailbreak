@@ -54,7 +54,7 @@ public class Warden
 
         player.localise_announce(WARDEN_PREFIX,"warden.wcommand");
 
-        warden_timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
+        warden_timestamp = Lib.cur_timestamp();
 
         // change player color!
         player.set_colour(Color.FromArgb(255, 0, 0, 255));
@@ -239,7 +239,7 @@ public class Warden
             return;
         }
 
-        long elasped_min = (DateTimeOffset.Now.ToUnixTimeSeconds() - warden_timestamp) / 60;
+        long elasped_min = (Lib.cur_timestamp() - warden_timestamp) / 60;
 
         invoke.localise_prefix(WARDEN_PREFIX,"warden.time",elasped_min);
     }

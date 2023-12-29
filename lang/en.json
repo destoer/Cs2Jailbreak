@@ -76,4 +76,5 @@
     "lr.player_rebel": "{0} is a rebel!",
     "lr.knife_rebel": "{0} is knife a rebel!",
     "lr.ready": "Last request is available! Type !lr",
+    "lr.wait": "Please wait 15 seconds into the round before starting an lr"
 }

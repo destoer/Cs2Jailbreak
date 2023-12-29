@@ -75,7 +75,6 @@ public class Countdown<T>
         }
     }
 
-
     public int delay = 0;
     public Action<T>? callback = null;
     public String name = "";
@@ -574,6 +573,12 @@ public static class Lib
 
         return null;
     }
+
+    static public long cur_timestamp()
+    {
+        return DateTimeOffset.Now.ToUnixTimeSeconds();
+    }
+
 
     static public void set_ammo(this CBasePlayerWeapon? weapon, int clip, int reserve)
     {

@@ -276,6 +276,8 @@ public class LastRequest
 
     public void round_start()
     {
+        start_timestamp = Lib.cur_timestamp();
+
         purge_lr();
     }
 
@@ -576,7 +578,19 @@ public class LastRequest
 
     bool can_start_lr(CCSPlayerController? player)
     {
-        if(player == null || !is_valid_t(player))
+        if(player == null || !player.is_valid())
+        {
+            return false;
+        }
+
+        // prevent starts are round begin to stop lr activations on map joins
+        if(Lib.cur_timestamp() - start_timestamp < 15)
+        {
+            player.localise_prefix(LR_PREFIX,"lr.wait");
+            return false;
+        }
+
+        if(!is_valid_t(player))
         {
             return false;
         } 
@@ -1074,6 +1088,8 @@ public class LastRequest
     LRChoice[] lr_choice = new LRChoice[64];
     public LRStats lr_stats = new LRStats();
 
+
+    long start_timestamp = 0;
 
     public static readonly String LR_PREFIX = $" {ChatColors.Green}[LR]: {ChatColors.White}";
 }
