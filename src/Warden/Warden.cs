@@ -336,11 +336,6 @@ public class Warden
         }
     }
 
-    void round_timer_callback()
-    {
-        start_timer = null;   
-    }
-
     void setup_cvar()
     {
         Server.ExecuteCommand("mp_force_pick_time 3000");
@@ -355,11 +350,6 @@ public class Warden
         setup_cvar();
 
         purge_round();
-
-        if(JailPlugin.global_ctx != null)
-        {
-            start_timer = JailPlugin.global_ctx.AddTimer(20.0F,round_timer_callback,CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
-        }
 
         // handle submodules
         mute.round_start();
@@ -376,7 +366,6 @@ public class Warden
 
     public void round_end()
     {
-        Lib.kill_timer(ref start_timer);
         mute.round_end();
         warday.round_end();
         purge_round();
@@ -761,9 +750,6 @@ public class Warden
     int laser_index = -1;
 
     public static readonly String WARDEN_PREFIX = $" {ChatColors.Green}[WARDEN]: {ChatColors.White}";
-
-
-    CSTimer.Timer? start_timer = null;
 
     long warden_timestamp = -1;
 
