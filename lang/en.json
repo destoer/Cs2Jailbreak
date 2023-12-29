@@ -21,6 +21,8 @@
     "warden.removed": "{0} is no longer the warden",
     "warden.ct_gun_menu": "You must be a ct to use the gun menu!",
     "warden.gun_menu_disabled": "Gun menu is disabled!",
+    "warden.no_warden": "Their is no warden",
+    "warden.time": "Warden has been active for {0} minutes",
 
     "mute.thirty": "All t's are muted for the first 30 seconds",
     "mute.speak_quietly": "T's may now speak quietly",

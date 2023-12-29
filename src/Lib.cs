@@ -14,7 +14,7 @@ using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 using CounterStrikeSharp.API.Modules.Admin;
 using System.Drawing;
-
+using System.Text;
 
 // NOTE: this is a timer wrapper, and should be owned the class
 // wanting to use the timer

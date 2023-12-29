@@ -56,6 +56,10 @@ public class JailConfig : BasePluginConfig
     [JsonPropertyName("ct_armour")]
     public bool ct_armour { get; set; } = true;
 
+    [JsonPropertyName("warden_force_removal")]
+    public bool warden_force_removal { get; set; } = true;
+
+
     [JsonPropertyName("warday_guns")]
     public bool warday_guns { get; set; } = false;
 
@@ -218,6 +222,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         AddCommand("wd","warden : start warday",warden.warday_cmd);
         AddCommand("wcommands", "warden : show all commands",warden.cmd_info);
+        AddCommand("wtime","how long as warden been active?",warden.warden_time_cmd);
 
         AddCommand("guns","give ct guns",warden.cmd_ct_guns);
 

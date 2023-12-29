@@ -54,6 +54,8 @@ public class Warden
 
         player.localise_announce(WARDEN_PREFIX,"warden.wcommand");
 
+        warden_timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
+
         // change player color!
         player.set_colour(Color.FromArgb(255, 0, 0, 255));
     }
@@ -61,6 +63,12 @@ public class Warden
     public bool is_warden(CCSPlayerController? player)
     {
         return player.slot() == warden_slot;
+    }
+
+    public void remove_warden_internal()
+    {
+        warden_slot = INAVLID_SLOT;
+        warden_timestamp = -1;
     }
 
     public void remove_warden()
@@ -73,7 +81,7 @@ public class Warden
             Lib.localise_announce(WARDEN_PREFIX,"warden.removed",player.PlayerName);
         }
 
-        warden_slot = INAVLID_SLOT;
+        remove_warden_internal();
     }
 
     public void remove_if_warden(CCSPlayerController? player)
@@ -218,6 +226,24 @@ public class Warden
         }
     }
 
+    public void warden_time_cmd(CCSPlayerController? invoke, CommandInfo command)
+    {
+        if(invoke == null || !invoke.is_valid())
+        {
+            return;
+        }
+
+        if(warden_slot == INAVLID_SLOT)
+        {
+            invoke.localise_prefix(WARDEN_PREFIX,"warden.no_warden");
+            return;
+        }
+
+        long elasped_min = (DateTimeOffset.Now.ToUnixTimeSeconds() - warden_timestamp) / 60;
+
+        invoke.localise_prefix(WARDEN_PREFIX,"warden.time",elasped_min);
+    }
+
     public void cmd_info(CCSPlayerController? player, CommandInfo command)
     {
         if(player == null || !player.is_valid())
@@ -271,7 +297,10 @@ public class Warden
     // reset variables for a new round
     void purge_round()
     {
-        warden_slot = INAVLID_SLOT;
+        if(config.warden_force_removal)
+        {
+            remove_warden_internal();
+        }
 
         // reset player structs
         foreach(JailPlayer jail_player in jail_players)
@@ -290,6 +319,12 @@ public class Warden
 
     void set_warden_if_last()
     {
+        // dont override the warden if there is no death removal
+        if(!config.warden_force_removal)
+        {
+            return;
+        }
+
         // if there is only one ct automatically give them warden!
         var ct_players = Lib.get_alive_ct();
 
@@ -439,8 +474,11 @@ public class Warden
             return;
         }
 
-        // handle warden death
-        remove_if_warden(player);
+        if(config.warden_force_removal)
+        {
+            // handle warden death
+            remove_if_warden(player);
+        }
 
         // mute player
         mute.death(player);
@@ -725,6 +763,8 @@ public class Warden
 
 
     CSTimer.Timer? start_timer = null;
+
+    long warden_timestamp = -1;
 
     public JailConfig config = new JailConfig();
 
