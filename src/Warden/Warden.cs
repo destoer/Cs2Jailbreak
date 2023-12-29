@@ -347,6 +347,7 @@ public class Warden
         Server.ExecuteCommand("mp_autoteambalance 0");
         Server.ExecuteCommand("mp_equipment_reset_rounds 1");
         Server.ExecuteCommand("mp_t_default_secondary \"\" ");
+        Server.ExecuteCommand("mp_ct_default_secondary \"\" ");
     }
 
     public void round_start()
