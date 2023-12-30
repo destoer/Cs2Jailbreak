@@ -298,9 +298,12 @@ public class LRStats
         }
         col_reader.Close();
 
+        int fields = (LastRequest.LR_SIZE * 2) + 2;
+
         // NOTE: both win and lose i.e * 2 + steamid and name
-        if(row_count != (LastRequest.LR_SIZE * 2) + 2)
+        if(row_count != fields)
         {
+            // add lr fields
             for(int i = 0; i < LastRequest.LR_SIZE; i++)
             {
                 String name = LastRequest.LR_NAME[i].Replace(" ","_");
@@ -318,6 +321,9 @@ public class LRStats
 
                 catch {}
             }
+
+            // add warden fields
+
         }
 
     }

@@ -878,7 +878,9 @@ public static class Lib
 
     public static int? slot(this CCSPlayerController? player)
     {
-        if(player == null)
+        // dont think a full validity check here is desirable
+        // for stuff like connect events?
+        if(player == null || !player.IsValid)
         {
             return null;
         }
