@@ -13,19 +13,19 @@ using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CounterStrikeSharp.API.Modules.Admin;
 using MySqlConnector;
 
-public class LRStats
+public class JailStats
 {
-    public LRStats()
+    public JailStats()
     {
         for(int i = 0; i < 64; i++)
         {
-            lr_players[i] = new PlayerStat();
+            player_stats[i] = new PlayerStat();
         }
     }
 
     public void win(CCSPlayerController? player, LastRequest.LRType type)
     {
-        var lr_player = lr_player_from_player(player);
+        var lr_player = player_stat_from_player(player);
 
         if(lr_player != null && type != LastRequest.LRType.NONE && player != null && player.is_valid())
         {
@@ -38,7 +38,7 @@ public class LRStats
 
     public void loss(CCSPlayerController? player, LastRequest.LRType type)
     {
-        var lr_player = lr_player_from_player(player);
+        var lr_player = player_stat_from_player(player);
 
         if(lr_player != null && type != LastRequest.LRType.NONE && player != null && player.is_valid())
         {
@@ -50,7 +50,7 @@ public class LRStats
         }        
     }
 
-    PlayerStat? lr_player_from_player(CCSPlayerController? player)
+    PlayerStat? player_stat_from_player(CCSPlayerController? player)
     {
         if(player == null || !player.is_valid())
         {
@@ -64,7 +64,7 @@ public class LRStats
             return null;
         }
 
-        return  lr_players[slot.Value];        
+        return player_stats[slot.Value];        
     }
 
 
@@ -76,7 +76,7 @@ public class LRStats
             return;
         }
 
-        var lr_player = lr_player_from_player(player);
+        var lr_player = player_stat_from_player(player);
 
         if(lr_player != null && player != null && player.is_valid())
         {
@@ -97,7 +97,7 @@ public class LRStats
 
     public void purge_player(CCSPlayerController? player)
     {
-        var lr_player = lr_player_from_player(player);
+        var lr_player = player_stat_from_player(player);
 
         if(lr_player != null)
         {
@@ -209,7 +209,7 @@ public class LRStats
         int slot = slot_opt.Value;
 
         // allready cached we dont care
-        if(lr_players[slot].cached)
+        if(player_stats[slot].cached)
         {
             return;
         }
@@ -235,11 +235,11 @@ public class LRStats
                 {
                     String name = LastRequest.LR_NAME[i].Replace(" ","_");
 
-                    lr_players[slot].win[i] = (int)reader[name + "_win"];
-                    lr_players[slot].loss[i] = (int)reader[name + "_loss"];
+                    player_stats[slot].win[i] = (int)reader[name + "_win"];
+                    player_stats[slot].loss[i] = (int)reader[name + "_loss"];
                 }
 
-                lr_players[slot].cached = true;
+                player_stats[slot].cached = true;
             }
 
             // failed to pull player stats
@@ -350,5 +350,5 @@ public class LRStats
 
     public JailConfig config = new JailConfig();
 
-    PlayerStat[] lr_players = new PlayerStat[64];
+    PlayerStat[] player_stats = new PlayerStat[64];
 }

@@ -164,6 +164,30 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         }
     }
 
+    public static void win_lr(CCSPlayerController? player,LastRequest.LRType type)
+    {
+        if(global_ctx != null)
+        {
+            jail_stats.win(player,type);
+        }
+    }
+
+    public static void lose_lr(CCSPlayerController? player, LastRequest.LRType type)
+    {
+        if(global_ctx != null)
+        {
+            jail_stats.loss(player,type);
+        }
+    }
+
+    public static void purge_player_stats(CCSPlayerController? player)
+    {
+        if(global_ctx != null)
+        {
+            jail_stats.purge_player(player);
+        }
+    }
+
     public override string ModuleName => "CS2 Jailbreak - destoer";
 
     public override string ModuleVersion => "v0.2.2";
@@ -183,12 +207,19 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         //AddTimer(Warden.LASER_TIME,warden.laser_tick,CSTimer.TimerFlags.REPEAT);
     }
 
+    void stat_db_reload()
+    {
+        var database = jail_stats.connect_db();
+
+        jail_stats.setup_db(database);
+    }
+
     public void OnConfigParsed(JailConfig config)
     {
         // give each sub plugin the config
         this.Config = config;
         
-        lr.lr_stats.config = config;
+        jail_stats.config = config;
         lr.config = config;
 
         warden.config = config;
@@ -232,7 +263,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         // reg lr commands
         AddCommand("lr","start an lr",lr.lr_cmd);
         AddCommand("cancel_lr","admin : cancel lr",lr.cancel_lr_cmd);
-        AddCommand("lr_stats","list lr stats",lr.lr_stats.lr_stats_cmd);
+        AddCommand("lr_stats","list lr stats",jail_stats.lr_stats_cmd);
 
         // reg sd commands
         AddCommand("sd","start a sd",sd.sd_cmd);
@@ -259,7 +290,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public HookResult join_team(CCSPlayerController? invoke, CommandInfo command)
     {
-        lr.lr_stats.connect(invoke);
+        jail_stats.connect(invoke);
         
         if(!warden.join_team(invoke,command))
         {
@@ -520,7 +551,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         if(player != null && player.is_valid())
         {
-            lr.lr_stats.connect(player);
+            jail_stats.connect(player);
         }
 
         return HookResult.Continue;
@@ -574,4 +605,5 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     public static Warden warden = new Warden();
     public static LastRequest lr = new LastRequest();
     public static SpecialDay sd = new SpecialDay();
+    public static JailStats jail_stats = new JailStats();
 }

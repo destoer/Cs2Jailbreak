@@ -43,10 +43,6 @@ public class LastRequest
     public void lr_config_reload()
     {
         create_lr_slots(config.lr_count);
-
-        var database = lr_stats.connect_db();
-
-        lr_stats.setup_db(database);
     }
 
     void create_lr_slots(uint slots)
@@ -288,7 +284,7 @@ public class LastRequest
 
     public void disconnect(CCSPlayerController? player)
     {
-        lr_stats.purge_player(player);
+        JailPlugin.purge_player_stats(player);
 
         LRBase? lr = find_lr(player);
 
@@ -1086,9 +1082,7 @@ public class LastRequest
     public JailConfig config = new JailConfig();
 
     LRChoice[] lr_choice = new LRChoice[64];
-    public LRStats lr_stats = new LRStats();
-
-
+    
     long start_timestamp = 0;
 
     public static readonly String LR_PREFIX = $" {ChatColors.Green}[LR]: {ChatColors.White}";

@@ -110,8 +110,8 @@ public abstract class LRBase
             return;
         }
 
-        manager.lr_stats.win(winner,type);
-        manager.lr_stats.loss(player,type);
+        JailPlugin.win_lr(winner,type);
+        JailPlugin.lose_lr(player,type);
 
         manager.end_lr(slot);
     }
