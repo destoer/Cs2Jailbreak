@@ -614,10 +614,17 @@ public static class Lib
             }
         }
 
-        weapon.Clip1 = clip;
-        Utilities.SetStateChanged(weapon,"CBasePlayerWeapon","m_iClip1");
-        weapon.ReserveAmmo[0] = reserve;
-        Utilities.SetStateChanged(weapon,"CBasePlayerWeapon","m_pReserveAmmo");
+        if(clip != -1)
+        {
+            weapon.Clip1 = clip;
+            Utilities.SetStateChanged(weapon,"CBasePlayerWeapon","m_iClip1");
+        }
+
+        if(reserve != -1)
+        {
+            weapon.ReserveAmmo[0] = reserve;
+            Utilities.SetStateChanged(weapon,"CBasePlayerWeapon","m_pReserveAmmo");
+        }
     }
 
     public static void restore_hp(CCSPlayerController? player, int damage, int health)
@@ -661,8 +668,18 @@ public static class Lib
 
         player.strip_weapons();
 
+        // give their desired guns with lots of reserve ammo
         player.GiveNamedItem("weapon_" + gun_give_name(option.Text));
+        
         player.GiveNamedItem("weapon_deagle");
+
+
+        CBasePlayerWeapon? primary = Lib.find_weapon(player,gun_give_name(option.Text));
+        primary.set_ammo(-1,999);
+
+        CBasePlayerWeapon? secondary = Lib.find_weapon(player,"deagle");
+        secondary.set_ammo(-1,999);
+        
 
         player.GiveNamedItem("item_assaultsuit");
     }

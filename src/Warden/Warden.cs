@@ -335,7 +335,8 @@ public class Warden
             if(on_death)
             {
                 // play sfx for last ct
-                Lib.play_sound_all("sounds/vo/agents/sas/lastmanstanding03");
+                // TODO: this is too loud as there is no way to control volume..
+                //Lib.play_sound_all("sounds/vo/agents/sas/lastmanstanding03");
             }
         
             set_warden(slot);

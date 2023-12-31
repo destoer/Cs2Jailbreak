@@ -136,6 +136,9 @@ public abstract class SDBase
         {
             if(player.is_valid_alive())
             {
+                // reset the player colour incase of rebel
+                player.set_colour(Color.FromArgb(255,255,255,255));
+
                 setup_player(player);
             }
         }       
