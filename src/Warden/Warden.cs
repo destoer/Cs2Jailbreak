@@ -317,7 +317,7 @@ public class Warden
         warday.map_start();
     }
 
-    void set_warden_if_last()
+    void set_warden_if_last(bool on_death = false)
     {
         // dont override the warden if there is no death removal
         if(!config.warden_force_removal)
@@ -331,6 +331,12 @@ public class Warden
         if(ct_players.Count == 1)
         {
             int? slot = ct_players[0].slot();
+
+            if(on_death)
+            {
+                // play sfx for last ct
+                Lib.play_sound_all("sounds/vo/agents/sas/lastmanstanding03");
+            }
         
             set_warden(slot);
         }
@@ -483,7 +489,7 @@ public class Warden
         // if a t dies we dont need to regive the warden
         if(player.is_ct())
         {
-            set_warden_if_last();
+            set_warden_if_last(true);
         }
     }
 

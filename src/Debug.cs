@@ -35,34 +35,13 @@ public static class Debug
 
         if(pawn != null && pawn.AbsOrigin != null)
         {
-            
             Vector mid =  new Vector(pawn.AbsOrigin.X,pawn.AbsOrigin.Y,pawn.AbsOrigin.Z);
-
-            int lines = 25;
-
-            float step = (float)(2.0f * Math.PI) / (float)lines;
-            float r = 50.0f;
-
-            float angle_old = 0.0f;
-            float angle_cur = step;
-
-
-            for(int i = 1; i < (lines + 1); i++)
-            {
-                Vector start = new Vector((float)(mid.X + (r * Math.Cos(angle_old))),(float)(mid.Y + (r *Math.Sin(angle_old))), mid.Z + 3.0f);
-                Vector end = new Vector((float)(mid.X + (r * Math.Cos(angle_cur))),(float)(mid.Y + (r * Math.Sin(angle_cur))), mid.Z + 3.0f);
-
-                if(invoke != null)
-                {
-                    invoke.PrintToConsole($"{i} : {angle_old} : {angle_cur}\n");
-                }
-
-                Lib.draw_laser(start,end,30.0f,2.0f,Lib.CYAN);
-
-                angle_old = angle_cur;
-                angle_cur += step;
-            }
+            Lib.draw_marker(mid.X,mid.Y,mid.Z,30.0f);
+            //invoke.play_sound("sounds/vo/agents/balkan/last_unit_alive_01");
+            invoke.play_sound("sounds/ambient/vo/agents/sas/lastmanstanding01");
         }
+
+
     }
     
     [RequiresPermissions("@jail/debug")]

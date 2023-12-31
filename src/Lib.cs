@@ -391,6 +391,14 @@ public static class Lib
         player.ExecuteClientCommand($"play {sound}");
     }
 
+    static public void play_sound_all(String sound)
+    {
+        foreach(CCSPlayerController? player in Utilities.GetPlayers())
+        {
+            player.play_sound(sound);
+        }
+    }
+
     static public CCSPlayerController? player(this CEntityInstance? instance)
     {
         if(instance == null)
