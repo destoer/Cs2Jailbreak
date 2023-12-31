@@ -668,20 +668,17 @@ public class Warden
         // draw marker
         if(is_warden(player) && player != null && player.is_valid())
         {
-            Vector start = new Vector(x,y,z);
+            // make sure we destroy the old marker
+            // because this generates alot of ents
+            if(marker != null)
+            {
+                Lib.destroy_beam_group(marker);
+                marker = null;
+            }
 
-            // line up
-            Vector end = new Vector(x,y,z + 61.0f);
-            Lib.draw_laser(start,end,20.0f,2.0f,Lib.CYAN);
+            //Server.PrintToChatAll($"{Lib.ent_count()}");
 
-            // draw cross
-            start = new Vector(x,y - 50.0f,z + 3.0f);
-            end = new Vector(x,y + 50.0f,z + 3.0f);
-            Lib.draw_laser(start,end,20.0f,2.0f,Lib.CYAN);
-
-            start = new Vector(x - 50.0f,y,z + 3.0f);
-            end = new Vector(x + 50.0f,y,z + 3.0f);
-            Lib.draw_laser(start,end,20.0f,2.0f,Lib.CYAN);
+            marker = Lib.draw_marker(x,y,z,60.0f);
         }
     }
 
@@ -748,6 +745,8 @@ public class Warden
 
     int warden_slot = INAVLID_SLOT;
     int laser_index = -1;
+
+    int[]? marker = null;
 
     public static readonly String WARDEN_PREFIX = $" {ChatColors.Green}[WARDEN]: {ChatColors.White}";
 

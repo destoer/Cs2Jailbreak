@@ -904,6 +904,58 @@ public static class Lib
         }
     }
 
+    // TODO: is their a cheaper way to do this?
+    static public int ent_count()
+    {
+        return Utilities.GetAllEntities().Count();
+    }
+
+    static Vector angle_on_circle(float angle,float r, Vector mid)
+    {
+        // {r * cos(x),r * sin(x)}
+        // NOTE: we offset Z so it doesn't clip into the ground
+        return new Vector((float)(mid.X + (r * Math.Cos(angle))),(float)(mid.Y + (r * Math.Sin(angle))), mid.Z + 6.0f);
+    }
+
+    static public int[] draw_marker(float X,float Y, float Z,float time)
+    {
+        Vector mid =  new Vector(X,Y,Z);
+
+        int lines = 30;
+        int[] ent = new int[lines];
+
+
+        // draw piecewise approx by stepping angle
+        // and joining points with a dot to dot
+        float step = (float)(2.0f * Math.PI) / (float)lines;
+        float r = 75.0f;
+
+        float angle_old = 0.0f;
+        float angle_cur = step;
+
+
+        for(int i = 0; i < lines; i++)
+        {
+            Vector start = angle_on_circle(angle_old,r,mid);
+            Vector end = angle_on_circle(angle_cur,r,mid);
+
+            ent[i] = Lib.draw_laser(start,end,time,2.0f,Lib.CYAN);
+
+            angle_old = angle_cur;
+            angle_cur += step;
+        }
+
+        return ent;
+    }
+
+    static public void destroy_beam_group(int[] ent)
+    {
+        foreach(int laser in ent)
+        {
+            remove_ent(laser,"env_beam");
+        }
+    }
+
     static String DOOR_PREFIX =  $" {ChatColors.Green}[Door control]: {ChatColors.White}";
 
     public static void force_close()
