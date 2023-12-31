@@ -912,7 +912,7 @@ public static class Lib
 
     static Vector angle_on_circle(float angle,float r, Vector mid)
     {
-        // {r * cos(x),r * sin(x)}
+        // {r * cos(x),r * sin(x)} + mid
         // NOTE: we offset Z so it doesn't clip into the ground
         return new Vector((float)(mid.X + (r * Math.Cos(angle))),(float)(mid.Y + (r * Math.Sin(angle))), mid.Z + 6.0f);
     }

@@ -29,7 +29,7 @@ public class SDJuggernaut : SDBase
 
     public override void end()
     {
-        localise_announce("sd.juggernaut_start");
+        localise_announce("sd.juggernaut_end");
     }
 
     public override void death(CCSPlayerController? player, CCSPlayerController? attacker)
