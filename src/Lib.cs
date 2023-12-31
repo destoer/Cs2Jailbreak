@@ -595,6 +595,25 @@ public static class Lib
             return;
         }
 
+        // overide reserve max so it doesn't get clipped when
+        // setting "infinite ammo"
+        // thanks 1Mack
+        CCSWeaponBaseVData? weapon_data = weapon.As<CCSWeaponBase>().VData;
+
+        if(weapon_data != null)
+        {
+            if(clip > weapon_data.MaxClip1)
+            {
+                weapon_data.MaxClip1 = clip;
+                weapon_data.DefaultClip1 = clip;
+            }
+
+            if(reserve > weapon_data.PrimaryReserveAmmoMax)
+            {
+                weapon_data.PrimaryReserveAmmoMax = reserve;
+            }
+        }
+
         weapon.Clip1 = clip;
         Utilities.SetStateChanged(weapon,"CBasePlayerWeapon","m_iClip1");
         weapon.ReserveAmmo[0] = reserve;
