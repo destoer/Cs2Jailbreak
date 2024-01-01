@@ -16,7 +16,9 @@ https://github.com/destoer/Cs2Jailbreak/wiki
 # Installation
 Download the latest release from the releases tab and copy it into the counterstrikesharp plugin folder
 
-NOTE: currently windows has crashing problems, this plugin only operates correctly on linux
+NOTE: this plugin only operates correctly on linux
+
+windows has a couple of places where a !is_windows() check wraps buggy code
 
 # Warden TODO
 Warden Laser and T laser 
