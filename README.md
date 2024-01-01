@@ -1,5 +1,5 @@
 # Cs2Jailbreak
-WIP Jailbreak plugin for CS2 expect bugs
+WIP Jailbreak plugin for CS2 using counterstrikesharp expect bugs
 
 rewrite of CSS plugin https://github.com/destoer/counter_strike_jailbreak 
 
@@ -13,6 +13,10 @@ For further config and feature info please see the wiki
 
 https://github.com/destoer/Cs2Jailbreak/wiki
 
+# Installation
+Download the latest release from the releases tab and copy it into the counterstrikesharp plugin folder
+
+NOTE: currently windows has crashing problems, this plugin only operates correctly on linux
 
 # Warden TODO
 Warden Laser and T laser 
