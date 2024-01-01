@@ -102,6 +102,20 @@ public class Warden
         remove_if_warden(player);
     }
 
+    public void remove_marker_cmd(CCSPlayerController? player, CommandInfo command)
+    {
+        if(!player.is_valid() || player == null)
+        {
+            return;
+        }
+
+        if(is_warden(player))
+        {
+            player.announce(WARDEN_PREFIX,"Marker removed");
+            remove_marker();
+        }
+    }
+
     [RequiresPermissions("@css/generic")]
     public void remove_warden_cmd(CCSPlayerController? player, CommandInfo command)
     {
@@ -670,6 +684,15 @@ public class Warden
         return jail_players[slot.Value];
     }
     
+    void remove_marker()
+    {
+        if(marker != null)
+        {
+            Lib.destroy_beam_group(marker);
+            marker = null;
+        }
+    }
+
     public void ping(CCSPlayerController? player, float x, float y, float z)
     {
         // draw marker
@@ -677,11 +700,7 @@ public class Warden
         {
             // make sure we destroy the old marker
             // because this generates alot of ents
-            if(marker != null)
-            {
-                Lib.destroy_beam_group(marker);
-                marker = null;
-            }
+            remove_marker();
 
             //Server.PrintToChatAll($"{Lib.ent_count()}");
 

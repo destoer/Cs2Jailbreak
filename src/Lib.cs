@@ -302,12 +302,8 @@ public static class Lib
             return;
         }
 
-        if(is_windows())
-        {
-           return; 
-        }
-
-        else
+        // buggy on windows (Wrong gamedata issue)
+        if(!is_windows())
         {
             player.RemoveWeapons();
         }
@@ -666,7 +662,7 @@ public static class Lib
             return;
         }
 
-        // strip guns so the new ones don't just drop to the floor
+        // strip guns so the new ones don't just drop to the ground
         player.strip_weapons();
 
         // give their desired guns with lots of reserve ammo

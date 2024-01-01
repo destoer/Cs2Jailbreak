@@ -245,6 +245,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         AddCommand("w", "take warden", warden.take_warden_cmd);
         AddCommand("uw", "leave warden", warden.leave_warden_cmd);
         AddCommand("rw", "remove warden", warden.remove_warden_cmd);
+        AddCommand("clear_marker", "remove warden marker",warden.remove_marker_cmd);
 
         AddCommand("wub","warden : disable block",warden.wub_cmd);
         AddCommand("wb","warden : enable block",warden.wb_cmd);
@@ -317,7 +318,14 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         RegisterEventHandler<EventPlayerHurt>(OnPlayerHurt);
         RegisterEventHandler<EventWeaponZoom>(OnWeaponZoom);
         RegisterEventHandler<EventPlayerPing>(OnPlayerPing);
-        VirtualFunctions.CBaseEntity_TakeDamageOldFunc.Hook(OnTakeDamage,HookMode.Pre);
+
+        // take damage causes crashes on windows
+        // cant figure out why because the windows cs2 console wont log
+        // before it dies
+        if(!Lib.is_windows())
+        {
+            VirtualFunctions.CBaseEntity_TakeDamageOldFunc.Hook(OnTakeDamage,HookMode.Pre);
+        }
         
         HookEntityOutput("func_button", "OnPressed", OnButtonPressed);
         
@@ -586,8 +594,11 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         var player = @event.Userid;
         String name = @event.Weapon;
 
-        warden.weapon_fire(player,name);
-        lr.weapon_fire(player,name);
+        if(player != null && player.is_valid_alive())
+        {
+            warden.weapon_fire(player,name);
+            lr.weapon_fire(player,name);
+        }
 
         return HookResult.Continue;
     }
