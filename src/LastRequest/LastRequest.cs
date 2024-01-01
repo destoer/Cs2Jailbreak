@@ -660,14 +660,14 @@ public class LastRequest
 
         choice.type = type_from_name(option.Text);
 
-
+        String lr_name = LR_NAME[(int)choice.type];
 
         // now select option
         switch(choice.type)
         {
             case LRType.KNIFE:
             {
-                var lr_menu = new ChatMenu("Choice Menu");
+                var lr_menu = new ChatMenu($"Choice Menu ({lr_name})");
 
                 lr_menu.AddMenuOption("Vanilla", picked_option);
                 lr_menu.AddMenuOption("Low gravity", picked_option);
@@ -680,7 +680,7 @@ public class LastRequest
 
             case LRType.DODGEBALL:
             {
-                var lr_menu = new ChatMenu("Choice Menu");
+                var lr_menu = new ChatMenu($"Choice Menu ({lr_name})");
 
                 lr_menu.AddMenuOption("Vanilla", picked_option);
                 lr_menu.AddMenuOption("Low gravity", picked_option);
@@ -691,7 +691,7 @@ public class LastRequest
 
             case LRType.NO_SCOPE:
             {
-                var lr_menu = new ChatMenu("Choice Menu");
+                var lr_menu = new ChatMenu($"Choice Menu ({lr_name})");
 
                 lr_menu.AddMenuOption("Awp", picked_option);
                 lr_menu.AddMenuOption("Scout", picked_option);
@@ -702,7 +702,7 @@ public class LastRequest
 
             case LRType.GRENADE:
             {
-                var lr_menu = new ChatMenu("Choice Menu");
+                var lr_menu = new ChatMenu($"Choice Menu ({lr_name})");
 
                 lr_menu.AddMenuOption("Vanilla", picked_option);
                 lr_menu.AddMenuOption("Low gravity", picked_option);
@@ -714,7 +714,7 @@ public class LastRequest
             case LRType.SHOT_FOR_SHOT:
             case LRType.MAG_FOR_MAG:
             {
-                var lr_menu = new ChatMenu("Choice Menu");
+                var lr_menu = new ChatMenu($"Choice Menu ({lr_name})");
 
                 lr_menu.AddMenuOption("Deagle",picked_option);
                 //lr_menu.AddMenuOption("Usp",picked_option);
@@ -754,7 +754,8 @@ public class LastRequest
             // scan for avaiable CT's that are alive and add as choice
             var alive_t = Lib.get_alive_t();
 
-            var lr_menu = new ChatMenu("Partner Menu");
+            String lr_name = LR_NAME[(int)choice.type];
+            var lr_menu = new ChatMenu($"Partner Menu ({lr_name})");
 
             foreach(var t in alive_t)
             {
@@ -775,7 +776,8 @@ public class LastRequest
             // scan for avaiable CT's that are alive and add as choice
             var alive_ct = Lib.get_alive_ct();
 
-            var lr_menu = new ChatMenu("Partner Menu");
+            String lr_name = LR_NAME[(int)choice.type];
+            var lr_menu = new ChatMenu($"Partner Menu ({lr_name})");
 
             foreach(var ct in alive_ct)
             {

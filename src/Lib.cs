@@ -666,13 +666,12 @@ public static class Lib
             return;
         }
 
+        // strip guns so the new ones don't just drop to the floor
         player.strip_weapons();
 
         // give their desired guns with lots of reserve ammo
         player.GiveNamedItem("weapon_" + gun_give_name(option.Text));
-        
         player.GiveNamedItem("weapon_deagle");
-
 
         CBasePlayerWeapon? primary = Lib.find_weapon(player,gun_give_name(option.Text));
         primary.set_ammo(-1,999);
@@ -680,7 +679,6 @@ public static class Lib
         CBasePlayerWeapon? secondary = Lib.find_weapon(player,"deagle");
         secondary.set_ammo(-1,999);
         
-
         player.GiveNamedItem("item_assaultsuit");
     }
 
