@@ -498,6 +498,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
                         // ct gets a suicide
                         @event.Userid = victim;
                         @event.Attacker = victim;
+                        @event.Assister = victim;
 
                         @event.FireEventToClient(player);
                     }
