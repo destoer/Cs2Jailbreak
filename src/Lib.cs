@@ -340,21 +340,12 @@ public static class Lib
     static Vector VEC_ZERO = new Vector(0.0f,0.0f,0.0f);
     static QAngle ANGLE_ZERO = new QAngle(0.0f,0.0f,0.0f);
 
-    static public int draw_laser(Vector start, Vector end, float life, float width, Color color)
+    static public void move(this CEnvBeam? laser,Vector start, Vector end)
     {
-        CEnvBeam? laser = Utilities.CreateEntityByName<CEnvBeam>("env_beam");
-
         if(laser == null)
         {
-            return -1;
+            return;
         }
-
-        // setup looks
-        laser.Render = color;
-        laser.Width = 2.0f;
-
-        // circle not working?
-        //laser.Flags |= 8;
 
         // set pos
         laser.Teleport(start, ANGLE_ZERO, VEC_ZERO);
@@ -364,6 +355,36 @@ public static class Lib
         laser.EndPos.X = end.X;
         laser.EndPos.Y = end.Y;
         laser.EndPos.Z = end.Z;
+
+        Utilities.SetStateChanged(laser,"CBeam", "m_vecEndPos");
+    }
+
+    static public void set_colour(this CEnvBeam? laser, Color colour)
+    {
+        if(laser != null)
+        {
+            laser.Render = colour;
+        }
+    }
+
+
+    static public int draw_laser(Vector start, Vector end, float life, float width, Color colour)
+    {
+        CEnvBeam? laser = Utilities.CreateEntityByName<CEnvBeam>("env_beam");
+
+        if(laser == null)
+        {
+            return -1;
+        }
+
+        // setup looks
+        laser.set_colour(colour);
+        laser.Width = 2.0f;
+
+        // circle not working?
+        //laser.Flags |= 8;
+
+        laser.move(start,end);
 
         // start spawn
         laser.DispatchSpawn(); 
@@ -1046,6 +1067,7 @@ public static class Lib
 
     public static readonly Color CYAN = Color.FromArgb(255, 153, 255, 255);
     public static readonly Color RED = Color.FromArgb(255, 255, 0, 0);
+    public static readonly Color INVIS = Color.FromArgb(0, 255, 255, 255);
 
     static ConVar? block_cvar = ConVar.Find("mp_solid_teammates");
     static ConVar? ff = ConVar.Find("mp_teammates_are_enemies");

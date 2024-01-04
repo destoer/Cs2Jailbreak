@@ -311,6 +311,8 @@ public class Warden
     // reset variables for a new round
     void purge_round()
     {
+        laser_index = -1;
+
         if(config.warden_force_removal)
         {
             remove_warden_internal();
@@ -710,13 +712,6 @@ public class Warden
 
     public void laser_tick()
     {
-        if(laser_index != -1)
-        {
-            Lib.remove_ent(laser_index,"env_beam");
-        }
-
-        laser_index = -1;
-
         if(warden_slot == INAVLID_SLOT)
         {
             return;
@@ -737,7 +732,7 @@ public class Warden
         {
             // Ideally we would use Get Client Eye posistion
             // because this will break when we crouch etc
-            Vector eye = new Vector(pawn.AbsOrigin.X,pawn.AbsOrigin.Y,pawn.AbsOrigin.Z + 61.0f);
+            Vector eye = new Vector(pawn.AbsOrigin.X,pawn.AbsOrigin.Y,pawn.AbsOrigin.Z + 55.0f);
 
             Vector end = new Vector(eye.X,eye.Y,eye.Z);
 
@@ -761,7 +756,28 @@ public class Warden
                 warden.PrintToChat($"angle: {eye_angle.X} {eye_angle.Y}");
             */
 
-            laser_index = Lib.draw_laser(eye,end,0.0f,2.0f,Lib.CYAN);
+            // make new laser
+            if(laser_index == -1)
+            {
+                laser_index = Lib.draw_laser(eye,end,0.0f,2.0f,Lib.CYAN);
+            }
+
+            // update laser by moving
+            else
+            {
+                CEnvBeam? laser = Utilities.GetEntityFromIndex<CEnvBeam>(laser_index);
+                if(laser != null && laser.DesignerName == "env_beam")
+                {
+                    laser.move(eye,end);
+                }
+            }
+        }
+
+        // hide laser
+        else if(laser_index != -1)
+        {
+            Lib.remove_ent(laser_index,"env_beam");
+            laser_index = -1;
         }
     }
 
