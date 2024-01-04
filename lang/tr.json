@@ -21,6 +21,8 @@
     "warden.removed": "{0} artık komutçu değildir",
     "warden.ct_gun_menu": "Silah menüsünü kullanmak için CT takımında olmanız gerekiyor",
     "warden.gun_menu_disabled": "Silah menüsü devre dışı",
+    "warden.no_warden": "Komutçu yok",
+    "warden.time": "Komutçu {0} dakikadır komutçuluk yapıyor.",
 
     "mute.thirty": "Tüm T'ler ilk 30 saniye için susturuldu",
     "mute.speak_quietly": "T'ler sessizce konuşabilir",
@@ -60,5 +62,19 @@
     "sd.spectre": "{0} hayalet olarak seçildi!",
     "sd.tank_start": "Tank günü başladı",
     "sd.tank_end": "Tank günü bitti",
-    "sd.tank": "{0} tank olarak bitti!"
+    "sd.tank": "{0} tank olarak bitti!",
+    
+    "lr.rebel_last": "İsyan atman için hayatta kalan son oyuncu olman gerekiyor!",
+    "lr.riot_start": "İsyan başlamıştır! CTnin 15 saniye içerisinde saklanması gerekiyor!",
+    "lr.riot_active": "İsyan aktif",
+    "lr.cancel": "LR iptal edildi",
+    "lr.cancel_admin": "Zorla LR iptal etmen için yetkili veya komutçu olman gerekiyor",
+    "lr.alive":  "lr başlatman için hayatta olman gerekiyor",
+    "lr.in_lr": "Zaten bir LRdesin",
+    "lr.req_t": "LR başlatmak için T takımında olman gerekiyor",
+    "lr.too_many": "LR başlatmak için T takımında çok fazla T var {0}",
+    "lr.player_rebel": "{0} isimli oyuncu bir isyancı!",
+    "lr.knife_rebel": "{0} bir bıçak isyancı!",
+    "lr.ready": "LR atabilirsin! LR atmak için !lr yazabilirsin",
+    "lr.wait": "LR başlatmak için round başladıktan sonra 15 saniye bekleyiniz"
 }
