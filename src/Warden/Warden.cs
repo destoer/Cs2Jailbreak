@@ -712,6 +712,11 @@ public class Warden
 
     public void laser_tick()
     {
+        if(!config.warden_laser)
+        {
+            return;
+        }
+
         if(warden_slot == INAVLID_SLOT)
         {
             return;

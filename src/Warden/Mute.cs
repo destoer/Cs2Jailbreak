@@ -118,9 +118,11 @@ public class Mute
             return;
         }
 
-        player.localise_prefix(MUTE_PREFIX,"mute.end_round");
-
-        player.mute();
+        if(config.mute_dead)
+        {
+            player.localise_prefix(MUTE_PREFIX,"mute.end_round");
+            player.mute();
+        }
     }
 
     public void switch_team(CCSPlayerController? player,int new_team)

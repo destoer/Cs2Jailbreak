@@ -32,6 +32,12 @@ public class JailConfig : BasePluginConfig
     [JsonPropertyName("database")]
     public String database { get; set; } = "cs2_jail";
 
+    [JsonPropertyName("mute_dead")]
+    public bool mute_dead { get; set; } = true;
+
+    [JsonPropertyName("warden_laser")]
+    public bool warden_laser { get; set; } = true;
+
     [JsonPropertyName("ct_voice_only")]
     public bool ct_voice_only { get; set; } = false;
 
