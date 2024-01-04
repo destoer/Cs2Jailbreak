@@ -311,7 +311,7 @@ public class Warden
     // reset variables for a new round
     void purge_round()
     {
-        laser_index = -1;
+        remove_laser();
 
         if(config.warden_force_removal)
         {
@@ -710,6 +710,15 @@ public class Warden
         }
     }
 
+    void remove_laser()
+    {
+        if(laser_index != -1)
+        {
+            Lib.remove_ent(laser_index,"env_beam");
+            laser_index = -1;
+        }
+    }
+
     public void laser_tick()
     {
         if(!config.warden_laser)
@@ -778,10 +787,9 @@ public class Warden
         }
 
         // hide laser
-        else if(laser_index != -1)
+        else
         {
-            Lib.remove_ent(laser_index,"env_beam");
-            laser_index = -1;
+            remove_laser();
         }
     }
 
