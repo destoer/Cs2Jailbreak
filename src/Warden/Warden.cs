@@ -727,12 +727,11 @@ public class Warden
         bool use_key = (warden.Buttons & PlayerButtons.Use) == PlayerButtons.Use;
 
         CCSPlayerPawn? pawn = warden.pawn();
+        CPlayer_CameraServices? camera = pawn?.CameraServices;
 
-        if(pawn != null && pawn.AbsOrigin != null && use_key)
+        if(pawn != null && pawn.AbsOrigin != null && camera != null && use_key)
         {
-            // Ideally we would use Get Client Eye posistion
-            // because this will break when we crouch etc
-            Vector eye = new Vector(pawn.AbsOrigin.X,pawn.AbsOrigin.Y,pawn.AbsOrigin.Z + 55.0f);
+            Vector eye = new Vector(pawn.AbsOrigin.X,pawn.AbsOrigin.Y,pawn.AbsOrigin.Z + camera.OldPlayerViewOffsetZ);
 
             Vector end = new Vector(eye.X,eye.Y,eye.Z);
 
