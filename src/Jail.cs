@@ -112,6 +112,9 @@ public class JailConfig : BasePluginConfig
 
     [JsonPropertyName("lr_count")]
     public uint lr_count { get; set; } = 2;
+
+    [JsonPropertyName("rebel_requirehit")]
+    public bool rebel_requirehit { get; set; } = false;
 }
 
 // main plugin file, controls central hooking
