@@ -20,7 +20,7 @@ using System.Globalization;
 using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 using System.Drawing;
 
-public class Warden
+public partial class Warden
 {
     public Warden()
     {
@@ -510,102 +510,6 @@ public class Warden
         }
     }
 
-    static readonly String TEAM_PREFIX = $" {ChatColors.Green}[TEAM]: {ChatColors.White}";
-    
-    public bool join_team(CCSPlayerController? invoke, CommandInfo command)
-    {
-        if(invoke == null || !invoke.is_valid())
-        {
-            invoke.play_sound("sounds/ui/counter_beep.vsnd");
-            return false;
-        }
-
-        if(command.ArgCount < 2)
-        {
-            invoke.play_sound("sounds/ui/counter_beep.vsnd");
-            return false;
-        }
-
-        CCSPlayerPawn? pawn = invoke.pawn(); 
-
-
-        if(!Int32.TryParse(command.ArgByIndex(1),out int team))
-        {
-            invoke.play_sound("sounds/ui/counter_beep.vsnd");
-            return false;
-        }
-
-        switch(team)
-        {
-            case Lib.TEAM_CT:
-            {
-                if(config.ct_swap_only)
-                {
-                    invoke.announce(TEAM_PREFIX,$"Sorry guards must be swapped to CT by admin");
-                    invoke.play_sound("sounds/ui/counter_beep.vsnd");
-                    return false;
-                }
-
-                int ct_count = Lib.ct_count();
-                int t_count = Lib.t_count();
-
-                // check CT aint full 
-                // i.e at a suitable raito or either team is empty
-                if((ct_count * config.bal_guards) > t_count && ct_count != 0 && t_count != 0)
-                {
-                    invoke.announce(TEAM_PREFIX,$"Sorry, CT has too many players {config.bal_guards}:1 ratio maximum");
-                    invoke.play_sound("sounds/ui/counter_beep.vsnd");
-                    return false;
-                }
-
-                return true;         
-            }
-
-            case Lib.TEAM_T:
-            {
-                return true;
-            }
-
-            case Lib.TEAM_SPEC:
-            {
-                return true;
-            }
-
-            default:
-            {
-                invoke.play_sound("sounds/ui/counter_beep.vsnd");
-                return false;
-            }
-        }
-    }
-
-    [RequiresPermissions("@css/generic")]
-    public void swap_guard_cmd(CCSPlayerController? invoke, CommandInfo command)
-    {
-        if(invoke == null || !invoke.is_valid())
-        {
-            return;
-        }
-
-        if(command.ArgCount != 2)
-        {
-            invoke.localise("warden.swap_guard_desc");
-            return;
-        }
-
-        var target = command.GetArgTargetResult(1);
-
-        foreach(CCSPlayerController player in target)
-        {
-            if(player.is_valid())
-            {
-                invoke.localise("warden.guard_swapped",player.PlayerName);
-                player.SwitchTeam(CsTeam.CounterTerrorist);
-            }
-        }
-    }
-
-
     public void ct_guns(CCSPlayerController player, ChatMenuOption option)
     {
         if(player == null || !player.is_valid_alive() || !player.is_ct()) 
@@ -686,122 +590,10 @@ public class Warden
         return jail_players[slot.Value];
     }
     
-    void remove_marker()
-    {
-        if(marker != null)
-        {
-            Lib.destroy_beam_group(marker);
-            marker = null;
-        }
-    }
-
-    public void ping(CCSPlayerController? player, float x, float y, float z)
-    {
-        // draw marker
-        if(is_warden(player) && player != null && player.is_valid())
-        {
-            // make sure we destroy the old marker
-            // because this generates alot of ents
-            remove_marker();
-
-            //Server.PrintToChatAll($"{Lib.ent_count()}");
-
-            marker = Lib.draw_marker(x,y,z,60.0f);
-        }
-    }
-
-    void remove_laser()
-    {
-        if(laser_index != -1)
-        {
-            Lib.remove_ent(laser_index,"env_beam");
-            laser_index = -1;
-        }
-    }
-
-    public void laser_tick()
-    {
-        if(!config.warden_laser)
-        {
-            return;
-        }
-
-        if(warden_slot == INAVLID_SLOT)
-        {
-            return;
-        }
-
-        CCSPlayerController? warden = Utilities.GetPlayerFromSlot(warden_slot);
-
-        if(warden == null || !warden.is_valid())
-        {
-            return;
-        }
-
-        bool use_key = (warden.Buttons & PlayerButtons.Use) == PlayerButtons.Use;
-
-        CCSPlayerPawn? pawn = warden.pawn();
-        CPlayer_CameraServices? camera = pawn?.CameraServices;
-
-        if(pawn != null && pawn.AbsOrigin != null && camera != null && use_key)
-        {
-            Vector eye = new Vector(pawn.AbsOrigin.X,pawn.AbsOrigin.Y,pawn.AbsOrigin.Z + camera.OldPlayerViewOffsetZ);
-
-            Vector end = new Vector(eye.X,eye.Y,eye.Z);
-
-            QAngle eye_angle = pawn.EyeAngles;
-
-            // convert angles to rad 
-            double pitch = (Math.PI/180) * eye_angle.X;
-            double yaw = (Math.PI/180) * eye_angle.Y;
-
-            // get direction vector from angles
-            Vector eye_vector = new Vector((float)(Math.Cos(yaw) * Math.Cos(pitch)),(float)(Math.Sin(yaw) * Math.Cos(pitch)),(float)(-Math.Sin(pitch)));
-
-            int t = 3000;
-
-            end.X += (t * eye_vector.X);
-            end.Y += (t * eye_vector.Y);
-            end.Z += (t * eye_vector.Z);
-
-            /*
-                warden.PrintToChat($"end: {end.X} {end.Y} {end.Z}");
-                warden.PrintToChat($"angle: {eye_angle.X} {eye_angle.Y}");
-            */
-
-            // make new laser
-            if(laser_index == -1)
-            {
-                laser_index = Lib.draw_laser(eye,end,0.0f,2.0f,Lib.CYAN);
-            }
-
-            // update laser by moving
-            else
-            {
-                CEnvBeam? laser = Utilities.GetEntityFromIndex<CEnvBeam>(laser_index);
-                if(laser != null && laser.DesignerName == "env_beam")
-                {
-                    laser.move(eye,end);
-                }
-            }
-        }
-
-        // hide laser
-        else
-        {
-            remove_laser();
-        }
-    }
-
-    public static readonly float LASER_TIME = 0.1f;
-
     const int INAVLID_SLOT = -3;   
 
     int warden_slot = INAVLID_SLOT;
-    int laser_index = -1;
-
-    int[]? marker = null;
-
+    
     public static readonly String WARDEN_PREFIX = $" {ChatColors.Green}[WARDEN]: {ChatColors.White}";
 
     long warden_timestamp = -1;
