@@ -190,13 +190,6 @@ public class JailStats
 
     async void read_stats(ulong id, String steam_id, String player_name)
     {
-        var database = connect_db();
-
-        if(database == null)
-        {
-            return;
-        }
-
         // repull player from steamid if they are still around
         CCSPlayerController? player = Utilities.GetPlayerFromSteamId(id);
         int? slot_opt = player.slot();
@@ -210,6 +203,13 @@ public class JailStats
 
         // allready cached we dont care
         if(player_stats[slot].cached)
+        {
+            return;
+        }
+
+        var database = connect_db();
+
+        if(database == null)
         {
             return;
         }

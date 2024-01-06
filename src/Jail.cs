@@ -318,7 +318,6 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         RegisterEventHandler<EventWeaponFire>(OnWeaponFire);
         RegisterEventHandler<EventPlayerSpawn>(OnPlayerSpawn);
         RegisterEventHandler<EventPlayerDisconnect>(OnPlayerDisconnect);
-        RegisterEventHandler<EventPlayerConnect>(OnPlayerConnect);
         RegisterEventHandler<EventTeamchangePending>(OnSwitchTeam);
         RegisterEventHandler<EventMapTransition>(OnMapChange);
         RegisterEventHandler<EventPlayerDeath>(OnPlayerDeath,HookMode.Pre);
@@ -339,11 +338,12 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         HookEntityOutput("func_button", "OnPressed", OnButtonPressed);
         
         RegisterListener<Listeners.OnClientVoice>(OnClientVoice);
+        RegisterListener<Listeners.OnClientAuthorized>(OnClientAuthorized);
 
         // TODO: need to hook weapon drop
     }
 
-    HookResult OnPlayerPing(EventPlayerPing  @event, GameEventInfo inf)
+    HookResult OnPlayerPing(EventPlayerPing  @event, GameEventInfo info)
     {
         var player = @event.Userid;
 
@@ -563,16 +563,14 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         return HookResult.Continue;
     }
 
-    HookResult OnPlayerConnect(EventPlayerConnect @event, GameEventInfo info)
+    public void OnClientAuthorized(int slot, SteamID steamid)
     {
-        CCSPlayerController? player = @event.Userid;
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(slot);
 
         if(player != null && player.is_valid())
         {
             jail_stats.connect(player);
         }
-
-        return HookResult.Continue;
     }
 
     HookResult OnPlayerDisconnect(EventPlayerDisconnect @event, GameEventInfo info)
