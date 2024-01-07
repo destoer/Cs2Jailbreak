@@ -31,8 +31,10 @@ public partial class Warden
 
     public void ping(CCSPlayerController? player, float x, float y, float z)
     {
+        JailPlayer? jail_player = jail_player_from_player(player);
+
         // draw marker
-        if(is_warden(player) && player != null && player.is_valid())
+        if(is_warden(player) && player != null && player.is_valid() && jail_player != null)
         {
             // make sure we destroy the old marker
             // because this generates alot of ents
@@ -40,7 +42,7 @@ public partial class Warden
 
             //Server.PrintToChatAll($"{Lib.ent_count()}");
 
-            marker = Lib.draw_marker(x,y,z,60.0f);
+            marker = Lib.draw_marker(x,y,z,60.0f,jail_player.marker_colour);
         }
     }
 
@@ -77,7 +79,9 @@ public partial class Warden
         CCSPlayerPawn? pawn = warden.pawn();
         CPlayer_CameraServices? camera = pawn?.CameraServices;
 
-        if(pawn != null && pawn.AbsOrigin != null && camera != null && use_key)
+        JailPlayer? jail_player = jail_player_from_player(warden);
+
+        if(pawn != null && pawn.AbsOrigin != null && camera != null && use_key && jail_player != null)
         {
             Vector eye = new Vector(pawn.AbsOrigin.X,pawn.AbsOrigin.Y,pawn.AbsOrigin.Z + camera.OldPlayerViewOffsetZ);
 
@@ -106,7 +110,7 @@ public partial class Warden
             // make new laser
             if(laser_index == -1)
             {
-                laser_index = Lib.draw_laser(eye,end,0.0f,2.0f,Lib.CYAN);
+                laser_index = Lib.draw_laser(eye,end,0.0f,2.0f,jail_player.laser_colour);
             }
 
             // update laser by moving
@@ -126,6 +130,89 @@ public partial class Warden
             remove_laser();
         }
     }
+
+    void set_laser(CCSPlayerController player, ChatMenuOption option)
+    {
+        if(player == null || !player.is_valid())
+        {
+            return;
+        }
+
+        var text = option.Text;
+        JailPlayer? jail_player = jail_player_from_player(player);
+
+        if(jail_player != null)
+        {
+            player.announce(WARDEN_PREFIX,$"Laser colour set to {text}");
+            jail_player.laser_colour = LASER_CONFIG_MAP[text];
+        }
+    }
+
+    void set_marker(CCSPlayerController player, ChatMenuOption option)
+    {
+        if(player == null || !player.is_valid())
+        {
+            return;
+        }
+
+        var text = option.Text;
+        JailPlayer? jail_player = jail_player_from_player(player);
+
+        if(jail_player != null)
+        {
+            player.announce(WARDEN_PREFIX,$"Marker colour set to {text}");
+            jail_player.marker_colour = LASER_CONFIG_MAP[text];
+        }
+    }
+
+    void colour_menu(CCSPlayerController? player,Action<CCSPlayerController, ChatMenuOption> callback, String name)
+    {
+        if(player == null || !player.is_valid())
+        {
+            return;
+        }
+
+        var colour_menu = new ChatMenu(name);
+
+        foreach(var item in LASER_CONFIG_MAP)
+        {
+            colour_menu.AddMenuOption(item.Key, callback);
+        }
+
+        ChatMenus.OpenMenu(player, colour_menu);    
+    }
+
+    public void laser_colour_cmd(CCSPlayerController? player, CommandInfo command)
+    {
+        if(player == null || !player.is_valid())
+        {
+            return;
+        }
+
+        colour_menu(player,set_laser,"Laser colour");
+    }
+
+    public void marker_colour_cmd(CCSPlayerController? player, CommandInfo command)
+    {
+        if(player == null || !player.is_valid())
+        {
+            return;
+        }
+
+        colour_menu(player,set_marker,"Marker colour");
+    }
+
+    public static readonly Dictionary<string,Color> LASER_CONFIG_MAP = new Dictionary<string,Color>()
+    {
+        {"Cyan",Lib.CYAN}, // cyan
+        {"Pink",Color.FromArgb(255,255,192,203)} , // pink
+        {"Red",Lib.RED}, // red
+        {"Purple",Color.FromArgb(255,118, 9, 186)}, // purple
+        {"Grey",Color.FromArgb(255,66, 66, 66)}, // grey
+        {"Green",Color.FromArgb(255,0, 191, 0)}, // green
+        {"Yellow",Color.FromArgb(255,255, 255, 0)} // yellow
+    };
+
 
     public static readonly float LASER_TIME = 0.1f;
 

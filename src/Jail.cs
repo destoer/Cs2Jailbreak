@@ -260,6 +260,9 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         AddCommand("rw", "remove warden", warden.remove_warden_cmd);
         AddCommand("clear_marker", "remove warden marker",warden.remove_marker_cmd);
 
+        AddCommand("marker_colour", "set laser colour", warden.marker_colour_cmd);
+        AddCommand("laser_colour", "set laser colour", warden.laser_colour_cmd);
+
         AddCommand("wub","warden : disable block",warden.wub_cmd);
         AddCommand("wb","warden : enable block",warden.wb_cmd);
 

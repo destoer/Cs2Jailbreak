@@ -36,12 +36,8 @@ public static class Debug
         if(pawn != null && pawn.AbsOrigin != null)
         {
             Vector mid =  new Vector(pawn.AbsOrigin.X,pawn.AbsOrigin.Y,pawn.AbsOrigin.Z);
-            Lib.draw_marker(mid.X,mid.Y,mid.Z,30.0f);
-            //invoke.play_sound("sounds/vo/agents/balkan/last_unit_alive_01");
-            invoke.play_sound("sounds/ambient/vo/agents/sas/lastmanstanding01");
+            Lib.draw_marker(mid.X,mid.Y,mid.Z,30.0f,Lib.CYAN);
         }
-
-
     }
     
     [RequiresPermissions("@jail/debug")]

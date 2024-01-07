@@ -976,7 +976,7 @@ public static class Lib
         return new Vector((float)(mid.X + (r * Math.Cos(angle))),(float)(mid.Y + (r * Math.Sin(angle))), mid.Z + 6.0f);
     }
 
-    static public int[] draw_marker(float X,float Y, float Z,float time)
+    static public int[] draw_marker(float X,float Y, float Z,float time, Color colour)
     {
         Vector mid =  new Vector(X,Y,Z);
 
@@ -998,7 +998,7 @@ public static class Lib
             Vector start = angle_on_circle(angle_old,r,mid);
             Vector end = angle_on_circle(angle_cur,r,mid);
 
-            ent[i] = Lib.draw_laser(start,end,time,2.0f,Lib.CYAN);
+            ent[i] = Lib.draw_laser(start,end,time,2.0f,colour);
 
             angle_old = angle_cur;
             angle_cur += step;

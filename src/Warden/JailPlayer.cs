@@ -10,6 +10,7 @@ using CounterStrikeSharp.API.Modules.Memory;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
+using System.Drawing;
 
 public class JailPlayer
 {
@@ -23,6 +24,8 @@ public class JailPlayer
         purge_round();
 
         // TODO: reset client specific settings
+        laser_colour = Lib.CYAN;
+        marker_colour = Lib.CYAN;
     }
 
     public void set_rebel(CCSPlayerController? player)
@@ -116,6 +119,9 @@ public class JailPlayer
     // TODO: Laser stuff needs to go here!
     // but we dont have access to the necessary primtives yet
     public static JailConfig config = new JailConfig();
+
+    public Color laser_colour = Lib.CYAN;
+    public Color marker_colour = Lib.CYAN;
 
     public bool is_rebel = false;
 };
