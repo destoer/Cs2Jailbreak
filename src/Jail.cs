@@ -218,9 +218,12 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     void stat_db_reload()
     {
-        var database = jail_stats.connect_db();
+        Task.Run(async () => 
+        {
+            var database = await jail_stats.connect_db();
 
-        jail_stats.setup_db(database);
+            jail_stats.setup_db(database);
+        });
     }
 
     public void OnConfigParsed(JailConfig config)
@@ -237,6 +240,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         JailPlayer.config = config;
 
         lr.lr_config_reload();
+        stat_db_reload();
     }
 
     void register_listener()
@@ -295,6 +299,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
             AddCommand("hide_weapon_debug","debug : hide player weapon on back",Debug.hide_weapon_cmd);
             AddCommand("rig","debug : force player to boss on sd",sd.sd_rig_cmd);
             AddCommand("is_muted","debug : print voice flags",Debug.is_muted_cmd);
+            AddCommand("spam_db","debug : spam db",Debug.test_lr_inc);
         }
     }
 
