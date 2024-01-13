@@ -118,6 +118,12 @@ public class Mute
             return;
         }
 
+        // warden with no forced removal let them keep speaking
+        if(JailPlugin.is_warden(player) && !config.warden_force_removal)
+        {
+            return;
+        }
+
         if(config.mute_dead)
         {
             player.localise_prefix(MUTE_PREFIX,"mute.end_round");

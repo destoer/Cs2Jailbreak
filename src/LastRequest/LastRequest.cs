@@ -55,7 +55,7 @@ public partial class LastRequest
         }
     }
 
-    void init_player_common(CCSPlayerController? player)
+    void init_player_common(CCSPlayerController? player, String lr_name)
     {
         if(!player.is_valid_alive() || player == null)
         {
@@ -67,6 +67,8 @@ public partial class LastRequest
         player.set_armour(100);
         player.strip_weapons(true);
         player.GiveNamedItem("item_assaultsuit");
+
+        player.announce(LR_PREFIX,$"{lr_name} is starting\n");
     }
 
     bool lr_exists(LRBase lr)
@@ -246,8 +248,8 @@ public partial class LastRequest
         }
 
         // do common player setup
-        init_player_common(t_player);
-        init_player_common(ct_player); 
+        init_player_common(t_player,t_lr.lr_name);
+        init_player_common(ct_player,ct_lr.lr_name); 
 
         // bind lr pair
         t_lr.partner = ct_lr;
