@@ -42,7 +42,7 @@ public partial class Warden
 
             //Server.PrintToChatAll($"{Lib.ent_count()}");
 
-            marker = Lib.draw_marker(x,y,z,60.0f,jail_player.marker_colour);
+            marker = Lib.draw_marker(x,y,z,75.0f,60.0f,jail_player.marker_colour);
         }
     }
 
@@ -107,21 +107,7 @@ public partial class Warden
                 warden.PrintToChat($"angle: {eye_angle.X} {eye_angle.Y}");
             */
 
-            // make new laser
-            if(laser_index == -1)
-            {
-                laser_index = Lib.draw_laser(eye,end,0.0f,2.0f,jail_player.laser_colour);
-            }
-
-            // update laser by moving
-            else
-            {
-                CEnvBeam? laser = Utilities.GetEntityFromIndex<CEnvBeam>(laser_index);
-                if(laser != null && laser.DesignerName == "env_beam")
-                {
-                    laser.move(eye,end);
-                }
-            }
+            laser_index = Lib.update_laser(laser_index,eye,end,Lib.CYAN);
         }
 
         // hide laser

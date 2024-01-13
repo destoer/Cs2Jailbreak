@@ -61,6 +61,14 @@ public abstract class LRBase
         // clean up timer
         Lib.kill_timer(ref timer);
 
+        // clean up laser
+        Lib.kill_timer(ref laser_timer);
+
+        if(laser_index != -1)
+        {
+            Lib.remove_ent(laser_index,"env_beam");
+        }
+
         countdown.kill();
 
         // reset alive player
@@ -239,7 +247,52 @@ public abstract class LRBase
 
     public void countdown_start()
     {
+        if(laser_timer == null)
+        {
+            // create the laser timer
+            if(JailPlugin.global_ctx != null)
+            {
+                laser_timer = JailPlugin.global_ctx.AddTimer(1.0f / 25.0f,laser_tick,CSTimer.TimerFlags.STOP_ON_MAPCHANGE | CSTimer.TimerFlags.REPEAT);
+            }
+        }
+
         countdown.start(lr_name,5,this,print_countdown,manager.activate_lr);
+    }
+
+    public void laser_tick()
+    {
+        // get both players and check they are valid
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
+        CCSPlayerController? other = null;
+
+        if(partner != null)
+        {
+            other = Utilities.GetPlayerFromSlot(partner.player_slot);
+        }
+
+        if(player == null || !player.is_valid_alive() || other == null || !other.is_valid_alive())
+        {
+            return;
+        }
+
+        CCSPlayerPawn? v1 = player.pawn();
+        CCSPlayerPawn? v2 = other.pawn();
+
+        // check we can get origin!
+        if(v1 == null || v2 == null || v1.AbsOrigin == null || v2.AbsOrigin == null)
+        {
+            return;
+        }
+
+
+        Vector start = v1.AbsOrigin;
+        Vector end = v2.AbsOrigin;
+
+        // make sure it doesn't clip into the ground!
+        start.Z += 3.0f;
+        end.Z += 3.0f;
+
+        laser_index = Lib.update_laser(laser_index,start,end,Lib.CYAN);
     }
 
     public virtual void ent_created(String name) {}
@@ -275,6 +328,9 @@ public abstract class LRBase
 
     // countdown for start
     public Countdown<LRBase> countdown = new Countdown<LRBase>();
+
+    int laser_index = -1;
+    CSTimer.Timer? laser_timer = null;
 
     // managed timer
     CSTimer.Timer? timer = null;

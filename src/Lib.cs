@@ -976,35 +976,60 @@ public static class Lib
         return new Vector((float)(mid.X + (r * Math.Cos(angle))),(float)(mid.Y + (r * Math.Sin(angle))), mid.Z + 6.0f);
     }
 
-    static public int[] draw_marker(float X,float Y, float Z,float time, Color colour)
+
+    static public int[] draw_marker(float X,float Y, float Z, float r,float time, Color colour)
     {
+       
+        int[] line = new int[30];
+        int lines = line.Count();
+
         Vector mid =  new Vector(X,Y,Z);
-
-        int lines = 30;
-        int[] ent = new int[lines];
-
 
         // draw piecewise approx by stepping angle
         // and joining points with a dot to dot
         float step = (float)(2.0f * Math.PI) / (float)lines;
-        float r = 75.0f;
 
         float angle_old = 0.0f;
         float angle_cur = step;
-
 
         for(int i = 0; i < lines; i++)
         {
             Vector start = angle_on_circle(angle_old,r,mid);
             Vector end = angle_on_circle(angle_cur,r,mid);
 
-            ent[i] = Lib.draw_laser(start,end,time,2.0f,colour);
-
+            line[i] = Lib.draw_laser(start,end,time,2.0f,colour);
+            
             angle_old = angle_cur;
             angle_cur += step;
         }
 
-        return ent;
+        return line;
+    }
+
+    static void move_laser_by_index(int laser_index,Vector start, Vector end)
+    {
+        CEnvBeam? laser = Utilities.GetEntityFromIndex<CEnvBeam>(laser_index);
+        if(laser != null && laser.DesignerName == "env_beam")
+        {
+            laser.move(start,end);
+        }
+    }
+
+    static public int update_laser(int laser_index,Vector start,Vector end,Color color)
+    {
+        // make new laser
+        if(laser_index == -1)
+        {
+            return Lib.draw_laser(start,end,0.0f,2.0f,color);
+        }
+
+        // update laser by moving
+        else
+        {
+            move_laser_by_index(laser_index,start,end);
+        }
+
+        return laser_index;
     }
 
     static public void destroy_beam_group(int[] ent)

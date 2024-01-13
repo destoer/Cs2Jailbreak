@@ -36,7 +36,7 @@ public static class Debug
         if(pawn != null && pawn.AbsOrigin != null)
         {
             Vector mid =  new Vector(pawn.AbsOrigin.X,pawn.AbsOrigin.Y,pawn.AbsOrigin.Z);
-            Lib.draw_marker(mid.X,mid.Y,mid.Z,30.0f,Lib.CYAN);
+            Lib.draw_marker(mid.X,mid.Y,mid.Z,30.0f,75.0f,Lib.CYAN);
         }
     }
     
