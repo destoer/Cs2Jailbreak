@@ -257,6 +257,8 @@ public partial class LastRequest
 
         active_lr[slot] = t_lr;
         
+        Lib.log($"{t_lr.lr_name} {t_player.PlayerName} vs {ct_player.PlayerName} started");
+
         // begin counting down the lr
         t_lr.countdown_start();
     }

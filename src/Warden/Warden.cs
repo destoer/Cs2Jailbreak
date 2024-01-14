@@ -48,11 +48,12 @@ public partial class Warden
             warden_slot = INAVLID_SLOT;
             return;
         }
-        
 
         Lib.localise_announce(WARDEN_PREFIX,"warden.took_warden",player.PlayerName);
 
         player.localise_announce(WARDEN_PREFIX,"warden.wcommand");
+
+        Lib.log($"{player.PlayerName} is now the warden");
 
         warden_timestamp = Lib.cur_timestamp();
 
@@ -77,6 +78,8 @@ public partial class Warden
 
         if(player.is_valid())
         {
+            Lib.log($"{player.PlayerName} is no longer the warden");
+
             player.set_colour(Color.FromArgb(255, 255, 255, 255));
             Lib.localise_announce(WARDEN_PREFIX,"warden.removed",player.PlayerName);
         }
