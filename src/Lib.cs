@@ -1094,6 +1094,17 @@ public static class Lib
     public static readonly Color RED = Color.FromArgb(255, 255, 0, 0);
     public static readonly Color INVIS = Color.FromArgb(0, 255, 255, 255);
 
+    public static readonly Dictionary<string,Color> LASER_CONFIG_MAP = new Dictionary<string,Color>()
+    {
+        {"Cyan",Lib.CYAN}, // cyan
+        {"Pink",Color.FromArgb(255,255,192,203)} , // pink
+        {"Red",Lib.RED}, // red
+        {"Purple",Color.FromArgb(255,118, 9, 186)}, // purple
+        {"Grey",Color.FromArgb(255,66, 66, 66)}, // grey
+        {"Green",Color.FromArgb(255,0, 191, 0)}, // green
+        {"Yellow",Color.FromArgb(255,255, 255, 0)} // yellow
+    };
+
     static ConVar? block_cvar = ConVar.Find("mp_solid_teammates");
     static ConVar? ff = ConVar.Find("mp_teammates_are_enemies");
 

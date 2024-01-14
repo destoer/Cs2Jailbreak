@@ -274,7 +274,7 @@ public class JailStats
         }
     }
 
-    public void connect(CCSPlayerController? player)
+    public void load_player(CCSPlayerController? player)
     {
         if(player == null || !player.is_valid())
         {

@@ -107,7 +107,7 @@ public partial class Warden
                 warden.PrintToChat($"angle: {eye_angle.X} {eye_angle.Y}");
             */
 
-            laser_index = Lib.update_laser(laser_index,eye,end,Lib.CYAN);
+            laser_index = Lib.update_laser(laser_index,eye,end,jail_player.laser_colour);
         }
 
         // hide laser
@@ -129,8 +129,7 @@ public partial class Warden
 
         if(jail_player != null)
         {
-            player.announce(WARDEN_PREFIX,$"Laser colour set to {text}");
-            jail_player.laser_colour = LASER_CONFIG_MAP[text];
+            jail_player.set_laser(player,text);
         }
     }
 
@@ -146,8 +145,7 @@ public partial class Warden
 
         if(jail_player != null)
         {
-            player.announce(WARDEN_PREFIX,$"Marker colour set to {text}");
-            jail_player.marker_colour = LASER_CONFIG_MAP[text];
+            jail_player.set_marker(player,text);
         }
     }
 
@@ -160,7 +158,7 @@ public partial class Warden
 
         var colour_menu = new ChatMenu(name);
 
-        foreach(var item in LASER_CONFIG_MAP)
+        foreach(var item in Lib.LASER_CONFIG_MAP)
         {
             colour_menu.AddMenuOption(item.Key, callback);
         }
@@ -187,18 +185,6 @@ public partial class Warden
 
         colour_menu(player,set_marker,"Marker colour");
     }
-
-    public static readonly Dictionary<string,Color> LASER_CONFIG_MAP = new Dictionary<string,Color>()
-    {
-        {"Cyan",Lib.CYAN}, // cyan
-        {"Pink",Color.FromArgb(255,255,192,203)} , // pink
-        {"Red",Lib.RED}, // red
-        {"Purple",Color.FromArgb(255,118, 9, 186)}, // purple
-        {"Grey",Color.FromArgb(255,66, 66, 66)}, // grey
-        {"Green",Color.FromArgb(255,0, 191, 0)}, // green
-        {"Yellow",Color.FromArgb(255,255, 255, 0)} // yellow
-    };
-
 
     public static readonly float LASER_TIME = 0.1f;
 

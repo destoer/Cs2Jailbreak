@@ -211,6 +211,8 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         register_listener();
 
+        JailPlayer.setup_db();
+
         Console.WriteLine("Sucessfully started JB");
 
         AddTimer(Warden.LASER_TIME,warden.laser_tick,CSTimer.TimerFlags.REPEAT);
@@ -308,8 +310,15 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public HookResult join_team(CCSPlayerController? invoke, CommandInfo command)
     {
-        jail_stats.connect(invoke);
-        
+        jail_stats.load_player(invoke);
+
+        JailPlayer? jail_player = warden.jail_player_from_player(invoke);
+
+        if(jail_player != null)
+        {
+            jail_player.load_player(invoke);
+        }        
+
         if(!warden.join_team(invoke,command))
         {
             return HookResult.Stop;
@@ -577,7 +586,14 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         if(player != null && player.is_valid())
         {
-            jail_stats.connect(player);
+            jail_stats.load_player(player);
+            
+            JailPlayer? jail_player = warden.jail_player_from_player(player);
+
+            if(jail_player != null)
+            {
+                jail_player.load_player(player);
+            }
         }
     }
 

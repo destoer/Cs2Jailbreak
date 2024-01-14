@@ -271,6 +271,8 @@ public partial class Warden
         player.localise("warden.block_command_desc");
         player.localise("warden.unblock_command_desc");
         player.localise("warden.remove_warden_command_desc");
+        player.localise("warden.laser_colour_command_desc");
+        player.localise("warden.marker_colour_command_desc");
     }
 
     public void take_warden_cmd(CCSPlayerController? player, CommandInfo command)
@@ -573,7 +575,7 @@ public partial class Warden
     }
 
     // util func to get a jail player
-    JailPlayer? jail_player_from_player(CCSPlayerController? player)
+    public JailPlayer? jail_player_from_player(CCSPlayerController? player)
     {
         if(!player.is_valid() || player == null)
         {
