@@ -749,50 +749,33 @@ public partial class LastRequest
 
         choice.option = name;
 
+        List<CCSPlayerController> target;
+
         // Debugging pick t's
         if(choice.bypass && player.is_ct())
         {
-
-            // scan for avaiable CT's that are alive and add as choice
-            var alive_t = Lib.get_alive_t();
-
-            String lr_name = LR_NAME[(int)choice.type];
-            var lr_menu = new ChatMenu($"Partner Menu ({lr_name})");
-
-            foreach(var t in alive_t)
-            {
-                if(!t.is_valid() || in_lr(t))
-                {
-                    continue;
-                }
-
-                lr_menu.AddMenuOption(t.PlayerName, finialise_choice);
-            }
-
-            ChatMenus.OpenMenu(player, lr_menu);
+            target = Lib.get_alive_t();
         }
 
         else
         {
+            target = Lib.get_alive_ct();
+        }   
 
-            // scan for avaiable CT's that are alive and add as choice
-            var alive_ct = Lib.get_alive_ct();
+        String lr_name = LR_NAME[(int)choice.type];
+        var lr_menu = new ChatMenu($"Partner Menu ({lr_name})");
 
-            String lr_name = LR_NAME[(int)choice.type];
-            var lr_menu = new ChatMenu($"Partner Menu ({lr_name})");
-
-            foreach(var ct in alive_ct)
+        foreach(var partner in target)
+        {
+            if(!partner.is_valid() || in_lr(partner))
             {
-                if(!ct.is_valid() || in_lr(ct))
-                {
-                    continue;
-                }
-
-                lr_menu.AddMenuOption(ct.PlayerName, finialise_choice);
+                continue;
             }
 
-            ChatMenus.OpenMenu(player, lr_menu);
+            lr_menu.AddMenuOption(partner.PlayerName, finialise_choice);
         }
+
+        ChatMenus.OpenMenu(player, lr_menu);
     }
 
 
