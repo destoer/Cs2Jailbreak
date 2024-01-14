@@ -73,9 +73,8 @@ public class JailPlayer
 
                 // modify one of the setting fields
                 using var update = connection.CreateCommand();
-                update.CommandText = $"UPDATE config SET {name} = '@value' WHERE steam_id = @steam_id";
+                update.CommandText = $"UPDATE config SET {name} = '{value}' WHERE steam_id = @steam_id";
                 update.Parameters.AddWithValue("@steam_id",steam_id);
-                update.Parameters.AddWithValue("@value",value);
 
                 await update.ExecuteNonQueryAsync();
             }
