@@ -67,6 +67,16 @@ public static class Debug
     }
 
     [RequiresPermissions("@jail/debug")]
+    public static void wsd_enable_cmd(CCSPlayerController? invoke, CommandInfo command)
+    {
+        if(invoke != null && invoke.is_valid())
+        {
+            invoke.PrintToChat("enable wsd");
+            JailPlugin.sd.wsd_round = 0x7000_0000;
+        }
+    }
+
+    [RequiresPermissions("@jail/debug")]
     public static void is_muted_cmd(CCSPlayerController? invoke, CommandInfo command)
     {
         if(invoke == null || !invoke.is_valid())

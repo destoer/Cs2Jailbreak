@@ -121,6 +121,9 @@ public class JailConfig : BasePluginConfig
 
     [JsonPropertyName("rebel_requirehit")]
     public bool rebel_requirehit { get; set; } = false;
+
+    [JsonPropertyName("wsd_round")]
+    public int wsd_round { get; set; } = 50;
 }
 
 // main plugin file, controls central hooking
@@ -241,6 +244,8 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         warden.warday.config = config;
         JailPlayer.config = config;
 
+        sd.config = config;
+
         lr.lr_config_reload();
         stat_db_reload();
     }
@@ -267,6 +272,9 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         AddCommand("wub","warden : disable block",warden.wub_cmd);
         AddCommand("wb","warden : enable block",warden.wb_cmd);
+
+        AddCommand("wsd","warden : call a special day",sd.warden_sd_cmd);
+        AddCommand("wsd_ff","warden : call a friendly fire special day",sd.warden_sd_ff_cmd);
 
         AddCommand("swap_guard","admin : move a player to ct",warden.swap_guard_cmd);
 
@@ -305,6 +313,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
             AddCommand("rig","debug : force player to boss on sd",sd.sd_rig_cmd);
             AddCommand("is_muted","debug : print voice flags",Debug.is_muted_cmd);
             AddCommand("spam_db","debug : spam db",Debug.test_lr_inc);
+            AddCommand("wsd_enable","debug : enable wsd",Debug.wsd_enable_cmd);
         }
     }
 

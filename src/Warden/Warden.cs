@@ -276,6 +276,8 @@ public partial class Warden
         player.localise("warden.remove_warden_command_desc");
         player.localise("warden.laser_colour_command_desc");
         player.localise("warden.marker_colour_command_desc");
+        player.localise("warden.wsd_command_desc");
+        player.localise("warden.wsd_ff_command_desc");
     }
 
     public void take_warden_cmd(CCSPlayerController? player, CommandInfo command)
@@ -424,8 +426,8 @@ public partial class Warden
             return;
         }
 
-        // cvars take care of this for us now
-        // player.strip_weapons();
+        // strip weapons just in case
+        player.strip_weapons();
 
         if(player.is_ct())
         {

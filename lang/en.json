@@ -9,6 +9,8 @@
     "warden.laser_colour_command_desc": "!laser_colour - set laser colour",
     "warden.marker_colour_command_desc": "!laser_colour - set marker colour",
     "warden.swap_guard_desc": "Expected usage: !swap_guard <player name>",
+    "warden.wsd_command_desc": "!wsd - Call a warden special day",
+    "warden.wsd_ff_command_desc": "!wsd - Call a warden friendly fire special day",
     "warden.warden_req_alive": "You must be alive to warden",
     "warden.warden_req_ct": "You must be a CT to warden",
     "warden.warden_taken": "{0} is already the warden",

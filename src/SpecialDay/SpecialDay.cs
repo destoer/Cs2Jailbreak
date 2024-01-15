@@ -54,6 +54,8 @@ public class SpecialDay
 
     public void round_start()
     {
+        // increment our round counter
+        wsd_round += 1;
         end_sd();
     }
 
@@ -69,6 +71,14 @@ public class SpecialDay
             invoke.announce(SPECIALDAY_PREFIX,"You cannot call two SD's at once");
             return;
         }
+
+        // invoked as warden
+        // reset the round counter so they can't do it again
+        if(wsd_command)
+        {
+            wsd_round = 0;
+        }
+
 
         String name = option.Text;
 
@@ -317,7 +327,7 @@ public class SpecialDay
     public void sd_cmd(CCSPlayerController? player,CommandInfo command)
     {
         override_ff = false;
-
+        wsd_command = false;
         sd_cmd_internal(player,command);
     }   
 
@@ -325,8 +335,42 @@ public class SpecialDay
     public void sd_ff_cmd(CCSPlayerController? player,CommandInfo command)
     {
         override_ff = true;
-
+        wsd_command = false;
         sd_cmd_internal(player,command);
+    }   
+
+    public void warden_sd_cmd_internal(CCSPlayerController? player,CommandInfo command)
+    {
+        if(!JailPlugin.is_warden(player))
+        {
+            player.announce(SPECIALDAY_PREFIX,"You must be a warden to use this command");
+            return;
+        }
+
+        // Not ready yet
+        if(wsd_round < config.wsd_round)
+        {
+            player.announce(SPECIALDAY_PREFIX,$"Please wait {config.wsd_round - wsd_round} more rounds");
+            return;
+        }
+
+        // Go!
+        wsd_command = true;
+        sd_cmd_internal(player,command);
+    }
+
+    public void warden_sd_cmd(CCSPlayerController? player,CommandInfo command)
+    {
+        override_ff = false;
+
+        warden_sd_cmd_internal(player,command);
+    }   
+
+    public void warden_sd_ff_cmd(CCSPlayerController? player,CommandInfo command)
+    {
+        override_ff = true;
+
+        warden_sd_cmd_internal(player,command);
     }   
 
     public enum SDType
@@ -362,6 +406,12 @@ public class SpecialDay
 
     int delay = 15;
 
+    public int wsd_round = 0;
+
+    // NOTE: if we cared we would make this per player
+    // so we can't get weird conflicts, but its not a big deal
+    bool wsd_command = false;
+
     SDBase? active_sd = null;
 
     bool override_ff = false;
@@ -369,6 +419,8 @@ public class SpecialDay
     Countdown<int> countdown = new Countdown<int>();
 
     SDType type = SDType.NONE;
+
+    public JailConfig config = new JailConfig();
 
     TeamSave team_save = new TeamSave();
 };
