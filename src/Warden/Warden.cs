@@ -433,8 +433,14 @@ public partial class Warden
         {
             if(config.ct_guns)
             {
+                var jail_player = jail_player_from_player(player);
+
                 player.GiveNamedItem("weapon_deagle");
-                player.GiveNamedItem("weapon_m4a1");
+
+                if(jail_player != null)
+                {
+                    player.GiveNamedItem("weapon_" + Lib.gun_give_name(jail_player.ct_gun));
+                }
             }
 
             if(config.ct_armour)
@@ -526,6 +532,14 @@ public partial class Warden
 
         player.strip_weapons();
 
+   
+        var jail_player = jail_player_from_player(player);
+
+        if(jail_player != null)
+        {
+            jail_player.update_player(player, "ct_gun", option.Text);
+            jail_player.ct_gun = option.Text;
+        }
 
         player.GiveNamedItem("weapon_" + Lib.gun_give_name(option.Text));
         player.GiveNamedItem("weapon_deagle");

@@ -35,6 +35,7 @@ public class JailPlayer
                 {
                     "ALTER TABLE config ADD COLUMN laser_colour varchar(64) DEFAULT 'Cyan'",
                     "ALTER TABLE config ADD COLUMN marker_colour varchar(64) DEFAULT 'Cyan'",
+                    "ALTER TABLE config ADD COLUMN ct_gun varchar(64) DEFAULT 'M4'",
                 };
 
 
@@ -124,13 +125,14 @@ public class JailPlayer
                 query_steam_id.CommandText = "SELECT * FROM config WHERE steam_id = @steam_id";
                 query_steam_id.Parameters.AddWithValue("@steam_id",steam_id);
 
-                    using var reader = await query_steam_id.ExecuteReaderAsync();
+                using var reader = await query_steam_id.ExecuteReaderAsync();
                 
                 if(reader.Read())
                 {
                     // just override this
                     laser_colour =  Lib.LASER_CONFIG_MAP[(String)reader["laser_colour"]];
                     marker_colour = Lib.LASER_CONFIG_MAP[(String)reader["marker_colour"]];
+                    ct_gun = (String)reader["ct_gun"];
 
                     // don't try reloading the player
                     cached = true;
@@ -159,6 +161,8 @@ public class JailPlayer
             return;
         }
 
+        // The database has allready been read before
+        // there is not need to do it again
         if(cached)
         {
             return;
@@ -229,6 +233,7 @@ public class JailPlayer
         // TODO: reset client specific settings
         laser_colour = Lib.CYAN;
         marker_colour = Lib.CYAN;
+        ct_gun = "M4";
     }
 
     public void set_rebel(CCSPlayerController? player)
@@ -239,14 +244,11 @@ public class JailPlayer
         }
 
         // ignore if they are in lr
-        if(JailPlugin.global_ctx != null)
+        if(JailPlugin.lr.in_lr(player))
         {
-            if(JailPlugin.lr.in_lr(player))
-            {
-                return;
-            }
+            return;
         }
-
+        
         // dont care if player is invalid
         if(!player.is_valid() || player == null)
         {
@@ -326,6 +328,8 @@ public class JailPlayer
     public Color laser_colour { get; private set; } = Lib.CYAN;
     public Color marker_colour { get; private set; } = Lib.CYAN;
     bool cached = false;
+
+    public String ct_gun = "M4";
 
     public bool is_rebel = false;
 };
