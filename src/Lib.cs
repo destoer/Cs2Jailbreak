@@ -687,10 +687,10 @@ public static class Lib
         player.strip_weapons();
 
         // give their desired guns with lots of reserve ammo
-        player.GiveNamedItem("weapon_" + gun_give_name(option.Text));
+        player.GiveNamedItem(gun_give_name(option.Text));
         player.GiveNamedItem("weapon_deagle");
 
-        CBasePlayerWeapon? primary = Lib.find_weapon(player,gun_give_name(option.Text));
+        CBasePlayerWeapon? primary = Lib.find_weapon(player,GUN_LIST[option.Text]);
         primary.set_ammo(-1,999);
 
         CBasePlayerWeapon? secondary = Lib.find_weapon(player,"deagle");
@@ -699,35 +699,27 @@ public static class Lib
         player.GiveNamedItem("item_assaultsuit");
     }
 
-    static String[] GUN_LIST =
-    {	
-        "ak47", "m4a1_silencer","nova",
-        "p90", "m249", "mp5sd",
-        "galilar", "sg556","bizon", "aug",
-        "famas", "xm1014","ssg08","awp"
-        
-    };
-
-    static String[] GUN_NAMES = 
+    static Dictionary<String,String> GUN_LIST = new Dictionary<String,String>()
     {
-        "AK47","M4","M3","P90","M249","MP5",
-        "FAL","SG556","BIZON","AUG",
-        "FAMAS","XM1014","SCOUT","AWP"
+        {"AK47","ak47"},
+        {"M4","m4a1_silencer"},
+        {"M3","nova"},
+        {"P90","p90"},
+        {"M249","m249"},
+        {"MP5","mp5sd"},
+        {"FAL","galilar"},
+        {"SG556","sg556"},
+        {"BIZON","bizon"},
+        {"AUG","aug"},
+        {"FAMAS","famas"},
+        {"XM1014","xm1014"},
+        {"SCOUT","ssg08"},
+        {"AWP", "awp"},
     };
-
     
     public static String gun_give_name(String name)
     {
-        // TODO: a linear scan shouldn't matter on a list this small
-        for(int i = 0; i < GUN_NAMES.Count(); i++)
-        {
-            if(name == GUN_NAMES[i])
-            {
-                return GUN_LIST[i];
-            }
-        }
-
-        return "";
+        return "weapon_" + GUN_LIST[name];
     }
 
     static public void gun_menu_internal(this CCSPlayerController? player, bool no_awp, Action<CCSPlayerController, ChatMenuOption> callback)
@@ -741,8 +733,10 @@ public static class Lib
     
         var gun_menu = new ChatMenu("Gun Menu");
 
-        foreach(var weapon_name in GUN_NAMES)
+        foreach(var weapon_pair in GUN_LIST)
         {
+            var weapon_name = weapon_pair.Key;
+
             if(no_awp && weapon_name == "awp")
             {
                 continue;

@@ -40,7 +40,7 @@ public partial class LastRequest
 
         player.strip_weapons();
 
-        player.GiveNamedItem("weapon_" + Lib.gun_give_name(option.Text));
+        player.GiveNamedItem(Lib.gun_give_name(option.Text));
         player.GiveNamedItem("weapon_deagle");
 
         player.GiveNamedItem("item_assaultsuit");

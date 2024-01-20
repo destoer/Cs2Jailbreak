@@ -439,7 +439,7 @@ public partial class Warden
 
                 if(jail_player != null)
                 {
-                    player.GiveNamedItem("weapon_" + Lib.gun_give_name(jail_player.ct_gun));
+                    player.GiveNamedItem(Lib.gun_give_name(jail_player.ct_gun));
                 }
             }
 
@@ -541,7 +541,7 @@ public partial class Warden
             jail_player.ct_gun = option.Text;
         }
 
-        player.GiveNamedItem("weapon_" + Lib.gun_give_name(option.Text));
+        player.GiveNamedItem(Lib.gun_give_name(option.Text));
         player.GiveNamedItem("weapon_deagle");
 
         if(config.ct_armour)
