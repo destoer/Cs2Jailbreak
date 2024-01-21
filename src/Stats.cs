@@ -145,7 +145,7 @@ public class JailStats
 
     public void inc_db(CCSPlayerController? player,LastRequest.LRType type, bool win)
     {
-        if(player == null || !player.is_valid() || type == LastRequest.LRType.NONE)
+        if(player == null || !player.is_valid() || type == LastRequest.LRType.NONE  || player.IsBot)
         {
             return;
         }

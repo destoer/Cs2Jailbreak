@@ -226,6 +226,28 @@ public abstract class LRBase
         return (winner,loser,winner_lr);
     }
 
+
+    public void give_lr_nade_delay(float delay, String name)
+    {
+        if(JailPlugin.global_ctx == null)
+        {
+            return;
+        }
+
+        JailPlugin.global_ctx.AddTimer(delay,() => 
+        {
+            CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
+
+            // need to double check LR is actually still active...
+            if(player != null && player.is_valid_alive() && manager.in_lr(player))
+            {
+                //Server.PrintToChatAll("give nade");
+                player.strip_weapons(true);
+                player.GiveNamedItem(name);
+            }
+        });
+    }
+
     static public void print_countdown(LRBase lr, int delay)
     {
         if(lr.partner == null)

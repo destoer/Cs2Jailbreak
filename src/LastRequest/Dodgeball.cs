@@ -59,7 +59,7 @@ public class LRDodgeball : LRBase
     public override void grenade_thrown()
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
-        Lib.give_event_nade_delay(player,1.4f,"weapon_flashbang");
+        give_lr_nade_delay(1.4f,"weapon_flashbang");
     }
 
     public override void ent_created(CEntityInstance entity)

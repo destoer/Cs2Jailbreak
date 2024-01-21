@@ -302,12 +302,8 @@ public static class Lib
             return;
         }
 
-        // buggy on windows (Wrong gamedata issue)
-        if(!is_windows())
-        {
-            player.RemoveWeapons();
-        }
-
+        player.RemoveWeapons();
+        
         // dont remove knife its buggy
         if(!remove_knife)
         {

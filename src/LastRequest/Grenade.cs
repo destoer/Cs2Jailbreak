@@ -50,6 +50,6 @@ public class LRGrenade : LRBase
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
         player.strip_weapons(true);
-        Lib.give_event_nade_delay(player,1.4f,"weapon_hegrenade");
+        give_lr_nade_delay(1.4f,"weapon_hegrenade");
     }
 }
