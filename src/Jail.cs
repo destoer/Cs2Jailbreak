@@ -65,6 +65,8 @@ public class JailConfig : BasePluginConfig
     [JsonPropertyName("warden_force_removal")]
     public bool warden_force_removal { get; set; } = true;
 
+    [JsonPropertyName("strip_spawn_weapons")]
+    public bool strip_spawn_weapons { get; set; } = true;
 
     [JsonPropertyName("warday_guns")]
     public bool warday_guns { get; set; } = false;

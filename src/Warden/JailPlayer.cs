@@ -260,6 +260,7 @@ public class JailPlayer
         {
             if(config.colour_rebel)
             {
+                Lib.announce(REBEL_PREFIX,$"{} is a rebel",player.PlayerName);
                 player.set_colour(Lib.RED);
             }
             is_rebel = true;
@@ -284,7 +285,7 @@ public class JailPlayer
         if(is_rebel && killer.TeamNum == Lib.TEAM_CT)
         {
             Lib.log($"rebel {player.PlayerName} killed by {killer.PlayerName}");
-            Lib.localise_announce($" {ChatColors.Green}[REBEL]: {ChatColors.White}","rebel.kill",killer.PlayerName,player.PlayerName);
+            Lib.localise_announce(REBEL_PREFIX,"rebel.kill",killer.PlayerName,player.PlayerName);
         }
     }
 
@@ -322,6 +323,8 @@ public class JailPlayer
         }
     }
 
+
+    public static readonly String REBEL_PREFIX = $" {ChatColors.Green}[REBEL]: {ChatColors.White}";
 
     public static JailConfig config = new JailConfig();
 
