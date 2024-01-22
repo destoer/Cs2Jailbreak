@@ -27,6 +27,27 @@
     "warden.gun_menu_disabled": "Gun menu is disabled!",
     "warden.no_warden": "Their is no warden",
     "warden.time": "Warden has been active for {0} minutes",
+    "warden.fire_guard" : "Firing guards",
+
+    "warden.take_warden_cmd": "w",
+    "warden.leave_warden_cmd": "uw",
+    "warden.remove_warden_cmd": "rw",
+    "warden.fire_guard_cmd": "fire_guard",
+    "warden.remove_marker_cmd": "remove_marker",
+    "warden.marker_colour_cmd": "marker_colour",
+    "warden.laser_colour_cmd": "laser_colour",
+    "warden.gun_cmd": "guns",
+    "warden.time_cmd": "wtime",
+    "warden.list_cmd": "wcommands",
+    "warden.warday_cmd": "wd",
+    "warden.swap_guard_cmd": "swap_guard",
+    "warden.no_block_cmd": "wub",
+    "warden.block_cmd": "wb",
+    "warden.force_open_cmd": "force_open",
+    "warden.force_close_cmd": "force_close",
+    "warden.sd_cmd": "wsd",
+    "warden.sd_ff_cmd": "wsd_ff",
+
 
     "mute.thirty": "All t's are muted for the first 30 seconds",
     "mute.speak_quietly": "T's may now speak quietly",
@@ -67,6 +88,11 @@
     "sd.tank_start": "Tank day started",
     "sd.tank_end": "Tank day ended",
     "sd.tank": "{0} is the tank!",
+    
+    "sd.start_cmd": "sd",
+    "sd.start_ff_cmd": "sd_ff",
+    "sd.cancel_cmd": "sd_cancel",
+
 
     "lr.rebel_last": "You must be the last player alive to rebel",
     "lr.riot_start": "A riot has started! CT's have 15 seconds to hide",
@@ -80,5 +106,9 @@
     "lr.player_rebel": "{0} is a rebel!",
     "lr.knife_rebel": "{0} is knife a rebel!",
     "lr.ready": "Last request is available! Type !lr",
-    "lr.wait": "Please wait 15 seconds into the round before starting an lr"
+    "lr.wait": "Please wait 15 seconds into the round before starting an lr",
+
+    "lr.cancel_lr_cmd": "cancel_lr",
+    "lr.start_lr_cmd": "lr",
+    "lr.stats_cmd": "lr_stats"
 }

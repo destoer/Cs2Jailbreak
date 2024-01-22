@@ -261,43 +261,50 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         });
     }
 
+    void add_localized_cmd(String base_name,String desc,CommandInfo.CommandCallback callback)
+    {
+        AddCommand("css_" + Localizer[base_name],desc,callback);
+    }
+
     void register_commands()
     {
         // reg warden comamnds
-        AddCommand("w", "take warden", warden.take_warden_cmd);
-        AddCommand("uw", "leave warden", warden.leave_warden_cmd);
-        AddCommand("rw", "remove warden", warden.remove_warden_cmd);
-        AddCommand("clear_marker", "remove warden marker",warden.remove_marker_cmd);
+        add_localized_cmd("warden.take_warden_cmd", "take warden", warden.take_warden_cmd);
+        add_localized_cmd("warden.leave_warden_cmd", "leave warden", warden.leave_warden_cmd);
+        add_localized_cmd("warden.remove_warden_cmd", "remove warden", warden.remove_warden_cmd);
+        add_localized_cmd("warden.remove_marker_cmd","remove warden marker",warden.remove_marker_cmd);
 
-        AddCommand("marker_colour", "set laser colour", warden.marker_colour_cmd);
-        AddCommand("laser_colour", "set laser colour", warden.laser_colour_cmd);
+        add_localized_cmd("warden.marker_colour_cmd", "set marker colour", warden.marker_colour_cmd);
+        add_localized_cmd("warden.laser_colour_cmd", "set laser colour", warden.laser_colour_cmd);
 
-        AddCommand("wub","warden : disable block",warden.wub_cmd);
-        AddCommand("wb","warden : enable block",warden.wb_cmd);
+        add_localized_cmd("warden.no_block_cmd","warden : disable block",warden.wub_cmd);
+        add_localized_cmd("warden.block_cmd","warden : enable block",warden.wb_cmd);
 
-        AddCommand("wsd","warden : call a special day",sd.warden_sd_cmd);
-        AddCommand("wsd_ff","warden : call a friendly fire special day",sd.warden_sd_ff_cmd);
+        add_localized_cmd("warden.sd_cmd","warden : call a special day",sd.warden_sd_cmd);
+        add_localized_cmd("warden.sd_ff_cmd","warden : call a friendly fire special day",sd.warden_sd_ff_cmd);
 
-        AddCommand("swap_guard","admin : move a player to ct",warden.swap_guard_cmd);
+        add_localized_cmd("warden.swap_guard","admin : move a player to ct",warden.swap_guard_cmd);
 
-        AddCommand("wd","warden : start warday",warden.warday_cmd);
-        AddCommand("wcommands", "warden : show all commands",warden.cmd_info);
-        AddCommand("wtime","how long as warden been active?",warden.warden_time_cmd);
+        add_localized_cmd("warden.warday_cmd","warden : start warday",warden.warday_cmd);
+        add_localized_cmd("warden.list_cmd", "warden : show all commands",warden.cmd_info);
+        add_localized_cmd("warden.time_cmd","how long as warden been active?",warden.warden_time_cmd);
 
-        AddCommand("guns","give ct guns",warden.cmd_ct_guns);
+        add_localized_cmd("warden.gun_cmd","give ct guns",warden.cmd_ct_guns);
 
-        AddCommand("force_open","force open every door and vent",warden.force_open_cmd);
-        AddCommand("force_close","force close every door",warden.force_close_cmd);
+        add_localized_cmd("warden.force_open_cmd","force open every door and vent",warden.force_open_cmd);
+        add_localized_cmd("warden.force_close_cmd","force close every door",warden.force_close_cmd);
+
+        add_localized_cmd("warden.fire_guard_cmd","admin : Remove all guards apart from warden",warden.fire_guard_cmd);
 
         // reg lr commands
-        AddCommand("lr","start an lr",lr.lr_cmd);
-        AddCommand("cancel_lr","admin : cancel lr",lr.cancel_lr_cmd);
-        AddCommand("lr_stats","list lr stats",jail_stats.lr_stats_cmd);
+        add_localized_cmd("lr.start_lr_cmd","start an lr",lr.lr_cmd);
+        add_localized_cmd("lr.cancel_lr_cmd","admin : cancel lr",lr.cancel_lr_cmd);
+        add_localized_cmd("lr.stats_cmd","list lr stats",jail_stats.lr_stats_cmd);
 
         // reg sd commands
-        AddCommand("sd","start a sd",sd.sd_cmd);
-        AddCommand("sd_ff","start a ff sd",sd.sd_ff_cmd);
-        AddCommand("cancel_sd","cancel an sd",sd.cancel_sd_cmd);
+        add_localized_cmd("sd.start_cmd","start a sd",sd.sd_cmd);
+        add_localized_cmd("sd.start_ff_cmd","start a ff sd",sd.sd_ff_cmd);
+        add_localized_cmd("sd.cancel_cmd","cancel an sd",sd.cancel_sd_cmd);
 
         AddCommandListener("jointeam",join_team);
 

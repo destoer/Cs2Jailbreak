@@ -499,6 +499,22 @@ public partial class Warden
         remove_warden();
     }
 
+    [RequiresPermissions("@css/generic")]
+    public void fire_guard_cmd(CCSPlayerController? invoke, CommandInfo command)
+    {
+        Lib.localise_announce(WARDEN_PREFIX,"warden.fire_guard");
+
+        // swap every guard apart from warden to T
+        List<CCSPlayerController> players = Utilities.GetPlayers();
+        var valid = players.FindAll(player => player.is_valid() && player.is_ct() && !is_warden(player));
+
+        foreach(var player in valid)
+        {
+            player.slay();
+            player.SwitchTeam(CsTeam.Terrorist);
+        }
+    }
+
     public void death(CCSPlayerController? player, CCSPlayerController? killer)
     {
         // player is no longer on server

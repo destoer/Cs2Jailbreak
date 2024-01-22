@@ -238,6 +238,12 @@ public class JailPlayer
 
     public void set_rebel(CCSPlayerController? player)
     {
+        // allready a rebel don't care
+        if(is_rebel)
+        {
+            return;
+        }
+
         if(JailPlugin.event_active())
         {
             return;
@@ -260,7 +266,7 @@ public class JailPlayer
         {
             if(config.colour_rebel)
             {
-                Lib.announce(REBEL_PREFIX,$"{} is a rebel",player.PlayerName);
+                Lib.announce(REBEL_PREFIX,$"{player.PlayerName} is a rebel");
                 player.set_colour(Lib.RED);
             }
             is_rebel = true;
