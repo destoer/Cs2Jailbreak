@@ -50,7 +50,7 @@ public class LRDodgeball : LRBase
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
     
-        if(player != null && player.is_valid_alive())
+        if(player.is_valid_alive())
         {
             player.slay();
         }

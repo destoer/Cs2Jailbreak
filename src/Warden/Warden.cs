@@ -53,8 +53,6 @@ public partial class Warden
 
         player.localise_announce(WARDEN_PREFIX,"warden.wcommand");
 
-        Lib.log($"{player.PlayerName} is now the warden");
-
         warden_timestamp = Lib.cur_timestamp();
 
         // change player color!
@@ -65,7 +63,12 @@ public partial class Warden
 
     public bool is_warden(CCSPlayerController? player)
     {
-        return player.slot() == warden_slot;
+        if(!player.is_valid())
+        {
+            return false;
+        }
+
+        return player.Slot == warden_slot;
     }
 
     public void remove_warden_internal()
@@ -80,8 +83,6 @@ public partial class Warden
 
         if(player.is_valid())
         {
-            Lib.log($"{player.PlayerName} is no longer the warden");
-
             player.set_colour(Color.FromArgb(255, 255, 255, 255));
             Lib.localise_announce(WARDEN_PREFIX,"warden.removed",player.PlayerName);
             JailPlugin.logs.AddLocalized("warden.removed", player.PlayerName);
@@ -92,7 +93,7 @@ public partial class Warden
 
     public void remove_if_warden(CCSPlayerController? player)
     {
-        if(!player.is_valid() || player == null)
+        if(!player.is_valid())
         {
             return;
         }
@@ -110,7 +111,7 @@ public partial class Warden
 
     public void remove_marker_cmd(CCSPlayerController? player, CommandInfo command)
     {
-        if(!player.is_valid() || player == null)
+        if(!player.is_valid())
         {
             return;
         }
@@ -145,7 +146,7 @@ public partial class Warden
 
     public void warday_cmd(CCSPlayerController? player, CommandInfo command)
     {
-        if(player == null || !player.is_valid())
+        if(!player.is_valid())
         {
             return;
         }
@@ -187,7 +188,7 @@ public partial class Warden
       
     public void wub_cmd(CCSPlayerController? player, CommandInfo command)
     {
-        if(player == null || !player.is_valid())
+        if(!player.is_valid())
         {
             return;
         }
@@ -204,7 +205,7 @@ public partial class Warden
 
     public void wb_cmd(CCSPlayerController? player, CommandInfo command)
     {
-        if(player == null || !player.is_valid())
+        if(!player.is_valid())
         {
             return;
         }
@@ -223,7 +224,7 @@ public partial class Warden
     [RequiresPermissions("@jail/debug")]
     public void is_rebel_cmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        if(invoke == null || !invoke.is_valid())
+        if(!invoke.is_valid())
         {
             return;
         }
@@ -237,18 +238,13 @@ public partial class Warden
                 continue;
             }
 
-            int? slot = player.slot();
-
-            if(slot != null)
-            {
-                invoke.PrintToConsole($"{jail_players[slot.Value].is_rebel} : {player.PlayerName}\n");
-            }
+            invoke.PrintToConsole($"{jail_players[player.Slot].is_rebel} : {player.PlayerName}\n");
         }
     }
 
     public void warden_time_cmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        if(invoke == null || !invoke.is_valid())
+        if(!invoke.is_valid())
         {
             return;
         }
@@ -266,7 +262,7 @@ public partial class Warden
 
     public void cmd_info(CCSPlayerController? player, CommandInfo command)
     {
-        if(player == null || !player.is_valid())
+        if(!player.is_valid())
         {
             return;
         }
@@ -286,7 +282,7 @@ public partial class Warden
     public void take_warden_cmd(CCSPlayerController? player, CommandInfo command)
     {
         // invalid player we dont care
-        if(!player.is_valid() || player == null)
+        if(!player.is_valid())
         {
             return;
         }
@@ -314,7 +310,7 @@ public partial class Warden
         // player is valid to take warden
         else
         {
-            set_warden(player.slot());
+            set_warden(player.Slot);
         }
     }
 
@@ -356,7 +352,7 @@ public partial class Warden
 
         if(ct_players.Count == 1)
         {
-            int? slot = ct_players[0].slot();
+            int slot = ct_players[0].Slot;
 
             if(on_death)
             {
@@ -411,11 +407,9 @@ public partial class Warden
 
     public void connect(CCSPlayerController? player)
     {
-        var slot = player.slot();
-
-        if(slot != null)
+        if(player != null)
         {
-            jail_players[slot.Value].reset();
+            jail_players[player.Slot].reset();
         }
 
         mute.connect(player);
@@ -428,7 +422,7 @@ public partial class Warden
 
     public void setup_player_guns(CCSPlayerController? player)
     {
-        if(player == null || !player.is_valid_alive())
+        if(!player.is_valid_alive())
         {
             return;
         }
@@ -462,7 +456,7 @@ public partial class Warden
 
     public void voice(CCSPlayerController? player)
     {
-        if(player == null || !player.is_valid_alive())
+        if(!player.is_valid_alive())
         {
             return;
         }
@@ -474,13 +468,13 @@ public partial class Warden
 
         if(warden_slot == INAVLID_SLOT && player.is_ct())
         {
-            set_warden(player.slot());
+            set_warden(player.Slot);
         }
     }
 
     public void spawn(CCSPlayerController? player)
     {
-        if(player == null || !player.is_valid_alive())
+        if(!player.is_valid_alive())
         {
             return;
         }
@@ -521,7 +515,7 @@ public partial class Warden
     public void death(CCSPlayerController? player, CCSPlayerController? killer)
     {
         // player is no longer on server
-        if(!player.is_valid() || player == null)
+        if(!player.is_valid())
         {
             return;
         }
@@ -551,7 +545,7 @@ public partial class Warden
 
     public void ct_guns(CCSPlayerController player, ChatMenuOption option)
     {
-        if(player == null || !player.is_valid_alive() || !player.is_ct()) 
+        if(!player.is_valid_alive() || !player.is_ct()) 
         {
             return;
         }
@@ -578,7 +572,7 @@ public partial class Warden
 
     public void cmd_ct_guns(CCSPlayerController? player, CommandInfo command)
     {
-        if(player == null || !player.is_valid())
+        if(!player.is_valid())
         {
             return;
         }
@@ -622,19 +616,12 @@ public partial class Warden
     // util func to get a jail player
     public JailPlayer? jail_player_from_player(CCSPlayerController? player)
     {
-        if(!player.is_valid() || player == null)
+        if(!player.is_valid())
         {
             return null;
         }
 
-        var slot = player.slot();
-
-        if(slot == null)
-        {
-            return null;
-        }
-
-        return jail_players[slot.Value];
+        return jail_players[player.Slot];
     }
     
     const int INAVLID_SLOT = -3;   

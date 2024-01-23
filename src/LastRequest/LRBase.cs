@@ -47,7 +47,7 @@ public abstract class LRBase
         var player = Utilities.GetPlayerFromSlot(player_slot);
 
         // player is not alive cancel the lr
-        if(player == null || !player.is_valid_alive())
+        if(!player.is_valid_alive())
         {
             manager.end_lr(slot);
             return;
@@ -74,7 +74,7 @@ public abstract class LRBase
         // reset alive player
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
 
-        if(player == null || !player.is_valid_alive())
+        if(!player.is_valid_alive())
         {
             return;
         }
@@ -112,7 +112,7 @@ public abstract class LRBase
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
         CCSPlayerController? winner = Utilities.GetPlayerFromSlot(partner.player_slot);
 
-        if(player == null || !player.is_valid() || winner == null || !winner.is_valid())
+        if(!player.is_valid() || winner == null || !winner.is_valid())
         {
             manager.end_lr(slot);
             return;
@@ -145,7 +145,7 @@ public abstract class LRBase
 
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
 
-        if(player != null && player.is_valid_alive())
+        if(player.is_valid_alive())
         {
             player.announce(LastRequest.LR_PREFIX,"Fight!");
         }
@@ -239,7 +239,7 @@ public abstract class LRBase
             CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
 
             // need to double check LR is actually still active...
-            if(player != null && player.is_valid_alive() && manager.in_lr(player))
+            if(player.is_valid_alive() && manager.in_lr(player))
             {
                 //Server.PrintToChatAll("give nade");
                 player.strip_weapons(true);
@@ -258,7 +258,7 @@ public abstract class LRBase
         CCSPlayerController? t_player = Utilities.GetPlayerFromSlot(lr.player_slot);
         CCSPlayerController? ct_player = Utilities.GetPlayerFromSlot(lr.partner.player_slot);
 
-        if(t_player == null || !t_player.is_valid() || ct_player == null || !ct_player.is_valid())
+        if(!t_player.is_valid() || !ct_player.is_valid())
         {
             return;
         }
@@ -292,7 +292,7 @@ public abstract class LRBase
             other = Utilities.GetPlayerFromSlot(partner.player_slot);
         }
 
-        if(player == null || !player.is_valid_alive() || other == null || !other.is_valid_alive())
+        if(!player.is_valid_alive() || other == null || !other.is_valid_alive())
         {
             return;
         }

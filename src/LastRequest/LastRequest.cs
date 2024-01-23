@@ -57,7 +57,7 @@ public partial class LastRequest
 
     void init_player_common(CCSPlayerController? player, String lr_name)
     {
-        if(!player.is_valid_alive() || player == null)
+        if(!player.is_valid_alive())
         {
             return;
         }
@@ -132,7 +132,7 @@ public partial class LastRequest
 
         // check we still actually have all the players
         // our handlers only check once we have actually triggered the LR
-        if(t_player == null || ct_player == null || !t_player.is_valid_alive() || !ct_player.is_valid_alive())
+        if(!t_player.is_valid_alive() || !ct_player.is_valid_alive())
         {
             Server.PrintToChatAll($"{LR_PREFIX}disconnection during lr setup");
             return;
@@ -256,8 +256,6 @@ public partial class LastRequest
         ct_lr.partner = t_lr;
 
         active_lr[slot] = t_lr;
-        
-        Lib.log($"{t_lr.lr_name} {t_player.PlayerName} vs {ct_player.PlayerName} started");
 
         // begin counting down the lr
         t_lr.countdown_start();
@@ -389,7 +387,7 @@ public partial class LastRequest
 
     public void weapon_equip(CCSPlayerController? player,String name) 
     {
-        if(player == null || !player.is_valid_alive())
+        if(!player.is_valid_alive())
         {
             return;
         }
@@ -503,7 +501,7 @@ public partial class LastRequest
 
     bool is_valid_t(CCSPlayerController? player)
     {
-        if(player == null || !player.is_valid())
+        if(!player.is_valid())
         {
             return false;
         }
@@ -538,14 +536,7 @@ public partial class LastRequest
             return null;
         }
 
-        int? slot_opt = player.slot();
-
-        if(slot_opt == null)
-        {
-            return null;
-        }
-
-        int slot = slot_opt.Value;
+        int slot = player.Slot;
 
         // scan each active lr for player and partner
         // a HashTable setup is probably not worthwhile here
@@ -578,7 +569,7 @@ public partial class LastRequest
 
     bool can_start_lr(CCSPlayerController? player)
     {
-        if(player == null || !player.is_valid())
+        if(!player.is_valid())
         {
             return false;
         }
@@ -628,14 +619,7 @@ public partial class LastRequest
 
             if(partner.PlayerName == name)
             {
-                int? slot_opt = partner.slot();
-
-                if(slot_opt == null)
-                {
-                    return;
-                }
-
-                slot = slot_opt.Value;
+                slot = partner.Slot;
                 break;
             }
         }
@@ -657,7 +641,7 @@ public partial class LastRequest
         // save type
         LRChoice? choice = choice_from_player(player);
 
-        if(choice == null || player == null)
+        if(choice == null || !player.is_valid())
         {
             return;
         }
@@ -744,7 +728,7 @@ public partial class LastRequest
         // called from pick_choice -> pick partner
         LRChoice? choice = choice_from_player(player);
 
-        if(choice == null || player == null)
+        if(choice == null || !player.is_valid())
         {
             return;
         }
@@ -791,17 +775,15 @@ public partial class LastRequest
 
     public void lr_cmd_internal(CCSPlayerController? player,bool bypass, CommandInfo command)
     {
-        int? player_slot_opt = player.slot();
-
         // check player can start lr
         // NOTE: higher level function checks its valid to start an lr
         // so we can do a bypass for debugging
-        if(player == null  || !player.is_valid() || player_slot_opt == null || rebel_type != RebelType.NONE)
+        if(!player.is_valid() || rebel_type != RebelType.NONE)
         {
             return;
         }
 
-        int player_slot = player_slot_opt.Value;
+        int player_slot = player.Slot;
         lr_choice[player_slot].t_slot = player_slot;
         lr_choice[player_slot].bypass = bypass;
 
@@ -855,7 +837,7 @@ public partial class LastRequest
 
     public void cancel_lr_cmd(CCSPlayerController? player, CommandInfo command)
     {
-        if(player == null || !player.is_valid())
+        if(!player.is_valid())
         {
             return;
         }
@@ -887,14 +869,12 @@ public partial class LastRequest
 
     LRChoice? choice_from_player(CCSPlayerController? player)
     {
-        int? player_slot_opt = player.slot();
-
-        if(!player.is_valid() || player_slot_opt == null)
+        if(!player.is_valid())
         {
             return null;
         }
 
-        return lr_choice[player_slot_opt.Value];
+        return lr_choice[player.Slot];
     }
 
     // our current LR's we use as an event dispatch

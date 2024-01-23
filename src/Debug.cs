@@ -79,7 +79,7 @@ public static class Debug
     [RequiresPermissions("@jail/debug")]
     public static void is_muted_cmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        if(invoke == null || !invoke.is_valid())
+        if(!invoke.is_valid())
         {
             return;
         }
@@ -99,7 +99,7 @@ public static class Debug
     }
 
     // are these commands allowed or not?
-    public static readonly bool enable  = true;
+    public static readonly bool enable = true;
 
     public static readonly String DEBUG_PREFIX = $" {ChatColors.Green}[DEBUG]: {ChatColors.White}";    
 }

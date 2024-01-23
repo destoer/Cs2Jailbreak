@@ -133,9 +133,6 @@ public class JailConfig : BasePluginConfig
 [MinimumApiVersion(141)]
 public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 {
-    // workaround to query global state!
-    public static JailPlugin? global_ctx;
-
     // Global event settings, used to filter plugin activits
     // during warday and SD
     bool is_event_active = false;
@@ -144,62 +141,37 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public static bool is_warden(CCSPlayerController? player)
     {
-        if(global_ctx == null)
-        {
-            return false;
-        }
-     
         return warden.is_warden(player);
     }
 
     public static bool event_active()
     {
-        if(global_ctx == null)
-        {
-            return false;
-        }
-
         return global_ctx.is_event_active;
     }
 
     public static void start_event()
     {
-        if(global_ctx != null)
-        {
-            global_ctx.is_event_active = true;
-        }
+        global_ctx.is_event_active = true;
     }
 
     public static void end_event()
     {
-        if(global_ctx != null)
-        {
-            global_ctx.is_event_active = false;
-        }
+        global_ctx.is_event_active = false;
     }
 
     public static void win_lr(CCSPlayerController? player,LastRequest.LRType type)
     {
-        if(global_ctx != null)
-        {
-            jail_stats.win(player,type);
-        }
+        jail_stats.win(player,type);
     }
 
     public static void lose_lr(CCSPlayerController? player, LastRequest.LRType type)
     {
-        if(global_ctx != null)
-        {
-            jail_stats.loss(player,type);
-        }
+        jail_stats.loss(player,type);
     }
 
     public static void purge_player_stats(CCSPlayerController? player)
     {
-        if(global_ctx != null)
-        {
-            jail_stats.purge_player(player);
-        }
+        jail_stats.purge_player(player);
     }
 
     public override string ModuleName => "CS2 Jailbreak - destoer";
@@ -397,7 +369,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(slot);
 
-        if(player != null && player.is_valid())
+        if(player.is_valid())
         {
             warden.voice(player);
         }
@@ -411,9 +383,8 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         // grab player controller from pawn
         CBaseEntity? ent =  Utilities.GetEntityFromIndex<CBaseEntity>((int)caller.Index);
 
-        if(player != null && player.is_valid() && ent != null && ent.IsValid)
+        if(player.is_valid() && ent != null && ent.IsValid)
         {
-            Lib.print_console_all($"{player.PlayerName} pressed button '{ent.Entity?.Name}' -> '{output?.Connections?.TargetDesc}'",true);
             logs.AddLocalized(player, "logs.format.button", ent.Entity?.Name ?? "Unlabeled", output?.Connections?.TargetDesc ?? "None");
         }
 
@@ -429,7 +400,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     {
         CCSPlayerController? player = @event.Userid;
 
-        if(player != null && player.is_valid())
+        if(player.is_valid())
         {
             lr.grenade_thrown(player);
             sd.grenade_thrown(player);
@@ -443,7 +414,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     {
         CCSPlayerController? player = @event.Userid;
 
-        if(player != null && player.is_valid())
+        if(player.is_valid())
         {
             lr.weapon_zoom(player);
         }
@@ -455,7 +426,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     {
         CCSPlayerController? player = @event.Userid;
 
-        if(player != null && player.is_valid())
+        if(player.is_valid())
         {
             lr.weapon_equip(player,@event.Item);
             sd.weapon_equip(player,@event.Item);
@@ -473,7 +444,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         int health = @event.Health;
         int hitgroup = @event.Hitgroup;
 
-        if(player != null && player.is_valid())
+        if(player.is_valid())
         {
             lr.player_hurt(player,attacker,damage,health,hitgroup);
             warden.player_hurt(player,attacker,damage,health);
@@ -494,7 +465,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         CCSPlayerController? player = victim.player();
         CCSPlayerController? attacker = dealer.player();
 
-        if(player != null && player.is_valid())
+        if(player.is_valid())
         {
             sd.take_damage(player,attacker,ref damage_info.Damage);
             lr.take_damage(player,attacker,ref damage_info.Damage);
@@ -531,7 +502,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
             // fire event as is to T
             foreach(CCSPlayerController? player in Utilities.GetPlayers())
             {
-                if(player != null && player.is_valid())
+                if(player.is_valid())
                 {
                     if(player.is_t())
                     {
@@ -572,16 +543,13 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     {
         CCSPlayerController? player = @event.Userid;
 
-        if(player != null && player.is_valid())
+        if(player.is_valid())
         {
-            int? slot = player.slot();
+            int slot = player.Slot;
 
             AddTimer(0.5f,() =>  
             {
-                if(slot != null)
-                {
-                    warden.spawn(Utilities.GetPlayerFromSlot(slot.Value));
-                }
+                warden.spawn(Utilities.GetPlayerFromSlot(slot));
             });
             
         }
@@ -595,7 +563,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         int new_team = @event.Toteam;
 
-        if(player != null && player.is_valid())
+        if(player.is_valid())
         {
             warden.switch_team(player,new_team);
         }
@@ -607,7 +575,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(slot);
 
-        if(player != null && player.is_valid())
+        if(player.is_valid())
         {
             jail_stats.load_player(player);
             
@@ -624,7 +592,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     {
         CCSPlayerController? player = @event.Userid;
 
-        if(player != null && player.is_valid())
+        if(player.is_valid())
         {
             warden.disconnect(player);
             lr.disconnect(player);
@@ -649,7 +617,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         var player = @event.Userid;
         String name = @event.Weapon;
 
-        if(player != null && player.is_valid_alive())
+        if(player.is_valid_alive())
         {
             warden.weapon_fire(player,name);
             lr.weapon_fire(player,name);
@@ -660,17 +628,20 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public static String localise(string name,params Object[] args)
     {
-        if(global_ctx != null)
-        {
-            return String.Format(global_ctx.Localizer[name],args);
-        }
-
-        return "";
+        return String.Format(global_ctx.Localizer[name],args);
     }
 
     public static Warden warden = new Warden();
     public static LastRequest lr = new LastRequest();
     public static SpecialDay sd = new SpecialDay();
     public static JailStats jail_stats = new JailStats();
+
+    // in practice these wont be null
+    #pragma warning disable CS8618 
     public static Logs logs;
+
+    // workaround to query global state!
+    public static JailPlugin global_ctx;
+
+    #pragma warning restore CS8618
 }

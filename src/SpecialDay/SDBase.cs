@@ -76,13 +76,13 @@ public abstract class SDBase
     
     public void disconnect(CCSPlayerController? player)
     {
-        if(player == null || !player.is_valid())
+        if(!player.is_valid() || boss == null)
         {
             return;
         }
 
         // player has dced re roll the boss if we have one
-        if(player.slot() == boss.slot())
+        if(player.Slot == boss.Slot)
         {
             (CCSPlayerController boss, int count) = pick_boss();
 
@@ -109,7 +109,12 @@ public abstract class SDBase
 
     public bool is_boss(CCSPlayerController? player)
     {
-        return boss.slot() != null && player.slot() == boss.slot();
+        if(player == null || boss == null)
+        {
+            return false;
+        }
+
+        return player.Slot == boss.Slot;
     }
 
     public virtual bool weapon_equip(CCSPlayerController player, String name) 

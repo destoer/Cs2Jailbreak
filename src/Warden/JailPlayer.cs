@@ -157,7 +157,7 @@ public class JailPlayer
 
     public void load_player(CCSPlayerController? player)
     {
-        if (player == null || !player.is_valid())
+        if (!player.is_valid())
         {
             return;
         }
@@ -180,7 +180,7 @@ public class JailPlayer
 
     public void update_player(CCSPlayerController? player, String name, String value)
     {
-        if (player == null || !player.is_valid())
+        if (!player.is_valid())
         {
             return;
         }
@@ -196,7 +196,7 @@ public class JailPlayer
 
     public void set_laser(CCSPlayerController? player, String value)
     {
-        if (player == null || !player.is_valid())
+        if (!player.is_valid())
         {
             return;
         }
@@ -210,7 +210,7 @@ public class JailPlayer
 
     public void set_marker(CCSPlayerController? player, String value)
     {
-        if (player == null || !player.is_valid())
+        if (!player.is_valid())
         {
             return;
         }
@@ -257,7 +257,7 @@ public class JailPlayer
         }
 
         // dont care if player is invalid
-        if (!player.is_valid() || player == null)
+        if (!player.is_valid())
         {
             return;
         }
@@ -283,7 +283,7 @@ public class JailPlayer
         }
 
         // players aernt valid dont care
-        if (killer == null || player == null || !player.is_valid() || !killer.is_valid())
+        if (killer == null || !player.is_valid() || !killer.is_valid())
         {
             return;
         }
@@ -291,7 +291,6 @@ public class JailPlayer
         // print death if player is rebel and killer on CT
         if (is_rebel && killer.TeamNum == Lib.TEAM_CT)
         {
-            Lib.log($"rebel {player.PlayerName} killed by {killer.PlayerName}");
             Lib.localise_announce(REBEL_PREFIX, "rebel.kill", killer.PlayerName, player.PlayerName);
         }
     }
@@ -312,9 +311,11 @@ public class JailPlayer
 
     public void player_hurt(CCSPlayerController? player, CCSPlayerController? attacker, int health, int damage)
     {
-        if (player == null || !player.is_valid())
+        if (!player.is_valid())
+        {
             return;
-
+        }
+        
         bool isWorld = attacker == null || !attacker.is_valid();
 
         string localKey = health > 0 ? "logs.format.damage" : "logs.format.kill";

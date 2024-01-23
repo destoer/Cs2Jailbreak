@@ -34,7 +34,7 @@ public partial class Warden
         JailPlayer? jail_player = jail_player_from_player(player);
 
         // draw marker
-        if(is_warden(player) && player != null && player.is_valid() && jail_player != null)
+        if(is_warden(player) && player.is_valid() && jail_player != null)
         {
             // make sure we destroy the old marker
             // because this generates alot of ents
@@ -119,7 +119,7 @@ public partial class Warden
 
     void set_laser(CCSPlayerController player, ChatMenuOption option)
     {
-        if(player == null || !player.is_valid())
+        if(!player.is_valid())
         {
             return;
         }
@@ -135,7 +135,7 @@ public partial class Warden
 
     void set_marker(CCSPlayerController player, ChatMenuOption option)
     {
-        if(player == null || !player.is_valid())
+        if(!player.is_valid())
         {
             return;
         }
@@ -151,7 +151,7 @@ public partial class Warden
 
     void colour_menu(CCSPlayerController? player,Action<CCSPlayerController, ChatMenuOption> callback, String name)
     {
-        if(player == null || !player.is_valid())
+        if(!player.is_valid())
         {
             return;
         }
@@ -168,7 +168,7 @@ public partial class Warden
 
     public void laser_colour_cmd(CCSPlayerController? player, CommandInfo command)
     {
-        if(player == null || !player.is_valid())
+        if(!player.is_valid())
         {
             return;
         }
@@ -178,7 +178,7 @@ public partial class Warden
 
     public void marker_colour_cmd(CCSPlayerController? player, CommandInfo command)
     {
-        if(player == null || !player.is_valid())
+        if(!player.is_valid())
         {
             return;
         }

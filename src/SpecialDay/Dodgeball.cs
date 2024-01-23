@@ -45,7 +45,7 @@ public class SDDodgeball : SDBase
 
     public override void player_hurt(CCSPlayerController? player,int damage, int health, int hitgroup)
     {
-        if(player != null && player.is_valid_alive())
+        if(player.is_valid_alive())
         {
             player.slay();
         }

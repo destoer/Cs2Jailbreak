@@ -20,7 +20,7 @@ public class LRNoScope : LRBase
 
     void give_weapon(CCSPlayerController? player)
     {
-        if(player == null || !player.is_valid())
+        if(!player.is_valid())
         {
             return;
         }

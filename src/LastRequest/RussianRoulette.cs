@@ -55,7 +55,7 @@ public class LRRussianRoulette : LRBase
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
 
-        if(name.Contains(weapon_restrict) && player != null && player.is_valid())
+        if(name.Contains(weapon_restrict) && player.is_valid())
         {
             Random rnd = new Random((int)DateTime.Now.Ticks);
 
@@ -79,7 +79,7 @@ public class LRRussianRoulette : LRBase
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
 
-        if(player != null && player.is_valid_alive())
+        if(player.is_valid_alive())
         {     
             player.PrintToChat($"{LastRequest.LR_PREFIX} Reload!");
 

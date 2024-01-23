@@ -15,6 +15,7 @@ using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 using CounterStrikeSharp.API.Modules.Admin;
 using System.Drawing;
 using System.Text;
+using System.Diagnostics.CodeAnalysis;
 
 // NOTE: this is a timer wrapper, and should be owned the class
 // wanting to use the timer
@@ -29,11 +30,7 @@ public class Countdown<T>
         this.data = countdown_data;
         this.print_func = countdown_print_func;
 
-
-        if(JailPlugin.global_ctx != null)
-        {
-            this.handle = JailPlugin.global_ctx.AddTimer(1.0f,countdown,CSTimer.TimerFlags.STOP_ON_MAPCHANGE | CSTimer.TimerFlags.REPEAT);
-        }
+        this.handle = JailPlugin.global_ctx.AddTimer(1.0f,countdown,CSTimer.TimerFlags.STOP_ON_MAPCHANGE | CSTimer.TimerFlags.REPEAT);
     }
 
     public void kill()
@@ -123,37 +120,36 @@ public static class Lib
 
     static public void slay(this CCSPlayerController? player)
     {
-        if(player != null && player.is_valid_alive())
+        if(player.is_valid_alive())
         {
             player.PlayerPawn.Value?.CommitSuicide(true, true);
         }
     }
 
     // Cheers Kill for suggesting method extenstions
-    static public bool is_valid(this CCSPlayerController? player)
+    static public bool is_valid([NotNullWhen(true)] this CCSPlayerController? player)
     {
         return player != null && player.IsValid &&  player.PlayerPawn.IsValid && player.PlayerPawn.Value?.IsValid == true;
     }
 
     static public bool is_t(this CCSPlayerController? player)
     {
-        return player != null && is_valid(player) && player.TeamNum == TEAM_T;
+        return is_valid(player) && player.TeamNum == TEAM_T;
     }
 
     static public bool is_ct(this CCSPlayerController? player)
     {
-        return player != null && is_valid(player) && player.TeamNum == TEAM_CT;
+        return is_valid(player) && player.TeamNum == TEAM_CT;
     }
 
-    // yes i know the null check is redundant but C# is dumb
-    static public bool is_valid_alive(this CCSPlayerController? player)
+    static public bool is_valid_alive([NotNullWhen(true)] this CCSPlayerController? player)
     {
-        return player != null && player.is_valid() && player.PawnIsAlive && player.get_health() > 0;
+        return player.is_valid() && player.PawnIsAlive && player.get_health() > 0;
     }
 
     static public CCSPlayerPawn? pawn(this CCSPlayerController? player)
     {
-        if(player == null || !player.is_valid())
+        if(!player.is_valid())
         {
             return null;
         }
@@ -203,25 +199,22 @@ public static class Lib
 
     static public void give_event_nade_delay(CCSPlayerController? target,float delay, String name)
     {
-        if(JailPlugin.global_ctx == null)
+        if(!target.is_valid_alive())
         {
             return;
         }
 
-        int? slot = target.slot();
+        int slot = target.Slot;
 
         JailPlugin.global_ctx.AddTimer(delay,() => 
         {
-            if(slot != null)
-            {
-                CCSPlayerController? player = Utilities.GetPlayerFromSlot(slot.Value);
+            CCSPlayerController? player = Utilities.GetPlayerFromSlot(slot);
 
-                if(player != null && player.is_valid_alive())
-                {
-                    //Server.PrintToChatAll("give nade");
-                    player.strip_weapons(true);
-                    player.GiveNamedItem(name);
-                }
+            if(player.is_valid_alive())
+            {
+                //Server.PrintToChatAll("give nade");
+                player.strip_weapons(true);
+                player.GiveNamedItem(name);
             }
         });
     }
@@ -243,13 +236,10 @@ public static class Lib
         {
             int index = (int)entity.Index;
 
-            if(JailPlugin.global_ctx != null)
+            JailPlugin.global_ctx.AddTimer(delay,() => 
             {
-                JailPlugin.global_ctx.AddTimer(delay,() => 
-                {
-                    remove_ent(index,name);
-                });
-            }
+                remove_ent(index,name);
+            });
         }
     }
 
@@ -297,7 +287,7 @@ public static class Lib
     static public void strip_weapons(this CCSPlayerController? player, bool remove_knife = false)
     {
         // only care if player is valid
-        if(player == null || !player.is_valid_alive())
+        if(!player.is_valid_alive())
         {
             return;
         }
@@ -325,7 +315,7 @@ public static class Lib
 
     static public bool is_generic_admin(this CCSPlayerController? player)
     {
-        if(player == null || !player.is_valid())
+        if(!player.is_valid())
         {
             return false;
         }
@@ -396,7 +386,7 @@ public static class Lib
 
     static public void play_sound(this CCSPlayerController? player, String sound)
     {
-        if(player == null || !player.is_valid())
+        if(!player.is_valid())
         {
             return;
         }
@@ -472,7 +462,7 @@ public static class Lib
 
     static public void listen_all(this CCSPlayerController? player)
     {
-        if(player == null || !player.is_valid())
+        if(!player.is_valid())
         {
             return;
         }
@@ -483,7 +473,7 @@ public static class Lib
 
     static public void listen_team(this CCSPlayerController? player)
     {
-        if(player == null || !player.is_valid())
+        if(!player.is_valid())
         {
             return;
         }
@@ -494,7 +484,7 @@ public static class Lib
 
     static public void mute(this CCSPlayerController? player)
     {
-        if(player == null || !player.is_valid())
+        if(!player.is_valid())
         {
             return;
         }
@@ -509,7 +499,7 @@ public static class Lib
     // TODO: this needs to be hooked into the ban system that becomes used
     static public void unmute(this CCSPlayerController? player)
     {
-        if(player == null || !player.is_valid())
+        if(!player.is_valid())
         {
             return;
         }
@@ -642,7 +632,7 @@ public static class Lib
 
     public static void restore_hp(CCSPlayerController? player, int damage, int health)
     {
-        if(player == null || !player.is_valid())
+        if(!player.is_valid())
         {
             return;
         }
@@ -721,7 +711,7 @@ public static class Lib
     static public void gun_menu_internal(this CCSPlayerController? player, bool no_awp, Action<CCSPlayerController, ChatMenuOption> callback)
     {
         // player must be alive and active!
-        if(player == null || !player.is_valid_alive())
+        if(!player.is_valid_alive())
         {
             return;
         } 
@@ -747,7 +737,7 @@ public static class Lib
     static public void gun_menu(this CCSPlayerController? player, bool no_awp)
     {
         // give bots some test guns
-        if(player != null && player.is_valid_alive() && player.IsBot)
+        if(player.is_valid_alive() && player.IsBot)
         {
             player.GiveNamedItem("weapon_ak47");
             player.GiveNamedItem("weapon_deagle");
@@ -765,7 +755,7 @@ public static class Lib
 
     static public void print_prefix(this CCSPlayerController? player, String prefix, String str)
     {
-        if(player != null && player.is_valid())
+        if(player.is_valid())
         {
             player.PrintToChat(prefix + str);
         }
@@ -773,7 +763,7 @@ public static class Lib
 
     static public void announce(this CCSPlayerController? player,String prefix,String str)
     {
-        if(player != null && player.is_valid())
+        if(player.is_valid())
         {
             player.print_prefix(prefix,str);
             player.PrintToCenter(str);
@@ -800,7 +790,7 @@ public static class Lib
 
     static public void localise(this CCSPlayerController? player,String name, params Object[] args)
     {
-        if(player != null && player.is_valid())
+        if(player.is_valid())
         {
             player.PrintToChat(localise(name,args));
         }    
@@ -808,7 +798,7 @@ public static class Lib
 
     static public void localise_prefix(this CCSPlayerController? player,String prefix, String name, params Object[] args)
     {
-        if(player != null && player.is_valid())
+        if(player.is_valid())
         {
             player.PrintToChat(prefix + localise(name,args));
         }    
@@ -913,28 +903,6 @@ public static class Lib
         {
             cvar.StringValue = value;
         }
-    }
-
-    public static int? to_slot(int? user_id)
-    {
-        if(user_id == null)
-        {
-            return null;
-        }
-
-        return user_id & 0xff;
-    }
-
-    public static int? slot(this CCSPlayerController? player)
-    {
-        // dont think a full validity check here is desirable
-        // for stuff like connect events?
-        if(player == null || !player.IsValid)
-        {
-            return null;
-        }
-
-        return to_slot(player.UserId);
     }
 
     static void force_ent_input(String name, String input)
@@ -1064,7 +1032,7 @@ public static class Lib
         {
             var player = Utilities.GetPlayerFromSlot(slot.Value);
 
-            if(player != null && player.is_valid())
+            if(player.is_valid())
             {
                 player.Respawn();
             }
@@ -1073,10 +1041,12 @@ public static class Lib
 
     static public void respawn_delay(this CCSPlayerController? player, float delay)
     {
-        if(JailPlugin.global_ctx != null)
+        if(!player.is_valid())
         {
-            JailPlugin.global_ctx.AddTimer(delay,() => respawn_callback(player.slot()),CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
+            return;
         }
+
+        JailPlugin.global_ctx.AddTimer(delay,() => respawn_callback(player.Slot),CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
     }
 
     // TODO: just go with a simple print for now

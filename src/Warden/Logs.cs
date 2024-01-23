@@ -2,6 +2,7 @@ using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
+using CounterStrikeSharp.API.Modules.Admin;
 
 public class Logs
 {
@@ -16,6 +17,7 @@ public class Logs
         plugin.RegisterEventHandler<EventRoundEnd>(OnRoundEnd);
     }
 
+    [RequiresPermissions("@css/generic")]
     public void LogsCommand(CCSPlayerController? executor, CommandInfo info)
     {
         printLogs(executor);

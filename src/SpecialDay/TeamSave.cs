@@ -22,19 +22,16 @@ public class TeamSave
         // iter over each active player and save the theam they are on
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            int? player_slot = player.slot();
-
-            if(!player.is_valid() || player_slot == null)
+            if(!player.is_valid())
             {
                 continue;
             }
-
 
             int team = player.TeamNum;
 
             if(Lib.is_active_team(team))
             {
-                slots[count] = player_slot.Value;
+                slots[count] = player.Slot;
                 teams[count] = team;
                 count++;
             }
@@ -48,7 +45,7 @@ public class TeamSave
         {
             CCSPlayerController? player = Utilities.GetPlayerFromSlot(slots[i]);
 
-            if(player == null || !player.is_valid())
+            if(!player.is_valid())
             {
                 continue;
             }

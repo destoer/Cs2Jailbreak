@@ -61,7 +61,7 @@ public class SpecialDay
 
     public void setup_sd(CCSPlayerController? invoke, ChatMenuOption option)
     {
-        if(invoke == null  || !invoke.is_valid())
+        if(!invoke.is_valid())
         {
             return;
         }
@@ -185,7 +185,7 @@ public class SpecialDay
 
     public void weapon_equip(CCSPlayerController? player,String name) 
     {
-        if(player == null || !player.is_valid_alive())
+        if(!player.is_valid_alive())
         {
             return;
         }
@@ -202,7 +202,7 @@ public class SpecialDay
 
     public void disconnect(CCSPlayerController? player)
     {
-        if(player == null || !player.is_valid())
+        if(!player.is_valid())
         {
             return;
         }
@@ -241,7 +241,7 @@ public class SpecialDay
 
     public void player_hurt(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health, int hitgroup)
     {
-        if(active_sd != null && player != null && player.is_valid())
+        if(active_sd != null && player.is_valid())
         {
             active_sd.player_hurt(player,damage,health,hitgroup);
         }
@@ -264,7 +264,7 @@ public class SpecialDay
 
     public void take_damage(CCSPlayerController? player, CCSPlayerController? attacker, ref float damage)
     {
-        if(active_sd == null || player == null || !player.is_valid())
+        if(active_sd == null || !player.is_valid())
         {
             return;
         }
@@ -283,7 +283,7 @@ public class SpecialDay
 
     public void sd_cmd_internal(CCSPlayerController? player,CommandInfo command)
     {
-        if(player == null  || !player.is_valid())
+        if(!player.is_valid())
         {
             return;
         }
@@ -311,7 +311,7 @@ public class SpecialDay
     [RequiresPermissions("@jail/debug")]
     public void sd_rig_cmd(CCSPlayerController? player,CommandInfo command)
     {
-        if(player == null || !player.is_valid())
+        if(!player.is_valid())
         {
             return;
         }

@@ -90,7 +90,7 @@ public class Mute
 
     public void spawn(CCSPlayerController? player)
     {
-        if(!player.is_valid() || player == null)
+        if(!player.is_valid())
         {
             return;
         }
@@ -113,7 +113,7 @@ public class Mute
     public void death(CCSPlayerController? player)
     {
         // mute on death
-        if(!player.is_valid() || player == null)
+        if(!player.is_valid())
         {
             return;
         }
@@ -133,7 +133,7 @@ public class Mute
 
     public void switch_team(CCSPlayerController? player,int new_team)
     {
-        if(!player.is_valid() || player == null)
+        if(!player.is_valid())
         {
             return;
         }

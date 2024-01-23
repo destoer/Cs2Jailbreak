@@ -27,7 +27,7 @@ public class JailStats
     {
         var lr_player = player_stat_from_player(player);
 
-        if(lr_player != null && type != LastRequest.LRType.NONE && player != null && player.is_valid())
+        if(lr_player != null && type != LastRequest.LRType.NONE && player.is_valid())
         {
             int idx = (int)type;
             lr_player.win[idx] += 1;
@@ -40,7 +40,7 @@ public class JailStats
     {
         var lr_player = player_stat_from_player(player);
 
-        if(lr_player != null && type != LastRequest.LRType.NONE && player != null && player.is_valid())
+        if(lr_player != null && type != LastRequest.LRType.NONE && player.is_valid())
         {
             int idx = (int)type;
             lr_player.loss[idx] += 1;
@@ -52,33 +52,26 @@ public class JailStats
 
     PlayerStat? player_stat_from_player(CCSPlayerController? player)
     {
-        if(player == null || !player.is_valid())
+        if(!player.is_valid())
         {
             return null;
         }
 
-        var slot = player.slot();
-
-        if(slot == null)
-        {
-            return null;
-        }
-
-        return player_stats[slot.Value];        
+        return player_stats[player.Slot];        
     }
 
 
 
     void print_stats(CCSPlayerController? invoke, CCSPlayerController? player)
     {
-        if(invoke == null || !invoke.is_valid())
+        if(!invoke.is_valid())
         {
             return;
         }
 
         var lr_player = player_stat_from_player(player);
 
-        if(lr_player != null && player != null && player.is_valid())
+        if(lr_player != null && player.is_valid())
         {
             invoke.PrintToChat($"{LastRequest.LR_PREFIX} lr stats for {player.PlayerName}");
 
@@ -145,7 +138,7 @@ public class JailStats
 
     public void inc_db(CCSPlayerController? player,LastRequest.LRType type, bool win)
     {
-        if(player == null || !player.is_valid() || type == LastRequest.LRType.NONE  || player.IsBot)
+        if(!player.is_valid() || type == LastRequest.LRType.NONE  || player.IsBot)
         {
             return;
         }
@@ -200,16 +193,13 @@ public class JailStats
     {
          // repull player from steamid if they are still around
         CCSPlayerController? player = Utilities.GetPlayerFromSteamId(id);
-        
-        int? slot_opt = player.slot();
 
-        if(slot_opt == null || !player.is_valid())
+        if(!player.is_valid())
         {
             return;
         }
 
-        int slot = slot_opt.Value;
-
+        int slot = player.Slot;
 
         // allready cached we dont care
         if(player_stats[slot].cached)
@@ -276,7 +266,7 @@ public class JailStats
 
     public void load_player(CCSPlayerController? player)
     {
-        if(player == null || !player.is_valid())
+        if(!player.is_valid())
         {
             return;
         }

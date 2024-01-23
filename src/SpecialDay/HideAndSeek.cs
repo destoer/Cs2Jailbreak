@@ -27,7 +27,7 @@ public class SDHideAndSeek : SDBase
         // unfreeze all players
         foreach(CCSPlayerController? player in Utilities.GetPlayers())
         {
-            if(player == null || !player.is_valid_alive())
+            if(!player.is_valid_alive())
             {
                 continue;
             }

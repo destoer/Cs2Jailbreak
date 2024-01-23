@@ -24,7 +24,7 @@ public partial class Warden
     
     public bool join_team(CCSPlayerController? invoke, CommandInfo command)
     {
-        if(invoke == null || !invoke.is_valid())
+        if(!invoke.is_valid())
         {
             invoke.play_sound("sounds/ui/counter_beep.vsnd");
             return false;
@@ -92,7 +92,7 @@ public partial class Warden
     [RequiresPermissions("@css/generic")]
     public void swap_guard_cmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        if(invoke == null || !invoke.is_valid())
+        if(!invoke.is_valid())
         {
             return;
         }
