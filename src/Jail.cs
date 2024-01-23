@@ -308,6 +308,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         add_localized_cmd("sd.start_ff_cmd","start a ff sd",sd.sd_ff_cmd);
         add_localized_cmd("sd.cancel_cmd","cancel an sd",sd.cancel_sd_cmd);
 
+        add_localized_cmd("logs.logs_cmd", "show round logs", logs.LogsCommand);
         AddCommandListener("jointeam",join_team);
 
         // debug 

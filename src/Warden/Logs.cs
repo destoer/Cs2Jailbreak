@@ -1,5 +1,6 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
 
 public class Logs
@@ -15,6 +16,10 @@ public class Logs
         plugin.RegisterEventHandler<EventRoundEnd>(OnRoundEnd);
     }
 
+    public void LogsCommand(CCSPlayerController? executor, CommandInfo info) {
+        printLogs(executor);
+    }
+
     private HookResult OnRoundEnd(EventRoundEnd @event, GameEventInfo info)
     {
         foreach (CCSPlayerController player in Utilities.GetPlayers())
@@ -25,18 +30,27 @@ public class Logs
         return HookResult.Continue;
     }
 
-    private void printLogs(CCSPlayerController player)
+    private void printLogs(CCSPlayerController? player) {
+        if(player == null) {
+            printLogs(Server.PrintToConsole);
+        } else {
+            printLogs(player.PrintToConsole);
+        }
+    }
+
+    private void printLogs(Delegate printFunction)
     {
-        player.PrintToConsole("********************************");
-        player.PrintToConsole("***** BEGIN JAILBREAK LOGS *****");
-        player.PrintToConsole("********************************");
+        printFunction.DynamicInvoke("********************************");
+        printFunction.DynamicInvoke("********************************");
+        printFunction.DynamicInvoke("***** BEGIN JAILBREAK LOGS *****");
+        printFunction.DynamicInvoke("********************************");
         foreach (string log in logs)
         {
-            player.PrintToConsole(log);
+            printFunction.DynamicInvoke(log);
         }
-        player.PrintToConsole("********************************");
-        player.PrintToConsole("****** END JAILBREAK LOGS ******");
-        player.PrintToConsole("********************************");
+        printFunction.DynamicInvoke("********************************");
+        printFunction.DynamicInvoke("****** END JAILBREAK LOGS ******");
+        printFunction.DynamicInvoke("********************************");
     }
 
     private HookResult OnRoundStart(EventRoundStart @event, GameEventInfo info)

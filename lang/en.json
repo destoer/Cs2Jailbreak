@@ -50,6 +50,7 @@
 
     "logs.ct": "CT",
     "logs.t": "T",
+    "logs.logs_cmd": "logs",
 
     "role.warden": "Warden",
     "role.guard": "Guard",
