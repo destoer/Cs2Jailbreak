@@ -63,7 +63,7 @@ public class Logs
     public void Add(string log)
     {
         string format = $"[{DateTimeOffset.UtcNow.ToUnixTimeSeconds() - roundStart}:mm\\:ss] {log}";
-        logs.Add(log);
+        logs.Add(format);
     }
 
     public void AddLocalized(string key, params object[] args)
