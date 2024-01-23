@@ -59,6 +59,8 @@ public partial class Warden
 
         // change player color!
         player.set_colour(Color.FromArgb(255, 0, 0, 255));
+
+        JailPlugin.logs.Add($"{player.PlayerName} is now the warden");
     }
 
     public bool is_warden(CCSPlayerController? player)

@@ -221,6 +221,8 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         Console.WriteLine("Sucessfully started JB");
 
         AddTimer(Warden.LASER_TIME,warden.laser_tick,CSTimer.TimerFlags.REPEAT);
+
+        logs = new Logs(this); 
     }
 
     void stat_db_reload()
@@ -667,4 +669,5 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     public static LastRequest lr = new LastRequest();
     public static SpecialDay sd = new SpecialDay();
     public static JailStats jail_stats = new JailStats();
+    public static Logs logs;
 }
