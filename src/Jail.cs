@@ -204,11 +204,12 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public override string ModuleName => "CS2 Jailbreak - destoer";
 
-    public override string ModuleVersion => "v0.2.2";
+    public override string ModuleVersion => "v1.2.2";
 
     public override void Load(bool hotReload)
     {
         global_ctx = this;
+        logs = new Logs(this); 
 
         register_commands();
         
@@ -222,7 +223,6 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         AddTimer(Warden.LASER_TIME,warden.laser_tick,CSTimer.TimerFlags.REPEAT);
 
-        logs = new Logs(this); 
     }
 
     void stat_db_reload()
