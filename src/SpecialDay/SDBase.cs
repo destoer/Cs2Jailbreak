@@ -98,7 +98,7 @@ public abstract class SDBase
         Lib.disable_friendly_fire();
 
         // reset the boss colour
-        if(boss != null && boss.is_valid_alive())
+        if(boss.is_valid_alive())
         {
             boss.set_velocity(1.0f);
             boss.set_colour(Color.FromArgb(255, 255, 255, 255));

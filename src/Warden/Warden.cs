@@ -352,8 +352,6 @@ public partial class Warden
 
         if(ct_players.Count == 1)
         {
-            int slot = ct_players[0].Slot;
-
             if(on_death)
             {
                 // play sfx for last ct
@@ -361,6 +359,7 @@ public partial class Warden
                 //Lib.play_sound_all("sounds/vo/agents/sas/lastmanstanding03");
             }
         
+            int slot = ct_players[0].Slot;
             set_warden(slot);
         }
     }
