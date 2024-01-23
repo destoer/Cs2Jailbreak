@@ -204,7 +204,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public override string ModuleName => "CS2 Jailbreak - destoer";
 
-    public override string ModuleVersion => "v1.2.2";
+    public override string ModuleVersion => "v0.3.3";
 
     public override void Load(bool hotReload)
     {
