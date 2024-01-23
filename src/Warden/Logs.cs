@@ -41,7 +41,6 @@ public class Logs
     private void printLogs(Delegate printFunction)
     {
         printFunction.DynamicInvoke("********************************");
-        printFunction.DynamicInvoke("********************************");
         printFunction.DynamicInvoke("***** BEGIN JAILBREAK LOGS *****");
         printFunction.DynamicInvoke("********************************");
         foreach (string log in logs)
