@@ -413,6 +413,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         if(player != null && player.is_valid() && ent != null && ent.IsValid)
         {
             Lib.print_console_all($"{player.PlayerName} pressed button '{ent.Entity?.Name}' -> '{output?.Connections?.TargetDesc}'",true);
+            logs.AddLocalized("logs.format.button", player, ent.Entity?.Name ?? "Unlabeled", output?.Connections?.TargetDesc ?? "None");
         }
 
         return HookResult.Continue;

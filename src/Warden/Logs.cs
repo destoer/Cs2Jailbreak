@@ -1,5 +1,6 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Utils;
 
 public class Logs
 {
@@ -54,5 +55,31 @@ public class Logs
     public void AddLocalized(string key, params object[] args)
     {
         Add(plugin.Localizer[key, args]);
+    }
+
+    public void AddLocalized(CCSPlayerController source, string key, params object[] args)
+    {
+        Add(plugin.Localizer[key, source.PlayerName, GetPlayerRole(source), args]);
+    }
+
+    public void AddLocalized(CCSPlayerController source, CCSPlayerController target, string key, params object[] args)
+    {
+        Add(plugin.Localizer[key, source.PlayerName, GetPlayerRole(source), target.PlayerName, GetPlayerRole(target), args]);
+    }
+
+
+    public String GetPlayerRole(CCSPlayerController player)
+    {
+        switch ((CsTeam)player.TeamNum)
+        {
+            case CsTeam.Spectator:
+                return plugin.Localizer["role.spectator"];
+            case CsTeam.CounterTerrorist:
+                return plugin.Localizer[JailPlugin.warden.is_warden(player) ? "role.warden" : "role.guard"];
+            case CsTeam.Terrorist:
+                return plugin.Localizer[JailPlugin.warden.jail_players[player.Slot].is_rebel ? "role.rebel" : "role_prisoner"];
+            default:
+                return plugin.Localizer["role.unknown"];
+        }
     }
 }
