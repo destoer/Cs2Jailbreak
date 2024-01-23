@@ -16,7 +16,8 @@ public class Logs
         plugin.RegisterEventHandler<EventRoundEnd>(OnRoundEnd);
     }
 
-    public void LogsCommand(CCSPlayerController? executor, CommandInfo info) {
+    public void LogsCommand(CCSPlayerController? executor, CommandInfo info)
+    {
         printLogs(executor);
     }
 
@@ -31,10 +32,14 @@ public class Logs
         return HookResult.Continue;
     }
 
-    private void printLogs(CCSPlayerController? player) {
-        if(player == null) {
+    private void printLogs(CCSPlayerController? player)
+    {
+        if (player == null)
+        {
             printLogs(Server.PrintToConsole);
-        } else {
+        }
+        else
+        {
             printLogs(player.PrintToConsole);
         }
     }
@@ -61,7 +66,8 @@ public class Logs
 
     public void Add(string log)
     {
-        string format = $"[{DateTimeOffset.UtcNow.ToUnixTimeSeconds() - roundStart:mm\\:ss}] {log}";
+        TimeSpan span = TimeSpan.FromSeconds(DateTimeOffset.UtcNow.ToUnixTimeSeconds() - roundStart);
+        string format = $"[{span:mm':'ss}] {log}";
         logs.Add(format);
     }
 
