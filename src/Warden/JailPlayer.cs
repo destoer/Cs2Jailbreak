@@ -324,7 +324,7 @@ public class JailPlayer
         }
         else
         {
-            JailPlugin.logs.AddLocalized(player, localKey, attacker!, damage);
+            JailPlugin.logs.AddLocalized(player, attacker!, localKey, damage);
         }
 
         if (isWorld)

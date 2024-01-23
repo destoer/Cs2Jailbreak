@@ -433,6 +433,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         {
             lr.grenade_thrown(player);
             sd.grenade_thrown(player);
+            logs.AddLocalized(player, "logs.format.grenade", @event.Weapon); 
         }
 
         return HookResult.Continue;

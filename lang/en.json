@@ -64,6 +64,7 @@
     "logs.format.kill": "{0} ({1}) killed {2} ({3})",
     "logs.format.kill_self": "The world killed {0} ({1})",
     "logs.format.button": "{0} ({1}) pressed button {2}->{3}",
+    "logs.format.grenade": "{0} ({1}) threw a {2}",
 
     "mute.thirty": "All t's are muted for the first 30 seconds",
     "mute.speak_quietly": "T's may now speak quietly",
