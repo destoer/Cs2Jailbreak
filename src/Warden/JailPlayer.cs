@@ -320,11 +320,11 @@ public class JailPlayer
         string localKey = health > 0 ? "logs.format.damage" : "logs.format.kill";
         if (isWorld)
         {
-            JailPlugin.logs.AddLocalized(localKey + "_self", player, damage);
+            JailPlugin.logs.AddLocalized(player, localKey + "_self", damage);
         }
         else
         {
-            JailPlugin.logs.AddLocalized(localKey, attacker!, player, damage);
+            JailPlugin.logs.AddLocalized(player, localKey, attacker!, damage);
         }
 
         if (isWorld)
