@@ -59,6 +59,8 @@ public partial class Warden
 
         // change player color!
         player.set_colour(Color.FromArgb(255, 0, 0, 255));
+
+        JailPlugin.logs.AddLocalized("warden.took_warden", player.PlayerName);
     }
 
     public bool is_warden(CCSPlayerController? player)
@@ -82,6 +84,7 @@ public partial class Warden
 
             player.set_colour(Color.FromArgb(255, 255, 255, 255));
             Lib.localise_announce(WARDEN_PREFIX,"warden.removed",player.PlayerName);
+            JailPlugin.logs.AddLocalized("warden.removed", player.PlayerName);
         }
 
         remove_warden_internal();
@@ -644,7 +647,7 @@ public partial class Warden
 
     public JailConfig config = new JailConfig();
 
-    JailPlayer[] jail_players = new JailPlayer[64];
+    public JailPlayer[] jail_players = new JailPlayer[64];
 
     public Warday warday = new Warday();
     public Block block = new Block();

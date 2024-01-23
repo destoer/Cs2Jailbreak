@@ -204,11 +204,12 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public override string ModuleName => "CS2 Jailbreak - destoer";
 
-    public override string ModuleVersion => "v0.2.2";
+    public override string ModuleVersion => "v1.2.2";
 
     public override void Load(bool hotReload)
     {
         global_ctx = this;
+        logs = new Logs(this); 
 
         register_commands();
         
@@ -221,6 +222,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         Console.WriteLine("Sucessfully started JB");
 
         AddTimer(Warden.LASER_TIME,warden.laser_tick,CSTimer.TimerFlags.REPEAT);
+
     }
 
     void stat_db_reload()
@@ -306,6 +308,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         add_localized_cmd("sd.start_ff_cmd","start a ff sd",sd.sd_ff_cmd);
         add_localized_cmd("sd.cancel_cmd","cancel an sd",sd.cancel_sd_cmd);
 
+        add_localized_cmd("logs.logs_cmd", "show round logs", logs.LogsCommand);
         AddCommandListener("jointeam",join_team);
 
         // debug 
@@ -411,6 +414,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         if(player != null && player.is_valid() && ent != null && ent.IsValid)
         {
             Lib.print_console_all($"{player.PlayerName} pressed button '{ent.Entity?.Name}' -> '{output?.Connections?.TargetDesc}'",true);
+            logs.AddLocalized(player, "logs.format.button", ent.Entity?.Name ?? "Unlabeled", output?.Connections?.TargetDesc ?? "None");
         }
 
         return HookResult.Continue;
@@ -429,6 +433,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         {
             lr.grenade_thrown(player);
             sd.grenade_thrown(player);
+            logs.AddLocalized(player, "logs.format.grenade", @event.Weapon); 
         }
 
         return HookResult.Continue;
@@ -667,4 +672,5 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     public static LastRequest lr = new LastRequest();
     public static SpecialDay sd = new SpecialDay();
     public static JailStats jail_stats = new JailStats();
+    public static Logs logs;
 }

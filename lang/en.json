@@ -48,6 +48,23 @@
     "warden.sd_cmd": "wsd",
     "warden.sd_ff_cmd": "wsd_ff",
 
+    "logs.ct": "CT",
+    "logs.t": "T",
+    "logs.logs_cmd": "logs",
+
+    "role.warden": "Warden",
+    "role.guard": "Guard",
+    "role.prisoner": "Prisoner",
+    "role.rebel": "Rebel",
+    "role.spectator": "Spectator",
+    "role.unknown": "Unknown",
+
+    "logs.format.damage": "{0} ({1}) damaged {2} ({3}) for {4} damage",
+    "logs.format.damage_self": "The world damaged {0} ({1}) for {2} damage",
+    "logs.format.kill": "{0} ({1}) killed {2} ({3})",
+    "logs.format.kill_self": "The world killed {0} ({1})",
+    "logs.format.button": "{0} ({1}) pressed button {2}->{3}",
+    "logs.format.grenade": "{0} ({1}) threw a {2}",
 
     "mute.thirty": "All t's are muted for the first 30 seconds",
     "mute.speak_quietly": "T's may now speak quietly",
