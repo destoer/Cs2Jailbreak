@@ -91,6 +91,28 @@ public static class Lib
         return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
     }
 
+    static public void invoke_player_menu(CCSPlayerController? invoke, String name,
+        Action<CCSPlayerController, ChatMenuOption> callback, Func<CCSPlayerController?,bool> filter)
+    {
+        if(!invoke.is_valid())
+        {
+            return;
+        }
+
+        ChatMenu menu = new ChatMenu(name);
+
+        foreach(var player in Utilities.GetPlayers())
+        {
+            if(filter(player))
+            {
+                menu.AddMenuOption(player.PlayerName, callback);
+            }
+        }
+
+        ChatMenus.OpenMenu(invoke, menu); 
+    }
+
+
     static public void play_sound_all(String sound)
     {
         foreach(CCSPlayerController? player in Utilities.GetPlayers())
@@ -252,6 +274,7 @@ public static class Lib
     public static readonly Color CYAN = Color.FromArgb(255, 153, 255, 255);
     public static readonly Color RED = Color.FromArgb(255, 255, 0, 0);
     public static readonly Color INVIS = Color.FromArgb(0, 255, 255, 255);
+    public static readonly Color GREEN = Color.FromArgb(255,0, 191, 0);
 
     public static readonly Dictionary<string,Color> LASER_CONFIG_MAP = new Dictionary<string,Color>()
     {
@@ -260,7 +283,7 @@ public static class Lib
         {"Red",Lib.RED}, // red
         {"Purple",Color.FromArgb(255,118, 9, 186)}, // purple
         {"Grey",Color.FromArgb(255,66, 66, 66)}, // grey
-        {"Green",Color.FromArgb(255,0, 191, 0)}, // green
+        {"Green",GREEN}, // green
         {"Yellow",Color.FromArgb(255,255, 255, 0)} // yellow
     };
 

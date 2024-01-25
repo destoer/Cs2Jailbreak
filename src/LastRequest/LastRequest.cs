@@ -605,26 +605,9 @@ public partial class LastRequest
             return;
         }
         
-        // find the slot of our partner with a scan...
-        int slot = -1;
-
         String name = option.Text;
 
-        foreach(CCSPlayerController partner in Utilities.GetPlayers())
-        {
-            if(!partner.is_valid())
-            {
-                continue;
-            }
-
-            if(partner.PlayerName == name)
-            {
-                slot = partner.Slot;
-                break;
-            }
-        }
-
-        choice.ct_slot = slot;
+        choice.ct_slot = Player.slot_from_name(name);
 
         // finally setup the lr
         init_lr(choice);
@@ -735,33 +718,19 @@ public partial class LastRequest
 
         choice.option = name;
 
-        List<CCSPlayerController> target;
+        String lr_name = LR_NAME[(int)choice.type];
+        String menu_name = $"Partner Menu ({lr_name})";
 
         // Debugging pick t's
         if(choice.bypass && player.is_ct())
         {
-            target = Lib.get_alive_t();
+            Lib.invoke_player_menu(player,menu_name,finialise_choice,Player.is_valid_alive_t);
         }
 
         else
         {
-            target = Lib.get_alive_ct();
+            Lib.invoke_player_menu(player,menu_name,finialise_choice,Player.is_valid_alive_ct);
         }   
-
-        String lr_name = LR_NAME[(int)choice.type];
-        var lr_menu = new ChatMenu($"Partner Menu ({lr_name})");
-
-        foreach(var partner in target)
-        {
-            if(!partner.is_valid() || in_lr(partner))
-            {
-                continue;
-            }
-
-            lr_menu.AddMenuOption(partner.PlayerName, finialise_choice);
-        }
-
-        ChatMenus.OpenMenu(player, lr_menu);
     }
 
 

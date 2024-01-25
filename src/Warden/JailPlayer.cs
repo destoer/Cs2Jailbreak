@@ -274,6 +274,30 @@ public class JailPlayer
         }
     }
 
+    public void give_pardon(CCSPlayerController? player)
+    {
+        if(player.is_valid_alive() && player.is_t())
+        {
+            Chat.localize_announce(Warden.WARDEN_PREFIX, "warden.give_pardon",player.PlayerName);
+            player.set_colour(Color.FromArgb(255, 255, 255, 255));
+
+            // they are no longer a rebel
+            is_rebel = false;
+        }      
+    }
+
+    public void give_freeday(CCSPlayerController? player)
+    {
+        if(player.is_valid_alive() && player.is_t())
+        {
+            Chat.localize_announce(Warden.WARDEN_PREFIX, "warden.give_freeday",player.PlayerName);
+            player.set_colour(Lib.GREEN);
+
+            // they are no longer a rebel
+            is_rebel = false;
+        }
+    }  
+
     public void rebel_death(CCSPlayerController? player, CCSPlayerController? killer)
     {
         // event active dont care

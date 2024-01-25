@@ -185,7 +185,75 @@ public partial class Warden
         }
     }
 
+
+    (JailPlayer?, CCSPlayerController?)  give_t_internal(CCSPlayerController? invoke, String name, String player_name)
+    {
+        if(!is_warden(invoke))
+        {
+            invoke.announce(WARDEN_PREFIX,$"You must be the warden to give a {name}");
+            return (null,null);
+        }
+
+        int slot = Player.slot_from_name(player_name);
+
+        if(slot != -1)
+        {
+            JailPlayer jail_player = jail_players[slot];
+            CCSPlayerController? player = Utilities.GetPlayerFromSlot(slot);
+
+            return (jail_player,player);
+        }
+
+        return (null,null);
+    }
+
+    public void give_freeday_callback(CCSPlayerController? invoke, ChatMenuOption option)
+    {
+        var (jail_player,player) = give_t_internal(invoke,"freeday",option.Text);
+
+        jail_player?.give_freeday(player);  
+    }
+
+    public void give_pardon_callback(CCSPlayerController? invoke, ChatMenuOption option)
+    {
+        var (jail_player,player) = give_t_internal(invoke,"pardon",option.Text);
+
+        jail_player?.give_pardon(player);  
+    }
+
+    bool is_alive_rebel(CCSPlayerController? player)
+    {
+        var jail_player = jail_player_from_player(player);
+
+        if(jail_player != null)
+        {
+            return jail_player.is_rebel && player.is_valid_alive();
+        }
+
+        return false;
+    }
+
+    public void give_t(CCSPlayerController? invoke, String name, Action<CCSPlayerController, ChatMenuOption> callback,Func<CCSPlayerController?,bool> filter)
+    {
+        if(!is_warden(invoke))
+        {
+            invoke.announce(WARDEN_PREFIX,$"Must be warden to give {name}");
+            return;
+        }
+
+        Lib.invoke_player_menu(invoke,name,callback,filter);
+    }
       
+    public void give_freeday_cmd(CCSPlayerController? invoke, CommandInfo command)
+    {
+        give_t(invoke,"Freeday",give_freeday_callback,Player.is_valid_alive_t);
+    }
+
+    public void give_pardon_cmd(CCSPlayerController? invoke, CommandInfo command)
+    {
+        give_t(invoke,"Pardon",give_pardon_callback,is_alive_rebel);
+    }
+    
     public void wub_cmd(CCSPlayerController? player, CommandInfo command)
     {
         if(!player.is_valid())

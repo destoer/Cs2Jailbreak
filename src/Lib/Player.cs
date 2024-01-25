@@ -61,6 +61,35 @@ public static class Player
         return player.is_valid() && player.PawnIsAlive && player.get_health() > 0;
     }
 
+    static public bool is_valid_alive_t([NotNullWhen(true)] this CCSPlayerController? player)
+    {
+        return player.is_valid_alive() && player.is_t();
+    }
+
+
+    static public bool is_valid_alive_ct([NotNullWhen(true)] this CCSPlayerController? player)
+    {
+        return player.is_valid_alive() && player.is_t();
+    }
+
+    static public int slot_from_name(String name)
+    {
+        foreach(CCSPlayerController player in Utilities.GetPlayers())
+        {
+            if(!player.is_valid())
+            {
+                continue;
+            }
+
+            if(player.PlayerName == name)
+            {
+                return player.Slot;
+            }
+        }
+
+        return -1;
+    }
+
     static public CCSPlayerPawn? pawn(this CCSPlayerController? player)
     {
         if(!player.is_valid())
