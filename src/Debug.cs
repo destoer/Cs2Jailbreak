@@ -41,6 +41,38 @@ public static class Debug
         }
     }
     
+    // block   0b000000000001011000011000000010001
+    // noblock 0b100000000001011000011000000010001;
+
+    [RequiresPermissions("@jail/debug")]
+    public static void test_noblock_cmd(CCSPlayerController? invoke, CommandInfo command)
+    {
+        if(!invoke.is_valid())
+        {
+            return;
+        }
+
+        invoke.PrintToChat("changed collision");
+
+        foreach(CCSPlayerController player in Utilities.GetPlayers())
+        {
+            var pawn = player.pawn();
+
+            if(pawn == null)
+            {
+                continue;
+            }
+
+            var col = pawn.Collision;
+
+            if(col != null)
+            {
+                pawn.MyCollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_DEBRIS_TRIGGER;
+                col.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_DEBRIS_TRIGGER;
+            }
+        }      
+    }
+
     [RequiresPermissions("@jail/debug")]
     public static void test_strip_cmd(CCSPlayerController? invoke, CommandInfo command)
     {

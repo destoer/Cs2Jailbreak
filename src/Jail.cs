@@ -301,6 +301,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
             AddCommand("is_muted","debug : print voice flags",Debug.is_muted_cmd);
             AddCommand("spam_db","debug : spam db",Debug.test_lr_inc);
             AddCommand("wsd_enable","debug : enable wsd",Debug.wsd_enable_cmd);
+            AddCommand("test_noblock","debug : enable wsd",Debug.test_noblock_cmd);
         }
     }
 
@@ -582,7 +583,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         {
             var swap = Utilities.GetPlayerFromSlot(slot);
 
-            if(swap.is_valid())
+            if(swap.is_valid() && !swap.IsBot)
             {
                 swap.SwitchTeam(CsTeam.Terrorist);
             }
