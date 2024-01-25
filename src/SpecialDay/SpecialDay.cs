@@ -40,7 +40,7 @@ public class SpecialDay
             // restore all players if from a cancel
             if(forced)
             {
-                Lib.announce(SPECIALDAY_PREFIX,"Special day cancelled");
+                Chat.announce(SPECIALDAY_PREFIX,"Special day cancelled");
             }  
 
             team_save.restore();
@@ -254,7 +254,7 @@ public class SpecialDay
             // force ff active
             if(override_ff)
             {
-                Lib.localise_announce(SPECIALDAY_PREFIX,"sd.ffd_enable");
+                Chat.localize_announce(SPECIALDAY_PREFIX,"sd.ffd_enable");
                 Lib.enable_friendly_fire();
             }
 

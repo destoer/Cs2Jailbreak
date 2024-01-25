@@ -47,7 +47,7 @@ public partial class Warden
 
         switch(team)
         {
-            case Lib.TEAM_CT:
+            case Player.TEAM_CT:
             {
                 if(config.ct_swap_only)
                 {
@@ -71,12 +71,12 @@ public partial class Warden
                 return true;         
             }
 
-            case Lib.TEAM_T:
+            case Player.TEAM_T:
             {
                 return true;
             }
 
-            case Lib.TEAM_SPEC:
+            case Player.TEAM_SPEC:
             {
                 return true;
             }
@@ -99,7 +99,7 @@ public partial class Warden
 
         if(command.ArgCount != 2)
         {
-            invoke.localise("warden.swap_guard_desc");
+            invoke.localize("warden.swap_guard_desc");
             return;
         }
 
@@ -109,7 +109,7 @@ public partial class Warden
         {
             if(player.is_valid())
             {
-                invoke.localise("warden.guard_swapped",player.PlayerName);
+                invoke.localize("warden.guard_swapped",player.PlayerName);
                 player.SwitchTeam(CsTeam.CounterTerrorist);
             }
         }

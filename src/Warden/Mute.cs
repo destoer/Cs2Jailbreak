@@ -24,7 +24,7 @@ public class Mute
             return;
         }
 
-        Lib.localise_announce(MUTE_PREFIX,"mute.thirty");
+        Chat.localize_announce(MUTE_PREFIX,"mute.thirty");
 
         Lib.mute_t();
 
@@ -38,7 +38,7 @@ public class Mute
 
     public void unmute_all()
     {
-        Lib.localise_announce(MUTE_PREFIX,"mute.speak_quietly");
+        Chat.localize_announce(MUTE_PREFIX,"mute.speak_quietly");
 
         // Go through and unmute all alive players!
         foreach(CCSPlayerController player in Utilities.GetPlayers())
@@ -150,7 +150,7 @@ public class Mute
 		else
 		{
             // on ct fine to unmute
-			if(new_team == Lib.TEAM_CT)
+			if(new_team == Player.TEAM_CT)
 			{
                 player.unmute();
 			}

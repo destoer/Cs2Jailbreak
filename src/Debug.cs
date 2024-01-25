@@ -20,7 +20,7 @@ public static class Debug
     [RequiresPermissions("@jail/debug")]
     public static void nuke(CCSPlayerController? invoke, CommandInfo command)
     {
-        Lib.announce(DEBUG_PREFIX,"Slaying all players");
+        Chat.announce(DEBUG_PREFIX,"Slaying all players");
 
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
@@ -36,7 +36,7 @@ public static class Debug
         if(pawn != null && pawn.AbsOrigin != null)
         {
             Vector mid =  new Vector(pawn.AbsOrigin.X,pawn.AbsOrigin.Y,pawn.AbsOrigin.Z);
-            Lib.draw_marker(mid.X,mid.Y,mid.Z,30.0f,75.0f,Lib.CYAN);
+            Entity.draw_marker(mid.X,mid.Y,mid.Z,30.0f,75.0f,Lib.CYAN);
         }
     }
     

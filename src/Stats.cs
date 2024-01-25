@@ -32,7 +32,7 @@ public class JailStats
             int idx = (int)type;
             lr_player.win[idx] += 1;
             inc_db(player,type,true);
-            Lib.announce(LastRequest.LR_PREFIX,$"{player.PlayerName} won {LastRequest.LR_NAME[idx]} win {lr_player.win[idx]} : loss {lr_player.loss[idx]}");
+            Chat.announce(LastRequest.LR_PREFIX,$"{player.PlayerName} won {LastRequest.LR_NAME[idx]} win {lr_player.win[idx]} : loss {lr_player.loss[idx]}");
         }
     }
 
@@ -46,7 +46,7 @@ public class JailStats
             lr_player.loss[idx] += 1;
             inc_db(player,type,false);
 
-            Lib.announce(LastRequest.LR_PREFIX,$"{player.PlayerName} lost {LastRequest.LR_NAME[idx]} win {lr_player.win[idx]} : loss {lr_player.loss[idx]}");
+            Chat.announce(LastRequest.LR_PREFIX,$"{player.PlayerName} lost {LastRequest.LR_NAME[idx]} win {lr_player.win[idx]} : loss {lr_player.loss[idx]}");
         }        
     }
 

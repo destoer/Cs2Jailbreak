@@ -17,18 +17,18 @@ public class SDKnifeWarday : SDBase
 {
     public override void setup()
     {
-        localise_announce("sd.knife_start");
-        localise_announce("sd.damage_enable",delay);
+        localize_announce("sd.knife_start");
+        localize_announce("sd.damage_enable",delay);
     }
 
     public override void start()
     {
-        localise_announce("sd.fight");
+        localize_announce("sd.fight");
     }
 
     public override void end()
     {
-        localise_announce("sd.knife_end");
+        localize_announce("sd.knife_end");
     }
 
     public override void setup_player(CCSPlayerController player)

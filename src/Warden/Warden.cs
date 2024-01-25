@@ -49,9 +49,9 @@ public partial class Warden
             return;
         }
 
-        Lib.localise_announce(WARDEN_PREFIX,"warden.took_warden",player.PlayerName);
+        Chat.localize_announce(WARDEN_PREFIX,"warden.took_warden",player.PlayerName);
 
-        player.localise_announce(WARDEN_PREFIX,"warden.wcommand");
+        player.localize_announce(WARDEN_PREFIX,"warden.wcommand");
 
         warden_timestamp = Lib.cur_timestamp();
 
@@ -84,7 +84,7 @@ public partial class Warden
         if(player.is_valid())
         {
             player.set_colour(Color.FromArgb(255, 255, 255, 255));
-            Lib.localise_announce(WARDEN_PREFIX,"warden.removed",player.PlayerName);
+            Chat.localize_announce(WARDEN_PREFIX,"warden.removed",player.PlayerName);
             JailPlugin.logs.AddLocalized("warden.removed", player.PlayerName);
         }
 
@@ -126,21 +126,21 @@ public partial class Warden
     [RequiresPermissions("@css/generic")]
     public void remove_warden_cmd(CCSPlayerController? player, CommandInfo command)
     {
-        Lib.localise_announce(WARDEN_PREFIX,"warden.remove");
+        Chat.localize_announce(WARDEN_PREFIX,"warden.remove");
         remove_warden();
     }
 
     [RequiresPermissions("@css/generic")]
     public void force_open_cmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        Lib.force_open();
+        Entity.force_open();
     }
 
 
     [RequiresPermissions("@css/generic")]
     public void force_close_cmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        Lib.force_close();
+        Entity.force_close();
     }
 
 
@@ -267,16 +267,16 @@ public partial class Warden
             return;
         }
 
-        player.localise("warden.warden_command_desc");
-        player.localise("warden.warday_command_desc");
-        player.localise("warden.unwarden_command_desc");
-        player.localise("warden.block_command_desc");
-        player.localise("warden.unblock_command_desc");
-        player.localise("warden.remove_warden_command_desc");
-        player.localise("warden.laser_colour_command_desc");
-        player.localise("warden.marker_colour_command_desc");
-        player.localise("warden.wsd_command_desc");
-        player.localise("warden.wsd_ff_command_desc");
+        player.localize("warden.warden_command_desc");
+        player.localize("warden.warday_command_desc");
+        player.localize("warden.unwarden_command_desc");
+        player.localize("warden.block_command_desc");
+        player.localize("warden.unblock_command_desc");
+        player.localize("warden.remove_warden_command_desc");
+        player.localize("warden.laser_colour_command_desc");
+        player.localize("warden.marker_colour_command_desc");
+        player.localize("warden.wsd_command_desc");
+        player.localize("warden.wsd_ff_command_desc");
     }
 
     public void take_warden_cmd(CCSPlayerController? player, CommandInfo command)
@@ -498,7 +498,7 @@ public partial class Warden
     [RequiresPermissions("@css/generic")]
     public void fire_guard_cmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        Lib.localise_announce(WARDEN_PREFIX,"warden.fire_guard");
+        Chat.localize_announce(WARDEN_PREFIX,"warden.fire_guard");
 
         // swap every guard apart from warden to T
         List<CCSPlayerController> players = Utilities.GetPlayers();
@@ -578,13 +578,13 @@ public partial class Warden
 
         if(!player.is_ct())
         {
-            player.localise_announce(WARDEN_PREFIX,"warden.ct_gun_menu");
+            player.localize_announce(WARDEN_PREFIX,"warden.ct_gun_menu");
             return;
         }
 
         if(!config.ct_gun_menu)
         {
-            player.localise_announce(WARDEN_PREFIX,"warden.gun_menu_disabled");
+            player.localize_announce(WARDEN_PREFIX,"warden.gun_menu_disabled");
             return;
         }
 

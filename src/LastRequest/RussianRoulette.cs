@@ -63,7 +63,7 @@ public class LRRussianRoulette : LRBase
             if(rnd.Next(0,7) == 6)
             {
                 player.slay();
-                Lib.announce(LastRequest.LR_PREFIX,$"{player.PlayerName} brains splattered against the wall");
+                Chat.announce(LastRequest.LR_PREFIX,$"{player.PlayerName} brains splattered against the wall");
             }
 
             else if(partner != null)

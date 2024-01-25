@@ -263,11 +263,11 @@ public class JailPlayer
         }
 
         // on T with no warday or sd active
-        if (player.TeamNum == Lib.TEAM_T)
+        if (player.is_t())
         {
             if (config.colour_rebel)
             {
-                Lib.announce(REBEL_PREFIX, $"{player.PlayerName} is a rebel");
+                Chat.announce(REBEL_PREFIX, $"{player.PlayerName} is a rebel");
                 player.set_colour(Lib.RED);
             }
             is_rebel = true;
@@ -289,9 +289,9 @@ public class JailPlayer
         }
 
         // print death if player is rebel and killer on CT
-        if (is_rebel && killer.TeamNum == Lib.TEAM_CT)
+        if (is_rebel && killer.is_ct())
         {
-            Lib.localise_announce(REBEL_PREFIX, "rebel.kill", killer.PlayerName, player.PlayerName);
+            Chat.localize_announce(REBEL_PREFIX, "rebel.kill", killer.PlayerName, player.PlayerName);
         }
     }
 

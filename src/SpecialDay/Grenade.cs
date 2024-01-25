@@ -17,18 +17,18 @@ public class SDGrenade : SDBase
 {
     public override void setup()
     {
-        localise_announce("sd.grenade_start");
-        localise_announce("sd.damage_enable",delay);
+        localize_announce("sd.grenade_start");
+        localize_announce("sd.damage_enable",delay);
     }
 
     public override void start()
     {
-        localise_announce("sd.fight");
+        localize_announce("sd.fight");
     }
 
     public override void end()
     {
-        localise_announce("sd.grenade_end");
+        localize_announce("sd.grenade_end");
     }
 
     public override void setup_player(CCSPlayerController player)
@@ -41,6 +41,6 @@ public class SDGrenade : SDBase
 
     public override void grenade_thrown(CCSPlayerController? player)
     {
-        Lib.give_event_nade_delay(player,1.4f,"weapon_hegrenade");
+        player.give_event_nade_delay(1.4f,"weapon_hegrenade");
     }
 }

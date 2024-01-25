@@ -18,18 +18,18 @@ public class SDHeadshotOnly : SDBase
 {
     public override void setup()
     {
-        localise_announce("sd.headshot_start");
-        localise_announce("sd.damage_enable",delay);
+        localize_announce("sd.headshot_start");
+        localize_announce("sd.damage_enable",delay);
     }
 
     public override void start()
     {
-        localise_announce("sd.fight");
+        localize_announce("sd.fight");
     }
 
     public override void end()
     {
-        localise_announce("sd.headshot_end");
+        localize_announce("sd.headshot_end");
     }
 
     public override void setup_player(CCSPlayerController player)
@@ -49,7 +49,7 @@ public class SDHeadshotOnly : SDBase
         // dont allow damage when its not to head
         if(hitgroup != Lib.HITGROUP_HEAD)
         {
-            Lib.restore_hp(player,damage,health);
+           player.restore_hp(damage,health);
         }
     }
 }

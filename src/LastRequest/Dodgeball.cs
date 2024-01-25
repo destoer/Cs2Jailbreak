@@ -64,6 +64,6 @@ public class LRDodgeball : LRBase
 
     public override void ent_created(CEntityInstance entity)
     {
-        Lib.remove_ent_delay(entity,1.4f,"flashbang_projectile");
+        entity.remove_delay(1.4f,"flashbang_projectile");
     }
 }

@@ -25,7 +25,7 @@ public class Block
     {
         if(!Lib.block_enabled())
         {
-            Lib.localise_announce(Warden.WARDEN_PREFIX,"block.enable");
+            Chat.localize_announce(Warden.WARDEN_PREFIX,"block.enable");
             Lib.block_all();
             block_state = true;
         }
@@ -35,7 +35,7 @@ public class Block
     {
         if(Lib.block_enabled())
         {
-            Lib.localise_announce(Warden.WARDEN_PREFIX,"block.disable");
+            Chat.localize_announce(Warden.WARDEN_PREFIX,"block.disable");
             Lib.unblock_all();
             block_state = false;
         }

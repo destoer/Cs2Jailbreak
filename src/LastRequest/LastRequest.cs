@@ -99,7 +99,7 @@ public partial class LastRequest
     {
         if(Lib.alive_t_count() == config.lr_count && player.is_t())
         {
-            Lib.localise_announce(LR_PREFIX,"lr.ready");
+            Chat.localize_announce(LR_PREFIX,"lr.ready");
         }
 
 
@@ -243,7 +243,7 @@ public partial class LastRequest
         // This should not happen
         if(slot == -1 || t_lr == null || ct_lr == null)
         {
-            Lib.announce(LR_PREFIX,$"Internal LR error in init_lr");
+            Chat.announce(LR_PREFIX,$"Internal LR error in init_lr");
             return;
         }
 
@@ -292,7 +292,7 @@ public partial class LastRequest
 
         if(lr != null)
         {
-            Lib.announce(LR_PREFIX,"Player disconnection cancelling LR");
+            Chat.announce(LR_PREFIX,"Player disconnection cancelling LR");
             end_lr(lr.slot);
         }
     }
@@ -508,19 +508,19 @@ public partial class LastRequest
 
         if(!player.PawnIsAlive)
         {
-            player.localise_announce(LR_PREFIX,"lr.alive");
+            player.localize_announce(LR_PREFIX,"lr.alive");
             return false;
         }
 
         if(in_lr(player))
         {
-            player.localise_announce(LR_PREFIX,"lr.in_lr");
+            player.localize_announce(LR_PREFIX,"lr.in_lr");
             return false;            
         }
 
         if(!player.is_t())
         {
-            player.localise_announce(LR_PREFIX,"lr.req_t");
+            player.localize_announce(LR_PREFIX,"lr.req_t");
             return false;        
         }
 
@@ -849,7 +849,7 @@ public partial class LastRequest
             return;
         }
 
-        Lib.localise_announce(LR_PREFIX,"lr.cancel");
+        Chat.localize_announce(LR_PREFIX,"lr.cancel");
         purge_lr();
     }
 

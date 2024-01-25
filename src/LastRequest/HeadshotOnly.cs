@@ -31,7 +31,7 @@ public class LRHeadshotOnly : LRBase
         if(hitgroup != Lib.HITGROUP_HEAD)
         {
             CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
-            Lib.restore_hp(player,damage,health);
+            player.restore_hp(damage,health);
         }
     }
 }

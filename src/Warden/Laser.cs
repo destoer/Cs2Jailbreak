@@ -24,7 +24,7 @@ public partial class Warden
     {
         if(marker != null)
         {
-            Lib.destroy_beam_group(marker);
+            Entity.destroy_beam_group(marker);
             marker = null;
         }
     }
@@ -42,7 +42,7 @@ public partial class Warden
 
             //Server.PrintToChatAll($"{Lib.ent_count()}");
 
-            marker = Lib.draw_marker(x,y,z,75.0f,60.0f,jail_player.marker_colour);
+            marker = Entity.draw_marker(x,y,z,75.0f,60.0f,jail_player.marker_colour);
         }
     }
 
@@ -50,7 +50,7 @@ public partial class Warden
     {
         if(laser_index != -1)
         {
-            Lib.remove_ent(laser_index,"env_beam");
+            Entity.remove(laser_index,"env_beam");
             laser_index = -1;
         }
     }
@@ -107,7 +107,7 @@ public partial class Warden
                 warden.PrintToChat($"angle: {eye_angle.X} {eye_angle.Y}");
             */
 
-            laser_index = Lib.update_laser(laser_index,eye,end,jail_player.laser_colour);
+            laser_index = Entity.update_laser(laser_index,eye,end,jail_player.laser_colour);
         }
 
         // hide laser

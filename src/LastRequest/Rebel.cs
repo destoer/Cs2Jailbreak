@@ -49,7 +49,7 @@ public partial class LastRequest
 
         rebel_type = RebelType.REBEL;
 
-        Lib.localise_announce(LR_PREFIX,"lr.player_name",player.PlayerName);
+        Chat.localize_announce(LR_PREFIX,"lr.player_name",player.PlayerName);
     }
 
     public void start_rebel(CCSPlayerController? player, ChatMenuOption option)
@@ -77,7 +77,7 @@ public partial class LastRequest
 
         rebel_type = RebelType.KNIFE;
 
-        Lib.localise_announce(LR_PREFIX,"lr.knife_rebel",rebel.PlayerName);
+        Chat.localize_announce(LR_PREFIX,"lr.knife_rebel",rebel.PlayerName);
         rebel.set_health(Lib.alive_ct_count() * 100);
 
         foreach(CCSPlayerController? player in Utilities.GetPlayers())
@@ -98,7 +98,7 @@ public partial class LastRequest
         }
 
 
-        Lib.localise_announce(LR_PREFIX,"lr.riot_active");
+        Chat.localize_announce(LR_PREFIX,"lr.riot_active");
 
         foreach(CCSPlayerController? player in Utilities.GetPlayers())
         {
@@ -127,7 +127,7 @@ public partial class LastRequest
 
         rebel_type = RebelType.RIOT;
 
-        Lib.localise_announce(LR_PREFIX,"lr.riot_start");
+        Chat.localize_announce(LR_PREFIX,"lr.riot_start");
 
         if(JailPlugin.global_ctx != null)
         {

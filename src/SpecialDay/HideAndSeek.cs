@@ -18,8 +18,8 @@ public class SDHideAndSeek : SDBase
 {
     public override void setup()
     {
-        localise_announce("sd.hide_start");
-        localise_announce("sd.t_hide",delay);
+        localize_announce("sd.hide_start");
+        localize_announce("sd.t_hide",delay);
     }
 
     public override void start()
@@ -40,12 +40,12 @@ public class SDHideAndSeek : SDBase
             player.unfreeze();
         }
 
-        localise_announce("sd.seeker_release");
+        localize_announce("sd.seeker_release");
     }
 
     public override void end()
     {
-        localise_announce("sd.hide_end");
+        localize_announce("sd.hide_end");
     }
 
     public override void setup_player(CCSPlayerController player)

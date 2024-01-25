@@ -41,7 +41,7 @@ public abstract class SDBase
         restrict_damage = false;
 
         state = SDState.ACTIVE;
-        Lib.force_open();
+        Entity.force_open();
         start();
     }
 
@@ -160,9 +160,9 @@ public abstract class SDBase
         }       
     }
 
-    public void localise_announce(String name, params Object[] args)
+    public void localize_announce(String name, params Object[] args)
     {
-        Lib.localise_announce(SpecialDay.SPECIALDAY_PREFIX,name,args);
+        Chat.localize_announce(SpecialDay.SPECIALDAY_PREFIX,name,args);
     }
 
     public CCSPlayerController? boss = null;

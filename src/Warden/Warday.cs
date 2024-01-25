@@ -26,16 +26,16 @@ public class Warday
                 // give T guns
                 foreach(CCSPlayerController player in Utilities.GetPlayers())
                 {
-                    if(player.is_valid() && player.TeamNum == Lib.TEAM_T)
+                    if(player.is_valid() && player.is_t())
                     {
                         player.event_gun_menu();
                     }
                 }
             }
 
-            Lib.force_open();
+            Entity.force_open();
 
-            Lib.localise_announce(WARDAY_PREFIX,"warday.live");
+            Chat.localize_announce(WARDAY_PREFIX,"warday.live");
         }
     }
 
@@ -49,13 +49,13 @@ public class Warday
             warday_active = true;
             JailPlugin.start_event();
             
-            Lib.force_close();
+            Entity.force_close();
 
             if(config.warday_guns)
             {
                 foreach(CCSPlayerController player in Utilities.GetPlayers())
                 {
-                    if(player.is_valid() && player.TeamNum == Lib.TEAM_CT)
+                    if(player.is_valid() && player.is_ct())
                     {
                         player.event_gun_menu();
                     }
@@ -63,7 +63,7 @@ public class Warday
             }
 
 
-            countdown.start(Lib.localise("warday.location",location),delay,0,null,gun_callback);
+            countdown.start(Chat.localize("warday.location",location),delay,0,null,gun_callback);
             return true;
         }        
 

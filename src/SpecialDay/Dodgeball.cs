@@ -17,18 +17,18 @@ public class SDDodgeball : SDBase
 {
     public override void setup()
     {
-        localise_announce("sd.dodgeball_start");
-        localise_announce("sd.damage_enable",delay);
+        localize_announce("sd.dodgeball_start");
+        localize_announce("sd.damage_enable",delay);
     }
 
     public override void start()
     {
-        localise_announce("sd.fight");
+        localize_announce("sd.fight");
     }
 
     public override void end()
     {
-        localise_announce("sd.dodgeball_end");
+        localize_announce("sd.dodgeball_end");
     }
 
     public override void setup_player(CCSPlayerController player)
@@ -40,7 +40,7 @@ public class SDDodgeball : SDBase
 
     public override void grenade_thrown(CCSPlayerController? player)
     {
-        Lib.give_event_nade_delay(player,1.4f,"weapon_flashbang");
+        player.give_event_nade_delay(1.4f,"weapon_flashbang");
     }
 
     public override void player_hurt(CCSPlayerController? player,int damage, int health, int hitgroup)
@@ -53,7 +53,7 @@ public class SDDodgeball : SDBase
 
     public override void ent_created(CEntityInstance entity)
     {
-        Lib.remove_ent_delay(entity,1.4f,"flashbang_projectile");
+        entity.remove_delay(1.4f,"flashbang_projectile");
     }
 
 }

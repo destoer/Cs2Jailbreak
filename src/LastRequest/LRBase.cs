@@ -66,7 +66,7 @@ public abstract class LRBase
 
         if(laser_index != -1)
         {
-            Lib.remove_ent(laser_index,"env_beam");
+            Entity.remove(laser_index,"env_beam");
         }
 
         countdown.kill();
@@ -314,7 +314,7 @@ public abstract class LRBase
         start.Z += 3.0f;
         end.Z += 3.0f;
 
-        laser_index = Lib.update_laser(laser_index,start,end,Lib.CYAN);
+        laser_index = Entity.update_laser(laser_index,start,end,Lib.CYAN);
     }
 
     public virtual void ent_created(String name) {}

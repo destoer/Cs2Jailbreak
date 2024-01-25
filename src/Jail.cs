@@ -626,7 +626,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         return HookResult.Continue;
     }
 
-    public static String localise(string name,params Object[] args)
+    public static String localize(string name,params Object[] args)
     {
         return String.Format(global_ctx.Localizer[name],args);
     }
