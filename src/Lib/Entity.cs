@@ -54,76 +54,6 @@ public static class Entity
         return Utilities.GetAllEntities().Count();
     }
 
-    static Vector angle_on_circle(float angle,float r, Vector mid)
-    {
-        // {r * cos(x),r * sin(x)} + mid
-        // NOTE: we offset Z so it doesn't clip into the ground
-        return new Vector((float)(mid.X + (r * Math.Cos(angle))),(float)(mid.Y + (r * Math.Sin(angle))), mid.Z + 6.0f);
-    }
-
-
-    static public int[] draw_marker(float X,float Y, float Z, float r,float time, Color colour)
-    {
-       
-        int[] line = new int[30];
-        int lines = line.Count();
-
-        Vector mid =  new Vector(X,Y,Z);
-
-        // draw piecewise approx by stepping angle
-        // and joining points with a dot to dot
-        float step = (float)(2.0f * Math.PI) / (float)lines;
-
-        float angle_old = 0.0f;
-        float angle_cur = step;
-
-        for(int i = 0; i < lines; i++)
-        {
-            Vector start = angle_on_circle(angle_old,r,mid);
-            Vector end = angle_on_circle(angle_cur,r,mid);
-
-            line[i] = Entity.draw_laser(start,end,time,2.0f,colour);
-            
-            angle_old = angle_cur;
-            angle_cur += step;
-        }
-
-        return line;
-    }
-
-    static void move_laser_by_index(int laser_index,Vector start, Vector end)
-    {
-        CEnvBeam? laser = Utilities.GetEntityFromIndex<CEnvBeam>(laser_index);
-        if(laser != null && laser.DesignerName == "env_beam")
-        {
-            laser.move(start,end);
-        }
-    }
-
-    static public int update_laser(int laser_index,Vector start,Vector end,Color color)
-    {
-        // make new laser
-        if(laser_index == -1)
-        {
-            return Entity.draw_laser(start,end,0.0f,2.0f,color);
-        }
-
-        // update laser by moving
-        else
-        {
-            move_laser_by_index(laser_index,start,end);
-        }
-
-        return laser_index;
-    }
-
-    static public void destroy_beam_group(int[] ent)
-    {
-        foreach(int laser in ent)
-        {
-            remove(laser,"env_beam");
-        }
-    }
 
     static Vector VEC_ZERO = new Vector(0.0f,0.0f,0.0f);
     static QAngle ANGLE_ZERO = new QAngle(0.0f,0.0f,0.0f);
@@ -147,6 +77,15 @@ public static class Entity
         Utilities.SetStateChanged(laser,"CBeam", "m_vecEndPos");
     }
 
+    static public void move_laser_by_index(int laser_index,Vector start, Vector end)
+    {
+        CEnvBeam? laser = Utilities.GetEntityFromIndex<CEnvBeam>(laser_index);
+        if(laser != null && laser.DesignerName == "env_beam")
+        {
+            laser.move(start,end);
+        }
+    }
+
     static public void set_colour(this CEnvBeam? laser, Color colour)
     {
         if(laser != null)
@@ -156,7 +95,7 @@ public static class Entity
     }
 
 
-    static public int draw_laser(Vector start, Vector end, float life, float width, Color colour)
+    static public int draw_laser(Vector start, Vector end, float width, Color colour)
     {
         CEnvBeam? laser = Utilities.CreateEntityByName<CEnvBeam>("env_beam");
 
@@ -176,12 +115,6 @@ public static class Entity
 
         // start spawn
         laser.DispatchSpawn(); 
-
-        // create a timer to remove it
-        if(life != 0.0f)
-        {
-            laser.remove_delay(life,"env_beam");
-        }
 
         return (int)laser.Index;
     }

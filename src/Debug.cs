@@ -35,8 +35,9 @@ public static class Debug
 
         if(pawn != null && pawn.AbsOrigin != null)
         {
-            Vector mid =  new Vector(pawn.AbsOrigin.X,pawn.AbsOrigin.Y,pawn.AbsOrigin.Z);
-            Entity.draw_marker(mid.X,mid.Y,mid.Z,30.0f,75.0f,Lib.CYAN);
+            Circle marker = new Circle();
+
+            marker.draw(30.0f,72.0f,pawn.AbsOrigin);
         }
     }
     

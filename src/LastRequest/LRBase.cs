@@ -64,10 +64,7 @@ public abstract class LRBase
         // clean up laser
         Lib.kill_timer(ref laser_timer);
 
-        if(laser_index != -1)
-        {
-            Entity.remove(laser_index,"env_beam");
-        }
+        laser.destroy();
 
         countdown.kill();
 
@@ -314,7 +311,7 @@ public abstract class LRBase
         start.Z += 3.0f;
         end.Z += 3.0f;
 
-        laser_index = Entity.update_laser(laser_index,start,end,Lib.CYAN);
+        laser.move(start,end);
     }
 
     public virtual void ent_created(String name) {}
@@ -351,7 +348,8 @@ public abstract class LRBase
     // countdown for start
     public Countdown<LRBase> countdown = new Countdown<LRBase>();
 
-    int laser_index = -1;
+    Line laser = new Line();
+
     CSTimer.Timer? laser_timer = null;
 
     // managed timer

@@ -22,11 +22,7 @@ public partial class Warden
 {
     void remove_marker()
     {
-        if(marker != null)
-        {
-            Entity.destroy_beam_group(marker);
-            marker = null;
-        }
+        marker.destroy();
     }
 
     public void ping(CCSPlayerController? player, float x, float y, float z)
@@ -42,17 +38,14 @@ public partial class Warden
 
             //Server.PrintToChatAll($"{Lib.ent_count()}");
 
-            marker = Entity.draw_marker(x,y,z,75.0f,60.0f,jail_player.marker_colour);
+            marker.colour = jail_player.marker_colour;
+            marker.draw(60.0f,75.0f,x,y,z);
         }
     }
 
     void remove_laser()
     {
-        if(laser_index != -1)
-        {
-            Entity.remove(laser_index,"env_beam");
-            laser_index = -1;
-        }
+        laser.destroy();
     }
 
     public void laser_tick()
@@ -107,7 +100,8 @@ public partial class Warden
                 warden.PrintToChat($"angle: {eye_angle.X} {eye_angle.Y}");
             */
 
-            laser_index = Entity.update_laser(laser_index,eye,end,jail_player.laser_colour);
+            laser.colour = jail_player.laser_colour;
+            laser.move(eye,end);
         }
 
         // hide laser
@@ -188,6 +182,6 @@ public partial class Warden
 
     public static readonly float LASER_TIME = 0.1f;
 
-    int[]? marker = null;
-    int laser_index = -1;
+    Circle marker = new Circle();
+    Line laser = new Line();
 }
