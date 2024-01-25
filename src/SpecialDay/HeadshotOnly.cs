@@ -35,7 +35,7 @@ public class SDHeadshotOnly : SDBase
     public override void setup_player(CCSPlayerController player)
     {
         player.strip_weapons(true);
-        player.GiveNamedItem("weapon_deagle");
+        player.give_weapon("deagle");
         weapon_restrict = "deagle";
     }
 

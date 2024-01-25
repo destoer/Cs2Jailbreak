@@ -96,9 +96,9 @@ public abstract class LRBase
 
         if(player.is_ct())
         {
-            player.GiveNamedItem("item_assaultsuit");
-            player.GiveNamedItem("weapon_deagle");
-            player.GiveNamedItem("weapon_m4a1");           
+            player.give_armour();
+            player.give_weapon("deagle");
+            player.give_weapon("m4a1");           
         }
     }
 

@@ -40,10 +40,10 @@ public partial class LastRequest
 
         player.strip_weapons();
 
-        player.GiveNamedItem(Lib.gun_give_name(option.Text));
-        player.GiveNamedItem("weapon_deagle");
+        player.give_menu_weapon(option.Text);
+        player.give_weapon("deagle");
 
-        player.GiveNamedItem("item_assaultsuit");
+        player.give_armour();
     
         player.set_health(Lib.alive_ct_count() * 100);
 

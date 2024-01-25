@@ -22,12 +22,12 @@ public class LRShotgunWar : LRBase
     {    
         // give shotty health and plenty of ammo
         weapon_restrict = "xm1014";
-        player.GiveNamedItem("weapon_xm1014");
+        player.give_weapon("xm1014");
 
         player.set_health(1000);
 
 
-        var shotgun = Lib.find_weapon(player,"xm1014");
+        var shotgun = player.find_weapon("xm1014");
 
         if(shotgun != null)
         {

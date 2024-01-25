@@ -35,7 +35,7 @@ public class SDGrenade : SDBase
     {
         player.strip_weapons(true);
         player.set_health(175);
-        player.GiveNamedItem("weapon_hegrenade");
+        player.give_weapon("hegrenade");
         weapon_restrict = "hegrenade";
     }
 

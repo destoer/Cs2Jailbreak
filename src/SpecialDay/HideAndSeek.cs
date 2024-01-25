@@ -34,7 +34,7 @@ public class SDHideAndSeek : SDBase
 
             if(player.is_t())
             {
-                player.GiveNamedItem("weapon_knife");
+                player.give_weapon("knife");
             }
 
             player.unfreeze();

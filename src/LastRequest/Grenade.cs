@@ -28,7 +28,7 @@ public class LRGrenade : LRBase
         {
             player.set_health(150);
 
-            player.GiveNamedItem("weapon_hegrenade");
+            player.give_weapon("hegrenade");
 
             switch(choice)
             {

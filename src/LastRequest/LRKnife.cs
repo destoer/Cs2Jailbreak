@@ -21,7 +21,7 @@ public class LRKnife : LRBase
     public override void init_player(CCSPlayerController player)
     {    
         // give player a knife and restrict them to it
-        player.GiveNamedItem("weapon_knife");
+        player.give_weapon("knife");
         weapon_restrict = "knife";
 
         // Handle options

@@ -28,7 +28,7 @@ public class LRDodgeball : LRBase
         {
             player.set_health(1);
 
-            player.GiveNamedItem("weapon_flashbang");
+            player.give_weapon("flashbang");
 
             switch(choice)
             {

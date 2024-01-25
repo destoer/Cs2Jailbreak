@@ -22,9 +22,9 @@ public class LRRussianRoulette : LRBase
     {    
         weapon_restrict = "deagle";
 
-        player.GiveNamedItem("weapon_deagle");
+        player.give_weapon("deagle");
 
-        var deagle = Lib.find_weapon(player,"weapon_" + weapon_restrict);
+        var deagle = player.find_weapon("weapon_" + weapon_restrict);
 
         if(deagle != null)
         {
@@ -83,7 +83,7 @@ public class LRRussianRoulette : LRBase
         {     
             player.PrintToChat($"{LastRequest.LR_PREFIX} Reload!");
 
-            var deagle = Lib.find_weapon(player,"weapon_" + weapon_restrict);
+            var deagle = player.find_weapon("weapon_" + weapon_restrict);
 
             // NOTE: this doesn't update the unload state
             // however giving a new gun doesn't work either because it doesnt register fast enough

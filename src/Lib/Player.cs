@@ -24,6 +24,13 @@ public static class Player
     public const int TEAM_T = 2;
     public const int TEAM_CT = 3;
 
+    static public void give_armour(this CCSPlayerController? player)
+    {
+        if(player.is_valid_alive())
+        {
+            player.GiveNamedItem("item_assaultsuit");
+        }
+    }
 
     static public void slay(this CCSPlayerController? player)
     {
@@ -175,7 +182,7 @@ public static class Player
         // dont remove knife its buggy
         if(!remove_knife)
         {
-            player.GiveNamedItem("weapon_knife");
+            player.give_weapon("knife");
         }
     }
 

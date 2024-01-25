@@ -438,17 +438,17 @@ public partial class Warden
             {
                 var jail_player = jail_player_from_player(player);
 
-                player.GiveNamedItem("weapon_deagle");
+                player.give_weapon("deagle");
 
                 if(jail_player != null)
                 {
-                    player.GiveNamedItem(Lib.gun_give_name(jail_player.ct_gun));
+                    player.give_menu_weapon(jail_player.ct_gun);
                 }
             }
 
             if(config.ct_armour)
             {  
-                player.GiveNamedItem("item_assaultsuit");
+                player.give_armour();
             }
         } 
     }
@@ -560,12 +560,12 @@ public partial class Warden
             jail_player.ct_gun = option.Text;
         }
 
-        player.GiveNamedItem(Lib.gun_give_name(option.Text));
-        player.GiveNamedItem("weapon_deagle");
+        player.give_menu_weapon(option.Text);
+        player.give_weapon("deagle");
 
         if(config.ct_armour)
         {
-            player.GiveNamedItem("item_assaultsuit");
+            player.give_armour();
         }
     }
 

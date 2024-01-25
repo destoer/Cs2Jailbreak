@@ -70,11 +70,11 @@ public class LRShotForShot : LRBase
             clip_size = 1;
         }
 
-        player.GiveNamedItem("weapon_" + weapon_restrict);
+        player.give_weapon("" + weapon_restrict);
 
 
 
-        var deagle = Lib.find_weapon(player,"weapon_" + weapon_restrict);
+        var deagle = player.find_weapon("weapon_" + weapon_restrict);
 
         if(deagle != null)
         {
@@ -121,7 +121,7 @@ public class LRShotForShot : LRBase
         {     
             player.PrintToChat($"{LastRequest.LR_PREFIX} Reload!");
 
-            var deagle = Lib.find_weapon(player,"weapon_" + weapon_restrict);
+            var deagle = player.find_weapon("weapon_" + weapon_restrict);
 
             if(deagle != null)
             {

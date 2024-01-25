@@ -21,11 +21,11 @@ public class LRGunToss : LRBase
     public override void init_player(CCSPlayerController player)
     {    
         weapon_restrict = "deagle";
-        player.GiveNamedItem("weapon_knife");
-        player.GiveNamedItem("weapon_deagle");
+        player.give_weapon("knife");
+        player.give_weapon("deagle");
 
         // empty ammo so players dont shoot eachother
-        var deagle = Lib.find_weapon(player,"weapon_deagle");
+        var deagle = player.find_weapon("weapon_deagle");
 
         if(deagle != null)
         {

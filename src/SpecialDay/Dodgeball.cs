@@ -34,7 +34,7 @@ public class SDDodgeball : SDBase
     public override void setup_player(CCSPlayerController player)
     {
         player.strip_weapons(true);
-        player.GiveNamedItem("weapon_flashbang");
+        player.give_weapon("flashbang");
         weapon_restrict = "flashbang";
     }
 

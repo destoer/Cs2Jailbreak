@@ -66,7 +66,7 @@ public partial class LastRequest
         player.set_health(100);
         player.set_armour(100);
         player.strip_weapons(true);
-        player.GiveNamedItem("item_assaultsuit");
+        player.give_armour();
 
         player.announce(LR_PREFIX,$"{lr_name} is starting\n");
     }
