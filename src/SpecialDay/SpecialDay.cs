@@ -319,7 +319,7 @@ public class SpecialDay
         if(active_sd != null && active_sd.state == SDState.STARTED)
         {
             player.PrintToChat($"Rigged sd boss to {player.PlayerName}");
-            active_sd.rigged = player;
+            active_sd.rigged_slot = player.Slot;
         }
     }   
 

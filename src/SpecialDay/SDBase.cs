@@ -57,11 +57,13 @@ public abstract class SDBase
         List<CCSPlayerController> players = Utilities.GetPlayers();
         var valid = players.FindAll(player => player.is_valid_alive());
 
+        CCSPlayerController? rigged = Utilities.GetPlayerFromSlot(rigged_slot);
+
         // override pick
-        if(rigged != null)
+        if(rigged.is_valid_alive())
         {
             var player = rigged;
-            rigged = null;
+            rigged_slot = -1;
             return (player,valid.Count);
         }
 
@@ -70,19 +72,20 @@ public abstract class SDBase
 
         int boss = rnd.Next(0,valid.Count);
 
+        boss_slot = valid[boss].Slot;
+
         return (valid[boss],valid.Count);
     }
 
-    
     public void disconnect(CCSPlayerController? player)
     {
-        if(!player.is_valid() || boss == null)
+        if(!player.is_valid())
         {
             return;
         }
 
         // player has dced re roll the boss if we have one
-        if(player.Slot == boss.Slot)
+        if(player.Slot == boss_slot)
         {
             (CCSPlayerController boss, int count) = pick_boss();
 
@@ -97,6 +100,8 @@ public abstract class SDBase
 
         Lib.disable_friendly_fire();
 
+        CCSPlayerController? boss = Utilities.GetPlayerFromSlot(boss_slot);
+
         // reset the boss colour
         if(boss.is_valid_alive())
         {
@@ -109,12 +114,12 @@ public abstract class SDBase
 
     public bool is_boss(CCSPlayerController? player)
     {
-        if(player == null || boss == null)
+        if(player == null)
         {
             return false;
         }
 
-        return player.Slot == boss.Slot;
+        return player.Slot == boss_slot;
     }
 
     public virtual bool weapon_equip(CCSPlayerController player, String name) 
@@ -165,8 +170,9 @@ public abstract class SDBase
         Chat.localize_announce(SpecialDay.SPECIALDAY_PREFIX,name,args);
     }
 
-    public CCSPlayerController? boss = null;
-    public CCSPlayerController? rigged = null;
+
+    public int boss_slot = -1;
+    public int rigged_slot = -1;
 
     public bool restrict_damage = false;
     public String weapon_restrict = "";

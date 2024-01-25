@@ -44,7 +44,7 @@ public class SDTank : SDBase
         localize_announce("sd.fight");
         Lib.swap_all_t();
 
-        (boss, int count) = pick_boss();
+        (CCSPlayerController? boss, int count) = pick_boss();
         make_boss(boss,count);
     }
 
