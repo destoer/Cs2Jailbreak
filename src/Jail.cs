@@ -352,6 +352,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         
         RegisterListener<Listeners.OnClientVoice>(OnClientVoice);
         RegisterListener<Listeners.OnClientAuthorized>(OnClientAuthorized);
+        RegisterListener<Listeners.OnClientPutInServer>(OnClientPutInServer);
 
         // TODO: need to hook weapon drop
     }
@@ -574,12 +575,38 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         return HookResult.Continue;
     }
 
+    public void OnClientPutInServer(int slot)
+    {
+        // auto switch to T
+        AddTimer(0.5f, () => 
+        {
+            var swap = Utilities.GetPlayerFromSlot(slot);
+
+            if(swap.is_valid())
+            {
+                swap.SwitchTeam(CsTeam.Terrorist);
+            }
+        }); 
+    }
+
     public void OnClientAuthorized(int slot, SteamID steamid)
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(slot);
 
         if(player.is_valid())
         {
+            // auto switch to T
+            AddTimer(0.5f, () => 
+            {
+                var swap = Utilities.GetPlayerFromSlot(slot);
+
+                if(swap.is_valid())
+                {
+                    swap.ExecuteClientCommand($"jointeam {Player.TEAM_T}");
+                }
+            });
+
+            // load in player stats
             jail_stats.load_player(player);
             
             JailPlayer? jail_player = warden.jail_player_from_player(player);
