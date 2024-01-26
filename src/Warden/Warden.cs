@@ -481,6 +481,7 @@ public partial class Warden
     {
         Server.ExecuteCommand("mp_force_pick_time 3000");
         Server.ExecuteCommand("mp_autoteambalance 0");
+        Server.ExecuteCommand("sv_human_autojoin_team 2");
 
         if(config.strip_spawn_weapons)
         {

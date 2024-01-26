@@ -81,6 +81,8 @@ public class JailConfig : BasePluginConfig
     [JsonPropertyName("hide_kills")]
     public bool hide_kills { get; set; } = false;
 
+    [JsonPropertyName("restrict_ping")]
+    public bool restrict_ping { get; set; } = true;
 
     [JsonPropertyName("colour_rebel")]
     public bool colour_rebel { get; set; } = false;
@@ -286,7 +288,6 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         add_localized_cmd("sd.cancel_cmd","cancel an sd",sd.cancel_sd_cmd);
 
         add_localized_cmd("logs.logs_cmd", "show round logs", logs.LogsCommand);
-        AddCommandListener("jointeam",join_team);
 
         // debug 
         if(Debug.enable)
@@ -355,9 +356,22 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         
         RegisterListener<Listeners.OnClientVoice>(OnClientVoice);
         RegisterListener<Listeners.OnClientAuthorized>(OnClientAuthorized);
-        RegisterListener<Listeners.OnClientPutInServer>(OnClientPutInServer);
+
+        AddCommandListener("jointeam",join_team);
+        AddCommandListener("player_ping",player_ping_cmd);
 
         // TODO: need to hook weapon drop
+    }
+
+    public HookResult player_ping_cmd(CCSPlayerController? invoke, CommandInfo command)
+    {
+        // if player is not warden ignore the ping
+        if(Config.restrict_ping && !warden.is_warden(invoke))
+        {
+            return HookResult.Stop;
+        }
+
+        return HookResult.Continue;
     }
 
     HookResult OnPlayerPing(EventPlayerPing  @event, GameEventInfo info)
@@ -576,23 +590,6 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         }
 
         return HookResult.Continue;
-    }
-
-    public void OnClientPutInServer(int slot)
-    {
-        // this appears to lock up team joins?
-    /*
-        // auto switch to T
-        AddTimer(0.5f, () => 
-        {
-            var swap = Utilities.GetPlayerFromSlot(slot);
-
-            if(swap.is_valid() && !swap.IsBot)
-            {
-                swap.SwitchTeam(CsTeam.Terrorist);
-            }
-        });
-    */ 
     }
 
     public void OnClientAuthorized(int slot, SteamID steamid)
