@@ -251,6 +251,8 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         add_localized_cmd("warden.marker_colour_cmd", "set marker colour", warden.marker_colour_cmd);
         add_localized_cmd("warden.laser_colour_cmd", "set laser colour", warden.laser_colour_cmd);
 
+        add_localized_cmd("warden.colour_cmd","set player colour",warden.colour_cmd);
+
         add_localized_cmd("warden.no_block_cmd","warden : disable block",warden.wub_cmd);
         add_localized_cmd("warden.block_cmd","warden : enable block",warden.wb_cmd);
 
@@ -578,6 +580,8 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public void OnClientPutInServer(int slot)
     {
+        // this appears to lock up team joins?
+    /*
         // auto switch to T
         AddTimer(0.5f, () => 
         {
@@ -587,7 +591,8 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
             {
                 swap.SwitchTeam(CsTeam.Terrorist);
             }
-        }); 
+        });
+    */ 
     }
 
     public void OnClientAuthorized(int slot, SteamID steamid)
@@ -596,17 +601,6 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         if(player.is_valid())
         {
-            // auto switch to T
-            AddTimer(0.5f, () => 
-            {
-                var swap = Utilities.GetPlayerFromSlot(slot);
-
-                if(swap.is_valid())
-                {
-                    swap.ExecuteClientCommand($"jointeam {Player.TEAM_T}");
-                }
-            });
-
             // load in player stats
             jail_stats.load_player(player);
             

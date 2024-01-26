@@ -32,6 +32,7 @@ public partial class Warden
 
         if(command.ArgCount < 2)
         {
+            invoke.announce(TEAM_PREFIX,$"Invalid team swap args");
             invoke.play_sound("sounds/ui/counter_beep.vsnd");
             return false;
         }
@@ -83,6 +84,7 @@ public partial class Warden
 
             default:
             {
+                invoke.announce(TEAM_PREFIX,$"Invalid team swap team");
                 invoke.play_sound("sounds/ui/counter_beep.vsnd");
                 return false;
             }

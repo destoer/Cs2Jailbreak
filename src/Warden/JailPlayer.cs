@@ -131,8 +131,8 @@ public class JailPlayer
                 if (reader.Read())
                 {
                     // just override this
-                    laser_colour = Lib.LASER_CONFIG_MAP[(String)reader["laser_colour"]];
-                    marker_colour = Lib.LASER_CONFIG_MAP[(String)reader["marker_colour"]];
+                    laser_colour = Lib.COLOUR_CONFIG_MAP[(String)reader["laser_colour"]];
+                    marker_colour = Lib.COLOUR_CONFIG_MAP[(String)reader["marker_colour"]];
                     ct_gun = (String)reader["ct_gun"];
 
                     // don't try reloading the player
@@ -202,7 +202,7 @@ public class JailPlayer
         }
 
         player.announce(Warden.WARDEN_PREFIX, $"Laser colour set to {value}");
-        laser_colour = Lib.LASER_CONFIG_MAP[value];
+        laser_colour = Lib.COLOUR_CONFIG_MAP[value];
 
         // save back to the db too
         update_player(player, "laser_colour", value);
@@ -216,7 +216,7 @@ public class JailPlayer
         }
 
         player.announce(Warden.WARDEN_PREFIX, $"Marker colour set to {value}");
-        marker_colour = Lib.LASER_CONFIG_MAP[value];
+        marker_colour = Lib.COLOUR_CONFIG_MAP[value];
 
         // save back to the db too
         update_player(player, "marker_colour", value);

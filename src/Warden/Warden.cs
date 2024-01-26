@@ -83,7 +83,7 @@ public partial class Warden
 
         if(player.is_valid())
         {
-            player.set_colour(Color.FromArgb(255, 255, 255, 255));
+            player.set_colour(Player.DEFAULT_COLOUR);
             Chat.localize_announce(WARDEN_PREFIX,"warden.removed",player.PlayerName);
             JailPlugin.logs.AddLocalized("warden.removed", player.PlayerName);
         }
@@ -243,7 +243,52 @@ public partial class Warden
 
         Lib.invoke_player_menu(invoke,name,callback,filter);
     }
-      
+
+    public void colour_callback(CCSPlayerController? invoke, ChatMenuOption option)
+    {
+        if(!is_warden(invoke))
+        {
+            invoke.announce(WARDEN_PREFIX,$"You must be the warden to colour t's");
+            return;        
+        }
+
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(colour_slot);
+
+        Color colour = Lib.COLOUR_CONFIG_MAP[option.Text];
+
+        Chat.announce(WARDEN_PREFIX,$"Setting {player.PlayerName} colour to {option.Text}");
+        player.set_colour(colour);
+    }
+
+    public void colour_player_callback(CCSPlayerController? invoke, ChatMenuOption option)
+    {
+        // save this slot for 2nd stage of the command
+        colour_slot = Player.slot_from_name(option.Text);
+
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(colour_slot);
+
+        if(player.is_valid_alive())
+        {
+            Lib.colour_menu(invoke,colour_callback,$"Player colour {player.PlayerName}");
+        }
+
+        else
+        {
+            invoke.announce(WARDEN_PREFIX,$"No such alive player {option.Text} to colour");
+        }
+    }
+
+    public void colour_cmd(CCSPlayerController? invoke, CommandInfo command)
+    {
+        if(!is_warden(invoke))
+        {
+            invoke.announce(WARDEN_PREFIX,$"You must be the warden to colour t's");
+            return;
+        }
+
+        Lib.invoke_player_menu(invoke,"Colour",colour_player_callback,Player.is_valid_alive_t);
+    }
+
     public void give_freeday_cmd(CCSPlayerController? invoke, CommandInfo command)
     {
         give_t(invoke,"Freeday",give_freeday_callback,Player.is_valid_alive_t);
@@ -702,6 +747,9 @@ public partial class Warden
     public JailConfig config = new JailConfig();
 
     public JailPlayer[] jail_players = new JailPlayer[64];
+
+    // slot for player for waden colour
+    int colour_slot = -1;
 
     public Warday warday = new Warday();
     public Block block = new Block();

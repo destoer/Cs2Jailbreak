@@ -24,6 +24,8 @@ public static class Player
     public const int TEAM_T = 2;
     public const int TEAM_CT = 3;
 
+    public static readonly Color DEFAULT_COLOUR = Color.FromArgb(255, 255, 255, 255);
+
     static public void give_armour(this CCSPlayerController? player)
     {
         if(player.is_valid_alive())

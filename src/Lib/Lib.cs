@@ -112,6 +112,22 @@ public static class Lib
         ChatMenus.OpenMenu(invoke, menu); 
     }
 
+    public static void colour_menu(CCSPlayerController? player,Action<CCSPlayerController, ChatMenuOption> callback, String name)
+    {
+        if(!player.is_valid())
+        {
+            return;
+        }
+
+        var colour_menu = new ChatMenu(name);
+
+        foreach(var item in Lib.COLOUR_CONFIG_MAP)
+        {
+            colour_menu.AddMenuOption(item.Key, callback);
+        }
+
+        ChatMenus.OpenMenu(player, colour_menu);    
+    }
 
     static public void play_sound_all(String sound)
     {
@@ -276,7 +292,7 @@ public static class Lib
     public static readonly Color INVIS = Color.FromArgb(0, 255, 255, 255);
     public static readonly Color GREEN = Color.FromArgb(255,0, 191, 0);
 
-    public static readonly Dictionary<string,Color> LASER_CONFIG_MAP = new Dictionary<string,Color>()
+    public static readonly Dictionary<string,Color> COLOUR_CONFIG_MAP = new Dictionary<string,Color>()
     {
         {"Cyan",Lib.CYAN}, // cyan
         {"Pink",Color.FromArgb(255,255,192,203)} , // pink

@@ -49,6 +49,7 @@
     "warden.sd_ff_cmd": "wsd_ff",
     "warden.give_freeday_cmd": "give_freeday",
     "warden.give_pardon_cmd": "give_pardon",
+    "warden.colour_cmd": "colour",
 
     "warden.give_pardon": "{0} has been pardoned",
     "warden.give_freeday": "{0} has been given a freeday",

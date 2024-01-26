@@ -143,23 +143,6 @@ public partial class Warden
         }
     }
 
-    void colour_menu(CCSPlayerController? player,Action<CCSPlayerController, ChatMenuOption> callback, String name)
-    {
-        if(!player.is_valid())
-        {
-            return;
-        }
-
-        var colour_menu = new ChatMenu(name);
-
-        foreach(var item in Lib.LASER_CONFIG_MAP)
-        {
-            colour_menu.AddMenuOption(item.Key, callback);
-        }
-
-        ChatMenus.OpenMenu(player, colour_menu);    
-    }
-
     public void laser_colour_cmd(CCSPlayerController? player, CommandInfo command)
     {
         if(!player.is_valid())
@@ -167,7 +150,7 @@ public partial class Warden
             return;
         }
 
-        colour_menu(player,set_laser,"Laser colour");
+        Lib.colour_menu(player,set_laser,"Laser colour");
     }
 
     public void marker_colour_cmd(CCSPlayerController? player, CommandInfo command)
@@ -177,7 +160,7 @@ public partial class Warden
             return;
         }
 
-        colour_menu(player,set_marker,"Marker colour");
+        Lib.colour_menu(player,set_marker,"Marker colour");
     }
 
     public static readonly float LASER_TIME = 0.1f;
