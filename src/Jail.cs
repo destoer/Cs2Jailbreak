@@ -87,6 +87,9 @@ public class JailConfig : BasePluginConfig
     [JsonPropertyName("colour_rebel")]
     public bool colour_rebel { get; set; } = false;
 
+    [JsonPropertyName("rebel_cant_lr")]
+    public bool rebel_cant_lr { get; set; } = false;   
+
     [JsonPropertyName("lr_knife")]
     public bool lr_knife { get; set; } = true;
 

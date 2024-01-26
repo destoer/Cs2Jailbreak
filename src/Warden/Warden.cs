@@ -221,7 +221,7 @@ public partial class Warden
         jail_player?.give_pardon(player);  
     }
 
-    bool is_alive_rebel(CCSPlayerController? player)
+    public bool is_alive_rebel(CCSPlayerController? player)
     {
         var jail_player = jail_player_from_player(player);
 
@@ -390,6 +390,9 @@ public partial class Warden
         player.localize("warden.marker_colour_command_desc");
         player.localize("warden.wsd_command_desc");
         player.localize("warden.wsd_ff_command_desc");
+        player.localize("warden.give_pardon_command_desc");
+        player.localize("warden.give_freeday_command_desc");
+        player.localize("warden.colour_command_desc");
     }
 
     public void take_warden_cmd(CCSPlayerController? player, CommandInfo command)

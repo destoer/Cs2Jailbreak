@@ -11,6 +11,9 @@
     "warden.swap_guard_desc": "Expected usage: !swap_guard <player name>",
     "warden.wsd_command_desc": "!wsd - Call a warden special day",
     "warden.wsd_ff_command_desc": "!wsd - Call a warden friendly fire special day",
+    "warden.give_pardon_command_desc": "!give_pardon : pardon a rebel",
+    "warden.give_freeday_command_desc": "!give_freeday: give a t a freeday",
+    "warden.colour_command_desc": "!colour : set prisoner colour",
     "warden.warden_req_alive": "You must be alive to warden",
     "warden.warden_req_ct": "You must be a CT to warden",
     "warden.warden_taken": "{0} is already the warden",
@@ -130,6 +133,7 @@
     "lr.knife_rebel": "{0} is knife a rebel!",
     "lr.ready": "Last request is available! Type !lr",
     "lr.wait": "Please wait 15 seconds into the round before starting an lr",
+    "lr.rebel_cant_lr": "Rebels cannot lr please ask the warden for a pardon",
 
     "lr.cancel_lr_cmd": "cancel_lr",
     "lr.start_lr_cmd": "lr",

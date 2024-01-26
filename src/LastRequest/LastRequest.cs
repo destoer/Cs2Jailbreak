@@ -585,6 +585,13 @@ public partial class LastRequest
         {
             return false;
         } 
+
+        if(JailPlugin.warden.is_alive_rebel(player) && config.rebel_cant_lr)
+        {
+            player.localise_prefix(LR_PREFIX,"lr.rebel_cant_lr");
+            return false;
+        }
+
         
         if(Lib.alive_t_count() > active_lr.Length)
         {
