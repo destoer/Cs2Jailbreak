@@ -321,7 +321,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         if(!warden.join_team(invoke,command))
         {
-            return HookResult.Stop;
+            return HookResult.Handled;
         }
 
         return HookResult.Continue;
@@ -368,7 +368,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         // if player is not warden ignore the ping
         if(Config.restrict_ping && !warden.is_warden(invoke))
         {
-            return HookResult.Stop;
+            return HookResult.Handled;
         }
 
         return HookResult.Continue;
