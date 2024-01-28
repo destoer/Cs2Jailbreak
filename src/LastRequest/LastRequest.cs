@@ -368,7 +368,7 @@ public partial class LastRequest
         // check player can start lr
         // NOTE: higher level function checks its valid to start an lr
         // so we can do a bypass for debugging
-        if(!player.is_valid() || rebel_type != RebelType.NONE)
+        if(!player.is_valid() || rebel_type != RebelType.NONE || JailPlugin.event_active())
         {
             return;
         }
