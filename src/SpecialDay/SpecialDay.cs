@@ -24,7 +24,7 @@ public enum SDState
 // TODO: this will be done after lr and warden
 // are in a decent state as its just an extra, and should 
 // not take too long to port from css
-public class SpecialDay
+public partial class SpecialDay
 {
 
     public void end_sd(bool forced = false)
@@ -45,18 +45,6 @@ public class SpecialDay
 
             team_save.restore();
         }     
-    }
-
-    public void round_end()
-    {
-        end_sd();
-    }
-
-    public void round_start()
-    {
-        // increment our round counter
-        wsd_round += 1;
-        end_sd();
     }
 
     public void setup_sd(CCSPlayerController? invoke, ChatMenuOption option)
@@ -183,70 +171,6 @@ public class SpecialDay
         team_save.save();
     }
 
-    public void weapon_equip(CCSPlayerController? player,String name) 
-    {
-        if(!player.is_valid_alive())
-        {
-            return;
-        }
-
-        if(active_sd != null)
-        {
-            // weapon equip not valid drop the weapons
-            if(!active_sd.weapon_equip(player,name))
-            {
-                active_sd.setup_player(player);
-            }
-        }
-    }
-
-    public void disconnect(CCSPlayerController? player)
-    {
-        if(!player.is_valid())
-        {
-            return;
-        }
-
-        if(active_sd != null)
-        {
-            active_sd.disconnect(player);
-        }
-    }
-
-
-    public void grenade_thrown(CCSPlayerController? player)
-    {
-        if(active_sd != null)
-        {
-            active_sd.grenade_thrown(player);
-        }       
-    }
-
-    public void ent_created(CEntityInstance entity)
-    {
-        if(active_sd != null)
-        {
-            active_sd.ent_created(entity);
-        }
-    }
-        
-
-    public void death(CCSPlayerController? player, CCSPlayerController? attacker)
-    {
-        if(active_sd != null)
-        {
-            active_sd.death(player,attacker);
-        }
-    }
-
-    public void player_hurt(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health, int hitgroup)
-    {
-        if(active_sd != null && player.is_valid())
-        {
-            active_sd.player_hurt(player,damage,health,hitgroup);
-        }
-    }
-
     public void start_sd(int unused)
     {
         if(active_sd != null)
@@ -260,19 +184,6 @@ public class SpecialDay
 
             active_sd.start_common();
         }  
-    }
-
-    public void take_damage(CCSPlayerController? player, CCSPlayerController? attacker, ref float damage)
-    {
-        if(active_sd == null || !player.is_valid())
-        {
-            return;
-        }
-
-        if(active_sd.restrict_damage)
-        {
-            damage = 0.0f;
-        }
     }
 
     [RequiresPermissions("@css/generic")]
