@@ -141,7 +141,7 @@ public class Mute
         apply_listen_flags(player);
 
         // player not alive mute
-		if(!player.PawnIsAlive)
+		if(!player.is_valid_alive())
 		{
             player.mute();
 		}
