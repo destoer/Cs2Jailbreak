@@ -29,8 +29,6 @@ Handicap
 
 Warden Ring 
 
-Player color 
-
 Refactor stat API
 
 # LR TODO
