@@ -25,14 +25,20 @@ class Line
 
     public void destroy()
     {
-        Entity.remove(laser_index,"env_beam");
-        laser_index = -1;
+        if(laser_index != -1)
+        {
+            Entity.remove(laser_index,"env_beam");
+            laser_index = -1;
+        }
     }
 
     public void destroy_delay(float life)
     {
-        CBaseEntity? laser = Utilities.GetEntityFromIndex<CBaseEntity>(laser_index);
-        laser.remove_delay(life,"env_beam");
+        if(laser_index != -1)
+        {
+            CBaseEntity? laser = Utilities.GetEntityFromIndex<CBaseEntity>(laser_index);
+            laser.remove_delay(life,"env_beam");
+        }
     }
 
     int laser_index = -1;
