@@ -65,7 +65,7 @@ public static class Player
 
     static public bool is_valid_alive([NotNullWhen(true)] this CCSPlayerController? player)
     {
-        return player.is_valid() && player.PawnIsAlive && player.get_health() > 0;
+        return player.is_connected() && player.PawnIsAlive && player.get_health() > 0;
     }
 
     static public bool is_valid_alive_t([NotNullWhen(true)] this CCSPlayerController? player)

@@ -522,7 +522,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         // NOTE: have to check is_connected incase this is tripped by a dc
 
         // hide t killing ct
-        if(Config.hide_kills && killer.is_connected() && killer.is_t() && victim.is_ct())
+        if(Config.hide_kills && victim.is_connected() && killer.is_connected() && killer.is_t() && victim.is_ct())
         {
             //@event.Attacker = player;
             // fire event as is to T
