@@ -22,6 +22,8 @@ public static class Debug
     {
         Chat.announce(DEBUG_PREFIX,"Slaying all players");
 
+        Chat.print_console_all("Nuke!");
+
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
             player.slay();

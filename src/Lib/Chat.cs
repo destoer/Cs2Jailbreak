@@ -13,7 +13,7 @@ public static class Chat
 
     static public void print_prefix(this CCSPlayerController? player, String prefix, String str)
     {
-        if(player.is_valid())
+        if(player.is_valid() && player.is_connected() && !player.IsBot)
         {
             player.PrintToChat(prefix + str);
         }
@@ -21,7 +21,7 @@ public static class Chat
 
     static public void announce(this CCSPlayerController? player,String prefix,String str)
     {
-        if(player.is_valid())
+        if(player.is_valid() && player.is_connected() && !player.IsBot)
         {
             player.print_prefix(prefix,str);
             player.PrintToCenter(str);
@@ -46,7 +46,7 @@ public static class Chat
     {
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            if(!player.is_valid())
+            if(!player.is_valid() || !player.is_connected() || player.IsBot)
             {
                 continue;
             }

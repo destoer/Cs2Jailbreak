@@ -50,7 +50,7 @@ public static class Player
 
     static public bool is_connected([NotNullWhen(true)] this CCSPlayerController? player)
     {
-        return player.is_valid() && (player.Connected != PlayerConnectedState.PlayerDisconnecting && player.Connected != PlayerConnectedState.PlayerDisconnected);
+        return player.is_valid() && player.Connected == PlayerConnectedState.PlayerConnected;
     }
 
     static public bool is_t(this CCSPlayerController? player)
