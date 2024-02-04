@@ -519,8 +519,10 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         CCSPlayerController? victim = @event.Userid;
         CCSPlayerController? killer = @event.Attacker;
 
+        // NOTE: have to check is_connected incase this is tripped by a dc
+
         // hide t killing ct
-        if(Config.hide_kills && killer.is_t() && victim.is_ct())
+        if(Config.hide_kills && killer.is_connected() && killer.is_t() && victim.is_ct())
         {
             //@event.Attacker = player;
             // fire event as is to T
@@ -553,7 +555,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         }
 
 
-        if(victim != null && victim.is_valid())
+        if(victim.is_valid() && victim.is_connected())
         {
             warden.death(victim,killer);
             lr.death(victim);

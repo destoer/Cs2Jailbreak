@@ -45,9 +45,12 @@ public static class Player
     // Cheers Kill for suggesting method extenstions
     static public bool is_valid([NotNullWhen(true)] this CCSPlayerController? player)
     {
-        return player != null && player.IsValid && 
-            (player.Connected != PlayerConnectedState.PlayerDisconnecting && player.Connected != PlayerConnectedState.PlayerDisconnected) && 
-            player.PlayerPawn.IsValid && player.PlayerPawn.Value?.IsValid == true; 
+        return player != null && player.IsValid && player.PlayerPawn.IsValid && player.PlayerPawn.Value?.IsValid == true; 
+    }
+
+    static public bool is_connected([NotNullWhen(true)] this CCSPlayerController? player)
+    {
+        return player.is_valid() && (player.Connected != PlayerConnectedState.PlayerDisconnecting && player.Connected != PlayerConnectedState.PlayerDisconnected);
     }
 
     static public bool is_t(this CCSPlayerController? player)
