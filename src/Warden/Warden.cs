@@ -93,11 +93,6 @@ public partial class Warden
 
     public void remove_if_warden(CCSPlayerController? player)
     {
-        if(!player.is_valid())
-        {
-            return;
-        }
-
         if(is_warden(player))
         {
             remove_warden();

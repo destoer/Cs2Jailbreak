@@ -27,8 +27,10 @@ public class Logs
     {
         foreach (CCSPlayerController player in Utilities.GetPlayers())
         {
-            if (!player.IsValid || player.IsBot || player.IsHLTV) continue;
-            printLogs(player);
+            if (player.is_valid() && !player.IsBot)
+            {
+                printLogs(player);
+            }
         }
         logs.Clear();
         return HookResult.Continue;
