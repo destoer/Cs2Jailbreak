@@ -99,7 +99,7 @@ public static class Player
 
     static public CCSPlayerPawn? pawn(this CCSPlayerController? player)
     {
-        if(!player.is_valid())
+        if(!player.is_valid_alive())
         {
             return null;
         }
