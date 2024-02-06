@@ -118,7 +118,7 @@ public static class Weapon
         player.StripWeapons();
 
         // give their desired guns with lots of reserve ammo
-        player.GiveNamedItem(gun_give_name(option.Text));
+        player.GiveNamedItem(GunGiveName(option.Text));
         player.GiveWeapon("deagle");
 
         CBasePlayerWeapon? primary = player.FindWeapon(GUN_LIST[option.Text]);
@@ -148,7 +148,7 @@ public static class Weapon
         {"AWP", "awp"},
     };
     
-    public static String gun_give_name(String name)
+    public static String GunGiveName(String name)
     {
         return "weapon_" + GUN_LIST[name];
     }
