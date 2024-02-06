@@ -187,12 +187,12 @@ public partial class SpecialDay
     }
 
     [RequiresPermissions("@css/generic")]
-    public void cancel_sd_cmd(CCSPlayerController? player,CommandInfo command)
+    public void CancelSDCmd(CCSPlayerController? player,CommandInfo command)
     {
         end_sd(true);
     }
 
-    public void sd_cmd_internal(CCSPlayerController? player,CommandInfo command)
+    public void SDCmdInternal(CCSPlayerController? player,CommandInfo command)
     {
         if(!player.is_valid())
         {
@@ -220,7 +220,7 @@ public partial class SpecialDay
 
 
     [RequiresPermissions("@jail/debug")]
-    public void sd_rig_cmd(CCSPlayerController? player,CommandInfo command)
+    public void SDRigCmd(CCSPlayerController? player,CommandInfo command)
     {
         if(!player.is_valid())
         {
@@ -235,22 +235,22 @@ public partial class SpecialDay
     }   
 
     [RequiresPermissions("@css/generic")]
-    public void sd_cmd(CCSPlayerController? player,CommandInfo command)
+    public void SDCmd(CCSPlayerController? player,CommandInfo command)
     {
         override_ff = false;
         wsd_command = false;
-        sd_cmd_internal(player,command);
+        SDCmdInternal(player,command);
     }   
 
     [RequiresPermissions("@css/generic")]
-    public void sd_ff_cmd(CCSPlayerController? player,CommandInfo command)
+    public void SDFFCmd(CCSPlayerController? player,CommandInfo command)
     {
         override_ff = true;
         wsd_command = false;
-        sd_cmd_internal(player,command);
+        SDCmdInternal(player,command);
     }   
 
-    public void warden_sd_cmd_internal(CCSPlayerController? player,CommandInfo command)
+    public void WardenSDCmdInternal(CCSPlayerController? player,CommandInfo command)
     {
         if(!JailPlugin.IsWarden(player))
         {
@@ -267,21 +267,21 @@ public partial class SpecialDay
 
         // Go!
         wsd_command = true;
-        sd_cmd_internal(player,command);
+        SDCmdInternal(player,command);
     }
 
-    public void warden_sd_cmd(CCSPlayerController? player,CommandInfo command)
+    public void WardenSDCmd(CCSPlayerController? player,CommandInfo command)
     {
         override_ff = false;
 
-        warden_sd_cmd_internal(player,command);
+        WardenSDCmdInternal(player,command);
     }   
 
-    public void warden_sd_ff_cmd(CCSPlayerController? player,CommandInfo command)
+    public void WardenSDFFCmd(CCSPlayerController? player,CommandInfo command)
     {
         override_ff = true;
 
-        warden_sd_cmd_internal(player,command);
+        WardenSDCmdInternal(player,command);
     }   
 
     public enum SDType

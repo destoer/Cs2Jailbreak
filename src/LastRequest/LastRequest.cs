@@ -363,7 +363,7 @@ public partial class LastRequest
         }
     }
 
-    public void lr_cmd_internal(CCSPlayerController? player,bool bypass, CommandInfo command)
+    public void LRCmdInternal(CCSPlayerController? player,bool bypass, CommandInfo command)
     {
         // check player can start lr
         // NOTE: higher level function checks its valid to start an lr
@@ -408,24 +408,24 @@ public partial class LastRequest
         ChatMenus.OpenMenu(player, lr_menu);
     }
 
-    public void lr_cmd(CCSPlayerController? player, CommandInfo command)
+    public void LRCmd(CCSPlayerController? player, CommandInfo command)
     {   
         if(!can_start_lr(player))
         {
             return;
         }
 
-        lr_cmd_internal(player,false,command);
+        LRCmdInternal(player,false,command);
     }
 
     // bypasses validity checks
     [RequiresPermissions("@jail/debug")]
-    public void lr_debug_cmd(CCSPlayerController? player, CommandInfo command)
+    public void LRDebugCmd(CCSPlayerController? player, CommandInfo command)
     {
-        lr_cmd_internal(player,true,command);
+        LRCmdInternal(player,true,command);
     }
 
-    public void cancel_lr_cmd(CCSPlayerController? player, CommandInfo command)
+    public void CancelLRCmd(CCSPlayerController? player, CommandInfo command)
     {
         if(!player.is_valid())
         {

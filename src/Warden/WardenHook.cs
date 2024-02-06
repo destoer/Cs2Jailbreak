@@ -92,7 +92,7 @@ public partial class Warden
     {
         if(player != null)
         {
-            jailPlayers[player.Slot].reset();
+            jailPlayers[player.Slot].Reset();
         }
 
         mute.Connect(player);
@@ -199,7 +199,7 @@ public partial class Warden
 
         if(jailPlayer != null)
         {
-            jailPlayer.rebel_WeaponFire(player,name);
+            jailPlayer.RebelWeaponFire(player,name);
         }
     }
 

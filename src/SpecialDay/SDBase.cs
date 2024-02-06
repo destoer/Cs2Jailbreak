@@ -41,7 +41,7 @@ public abstract class SDBase
         restrict_damage = false;
 
         state = SDState.ACTIVE;
-        Entity.force_open();
+        Entity.ForceOpen();
         start();
     }
 

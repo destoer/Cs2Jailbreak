@@ -22,7 +22,7 @@ public partial class Warden
 {
     static readonly String TEAM_PREFIX = $" {ChatColors.Green}[TEAM]: {ChatColors.White}";
     
-    public bool join_team(CCSPlayerController? invoke, CommandInfo command)
+    public bool JoinTeam(CCSPlayerController? invoke, CommandInfo command)
     {
         if(!invoke.is_valid())
         {
@@ -92,7 +92,7 @@ public partial class Warden
     }
 
     [RequiresPermissions("@css/generic")]
-    public void swap_guard_cmd(CCSPlayerController? invoke, CommandInfo command)
+    public void SwapGuardCmd(CCSPlayerController? invoke, CommandInfo command)
     {
         if(!invoke.is_valid())
         {

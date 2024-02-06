@@ -121,7 +121,7 @@ public static class Entity
 
     static String DOOR_PREFIX =  $" {ChatColors.Green}[Door control]: {ChatColors.White}";
 
-    public static void force_close()
+    public static void ForceClose()
     {
         Chat.announce(DOOR_PREFIX,"Forcing closing all doors!");
 
@@ -131,7 +131,7 @@ public static class Entity
         ForceEntInput("prop_door_rotating","Close");
     }
 
-    public static void force_open()
+    public static void ForceOpen()
     {
         Chat.announce(DOOR_PREFIX,"Forcing open all doors!");
 

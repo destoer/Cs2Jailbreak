@@ -18,7 +18,7 @@ using CounterStrikeSharp.API.Modules.Admin;
 public static class Debug
 {
     [RequiresPermissions("@jail/debug")]
-    public static void nuke(CCSPlayerController? invoke, CommandInfo command)
+    public static void Nuke(CCSPlayerController? invoke, CommandInfo command)
     {
         Chat.announce(DEBUG_PREFIX,"Slaying all players");
 
@@ -31,7 +31,7 @@ public static class Debug
     }
 
     [RequiresPermissions("@jail/debug")]
-    public static void test_laser(CCSPlayerController? invoke, CommandInfo command)
+    public static void TestLaser(CCSPlayerController? invoke, CommandInfo command)
     {
         CCSPlayerPawn? pawn = invoke.pawn();
 
@@ -47,7 +47,7 @@ public static class Debug
     // noblock 0b100000000001011000011000000010001;
 
     [RequiresPermissions("@jail/debug")]
-    public static void test_noblock_cmd(CCSPlayerController? invoke, CommandInfo command)
+    public static void TestNoblockCmd(CCSPlayerController? invoke, CommandInfo command)
     {
         if(!invoke.is_valid())
         {
@@ -76,13 +76,13 @@ public static class Debug
     }
 
     [RequiresPermissions("@jail/debug")]
-    public static void test_strip_cmd(CCSPlayerController? invoke, CommandInfo command)
+    public static void TestStripCmd(CCSPlayerController? invoke, CommandInfo command)
     {
         invoke.StripWeapons(true);
     }
 
     [RequiresPermissions("@jail/debug")]
-    public static void join_ct_cmd(CCSPlayerController? invoke, CommandInfo command)
+    public static void JoinCtCmd(CCSPlayerController? invoke, CommandInfo command)
     {
         if(invoke != null && invoke.is_valid())
         {
@@ -91,7 +91,7 @@ public static class Debug
     }
 
     [RequiresPermissions("@jail/debug")]
-    public static void hide_weapon_cmd(CCSPlayerController? invoke, CommandInfo command)
+    public static void HideWeaponCmd(CCSPlayerController? invoke, CommandInfo command)
     {
         if(invoke != null && invoke.is_valid())
         {
@@ -102,7 +102,7 @@ public static class Debug
     }
 
     [RequiresPermissions("@jail/debug")]
-    public static void wsd_enable_cmd(CCSPlayerController? invoke, CommandInfo command)
+    public static void WSDEnableCmd(CCSPlayerController? invoke, CommandInfo command)
     {
         if(invoke != null && invoke.is_valid())
         {
@@ -112,7 +112,7 @@ public static class Debug
     }
 
     [RequiresPermissions("@jail/debug")]
-    public static void is_muted_cmd(CCSPlayerController? invoke, CommandInfo command)
+    public static void IsMutedCmd(CCSPlayerController? invoke, CommandInfo command)
     {
         if(!invoke.is_valid())
         {
@@ -128,7 +128,7 @@ public static class Debug
     }
 
     [RequiresPermissions("@jail/debug")]
-    public static void test_lr_inc(CCSPlayerController? invoke, CommandInfo command)
+    public static void TestLRInc(CCSPlayerController? invoke, CommandInfo command)
     {
         JailPlugin.win_lr(invoke, LastRequest.LRType.KNIFE);
     }

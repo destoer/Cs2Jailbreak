@@ -59,7 +59,7 @@ public partial class LastRequest
             return;
         }
 
-        player.gun_menu_internal(false,rebel_guns);
+        player.GunMenuInternal(false,rebel_guns);
     }
 
     public void start_knife_rebel(CCSPlayerController? rebel, ChatMenuOption option)

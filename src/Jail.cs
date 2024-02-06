@@ -243,7 +243,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         });
     }
 
-    void add_localized_cmd(String base_name,String desc,CommandInfo.CommandCallback callback)
+    void AddLocalizedCmd(String base_name,String desc,CommandInfo.CommandCallback callback)
     {
         AddCommand("css_" + Localizer[base_name],desc,callback);
     }
@@ -251,70 +251,70 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     void register_commands()
     {
         // reg warden comamnds
-        add_localized_cmd("warden.take_warden_cmd", "take warden", warden.take_warden_cmd);
-        add_localized_cmd("warden.leave_warden_cmd", "leave warden", warden.leave_warden_cmd);
-        add_localized_cmd("warden.remove_warden_cmd", "remove warden", warden.remove_warden_cmd);
-        add_localized_cmd("warden.remove_marker_cmd","remove warden marker",warden.remove_marker_cmd);
+        AddLocalizedCmd("warden.take_warden_cmd", "take warden", warden.TakeWardenCmd);
+        AddLocalizedCmd("warden.leave_warden_cmd", "leave warden", warden.LeaveWardenCmd);
+        AddLocalizedCmd("warden.remove_warden_cmd", "remove warden", warden.RemoveWardenCmd);
+        AddLocalizedCmd("warden.remove_marker_cmd","remove warden marker",warden.RemoveMarkerCmd);
 
-        add_localized_cmd("warden.marker_colour_cmd", "set marker colour", warden.marker_colour_cmd);
-        add_localized_cmd("warden.laser_colour_cmd", "set laser colour", warden.laser_colour_cmd);
+        AddLocalizedCmd("warden.marker_colour_cmd", "set marker colour", warden.MarkerColourCmd);
+        AddLocalizedCmd("warden.laser_colour_cmd", "set laser colour", warden.LaserColourCmd);
 
-        add_localized_cmd("warden.colour_cmd","set player colour",warden.colour_cmd);
+        AddLocalizedCmd("warden.colour_cmd","set player colour",warden.ColourCmd);
 
-        add_localized_cmd("warden.no_block_cmd","warden : disable block",warden.wub_cmd);
-        add_localized_cmd("warden.block_cmd","warden : enable block",warden.wb_cmd);
+        AddLocalizedCmd("warden.no_block_cmd","warden : disable block",warden.WubCmd);
+        AddLocalizedCmd("warden.block_cmd","warden : enable block",warden.WbCmd);
 
-        add_localized_cmd("warden.sd_cmd","warden : call a special day",sd.warden_sd_cmd);
-        add_localized_cmd("warden.sd_ff_cmd","warden : call a friendly fire special day",sd.warden_sd_ff_cmd);
+        AddLocalizedCmd("warden.sd_cmd","warden : call a special day",sd.WardenSDCmd);
+        AddLocalizedCmd("warden.sd_ff_cmd","warden : call a friendly fire special day",sd.WardenSDFFCmd);
 
-        add_localized_cmd("warden.swap_guard","admin : move a player to ct",warden.swap_guard_cmd);
+        AddLocalizedCmd("warden.swap_guard","admin : move a player to ct",warden.SwapGuardCmd);
 
-        add_localized_cmd("warden.warday_cmd","warden : start warday",warden.warday_cmd);
-        add_localized_cmd("warden.list_cmd", "warden : show all commands",warden.cmd_info);
-        add_localized_cmd("warden.time_cmd","how long as warden been active?",warden.warden_time_cmd);
+        AddLocalizedCmd("warden.warday_cmd","warden : start warday",warden.WardayCmd);
+        AddLocalizedCmd("warden.list_cmd", "warden : show all commands",warden.CmdInfo);
+        AddLocalizedCmd("warden.time_cmd","how long as warden been active?",warden.WardenTimeCmd);
 
-        add_localized_cmd("warden.gun_cmd","give ct guns",warden.cmd_ct_guns);
+        AddLocalizedCmd("warden.gun_cmd","give ct guns",warden.CmdCtGuns);
 
-        add_localized_cmd("warden.force_open_cmd","force open every door and vent",warden.force_open_cmd);
-        add_localized_cmd("warden.force_close_cmd","force close every door",warden.force_close_cmd);
+        AddLocalizedCmd("warden.force_open_cmd","force open every door and vent",warden.ForceOpenCmd);
+        AddLocalizedCmd("warden.force_close_cmd","force close every door",warden.ForceCloseCmd);
 
-        add_localized_cmd("warden.fire_guard_cmd","admin : Remove all guards apart from warden",warden.fire_guard_cmd);
+        AddLocalizedCmd("warden.fire_guard_cmd","admin : Remove all guards apart from warden",warden.FireGuardCmd);
 
-        add_localized_cmd("warden.give_freeday_cmd","give t a freeday",warden.give_freeday_cmd);
-        add_localized_cmd("warden.give_pardon_cmd","give t a freeday",warden.give_pardon_cmd);
+        AddLocalizedCmd("warden.give_freeday_cmd","give t a freeday",warden.GiveFreedayCmd);
+        AddLocalizedCmd("warden.give_pardon_cmd","give t a freeday",warden.GivePardonCmd);
 
         // reg lr commands
-        add_localized_cmd("lr.start_lr_cmd","start an lr",lr.lr_cmd);
-        add_localized_cmd("lr.cancel_lr_cmd","admin : cancel lr",lr.cancel_lr_cmd);
-        add_localized_cmd("lr.stats_cmd","list lr stats",jail_stats.lr_stats_cmd);
+        AddLocalizedCmd("lr.start_lr_cmd","start an lr",lr.LRCmd);
+        AddLocalizedCmd("lr.cancel_lr_cmd","admin : cancel lr",lr.CancelLRCmd);
+        AddLocalizedCmd("lr.stats_cmd","list lr stats",jail_stats.LRStatsCmd);
 
         // reg sd commands
-        add_localized_cmd("sd.start_cmd","start a sd",sd.sd_cmd);
-        add_localized_cmd("sd.start_ff_cmd","start a ff sd",sd.sd_ff_cmd);
-        add_localized_cmd("sd.cancel_cmd","cancel an sd",sd.cancel_sd_cmd);
+        AddLocalizedCmd("sd.start_cmd","start a sd",sd.SDCmd);
+        AddLocalizedCmd("sd.start_ff_cmd","start a ff sd",sd.SDFFCmd);
+        AddLocalizedCmd("sd.cancel_cmd","cancel an sd",sd.CancelSDCmd);
 
-        add_localized_cmd("logs.logs_cmd", "show round logs", logs.LogsCommand);
+        AddLocalizedCmd("logs.logs_cmd", "show round logs", logs.LogsCommand);
 
         // debug 
         if(Debug.enable)
         {
-            AddCommand("nuke","debug : kill every player",Debug.nuke);
-            AddCommand("is_rebel","debug : print rebel state to console",warden.is_rebel_cmd);
-            AddCommand("lr_debug","debug : start an lr without restriction",lr.lr_debug_cmd);
-            AddCommand("is_blocked","debug : print block state",warden.block.is_blocked);
-            AddCommand("test_laser","test laser",Debug.test_laser);
-            AddCommand("test_strip","test weapon strip",Debug.test_strip_cmd);
-            AddCommand("join_ct_debug","debug : force join ct",Debug.join_ct_cmd);
-            AddCommand("hide_weapon_debug","debug : hide player weapon on back",Debug.hide_weapon_cmd);
-            AddCommand("rig","debug : force player to boss on sd",sd.sd_rig_cmd);
-            AddCommand("is_muted","debug : print voice flags",Debug.is_muted_cmd);
-            AddCommand("spam_db","debug : spam db",Debug.test_lr_inc);
-            AddCommand("wsd_enable","debug : enable wsd",Debug.wsd_enable_cmd);
-            AddCommand("test_noblock","debug : enable wsd",Debug.test_noblock_cmd);
+            AddCommand("nuke","debug : kill every player",Debug.Nuke);
+            AddCommand("is_rebel","debug : print rebel state to console",warden.IsRebelCmd);
+            AddCommand("lr_debug","debug : start an lr without restriction",lr.LRDebugCmd);
+            AddCommand("is_blocked","debug : print block state",warden.block.IsBlocked);
+            AddCommand("test_laser","test laser",Debug.TestLaser);
+            AddCommand("test_strip","test weapon strip",Debug.TestStripCmd);
+            AddCommand("join_ct_debug","debug : force join ct",Debug.JoinCtCmd);
+            AddCommand("hide_weapon_debug","debug : hide player weapon on back",Debug.HideWeaponCmd);
+            AddCommand("rig","debug : force player to boss on sd",sd.SDRigCmd);
+            AddCommand("is_muted","debug : print voice flags",Debug.IsMutedCmd);
+            AddCommand("spam_db","debug : spam db",Debug.TestLRInc);
+            AddCommand("wsd_enable","debug : enable wsd",Debug.WSDEnableCmd);
+            AddCommand("test_noblock","debug : enable wsd",Debug.TestNoblockCmd);
         }
     }
 
-    public HookResult join_team(CCSPlayerController? invoke, CommandInfo command)
+    public HookResult JoinTeam(CCSPlayerController? invoke, CommandInfo command)
     {
         jail_stats.LoadPlayer(invoke);
 
@@ -325,7 +325,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
             jailPlayer.LoadPlayer(invoke);
         }        
 
-        if(!warden.join_team(invoke,command))
+        if(!warden.JoinTeam(invoke,command))
         {
             return HookResult.Handled;
         }
@@ -363,13 +363,13 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         RegisterListener<Listeners.OnClientVoice>(OnClientVoice);
         RegisterListener<Listeners.OnClientAuthorized>(OnClientAuthorized);
 
-        AddCommandListener("jointeam",join_team);
-        AddCommandListener("player_ping",player_ping_cmd);
+        AddCommandListener("jointeam",JoinTeam);
+        AddCommandListener("player_ping",PlayerPingCmd);
 
         // TODO: need to hook weapon drop
     }
 
-    public HookResult player_ping_cmd(CCSPlayerController? invoke, CommandInfo command)
+    public HookResult PlayerPingCmd(CCSPlayerController? invoke, CommandInfo command)
     {
         // if player is not warden ignore the ping
         if(Config.restrictPing && !warden.IsWarden(invoke))

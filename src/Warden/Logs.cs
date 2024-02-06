@@ -102,7 +102,7 @@ public class Logs
             case CsTeam.CounterTerrorist:
                 return plugin.Localizer[JailPlugin.warden.IsWarden(player) ? "role.warden" : "role.guard"];
             case CsTeam.Terrorist:
-                return plugin.Localizer[JailPlugin.warden.jailPlayers[player.Slot].is_rebel ? "role.rebel" : "role.prisoner"];
+                return plugin.Localizer[JailPlugin.warden.jailPlayers[player.Slot].IsRebel ? "role.rebel" : "role.prisoner"];
             default:
                 return plugin.Localizer["role.unknown"];
         }

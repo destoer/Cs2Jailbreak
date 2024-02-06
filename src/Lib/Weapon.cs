@@ -167,7 +167,7 @@ public static class Weapon
         player.GiveWeapon(GUN_LIST[name]);
     }
 
-    static public void gun_menu_internal(this CCSPlayerController? player, bool no_awp, Action<CCSPlayerController, ChatMenuOption> callback)
+    static public void GunMenuInternal(this CCSPlayerController? player, bool no_awp, Action<CCSPlayerController, ChatMenuOption> callback)
     {
         // player must be alive and active!
         if(!player.is_valid_alive())
@@ -202,6 +202,6 @@ public static class Weapon
             player.GiveWeapon("deagle");
         }
 
-        gun_menu_internal(player,no_awp,GiveMenuWeaponCallback);
+        GunMenuInternal(player,no_awp,GiveMenuWeaponCallback);
     }    
 }

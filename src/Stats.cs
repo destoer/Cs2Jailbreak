@@ -82,7 +82,7 @@ public class JailStats
         }
     }
 
-    public void lr_stats_cmd(CCSPlayerController? player, CommandInfo command)
+    public void LRStatsCmd(CCSPlayerController? player, CommandInfo command)
     {
         // just do own player for now
         print_stats(player,player);

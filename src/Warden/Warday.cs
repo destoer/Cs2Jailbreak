@@ -33,23 +33,23 @@ public class Warday
                 }
             }
 
-            Entity.force_open();
+            Entity.ForceOpen();
 
             Chat.localize_announce(WARDAY_PREFIX,"warday.live");
         }
     }
 
-    public bool start_warday(String location, int delay)
+    public bool StartWarday(String location, int delay)
     {
-        if(round_counter >= ROUND_LIMIT)
+        if(roundCounter >= ROUND_LIMIT)
         {
             // must wait again to start a warday
-            round_counter = 0;
+            roundCounter = 0;
 
             warday_active = true;
             JailPlugin.start_event();
             
-            Entity.force_close();
+            Entity.ForceClose();
 
             if(Config.wardayGuns)
             {
@@ -79,7 +79,7 @@ public class Warday
     public void RoundStart()
     {
         // one less round till a warday can be called
-        round_counter++;
+        roundCounter++;
 
         countdown.kill();
 
@@ -90,7 +90,7 @@ public class Warday
     public void MapStart()
     {
         // give a warday on map start
-        round_counter = ROUND_LIMIT;
+        roundCounter = ROUND_LIMIT;
     }
 
     public JailConfig Config = new JailConfig();
@@ -99,7 +99,7 @@ public class Warday
 
     bool warday_active = false;
 
-    public int round_counter = ROUND_LIMIT;
+    public int roundCounter = ROUND_LIMIT;
 
     public const int ROUND_LIMIT = 3;
 

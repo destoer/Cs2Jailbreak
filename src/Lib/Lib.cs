@@ -91,7 +91,7 @@ public static class Lib
         return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
     }
 
-    static public void invoke_player_menu(CCSPlayerController? invoke, String name,
+    static public void InvokePlayerMenu(CCSPlayerController? invoke, String name,
         Action<CCSPlayerController, ChatMenuOption> callback, Func<CCSPlayerController?,bool> filter)
     {
         if(!invoke.is_valid())
@@ -236,29 +236,29 @@ public static class Lib
         return GetAliveT().Count;
     }
 
-    static public bool block_enabled()
+    static public bool BlockEnabled()
     {
-        if(block_cvar != null)
+        if(blockCvar != null)
         {
-            return block_cvar.GetPrimitiveValue<int>() == 1;
+            return blockCvar.GetPrimitiveValue<int>() == 1;
         }
 
         return true;
     }
 
-    static public void block_all()
+    static public void BlockAll()
     {
-        if(block_cvar != null)
+        if(blockCvar != null)
         {
-            block_cvar.SetValue(1);
+            blockCvar.SetValue(1);
         }
     }
 
-    static public void unblock_all()
+    static public void UnBlockAll()
     {
-        if(block_cvar != null)
+        if(blockCvar != null)
         {
-            block_cvar.SetValue(0);
+            blockCvar.SetValue(0);
         }
     }
 
@@ -303,7 +303,7 @@ public static class Lib
         {"Yellow",Color.FromArgb(255,255, 255, 0)} // yellow
     };
 
-    static ConVar? block_cvar = ConVar.Find("mp_solid_teammates");
+    static ConVar? blockCvar = ConVar.Find("mp_solid_teammates");
     static ConVar? ff = ConVar.Find("mp_teammates_are_enemies");
 
     public const int HITGROUP_HEAD = 0x1;

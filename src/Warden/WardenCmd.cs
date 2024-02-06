@@ -22,12 +22,12 @@ using System.Drawing;
 
 public partial class Warden
 {
-    public void leave_warden_cmd(CCSPlayerController? player, CommandInfo command)
+    public void LeaveWardenCmd(CCSPlayerController? player, CommandInfo command)
     {
         RemoveIfWarden(player);
     }
 
-    public void remove_marker_cmd(CCSPlayerController? player, CommandInfo command)
+    public void RemoveMarkerCmd(CCSPlayerController? player, CommandInfo command)
     {
         if(!player.is_valid())
         {
@@ -42,27 +42,27 @@ public partial class Warden
     }
 
     [RequiresPermissions("@css/generic")]
-    public void remove_warden_cmd(CCSPlayerController? player, CommandInfo command)
+    public void RemoveWardenCmd(CCSPlayerController? player, CommandInfo command)
     {
         Chat.localize_announce(WARDEN_PREFIX,"warden.remove");
         RemoveWarden();
     }
 
     [RequiresPermissions("@css/generic")]
-    public void force_open_cmd(CCSPlayerController? invoke, CommandInfo command)
+    public void ForceOpenCmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        Entity.force_open();
+        Entity.ForceOpen();
     }
 
 
     [RequiresPermissions("@css/generic")]
-    public void force_close_cmd(CCSPlayerController? invoke, CommandInfo command)
+    public void ForceCloseCmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        Entity.force_close();
+        Entity.ForceClose();
     }
 
 
-    public void warday_cmd(CCSPlayerController? player, CommandInfo command)
+    public void WardayCmd(CCSPlayerController? player, CommandInfo command)
     {
         if(!player.is_valid())
         {
@@ -91,20 +91,20 @@ public partial class Warden
 
         if(command.ArgCount >= 3)
         {
-            if(Int32.TryParse(command.ArgByIndex(2),out int delay_opt))
+            if(Int32.TryParse(command.ArgByIndex(2),out int delayOpt))
             {
-                delay = delay_opt;
+                delay = delayOpt;
             }       
         }
 
-        if(!warday.start_warday(location,delay))
+        if(!warday.StartWarday(location,delay))
         {
-            player.localise_prefix(WARDEN_PREFIX,"warden.warday_round_restrict",Warday.ROUND_LIMIT - warday.round_counter);
+            player.localise_prefix(WARDEN_PREFIX,"warden.warday_round_restrict",Warday.ROUND_LIMIT - warday.roundCounter);
         }
     }
 
 
-    (JailPlayer?, CCSPlayerController?)  give_t_internal(CCSPlayerController? invoke, String name, String player_name)
+    (JailPlayer?, CCSPlayerController?) GiveTInternal(CCSPlayerController? invoke, String name, String playerName)
     {
         if(!IsWarden(invoke))
         {
@@ -112,7 +112,7 @@ public partial class Warden
             return (null,null);
         }
 
-        int slot = Player.slot_from_name(player_name);
+        int slot = Player.SlotFromName(playerName);
 
         if(slot != -1)
         {
@@ -125,33 +125,33 @@ public partial class Warden
         return (null,null);
     }
 
-    public void give_freeday_callback(CCSPlayerController? invoke, ChatMenuOption option)
+    public void GiveFreedayCallback(CCSPlayerController? invoke, ChatMenuOption option)
     {
-        var (jailPlayer,player) = give_t_internal(invoke,"freeday",option.Text);
+        var (jailPlayer,player) = GiveTInternal(invoke,"freeday",option.Text);
 
-        jailPlayer?.give_freeday(player);  
+        jailPlayer?.GiveFreeday(player);  
     }
 
-    public void give_pardon_callback(CCSPlayerController? invoke, ChatMenuOption option)
+    public void GivePardonCallback(CCSPlayerController? invoke, ChatMenuOption option)
     {
-        var (jailPlayer,player) = give_t_internal(invoke,"pardon",option.Text);
+        var (jailPlayer,player) = GiveTInternal(invoke,"pardon",option.Text);
 
-        jailPlayer?.give_pardon(player);  
+        jailPlayer?.GivePardon(player);  
     }
 
-    public bool is_alive_rebel(CCSPlayerController? player)
+    public bool IsAliveRebel(CCSPlayerController? player)
     {
         var jailPlayer = JailPlayerFromPlayer(player);
 
         if(jailPlayer != null)
         {
-            return jailPlayer.is_rebel && player.is_valid_alive();
+            return jailPlayer.IsRebel && player.is_valid_alive();
         }
 
         return false;
     }
 
-    public void give_t(CCSPlayerController? invoke, String name, Action<CCSPlayerController, ChatMenuOption> callback,Func<CCSPlayerController?,bool> filter)
+    public void GiveT(CCSPlayerController? invoke, String name, Action<CCSPlayerController, ChatMenuOption> callback,Func<CCSPlayerController?,bool> filter)
     {
         if(!IsWarden(invoke))
         {
@@ -159,10 +159,10 @@ public partial class Warden
             return;
         }
 
-        Lib.invoke_player_menu(invoke,name,callback,filter);
+        Lib.InvokePlayerMenu(invoke,name,callback,filter);
     }
 
-    public void colour_callback(CCSPlayerController? invoke, ChatMenuOption option)
+    public void ColourCallback(CCSPlayerController? invoke, ChatMenuOption option)
     {
         if(!IsWarden(invoke))
         {
@@ -178,16 +178,16 @@ public partial class Warden
         player.SetColour(colour);
     }
 
-    public void colour_player_callback(CCSPlayerController? invoke, ChatMenuOption option)
+    public void ColourPlayerCallback(CCSPlayerController? invoke, ChatMenuOption option)
     {
         // save this slot for 2nd stage of the command
-        colourSlot = Player.slot_from_name(option.Text);
+        colourSlot = Player.SlotFromName(option.Text);
 
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(colourSlot);
 
         if(player.is_valid_alive())
         {
-            Lib.colour_menu(invoke,colour_callback,$"Player colour {player.PlayerName}");
+            Lib.colour_menu(invoke,ColourCallback,$"Player colour {player.PlayerName}");
         }
 
         else
@@ -196,7 +196,7 @@ public partial class Warden
         }
     }
 
-    public void colour_cmd(CCSPlayerController? invoke, CommandInfo command)
+    public void ColourCmd(CCSPlayerController? invoke, CommandInfo command)
     {
         if(!IsWarden(invoke))
         {
@@ -204,20 +204,20 @@ public partial class Warden
             return;
         }
 
-        Lib.invoke_player_menu(invoke,"Colour",colour_player_callback,Player.is_valid_alive_t);
+        Lib.InvokePlayerMenu(invoke,"Colour",ColourPlayerCallback,Player.is_valid_alive_t);
     }
 
-    public void give_freeday_cmd(CCSPlayerController? invoke, CommandInfo command)
+    public void GiveFreedayCmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        give_t(invoke,"Freeday",give_freeday_callback,Player.is_valid_alive_t);
+        GiveT(invoke,"Freeday",GiveFreedayCallback,Player.is_valid_alive_t);
     }
 
-    public void give_pardon_cmd(CCSPlayerController? invoke, CommandInfo command)
+    public void GivePardonCmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        give_t(invoke,"Pardon",give_pardon_callback,is_alive_rebel);
+        GiveT(invoke,"Pardon",GivePardonCallback,IsAliveRebel);
     }
     
-    public void wub_cmd(CCSPlayerController? player, CommandInfo command)
+    public void WubCmd(CCSPlayerController? player, CommandInfo command)
     {
         if(!player.is_valid())
         {
@@ -231,10 +231,10 @@ public partial class Warden
             return;
         }
 
-        block.unblock_all();
+        block.UnBlockAll();
     }
 
-    public void wb_cmd(CCSPlayerController? player, CommandInfo command)
+    public void WbCmd(CCSPlayerController? player, CommandInfo command)
     {
         if(!player.is_valid())
         {
@@ -248,12 +248,12 @@ public partial class Warden
             return;
         }
 
-        block.block_all();
+        block.BlockAll();
     }
 
     // debug command
     [RequiresPermissions("@jail/debug")]
-    public void is_rebel_cmd(CCSPlayerController? invoke, CommandInfo command)
+    public void IsRebelCmd(CCSPlayerController? invoke, CommandInfo command)
     {
         if(!invoke.is_valid())
         {
@@ -269,11 +269,11 @@ public partial class Warden
                 continue;
             }
 
-            invoke.PrintToConsole($"{jailPlayers[player.Slot].is_rebel} : {player.PlayerName}\n");
+            invoke.PrintToConsole($"{jailPlayers[player.Slot].IsRebel} : {player.PlayerName}\n");
         }
     }
 
-    public void warden_time_cmd(CCSPlayerController? invoke, CommandInfo command)
+    public void WardenTimeCmd(CCSPlayerController? invoke, CommandInfo command)
     {
         if(!invoke.is_valid())
         {
@@ -286,12 +286,12 @@ public partial class Warden
             return;
         }
 
-        long elasped_min = (Lib.CurTimestamp() - wardenTimestamp) / 60;
+        long elaspedMin = (Lib.CurTimestamp() - wardenTimestamp) / 60;
 
-        invoke.localise_prefix(WARDEN_PREFIX,"warden.time",elasped_min);
+        invoke.localise_prefix(WARDEN_PREFIX,"warden.time",elaspedMin);
     }
 
-    public void cmd_info(CCSPlayerController? player, CommandInfo command)
+    public void CmdInfo(CCSPlayerController? player, CommandInfo command)
     {
         if(!player.is_valid())
         {
@@ -313,7 +313,7 @@ public partial class Warden
         player.localize("warden.colour_command_desc");
     }
 
-    public void take_warden_cmd(CCSPlayerController? player, CommandInfo command)
+    public void TakeWardenCmd(CCSPlayerController? player, CommandInfo command)
     {
         // invalid player we dont care
         if(!player.is_valid())
@@ -350,7 +350,7 @@ public partial class Warden
 
 
     [RequiresPermissions("@css/generic")]
-    public void fire_guard_cmd(CCSPlayerController? invoke, CommandInfo command)
+    public void FireGuardCmd(CCSPlayerController? invoke, CommandInfo command)
     {
         Chat.localize_announce(WARDEN_PREFIX,"warden.fire_guard");
 
@@ -365,7 +365,7 @@ public partial class Warden
         }
     }
 
-    public void ct_guns(CCSPlayerController player, ChatMenuOption option)
+    public void CtGuns(CCSPlayerController player, ChatMenuOption option)
     {
         if(!player.is_valid_alive() || !player.IsCt()) 
         {
@@ -392,7 +392,7 @@ public partial class Warden
         }
     }
 
-    public void cmd_ct_guns(CCSPlayerController? player, CommandInfo command)
+    public void CmdCtGuns(CCSPlayerController? player, CommandInfo command)
     {
         if(!player.is_valid())
         {
@@ -411,7 +411,7 @@ public partial class Warden
             return;
         }
 
-        player.gun_menu_internal(true,ct_guns);     
+        player.GunMenuInternal(true,CtGuns);     
     }
 
 }

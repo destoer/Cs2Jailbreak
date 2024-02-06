@@ -79,7 +79,7 @@ public static class Player
         return player.is_valid_alive() && player.IsCt();
     }
 
-    static public int slot_from_name(String name)
+    static public int SlotFromName(String name)
     {
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {

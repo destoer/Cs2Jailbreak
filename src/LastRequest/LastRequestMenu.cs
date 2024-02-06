@@ -35,7 +35,7 @@ public partial class LastRequest
             return false;
         } 
 
-        if(JailPlugin.warden.is_alive_rebel(player) && Config.rebelCantLr)
+        if(JailPlugin.warden.IsAliveRebel(player) && Config.rebelCantLr)
         {
             player.localise_prefix(LR_PREFIX,"lr.rebel_cant_lr");
             return false;
@@ -63,7 +63,7 @@ public partial class LastRequest
         
         String name = option.Text;
 
-        choice.ct_slot = Player.slot_from_name(name);
+        choice.ct_slot = Player.SlotFromName(name);
 
         // finally setup the lr
         init_lr(choice);
@@ -180,12 +180,12 @@ public partial class LastRequest
         // Debugging pick t's
         if(choice.bypass && player.IsCt())
         {
-            Lib.invoke_player_menu(player,menu_name,finialise_choice,Player.is_valid_alive_t);
+            Lib.InvokePlayerMenu(player,menu_name,finialise_choice,Player.is_valid_alive_t);
         }
 
         else
         {
-            Lib.invoke_player_menu(player,menu_name,finialise_choice,Player.is_valid_alive_ct);
+            Lib.InvokePlayerMenu(player,menu_name,finialise_choice,Player.is_valid_alive_ct);
         }   
     }
 

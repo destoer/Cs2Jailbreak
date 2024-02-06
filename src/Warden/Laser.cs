@@ -111,7 +111,7 @@ public partial class Warden
         }
     }
 
-    void set_laser(CCSPlayerController player, ChatMenuOption option)
+    void SetLaser(CCSPlayerController player, ChatMenuOption option)
     {
         if(!player.is_valid())
         {
@@ -123,11 +123,11 @@ public partial class Warden
 
         if(jailPlayer != null)
         {
-            jailPlayer.set_laser(player,text);
+            jailPlayer.SetLaser(player,text);
         }
     }
 
-    void set_marker(CCSPlayerController player, ChatMenuOption option)
+    void SetMarker(CCSPlayerController player, ChatMenuOption option)
     {
         if(!player.is_valid())
         {
@@ -139,28 +139,28 @@ public partial class Warden
 
         if(jailPlayer != null)
         {
-            jailPlayer.set_marker(player,text);
+            jailPlayer.SetMarker(player,text);
         }
     }
 
-    public void laser_colour_cmd(CCSPlayerController? player, CommandInfo command)
+    public void LaserColourCmd(CCSPlayerController? player, CommandInfo command)
     {
         if(!player.is_valid())
         {
             return;
         }
 
-        Lib.colour_menu(player,set_laser,"Laser colour");
+        Lib.colour_menu(player,SetLaser,"Laser colour");
     }
 
-    public void marker_colour_cmd(CCSPlayerController? player, CommandInfo command)
+    public void MarkerColourCmd(CCSPlayerController? player, CommandInfo command)
     {
         if(!player.is_valid())
         {
             return;
         }
 
-        Lib.colour_menu(player,set_marker,"Marker colour");
+        Lib.colour_menu(player,SetMarker,"Marker colour");
     }
 
     public static readonly float LASER_TIME = 0.1f;

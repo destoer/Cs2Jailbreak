@@ -111,7 +111,7 @@ public class JailPlayer
         }
     }
 
-    async Task LoadPlayer_db(String steam_id)
+    async Task LoadPlayerDB(String steam_id)
     {
         using (var connection = new SqliteConnection("Data Source=destoer_config.sqlite"))
         {
@@ -174,7 +174,7 @@ public class JailPlayer
         // make sure this doesn't block the main thread
         Task.Run(async () =>
         {
-            await LoadPlayer_db(steam_id);
+            await LoadPlayerDB(steam_id);
         });
     }
 
@@ -194,7 +194,7 @@ public class JailPlayer
         });
     }
 
-    public void set_laser(CCSPlayerController? player, String value)
+    public void SetLaser(CCSPlayerController? player, String value)
     {
         if (!player.is_valid())
         {
@@ -208,7 +208,7 @@ public class JailPlayer
         update_player(player, "laser_colour", value);
     }
 
-    public void set_marker(CCSPlayerController? player, String value)
+    public void SetMarker(CCSPlayerController? player, String value)
     {
         if (!player.is_valid())
         {
@@ -224,10 +224,10 @@ public class JailPlayer
 
     public void PurgeRound()
     {
-        is_rebel = false;
+        IsRebel = false;
     }
 
-    public void reset()
+    public void Reset()
     {
         PurgeRound();
 
@@ -237,10 +237,10 @@ public class JailPlayer
         ctGun = "M4";
     }
 
-    public void set_rebel(CCSPlayerController? player)
+    public void SetRebel(CCSPlayerController? player)
     {
         // allready a rebel don't care
-        if (is_rebel)
+        if (IsRebel)
         {
             return;
         }
@@ -270,11 +270,11 @@ public class JailPlayer
                 Chat.announce(REBEL_PREFIX, $"{player.PlayerName} is a rebel");
                 player.SetColour(Lib.RED);
             }
-            is_rebel = true;
+            IsRebel = true;
         }
     }
 
-    public void give_pardon(CCSPlayerController? player)
+    public void GivePardon(CCSPlayerController? player)
     {
         if(player.is_valid_alive() && player.IsT())
         {
@@ -282,11 +282,11 @@ public class JailPlayer
             player.SetColour(Color.FromArgb(255, 255, 255, 255));
 
             // they are no longer a rebel
-            is_rebel = false;
+            IsRebel = false;
         }      
     }
 
-    public void give_freeday(CCSPlayerController? player)
+    public void GiveFreeday(CCSPlayerController? player)
     {
         if(player.is_valid_alive() && player.IsT())
         {
@@ -294,7 +294,7 @@ public class JailPlayer
             player.SetColour(Lib.GREEN);
 
             // they are no longer a rebel
-            is_rebel = false;
+            IsRebel = false;
         }
     }  
 
@@ -313,13 +313,13 @@ public class JailPlayer
         }
 
         // print death if player is rebel and killer on CT
-        if (is_rebel && killer.IsCt())
+        if (IsRebel && killer.IsCt())
         {
             Chat.localize_announce(REBEL_PREFIX, "rebel.kill", killer.PlayerName, player.PlayerName);
         }
     }
 
-    public void rebel_WeaponFire(CCSPlayerController? player, String weapon)
+    public void RebelWeaponFire(CCSPlayerController? player, String weapon)
     {
         if (Config.rebelRequireHit)
         {
@@ -329,7 +329,7 @@ public class JailPlayer
         // ignore weapons players are meant to have
         if (!weapon.Contains("knife") && !weapon.Contains("c4"))
         {
-            set_rebel(player);
+            SetRebel(player);
         }
     }
 
@@ -360,7 +360,7 @@ public class JailPlayer
         // ct hit by T they are a rebel
         if (player.IsCt() && attacker.IsT())
         {
-            set_rebel(attacker);
+            SetRebel(attacker);
         }
 
         // log any ct damage
@@ -381,5 +381,5 @@ public class JailPlayer
 
     public String ctGun = "M4";
 
-    public bool is_rebel = false;
+    public bool IsRebel = false;
 };
