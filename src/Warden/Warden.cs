@@ -24,183 +24,180 @@ public partial class Warden
 {
     public Warden()
     {
-        for(int p = 0; p < jail_players.Length; p++)
+        for(int p = 0; p < jailPlayers.Length; p++)
         {
-            jail_players[p] = new JailPlayer();
+            jailPlayers[p] = new JailPlayer();
         }
     }
 
     // Give a player warden
-    public void set_warden(int? new_slot_opt)
+    public void SetWarden(int slot)
     {
-        if(new_slot_opt == null)
-        {
-            return;
-        }
+        wardenSlot = slot;
 
-        warden_slot = new_slot_opt.Value;
-
-        var player = Utilities.GetPlayerFromSlot(warden_slot);
+        var player = Utilities.GetPlayerFromSlot(wardenSlot);
 
         // one last saftey check
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
-            warden_slot = INAVLID_SLOT;
+            wardenSlot = INAVLID_SLOT;
             return;
         }
 
-        Chat.localize_announce(WARDEN_PREFIX,"warden.took_warden",player.PlayerName);
+        Chat.LocalizeAnnounce(WARDEN_PREFIX,"warden.took_warden",player.PlayerName);
 
-        player.localize_announce(WARDEN_PREFIX,"warden.wcommand");
+        player.LocalizeAnnounce(WARDEN_PREFIX,"warden.wcommand");
 
-        warden_timestamp = Lib.cur_timestamp();
+        wardenTimestamp = Lib.CurTimestamp();
 
         // change player color!
-        player.set_colour(Color.FromArgb(255, 0, 0, 255));
+        player.SetColour(Color.FromArgb(255, 0, 0, 255));
 
         JailPlugin.logs.AddLocalized("warden.took_warden", player.PlayerName);
     }
 
-    public bool is_warden(CCSPlayerController? player)
+    public bool IsWarden(CCSPlayerController? player)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return false;
         }
 
-        return player.Slot == warden_slot;
+        return player.Slot == wardenSlot;
     }
 
-    public void remove_warden_internal()
+    void RemoveWardenInternal()
     {
-        warden_slot = INAVLID_SLOT;
-        warden_timestamp = -1;
+        wardenSlot = INAVLID_SLOT;
+        wardenTimestamp = -1;
     }
 
-    public void remove_warden()
+    public void RemoveWarden()
     {
-        var player = Utilities.GetPlayerFromSlot(warden_slot);
+        var player = Utilities.GetPlayerFromSlot(wardenSlot);
 
-        if(player.is_valid())
+        if(player.IsLegal())
         {
-            player.set_colour(Player.DEFAULT_COLOUR);
-            Chat.localize_announce(WARDEN_PREFIX,"warden.removed",player.PlayerName);
+            player.SetColour(Player.DEFAULT_COLOUR);
+            Chat.LocalizeAnnounce(WARDEN_PREFIX,"warden.removed",player.PlayerName);
             JailPlugin.logs.AddLocalized("warden.removed", player.PlayerName);
         }
 
-        remove_warden_internal();
+        RemoveWardenInternal();
     }
 
-    public void remove_if_warden(CCSPlayerController? player)
+    public void RemoveIfWarden(CCSPlayerController? player)
     {
-        if(is_warden(player))
+        if(IsWarden(player))
         {
-            remove_warden();
+            RemoveWarden();
         }
     }
 
 
     // reset variables for a new round
-    void purge_round()
+    void PurgeRound()
     {
-        remove_laser();
+        RemoveLaser();
 
-        if(config.warden_force_removal)
+        if(Config.wardenForceRemoval)
         {
-            remove_warden_internal();
+            RemoveWardenInternal();
         }
 
         // reset player structs
-        foreach(JailPlayer jail_player in jail_players)
+        foreach(JailPlayer jailPlayer in jailPlayers)
         {
-            jail_player.purge_round();
+            jailPlayer.PurgeRound();
         }
     }
 
-    void set_warden_if_last(bool on_death = false)
+    void SetWardenIfLast(bool onDeath = false)
     {
         // dont override the warden if there is no death removal
-        if(!config.warden_force_removal)
+        if(!Config.wardenForceRemoval)
         {
             return;
         }
 
         // if there is only one ct automatically give them warden!
-        var ct_players = Lib.get_alive_ct();
+        var ctPlayers = Lib.GetAliveCt();
 
-        if(ct_players.Count == 1)
+        if(ctPlayers.Count == 1)
         {
-            if(on_death)
+            if(onDeath)
             {
                 // play sfx for last ct
                 // TODO: this is too loud as there is no way to control volume..
-                //Lib.play_sound_all("sounds/vo/agents/sas/lastmanstanding03");
+                //Lib.PlaySound_all("sounds/vo/agents/sas/lastmanstanding03");
             }
         
-            int slot = ct_players[0].Slot;
-            set_warden(slot);
+            int slot = ctPlayers[0].Slot;
+            SetWarden(slot);
         }
     }
 
-    public void setup_player_guns(CCSPlayerController? player)
+    public void SetupPlayerGuns(CCSPlayerController? player)
     {
-        if(!player.is_valid_alive())
+        if(!player.IsLegalAlive())
         {
             return;
         }
 
         // strip weapons just in case
-        if(config.strip_spawn_weapons)
+        if(Config.stripSpawnWeapons)
         {
-            player.strip_weapons();
+            player.StripWeapons();
         }
 
-        if(player.is_ct())
+        if(player.IsCt())
         {
-            if(config.ct_guns)
+            if(Config.ctGuns)
             {
-                var jail_player = jail_player_from_player(player);
+                var jailPlayer = JailPlayerFromPlayer(player);
 
-                player.give_weapon("deagle");
+                player.GiveWeapon("deagle");
 
-                if(jail_player != null)
+                if(jailPlayer != null)
                 {
-                    player.give_menu_weapon(jail_player.ct_gun);
+                    player.GiveMenuWeapon(jailPlayer.ctGun);
                 }
             }
 
-            if(config.ct_armour)
+            if(Config.ctArmour)
             {  
-                player.give_armour();
+                player.GiveArmour();
             }
         } 
     }
 
     // util func to get a jail player
-    public JailPlayer? jail_player_from_player(CCSPlayerController? player)
+    public JailPlayer? JailPlayerFromPlayer(CCSPlayerController? player)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return null;
         }
 
-        return jail_players[player.Slot];
+        return jailPlayers[player.Slot];
     }
     
     const int INAVLID_SLOT = -3;   
 
-    int warden_slot = INAVLID_SLOT;
+    int wardenSlot = INAVLID_SLOT;
     
     public static readonly String WARDEN_PREFIX = $" {ChatColors.Green}[WARDEN]: {ChatColors.White}";
 
-    long warden_timestamp = -1;
+    long wardenTimestamp = -1;
 
-    public JailConfig config = new JailConfig();
+    public JailConfig Config = new JailConfig();
 
-    public JailPlayer[] jail_players = new JailPlayer[64];
+    public JailPlayer[] jailPlayers = new JailPlayer[64];
 
-    // slot for player for waden colour
-    int colour_slot = -1;
+    // slot for player for warden colour
+    int colourSlot = -1;
+
+    bool ctHandicap = false;
 
     public Warday warday = new Warday();
     public Block block = new Block();

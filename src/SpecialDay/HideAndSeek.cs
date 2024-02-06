@@ -16,58 +16,58 @@ using System.Drawing;
 
 public class SDHideAndSeek : SDBase
 {
-    public override void setup()
+    public override void Setup()
     {
-        localize_announce("sd.hide_start");
-        localize_announce("sd.t_hide",delay);
+        LocalizeAnnounce("sd.hide_start");
+        LocalizeAnnounce("sd.t_hide",delay);
     }
 
-    public override void start()
+    public override void Start()
     {
         // unfreeze all players
         foreach(CCSPlayerController? player in Utilities.GetPlayers())
         {
-            if(!player.is_valid_alive())
+            if(!player.IsLegalAlive())
             {
                 continue;
             }
 
-            if(player.is_t())
+            if(player.IsT())
             {
-                player.give_weapon("knife");
+                player.GiveWeapon("knife");
             }
 
-            player.unfreeze();
+            player.UnFreeze();
         }
 
-        localize_announce("sd.seeker_release");
+        LocalizeAnnounce("sd.seeker_release");
     }
 
-    public override void end()
+    public override void End()
     {
-        localize_announce("sd.hide_end");
+        LocalizeAnnounce("sd.hide_end");
     }
 
-    public override void setup_player(CCSPlayerController player)
+    public override void SetupPlayer(CCSPlayerController player)
     {
         // lock them in place 500 hp, gun menu
-        if(player.is_ct())
+        if(player.IsCt())
         {
-            player.freeze();
-            player.event_gun_menu();
-            player.set_health(500);
+            player.Freeze();
+            player.EventGunMenu();
+            player.SetHealth(500);
         }
 
         // invis
         else
         {
-            player.set_colour(Color.FromArgb(0,0,0,0));
-            player.strip_weapons(true);
+            player.SetColour(Color.FromArgb(0,0,0,0));
+            player.StripWeapons(true);
         }
     }
 
-    public override void cleanup_player(CCSPlayerController player)
+    public override void CleanupPlayer(CCSPlayerController player)
     {
-        player.unfreeze();
+        player.UnFreeze();
     }
 }

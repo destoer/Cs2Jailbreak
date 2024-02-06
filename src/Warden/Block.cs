@@ -16,37 +16,37 @@ using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 public class Block
 {
     [RequiresPermissions("@jail/debug")]
-    public void is_blocked(CCSPlayerController? invoke, CommandInfo command)
+    public void IsBlocked(CCSPlayerController? invoke, CommandInfo command)
     {
-        invoke.announce(Debug.DEBUG_PREFIX,$"Block state {block_state} : {Lib.block_enabled()}");
+        invoke.Announce(Debug.DEBUG_PREFIX,$"Block state {blockState} : {Lib.BlockEnabled()}");
     }
 
-    public void block_all()
+    public void BlockAll()
     {
-        if(!Lib.block_enabled())
+        if(!Lib.BlockEnabled())
         {
-            Chat.localize_announce(Warden.WARDEN_PREFIX,"block.enable");
-            Lib.block_all();
-            block_state = true;
+            Chat.LocalizeAnnounce(Warden.WARDEN_PREFIX,"block.enable");
+            Lib.BlockAll();
+            blockState = true;
         }
     }
 
-    public void unblock_all()
+    public void UnBlockAll()
     {
-        if(Lib.block_enabled())
+        if(Lib.BlockEnabled())
         {
-            Chat.localize_announce(Warden.WARDEN_PREFIX,"block.disable");
-            Lib.unblock_all();
-            block_state = false;
+            Chat.LocalizeAnnounce(Warden.WARDEN_PREFIX,"block.disable");
+            Lib.UnBlockAll();
+            blockState = false;
         }
     }
 
-    public void round_start()
+    public void RoundStart()
     {
         // TODO: for now we just assume no block
         // we wont have a cvar
-        unblock_all();
+        UnBlockAll();
     }
  
-    bool block_state = false;
+    bool blockState = false;
 }

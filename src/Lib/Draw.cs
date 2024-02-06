@@ -10,38 +10,38 @@ using System.Drawing;
 
 class Line
 {
-    public void move(Vector start, Vector end)
+    public void Move(Vector start, Vector end)
     {
-        if(laser_index == -1)
+        if(laserIndex == -1)
         {
-            laser_index = Entity.draw_laser(start,end,2.0f,colour);
+            laserIndex = Entity.DrawLaser(start,end,2.0f,colour);
         }
 
         else
         {
-            Entity.move_laser_by_index(laser_index,start,end);
+            Entity.MoveLaserByIndex(laserIndex,start,end);
         }
     }
 
-    public void destroy()
+    public void Destroy()
     {
-        if(laser_index != -1)
+        if(laserIndex != -1)
         {
-            Entity.remove(laser_index,"env_beam");
-            laser_index = -1;
+            Entity.Remove(laserIndex,"env_beam");
+            laserIndex = -1;
         }
     }
 
-    public void destroy_delay(float life)
+    public void DestroyDelay(float life)
     {
-        if(laser_index != -1)
+        if(laserIndex != -1)
         {
-            CBaseEntity? laser = Utilities.GetEntityFromIndex<CBaseEntity>(laser_index);
-            laser.remove_delay(life,"env_beam");
+            CBaseEntity? laser = Utilities.GetEntityFromIndex<CBaseEntity>(laserIndex);
+            laser.RemoveDelay(life,"env_beam");
         }
     }
 
-    int laser_index = -1;
+    int laserIndex = -1;
     public Color colour = Lib.CYAN;
 }
 
@@ -56,14 +56,14 @@ class Circle
         }
     }
 
-    static Vector angle_on_circle(float angle,float r, Vector mid)
+    static Vector AngleOnCircle(float angle,float r, Vector mid)
     {
         // {r * cos(x),r * sin(x)} + mid
         // NOTE: we offset Z so it doesn't clip into the ground
         return new Vector((float)(mid.X + (r * Math.Cos(angle))),(float)(mid.Y + (r * Math.Sin(angle))), mid.Z + 6.0f);
     }
 
-    public void draw(float life, float radius,float X, float Y, float Z)
+    public void Draw(float life, float radius,float X, float Y, float Z)
     {
         Vector mid =  new Vector(X,Y,Z);
 
@@ -71,32 +71,32 @@ class Circle
         // and joining points with a dot to dot
         float step = (float)(2.0f * Math.PI) / (float)lines.Count();
 
-        float angle_old = 0.0f;
-        float angle_cur = step;
+        float angleOld = 0.0f;
+        float angleCur = step;
 
         for(int l = 0; l < lines.Count(); l++)
         {
-            Vector start = angle_on_circle(angle_old,radius,mid);
-            Vector end = angle_on_circle(angle_cur,radius,mid);
+            Vector start = AngleOnCircle(angleOld,radius,mid);
+            Vector end = AngleOnCircle(angleCur,radius,mid);
 
-            lines[l].move(start,end);
-            lines[l].destroy_delay(life);
+            lines[l].Move(start,end);
+            lines[l].DestroyDelay(life);
 
-            angle_old = angle_cur;
-            angle_cur += step;
+            angleOld = angleCur;
+            angleCur += step;
         }
     }
 
-    public void draw(float life, float radius,Vector vec)
+    public void Draw(float life, float radius,Vector vec)
     {
-        draw(life,radius,vec.X,vec.Y,vec.Z);
+        Draw(life,radius,vec.X,vec.Y,vec.Z);
     }
 
-    public void destroy()
+    public void Destroy()
     {
         for(int l = 0; l < lines.Count(); l++)
         {
-            lines[l].destroy();
+            lines[l].Destroy();
         }      
     }
 

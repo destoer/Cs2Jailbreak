@@ -22,13 +22,13 @@ using System.Drawing;
 
 public partial class Warden
 {
-    void setup_cvar()
+    void SetupCvar()
     {
         Server.ExecuteCommand("mp_force_pick_time 3000");
         Server.ExecuteCommand("mp_autoteambalance 0");
         Server.ExecuteCommand("sv_human_autojoin_team 2");
 
-        if(config.strip_spawn_weapons)
+        if(Config.stripSpawnWeapons)
         {
             Server.ExecuteCommand("mp_equipment_reset_rounds 1");
             Server.ExecuteCommand("mp_t_default_secondary \"\" ");
@@ -36,140 +36,170 @@ public partial class Warden
         }
     }
 
-    public void round_start()
+    public void RoundStart()
     {
-        setup_cvar();
+        SetupCvar();
 
-        purge_round();
+        PurgeRound();
 
         // handle submodules
-        mute.round_start();
-        block.round_start();
-        warday.round_start();
+        mute.RoundStart();
+        block.RoundStart();
+        warday.RoundStart();
 
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            player.set_colour(Color.FromArgb(255, 255, 255, 255));
+            player.SetColour(Color.FromArgb(255, 255, 255, 255));
         }
 
-        set_warden_if_last();
+        SetWardenIfLast();
+    /*
+        ctHandicap = ((Lib.CtCount() * 3) <= Lib.TCount()) && Config.ctHandicap;
+
+        if(ctHandicap)
+        {
+            Chat.Announce(WARDEN_PREFIX,"CT ratio is too low, handicap enabled for this round");
+        }
+    */
     }
 
-    public void round_end()
+    public void TakeDamage(CCSPlayerController? victim,CCSPlayerController? attacker, ref float damage)
     {
-        mute.round_end();
-        warday.round_end();
-        purge_round();
+        // TODO: cant figure out how to get current player weapon
+    /*
+        if(!victim.IsLegalAlive() && !attacker.IsLegalAlive())
+        {
+            String weapon = 
+
+            // if ct handicap is active rescale knife and awp damage to be unaffected
+            if(ctHandicap && victim.IsCt() && attacker.IsT() && !InLR(attacker) && (weapon.Contains("knife") || weapon.Contains("awp")))
+            {
+                damage = damage * 1.3;
+            }
+        }
+    */
+    }
+
+    public void RoundEnd()
+    {
+        mute.RoundEnd();
+        warday.RoundEnd();
+        PurgeRound();
     }
 
 
-    public void connect(CCSPlayerController? player)
+    public void Connect(CCSPlayerController? player)
     {
         if(player != null)
         {
-            jail_players[player.Slot].reset();
+            jailPlayers[player.Slot].Reset();
         }
 
-        mute.connect(player);
+        mute.Connect(player);
     }
 
-    public void disconnect(CCSPlayerController? player)
+    public void Disconnect(CCSPlayerController? player)
     {
-        remove_if_warden(player);
+        RemoveIfWarden(player);
     }
 
 
-    public void map_start()
+    public void MapStart()
     {
-        setup_cvar();
-        warday.map_start();
+        SetupCvar();
+        warday.MapStart();
     }
 
-    public void voice(CCSPlayerController? player)
+    public void Voice(CCSPlayerController? player)
     {
-        if(!player.is_valid_alive())
+        if(!player.IsLegalAlive())
         {
             return;
         }
 
-        if(!config.warden_on_voice)
+        if(!Config.wardenOnVoice)
         {
             return;
         }
 
-        if(warden_slot == INAVLID_SLOT && player.is_ct())
+        if(wardenSlot == INAVLID_SLOT && player.IsCt())
         {
-            set_warden(player.Slot);
+            SetWarden(player.Slot);
         }
     }
 
-    public void spawn(CCSPlayerController? player)
+    public void Spawn(CCSPlayerController? player)
     {
-        if(!player.is_valid_alive())
+        if(!player.IsLegalAlive())
         {
             return;
         }
 
-        setup_player_guns(player);
+        if(player.IsCt() && ctHandicap)
+        {
+            player.SetHealth(130);
+        }
 
-        mute.spawn(player);
+        SetupPlayerGuns(player);
+
+        mute.Spawn(player);
     }   
 
-    public void switch_team(CCSPlayerController? player,int new_team)
+    public void SwitchTeam(CCSPlayerController? player,int new_team)
     {
-        remove_if_warden(player);
-        mute.switch_team(player,new_team);
+        RemoveIfWarden(player);
+        mute.SwitchTeam(player,new_team);
     }
 
-    public void death(CCSPlayerController? player, CCSPlayerController? killer)
+    public void Death(CCSPlayerController? player, CCSPlayerController? killer)
     {
         // player is no longer on server
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
 
-        if(config.warden_force_removal)
+        if(Config.wardenForceRemoval)
         {
             // handle warden death
-            remove_if_warden(player);
+            RemoveIfWarden(player);
         }
 
         // mute player
-        mute.death(player);
+        mute.Death(player);
 
-        var jail_player = jail_player_from_player(player);
+        var jailPlayer = JailPlayerFromPlayer(player);
 
-        if(jail_player != null)
+        if(jailPlayer != null)
         {
-            jail_player.rebel_death(player,killer);
+            jailPlayer.RebelDeath(player,killer);
         }
 
         // if a t dies we dont need to regive the warden
-        if(player.is_ct())
+        if(player.IsCt())
         {
-            set_warden_if_last(true);
+            SetWardenIfLast(true);
         }
     }
 
-    public void player_hurt(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health)
+    public void PlayerHurt(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health)
     {
-        var jail_player = jail_player_from_player(player);
+        var jailPlayer = JailPlayerFromPlayer(player);
 
-        if(jail_player != null)
+        if(jailPlayer != null)
         {  
-            jail_player.player_hurt(player,attacker,damage, health);
+            jailPlayer.PlayerHurt(player,attacker,damage, health);
         }  
     }
 
-    public void weapon_fire(CCSPlayerController? player, String name)
+    public void WeaponFire(CCSPlayerController? player, String name)
     {
         // attempt to set rebel
-        var jail_player = jail_player_from_player(player);
+        var jailPlayer = JailPlayerFromPlayer(player);
 
-        if(jail_player != null)
+        if(jailPlayer != null)
         {
-            jail_player.rebel_weapon_fire(player,name);
+            jailPlayer.RebelWeaponFire(player,name);
         }
     }
 

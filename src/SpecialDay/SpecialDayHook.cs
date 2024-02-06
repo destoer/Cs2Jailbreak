@@ -23,90 +23,90 @@ using System.Drawing;
 public partial class SpecialDay
 {
 
-    public void round_end()
+    public void RoundEnd()
     {
-        end_sd();
+        EndSD();
     }
 
-    public void round_start()
+    public void RoundStart()
     {
         // increment our round counter
-        wsd_round += 1;
-        end_sd();
+        wsdRound += 1;
+        EndSD();
     }
 
-    public void weapon_equip(CCSPlayerController? player,String name) 
+    public void WeaponEquip(CCSPlayerController? player,String name) 
     {
-        if(!player.is_valid_alive())
+        if(!player.IsLegalAlive())
         {
             return;
         }
 
-        if(active_sd != null)
+        if(activeSD != null)
         {
             // weapon equip not valid drop the weapons
-            if(!active_sd.weapon_equip(player,name))
+            if(!activeSD.WeaponEquip(player,name))
             {
-                active_sd.setup_player(player);
+                activeSD.SetupPlayer(player);
             }
         }
     }
 
-    public void disconnect(CCSPlayerController? player)
+    public void Disconnect(CCSPlayerController? player)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
 
-        if(active_sd != null)
+        if(activeSD != null)
         {
-            active_sd.disconnect(player);
+            activeSD.Disconnect(player);
         }
     }
 
 
-    public void grenade_thrown(CCSPlayerController? player)
+    public void GrenadeThrown(CCSPlayerController? player)
     {
-        if(active_sd != null)
+        if(activeSD != null)
         {
-            active_sd.grenade_thrown(player);
+            activeSD.GrenadeThrown(player);
         }       
     }
 
-    public void ent_created(CEntityInstance entity)
+    public void EntCreated(CEntityInstance entity)
     {
-        if(active_sd != null)
+        if(activeSD != null)
         {
-            active_sd.ent_created(entity);
+            activeSD.EntCreated(entity);
         }
     }
         
 
-    public void death(CCSPlayerController? player, CCSPlayerController? attacker)
+    public void Death(CCSPlayerController? player, CCSPlayerController? attacker)
     {
-        if(active_sd != null)
+        if(activeSD != null)
         {
-            active_sd.death(player,attacker);
+            activeSD.Death(player,attacker);
         }
     }
 
-    public void player_hurt(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health, int hitgroup)
+    public void PlayerHurt(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health, int hitgroup)
     {
-        if(active_sd != null && player.is_valid())
+        if(activeSD != null && player.IsLegal())
         {
-            active_sd.player_hurt(player,damage,health,hitgroup);
+            activeSD.PlayerHurt(player,damage,health,hitgroup);
         }
     }
 
-    public void take_damage(CCSPlayerController? player, CCSPlayerController? attacker, ref float damage)
+    public void TakeDamage(CCSPlayerController? player, CCSPlayerController? attacker, ref float damage)
     {
-        if(active_sd == null || !player.is_valid())
+        if(activeSD == null || !player.IsLegal())
         {
             return;
         }
 
-        if(active_sd.restrict_damage)
+        if(activeSD.restrictDamage)
         {
             damage = 0.0f;
         }

@@ -18,28 +18,28 @@ using CounterStrikeSharp.API.Modules.Admin;
 public static class Debug
 {
     [RequiresPermissions("@jail/debug")]
-    public static void nuke(CCSPlayerController? invoke, CommandInfo command)
+    public static void Nuke(CCSPlayerController? invoke, CommandInfo command)
     {
-        Chat.announce(DEBUG_PREFIX,"Slaying all players");
+        Chat.Announce(DEBUG_PREFIX,"Slaying all players");
 
-        Chat.print_console_all("Nuke!");
+        Chat.PrintConsoleAll("Nuke!");
 
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            player.slay();
+            player.Slay();
         }       
     }
 
     [RequiresPermissions("@jail/debug")]
-    public static void test_laser(CCSPlayerController? invoke, CommandInfo command)
+    public static void TestLaser(CCSPlayerController? invoke, CommandInfo command)
     {
-        CCSPlayerPawn? pawn = invoke.pawn();
+        CCSPlayerPawn? pawn = invoke.Pawn();
 
         if(pawn != null && pawn.AbsOrigin != null)
         {
             Circle marker = new Circle();
 
-            marker.draw(30.0f,72.0f,pawn.AbsOrigin);
+            marker.Draw(30.0f,72.0f,pawn.AbsOrigin);
         }
     }
     
@@ -47,9 +47,9 @@ public static class Debug
     // noblock 0b100000000001011000011000000010001;
 
     [RequiresPermissions("@jail/debug")]
-    public static void test_noblock_cmd(CCSPlayerController? invoke, CommandInfo command)
+    public static void TestNoblockCmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        if(!invoke.is_valid())
+        if(!invoke.IsLegal())
         {
             return;
         }
@@ -58,7 +58,7 @@ public static class Debug
 
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            var pawn = player.pawn();
+            var pawn = player.Pawn();
 
             if(pawn == null)
             {
@@ -76,45 +76,45 @@ public static class Debug
     }
 
     [RequiresPermissions("@jail/debug")]
-    public static void test_strip_cmd(CCSPlayerController? invoke, CommandInfo command)
+    public static void TestStripCmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        invoke.strip_weapons(true);
+        invoke.StripWeapons(true);
     }
 
     [RequiresPermissions("@jail/debug")]
-    public static void join_ct_cmd(CCSPlayerController? invoke, CommandInfo command)
+    public static void JoinCtCmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        if(invoke != null && invoke.is_valid())
+        if(invoke != null && invoke.IsLegal())
         {
             invoke.SwitchTeam(CsTeam.CounterTerrorist);
         }
     }
 
     [RequiresPermissions("@jail/debug")]
-    public static void hide_weapon_cmd(CCSPlayerController? invoke, CommandInfo command)
+    public static void HideWeaponCmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        if(invoke != null && invoke.is_valid())
+        if(invoke != null && invoke.IsLegal())
         {
             invoke.PrintToChat("hiding weapons");
         }
 
-        invoke.hide_weapon();
+        invoke.HideWeapon();
     }
 
     [RequiresPermissions("@jail/debug")]
-    public static void wsd_enable_cmd(CCSPlayerController? invoke, CommandInfo command)
+    public static void WSDEnableCmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        if(invoke != null && invoke.is_valid())
+        if(invoke != null && invoke.IsLegal())
         {
             invoke.PrintToChat("enable wsd");
-            JailPlugin.sd.wsd_round = 0x7000_0000;
+            JailPlugin.sd.wsdRound = 0x7000_0000;
         }
     }
 
     [RequiresPermissions("@jail/debug")]
-    public static void is_muted_cmd(CCSPlayerController? invoke, CommandInfo command)
+    public static void IsMutedCmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        if(!invoke.is_valid())
+        if(!invoke.IsLegal())
         {
             return;
         }
@@ -128,9 +128,9 @@ public static class Debug
     }
 
     [RequiresPermissions("@jail/debug")]
-    public static void test_lr_inc(CCSPlayerController? invoke, CommandInfo command)
+    public static void TestLRInc(CCSPlayerController? invoke, CommandInfo command)
     {
-        JailPlugin.win_lr(invoke, LastRequest.LRType.KNIFE);
+        JailPlugin.WinLR(invoke, LastRequest.LRType.KNIFE);
     }
 
     // are these commands allowed or not?

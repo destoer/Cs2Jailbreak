@@ -16,10 +16,10 @@ using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 public partial class LastRequest
 {
-    public void player_hurt(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health, int hitgroup)
+    public void PlayerHurt(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health, int hitgroup)
     {
         // check no damage restrict
-        LRBase? lr = find_lr(player);
+        LRBase? lr = FindLR(player);
 
         // no lr
         if(lr == null)
@@ -28,61 +28,61 @@ public partial class LastRequest
         }
         
         // not a pair
-        if(!is_pair(player,attacker))
+        if(!IsPair(player,attacker))
         {
             return;
         }
 
-        lr.player_hurt(damage,health,hitgroup);
+        lr.PlayerHurt(damage,health,hitgroup);
     }
 
-    public void take_damage(CCSPlayerController? player, CCSPlayerController? attacker, ref float damage)
+    public void TakeDamage(CCSPlayerController? player, CCSPlayerController? attacker, ref float damage)
     {
         // neither player is in lr we dont care
-        if(!in_lr(player) && !in_lr(attacker))
+        if(!InLR(player) && !InLR(attacker))
         {
             return;
         }
 
         // not a pair restore hp
-        if(!is_pair(player,attacker))
+        if(!IsPair(player,attacker))
         {
             damage = 0.0f;
             return;
         }
 
         // check no damage restrict
-        LRBase? lr = find_lr(player);
+        LRBase? lr = FindLR(player);
 
         if(lr == null)
         {
             return;
         }
 
-        if(!lr.take_damage())
+        if(!lr.TakeDamage())
         {
             damage = 0.0f;
         }   
     }
 
-    public void weapon_equip(CCSPlayerController? player,String name) 
+    public void WeaponEquip(CCSPlayerController? player,String name) 
     {
-        if(!player.is_valid_alive())
+        if(!player.IsLegalAlive())
         {
             return;
         }
 
-        if(rebel_type == RebelType.KNIFE && !name.Contains("knife"))
+        if(rebelType == RebelType.KNIFE && !name.Contains("knife"))
         {
-            player.strip_weapons();
+            player.StripWeapons();
             return;
         }
 
-        LRBase? lr = find_lr(player);
+        LRBase? lr = FindLR(player);
 
         if(lr != null)
         {
-            CCSPlayerPawn? pawn = player.pawn();
+            CCSPlayerPawn? pawn = player.Pawn();
 
             if(pawn == null)
             {
@@ -109,7 +109,7 @@ public partial class LastRequest
                 var weapon_name = weapon.DesignerName;
 
                 // TODO: Ideally we should just deny the equip all together but this works well enough
-                if(!lr.weapon_equip(weapon_name))
+                if(!lr.WeaponEquip(weapon_name))
                 {
                     //Server.PrintToChatAll($"drop player gun: {player.PlayerName} : {weapon_name}");
                     player.DropActiveWeapon();
@@ -120,101 +120,101 @@ public partial class LastRequest
 
     // couldnt get pulling the owner from the projectile ent working
     // so instead we opt for this
-    public void weapon_zoom(CCSPlayerController? player)
+    public void WeaponZoom(CCSPlayerController? player)
     {
-        LRBase? lr = find_lr(player);
+        LRBase? lr = FindLR(player);
 
         if(lr != null)
         {
-            lr.weapon_zoom();
+            lr.WeaponZoom();
         }       
     }
 
     // couldnt get pulling the owner from the projectile ent working
     // so instead we opt for this
-    public void grenade_thrown(CCSPlayerController? player)
+    public void GrenadeThrown(CCSPlayerController? player)
     {
-        LRBase? lr = find_lr(player);
+        LRBase? lr = FindLR(player);
 
         if(lr != null)
         {
-            lr.grenade_thrown();
+            lr.GrenadeThrown();
         }       
     }
 
-    public void ent_created(CEntityInstance entity)
+    public void EntCreated(CEntityInstance entity)
     {
-        for(int l = 0; l < active_lr.Length; l++)
+        for(int l = 0; l < activeLR.Length; l++)
         {
-            LRBase? lr = active_lr[l];
+            LRBase? lr = activeLR[l];
 
             if(lr != null && entity.IsValid)
             {
-                lr.ent_created(entity);
+                lr.EntCreated(entity);
             }
         }
     }
 
-    public void round_start()
+    public void RoundStart()
     {
-        start_timestamp = Lib.cur_timestamp();
+        startTimestamp = Lib.CurTimestamp();
 
-        purge_lr();
+        PurgeLR();
     }
 
-    public void round_end()
+    public void RoundEnd()
     {
-        purge_lr();
+        PurgeLR();
     }
 
-    public void disconnect(CCSPlayerController? player)
+    public void Disconnect(CCSPlayerController? player)
     {
-        JailPlugin.purge_player_stats(player);
+        JailPlugin.PurgePlayerStats(player);
 
-        LRBase? lr = find_lr(player);
+        LRBase? lr = FindLR(player);
 
         if(lr != null)
         {
-            Chat.announce(LR_PREFIX,"Player disconnection cancelling LR");
-            end_lr(lr.slot);
+            Chat.Announce(LR_PREFIX,"Player Disconnection cancelling LR");
+            EndLR(lr.slot);
         }
     }
 
-    public bool weapon_drop(CCSPlayerController? player,String name) 
+    public bool WeaponDrop(CCSPlayerController? player,String name) 
     {
-        LRBase? lr = find_lr(player);
+        LRBase? lr = FindLR(player);
 
         if(lr != null)
         {
-            return lr.weapon_drop(name);
+            return lr.WeaponDrop(name);
         }
 
         return true;
     }
 
-    public void weapon_fire(CCSPlayerController? player,String name) 
+    public void WeaponFire(CCSPlayerController? player,String name) 
     {
-        LRBase? lr = find_lr(player);
+        LRBase? lr = FindLR(player);
 
         if(lr != null)
         {
-            lr.weapon_fire(name);
+            lr.WeaponFire(name);
         }
     }
 
-    public void death(CCSPlayerController? player)
+    public void Death(CCSPlayerController? player)
     {
-        if(Lib.alive_t_count() == config.lr_count && player.is_t())
+        if(Lib.AliveTCount() == Config.lrCount && player.IsT())
         {
-            Chat.localize_announce(LR_PREFIX,"lr.ready");
+            Chat.LocalizeAnnounce(LR_PREFIX,"lr.ready");
         }
 
 
-        LRBase? lr = find_lr(player);
+        LRBase? lr = FindLR(player);
 
         if(lr != null)
         {
-            lr.lose();
+            lr.Lose();
         }
     }
 

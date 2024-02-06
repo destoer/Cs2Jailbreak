@@ -13,49 +13,49 @@ using CounterStrikeSharp.API.Modules.Entities.Constants;
 
 public class LRNoScope : LRBase
 {
-    public LRNoScope(LastRequest manager,LastRequest.LRType type,int lr_slot, int player_slot, String choice) : base(manager,type,lr_slot,player_slot,choice)
+    public LRNoScope(LastRequest manager,LastRequest.LRType type,int LRSlot, int playerSlot, String choice) : base(manager,type,LRSlot,playerSlot,choice)
     {
 
     }
 
-    void give_weapon(CCSPlayerController? player)
+    void GiveWeapon(CCSPlayerController? player)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
 
 
-        player.strip_weapons(true);
+        player.StripWeapons(true);
 
         switch(choice)
         {
             case "Scout":
             {
-                weapon_restrict = "ssg08";
-                player.give_weapon("ssg08");
+                weaponRestrict = "ssg08";
+                player.GiveWeapon("ssg08");
                 break;
             }
 
             case "Awp":
             {
-                weapon_restrict = "awp";
-                player.give_weapon("awp");
+                weaponRestrict = "awp";
+                player.GiveWeapon("awp");
                 break;
             }
         }
     }
 
-    public override void init_player(CCSPlayerController player)
+    public override void InitPlayer(CCSPlayerController player)
     {
-        give_weapon(player);
+        GiveWeapon(player);
     }
 
-    public override void weapon_zoom()
+    public override void WeaponZoom()
     {
-        CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(playerSlot);
 
         // re give the weapons so they cannot zoom
-        give_weapon(player);
+        GiveWeapon(player);
     }
 }

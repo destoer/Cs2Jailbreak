@@ -33,104 +33,107 @@ public class JailConfig : BasePluginConfig
     public String database { get; set; } = "cs2_jail";
 
     [JsonPropertyName("mute_dead")]
-    public bool mute_dead { get; set; } = true;
+    public bool muteDead { get; set; } = true;
 
     [JsonPropertyName("warden_laser")]
-    public bool warden_laser { get; set; } = true;
+    public bool wardenLaser { get; set; } = true;
 
     [JsonPropertyName("ct_voice_only")]
-    public bool ct_voice_only { get; set; } = false;
+    public bool ctVoiceOnly { get; set; } = false;
 
     [JsonPropertyName("thirty_sec_mute")]
-    public bool thirty_sec_mute { get; set; } = true;
+    public bool thirtySecMute { get; set; } = true;
 
     [JsonPropertyName("mute_t_allways")]
-    public bool mute_t_allways { get; set; } = false;
+    public bool muteTAllways { get; set; } = false;
 
     [JsonPropertyName("warden_on_voice")]
-    public bool warden_on_voice { get; set; } = true;
+    public bool wardenOnVoice { get; set; } = true;
 
     [JsonPropertyName("ct_swap_only")]
-    public bool ct_swap_only { get; set; } = false;
+    public bool ctSwapOnly { get; set; } = false;
 
     [JsonPropertyName("ct_guns")]
-    public bool ct_guns { get; set; } = true;
+    public bool ctGuns { get; set; } = true;
+
+    [JsonPropertyName("ct_handicap")]
+    public bool ctHandicap { get; set; } = false;
 
     [JsonPropertyName("ct_gun_menu")]
-    public bool ct_gun_menu { get; set; } = true;
+    public bool ctGunMenu { get; set; } = true;
 
     [JsonPropertyName("ct_armour")]
-    public bool ct_armour { get; set; } = true;
+    public bool ctArmour { get; set; } = true;
 
     [JsonPropertyName("warden_force_removal")]
-    public bool warden_force_removal { get; set; } = true;
+    public bool wardenForceRemoval { get; set; } = true;
 
     [JsonPropertyName("strip_spawn_weapons")]
-    public bool strip_spawn_weapons { get; set; } = true;
+    public bool stripSpawnWeapons { get; set; } = true;
 
     [JsonPropertyName("warday_guns")]
-    public bool warday_guns { get; set; } = false;
+    public bool wardayGuns { get; set; } = false;
 
     // ratio of t to CT
     [JsonPropertyName("bal_guards")]
-    public int bal_guards { get; set; } = 0;
+    public int balGuards { get; set; } = 0;
 
     [JsonPropertyName("enable_riot")]
-    public bool riot_enable { get; set; } = false;
+    public bool riotEnable { get; set; } = false;
 
     [JsonPropertyName("hide_kills")]
-    public bool hide_kills { get; set; } = false;
+    public bool hideKills { get; set; } = false;
 
     [JsonPropertyName("restrict_ping")]
-    public bool restrict_ping { get; set; } = true;
+    public bool restrictPing { get; set; } = true;
 
     [JsonPropertyName("colour_rebel")]
-    public bool colour_rebel { get; set; } = false;
+    public bool colourRebel { get; set; } = false;
 
     [JsonPropertyName("rebel_cant_lr")]
-    public bool rebel_cant_lr { get; set; } = false;   
+    public bool rebelCantLr { get; set; } = false;   
 
     [JsonPropertyName("lr_knife")]
-    public bool lr_knife { get; set; } = true;
+    public bool lrKnife { get; set; } = true;
 
     [JsonPropertyName("lr_gun_toss")]
-    public bool lr_gun_toss { get; set; } = true;
+    public bool lrGunToss { get; set; } = true;
 
     [JsonPropertyName("lr_dodgeball")]
-    public bool lr_dodgeball { get; set; } = true;
+    public bool lrDodgeball { get; set; } = true;
 
     [JsonPropertyName("lr_no_scope")]
-    public bool lr_no_scope { get; set; } = true;
+    public bool lrNoScope { get; set; } = true;
 
     [JsonPropertyName("lr_shotgun_war")]
-    public bool lr_shotgun_war { get; set; } = true;
+    public bool lrShotgunWar { get; set; } = true;
 
     [JsonPropertyName("lr_grenade")]
-    public bool lr_grenade { get; set; } = true;
+    public bool lrGrenade { get; set; } = true;
 
     [JsonPropertyName("lr_russian_roulette")]
-    public bool lr_russian_roulette { get; set; } = true;
+    public bool lrRussianRoulette { get; set; } = true;
 
     [JsonPropertyName("lr_scout_knife")]
-    public bool lr_scout_knife { get; set; } = true;
+    public bool lrScoutKnife { get; set; } = true;
 
     [JsonPropertyName("lr_headshot_only")]
-    public bool lr_headshot_only { get; set; } = true;
+    public bool lrHeadshotOnly { get; set; } = true;
 
     [JsonPropertyName("lr_shot_for_shot")]
-    public bool lr_shot_for_shot { get; set; } = true;
+    public bool lrShotForShot { get; set; } = true;
 
     [JsonPropertyName("lr_mag_for_mag")]
-    public bool lr_mag_for_mag { get; set; } = true;
+    public bool lrMagForMag { get; set; } = true;
 
     [JsonPropertyName("lr_count")]
-    public uint lr_count { get; set; } = 2;
+    public uint lrCount { get; set; } = 2;
 
     [JsonPropertyName("rebel_requirehit")]
-    public bool rebel_requirehit { get; set; } = false;
+    public bool rebelRequireHit { get; set; } = false;
 
     [JsonPropertyName("wsd_round")]
-    public int wsd_round { get; set; } = 50;
+    public int wsdRound { get; set; } = 50;
 }
 
 // main plugin file, controls central hooking
@@ -140,75 +143,75 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 {
     // Global event settings, used to filter plugin activits
     // during warday and SD
-    bool is_event_active = false;
+    bool isEventActive = false;
 
     public JailConfig Config  { get; set; } = new JailConfig();
 
-    public static bool is_warden(CCSPlayerController? player)
+    public static bool IsWarden(CCSPlayerController? player)
     {
-        return warden.is_warden(player);
+        return warden.IsWarden(player);
     }
 
-    public static bool event_active()
+    public static bool EventActive()
     {
-        return global_ctx.is_event_active;
+        return globalCtx.isEventActive;
     }
 
-    public static void start_event()
+    public static void StartEvent()
     {
-        global_ctx.is_event_active = true;
+        globalCtx.isEventActive = true;
     }
 
-    public static void end_event()
+    public static void EndEvent()
     {
-        global_ctx.is_event_active = false;
+        globalCtx.isEventActive = false;
     }
 
-    public static void win_lr(CCSPlayerController? player,LastRequest.LRType type)
+    public static void WinLR(CCSPlayerController? player,LastRequest.LRType type)
     {
-        jail_stats.win(player,type);
+        jailStats.Win(player,type);
     }
 
-    public static void lose_lr(CCSPlayerController? player, LastRequest.LRType type)
+    public static void LoseLR(CCSPlayerController? player, LastRequest.LRType type)
     {
-        jail_stats.loss(player,type);
+        jailStats.Loss(player,type);
     }
 
-    public static void purge_player_stats(CCSPlayerController? player)
+    public static void PurgePlayerStats(CCSPlayerController? player)
     {
-        jail_stats.purge_player(player);
+        jailStats.PurgePlayer(player);
     }
 
     public override string ModuleName => "CS2 Jailbreak - destoer";
 
-    public override string ModuleVersion => "v0.3.4";
+    public override string ModuleVersion => "v0.3.5";
 
     public override void Load(bool hotReload)
     {
-        global_ctx = this;
+        globalCtx = this;
         logs = new Logs(this); 
 
-        register_commands();
+        RegisterCommands();
         
-        register_hook();
+        RegisterHooks();
 
-        register_listener();
+        RegisterListeners();
 
-        JailPlayer.setup_db();
+        JailPlayer.SetupDB();
 
         Console.WriteLine("Sucessfully started JB");
 
-        AddTimer(Warden.LASER_TIME,warden.laser_tick,CSTimer.TimerFlags.REPEAT);
+        AddTimer(Warden.LASER_TIME,warden.LaserTick,CSTimer.TimerFlags.REPEAT);
 
     }
 
-    void stat_db_reload()
+    void StatDBReload()
     {
         Task.Run(async () => 
         {
-            var database = await jail_stats.connect_db();
+            var database = await jailStats.ConnectDB();
 
-            jail_stats.setup_db(database);
+            jailStats.SetupDB(database);
         });
     }
 
@@ -217,112 +220,112 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         // give each sub plugin the config
         this.Config = config;
         
-        jail_stats.config = config;
-        lr.config = config;
+        jailStats.Config = config;
+        lr.Config = config;
 
-        warden.config = config;
-        warden.mute.config = config;
-        warden.warday.config = config;
-        JailPlayer.config = config;
+        warden.Config = config;
+        warden.mute.Config = config;
+        warden.warday.Config = config;
+        JailPlayer.Config = config;
 
-        sd.config = config;
+        sd.Config = config;
 
-        lr.lr_config_reload();
-        stat_db_reload();
+        lr.LRConfigReload();
+        StatDBReload();
     }
 
-    void register_listener()
+    void RegisterListeners()
     {
         RegisterListener<Listeners.OnEntitySpawned>(entity =>
         {
-            lr.ent_created(entity);
-            sd.ent_created(entity);
+            lr.EntCreated(entity);
+            sd.EntCreated(entity);
         });
     }
 
-    void add_localized_cmd(String base_name,String desc,CommandInfo.CommandCallback callback)
+    void AddLocalizedCmd(String base_name,String desc,CommandInfo.CommandCallback callback)
     {
         AddCommand("css_" + Localizer[base_name],desc,callback);
     }
 
-    void register_commands()
+    void RegisterCommands()
     {
         // reg warden comamnds
-        add_localized_cmd("warden.take_warden_cmd", "take warden", warden.take_warden_cmd);
-        add_localized_cmd("warden.leave_warden_cmd", "leave warden", warden.leave_warden_cmd);
-        add_localized_cmd("warden.remove_warden_cmd", "remove warden", warden.remove_warden_cmd);
-        add_localized_cmd("warden.remove_marker_cmd","remove warden marker",warden.remove_marker_cmd);
+        AddLocalizedCmd("warden.take_warden_cmd", "take warden", warden.TakeWardenCmd);
+        AddLocalizedCmd("warden.leave_warden_cmd", "leave warden", warden.LeaveWardenCmd);
+        AddLocalizedCmd("warden.remove_warden_cmd", "remove warden", warden.RemoveWardenCmd);
+        AddLocalizedCmd("warden.remove_marker_cmd","remove warden marker",warden.RemoveMarkerCmd);
 
-        add_localized_cmd("warden.marker_colour_cmd", "set marker colour", warden.marker_colour_cmd);
-        add_localized_cmd("warden.laser_colour_cmd", "set laser colour", warden.laser_colour_cmd);
+        AddLocalizedCmd("warden.marker_colour_cmd", "set marker colour", warden.MarkerColourCmd);
+        AddLocalizedCmd("warden.laser_colour_cmd", "set laser colour", warden.LaserColourCmd);
 
-        add_localized_cmd("warden.colour_cmd","set player colour",warden.colour_cmd);
+        AddLocalizedCmd("warden.colour_cmd","set player colour",warden.ColourCmd);
 
-        add_localized_cmd("warden.no_block_cmd","warden : disable block",warden.wub_cmd);
-        add_localized_cmd("warden.block_cmd","warden : enable block",warden.wb_cmd);
+        AddLocalizedCmd("warden.no_block_cmd","warden : disable block",warden.WubCmd);
+        AddLocalizedCmd("warden.block_cmd","warden : enable block",warden.WbCmd);
 
-        add_localized_cmd("warden.sd_cmd","warden : call a special day",sd.warden_sd_cmd);
-        add_localized_cmd("warden.sd_ff_cmd","warden : call a friendly fire special day",sd.warden_sd_ff_cmd);
+        AddLocalizedCmd("warden.sd_cmd","warden : call a special day",sd.WardenSDCmd);
+        AddLocalizedCmd("warden.sd_ff_cmd","warden : call a friendly fire special day",sd.WardenSDFFCmd);
 
-        add_localized_cmd("warden.swap_guard","admin : move a player to ct",warden.swap_guard_cmd);
+        AddLocalizedCmd("warden.swap_guard","admin : move a player to ct",warden.SwapGuardCmd);
 
-        add_localized_cmd("warden.warday_cmd","warden : start warday",warden.warday_cmd);
-        add_localized_cmd("warden.list_cmd", "warden : show all commands",warden.cmd_info);
-        add_localized_cmd("warden.time_cmd","how long as warden been active?",warden.warden_time_cmd);
+        AddLocalizedCmd("warden.warday_cmd","warden : start warday",warden.WardayCmd);
+        AddLocalizedCmd("warden.list_cmd", "warden : show all commands",warden.CmdInfo);
+        AddLocalizedCmd("warden.time_cmd","how long as warden been active?",warden.WardenTimeCmd);
 
-        add_localized_cmd("warden.gun_cmd","give ct guns",warden.cmd_ct_guns);
+        AddLocalizedCmd("warden.gun_cmd","give ct guns",warden.CmdCtGuns);
 
-        add_localized_cmd("warden.force_open_cmd","force open every door and vent",warden.force_open_cmd);
-        add_localized_cmd("warden.force_close_cmd","force close every door",warden.force_close_cmd);
+        AddLocalizedCmd("warden.force_open_cmd","force open every door and vent",warden.ForceOpenCmd);
+        AddLocalizedCmd("warden.force_close_cmd","force close every door",warden.ForceCloseCmd);
 
-        add_localized_cmd("warden.fire_guard_cmd","admin : Remove all guards apart from warden",warden.fire_guard_cmd);
+        AddLocalizedCmd("warden.fire_guard_cmd","admin : Remove all guards apart from warden",warden.FireGuardCmd);
 
-        add_localized_cmd("warden.give_freeday_cmd","give t a freeday",warden.give_freeday_cmd);
-        add_localized_cmd("warden.give_pardon_cmd","give t a freeday",warden.give_pardon_cmd);
+        AddLocalizedCmd("warden.give_freeday_cmd","give t a freeday",warden.GiveFreedayCmd);
+        AddLocalizedCmd("warden.give_pardon_cmd","give t a freeday",warden.GivePardonCmd);
 
         // reg lr commands
-        add_localized_cmd("lr.start_lr_cmd","start an lr",lr.lr_cmd);
-        add_localized_cmd("lr.cancel_lr_cmd","admin : cancel lr",lr.cancel_lr_cmd);
-        add_localized_cmd("lr.stats_cmd","list lr stats",jail_stats.lr_stats_cmd);
+        AddLocalizedCmd("lr.start_lr_cmd","start an lr",lr.LRCmd);
+        AddLocalizedCmd("lr.cancel_lr_cmd","admin : cancel lr",lr.CancelLRCmd);
+        AddLocalizedCmd("lr.stats_cmd","list lr stats",jailStats.LRStatsCmd);
 
         // reg sd commands
-        add_localized_cmd("sd.start_cmd","start a sd",sd.sd_cmd);
-        add_localized_cmd("sd.start_ff_cmd","start a ff sd",sd.sd_ff_cmd);
-        add_localized_cmd("sd.cancel_cmd","cancel an sd",sd.cancel_sd_cmd);
+        AddLocalizedCmd("sd.start_cmd","start a sd",sd.SDCmd);
+        AddLocalizedCmd("sd.start_ff_cmd","start a ff sd",sd.SDFFCmd);
+        AddLocalizedCmd("sd.cancel_cmd","cancel an sd",sd.CancelSDCmd);
 
-        add_localized_cmd("logs.logs_cmd", "show round logs", logs.LogsCommand);
+        AddLocalizedCmd("logs.logs_cmd", "show round logs", logs.LogsCommand);
 
         // debug 
         if(Debug.enable)
         {
-            AddCommand("nuke","debug : kill every player",Debug.nuke);
-            AddCommand("is_rebel","debug : print rebel state to console",warden.is_rebel_cmd);
-            AddCommand("lr_debug","debug : start an lr without restriction",lr.lr_debug_cmd);
-            AddCommand("is_blocked","debug : print block state",warden.block.is_blocked);
-            AddCommand("test_laser","test laser",Debug.test_laser);
-            AddCommand("test_strip","test weapon strip",Debug.test_strip_cmd);
-            AddCommand("join_ct_debug","debug : force join ct",Debug.join_ct_cmd);
-            AddCommand("hide_weapon_debug","debug : hide player weapon on back",Debug.hide_weapon_cmd);
-            AddCommand("rig","debug : force player to boss on sd",sd.sd_rig_cmd);
-            AddCommand("is_muted","debug : print voice flags",Debug.is_muted_cmd);
-            AddCommand("spam_db","debug : spam db",Debug.test_lr_inc);
-            AddCommand("wsd_enable","debug : enable wsd",Debug.wsd_enable_cmd);
-            AddCommand("test_noblock","debug : enable wsd",Debug.test_noblock_cmd);
+            AddCommand("nuke","debug : kill every player",Debug.Nuke);
+            AddCommand("is_rebel","debug : print rebel state to console",warden.IsRebelCmd);
+            AddCommand("lr_debug","debug : start an lr without restriction",lr.LRDebugCmd);
+            AddCommand("is_blocked","debug : print block state",warden.block.IsBlocked);
+            AddCommand("test_laser","test laser",Debug.TestLaser);
+            AddCommand("test_strip","test weapon strip",Debug.TestStripCmd);
+            AddCommand("join_ct_debug","debug : force join ct",Debug.JoinCtCmd);
+            AddCommand("hide_weapon_debug","debug : hide player weapon on back",Debug.HideWeaponCmd);
+            AddCommand("rig","debug : force player to boss on sd",sd.SDRigCmd);
+            AddCommand("is_muted","debug : print voice flags",Debug.IsMutedCmd);
+            AddCommand("spam_db","debug : spam db",Debug.TestLRInc);
+            AddCommand("wsd_enable","debug : enable wsd",Debug.WSDEnableCmd);
+            AddCommand("test_noblock","debug : enable wsd",Debug.TestNoblockCmd);
         }
     }
 
-    public HookResult join_team(CCSPlayerController? invoke, CommandInfo command)
+    public HookResult JoinTeam(CCSPlayerController? invoke, CommandInfo command)
     {
-        jail_stats.load_player(invoke);
+        jailStats.LoadPlayer(invoke);
 
-        JailPlayer? jail_player = warden.jail_player_from_player(invoke);
+        JailPlayer? jailPlayer = warden.JailPlayerFromPlayer(invoke);
 
-        if(jail_player != null)
+        if(jailPlayer != null)
         {
-            jail_player.load_player(invoke);
+            jailPlayer.LoadPlayer(invoke);
         }        
 
-        if(!warden.join_team(invoke,command))
+        if(!warden.JoinTeam(invoke,command))
         {
             return HookResult.Handled;
         }
@@ -331,7 +334,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     }
 
     
-    void register_hook()
+    void RegisterHooks()
     {
         RegisterEventHandler<EventRoundStart>(OnRoundStart);
         RegisterEventHandler<EventRoundEnd>(OnRoundEnd,HookMode.Pre);
@@ -350,7 +353,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         // take damage causes crashes on windows
         // cant figure out why because the windows cs2 console wont log
         // before it dies
-        if(!Lib.is_windows())
+        if(!Lib.IsWindows())
         {
             VirtualFunctions.CBaseEntity_TakeDamageOldFunc.Hook(OnTakeDamage,HookMode.Pre);
         }
@@ -360,16 +363,16 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         RegisterListener<Listeners.OnClientVoice>(OnClientVoice);
         RegisterListener<Listeners.OnClientAuthorized>(OnClientAuthorized);
 
-        AddCommandListener("jointeam",join_team);
-        AddCommandListener("player_ping",player_ping_cmd);
+        AddCommandListener("jointeam",JoinTeam);
+        AddCommandListener("player_ping",PlayerPingCmd);
 
         // TODO: need to hook weapon drop
     }
 
-    public HookResult player_ping_cmd(CCSPlayerController? invoke, CommandInfo command)
+    public HookResult PlayerPingCmd(CCSPlayerController? invoke, CommandInfo command)
     {
         // if player is not warden ignore the ping
-        if(Config.restrict_ping && !warden.is_warden(invoke))
+        if(Config.restrictPing && !warden.IsWarden(invoke))
         {
             return HookResult.Handled;
         }
@@ -381,9 +384,9 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     {
         var player = @event.Userid;
 
-        if(player.is_valid())
+        if(player.IsLegal())
         {
-            warden.ping(player,@event.X,@event.Y,@event.Z);
+            warden.Ping(player,@event.X,@event.Y,@event.Z);
         }
 
         return HookResult.Continue;
@@ -393,21 +396,21 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(slot);
 
-        if(player.is_valid())
+        if(player.IsLegal())
         {
-            warden.voice(player);
+            warden.Voice(player);
         }
     }
 
     // button log
     HookResult OnButtonPressed(CEntityIOOutput output, String name, CEntityInstance activator, CEntityInstance caller, CVariant value, float delay)
     {
-        CCSPlayerController? player = activator.player();
+        CCSPlayerController? player = activator.Player();
 
         // grab player controller from pawn
         CBaseEntity? ent =  Utilities.GetEntityFromIndex<CBaseEntity>((int)caller.Index);
 
-        if(player.is_valid() && ent != null && ent.IsValid)
+        if(player.IsLegal() && ent != null && ent.IsValid)
         {
             logs.AddLocalized(player, "logs.format.button", ent.Entity?.Name ?? "Unlabeled", output?.Connections?.TargetDesc ?? "None");
         }
@@ -424,10 +427,10 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     {
         CCSPlayerController? player = @event.Userid;
 
-        if(player.is_valid())
+        if(player.IsLegal())
         {
-            lr.grenade_thrown(player);
-            sd.grenade_thrown(player);
+            lr.GrenadeThrown(player);
+            sd.GrenadeThrown(player);
             logs.AddLocalized(player, "logs.format.grenade", @event.Weapon); 
         }
 
@@ -438,9 +441,9 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     {
         CCSPlayerController? player = @event.Userid;
 
-        if(player.is_valid())
+        if(player.IsLegal())
         {
-            lr.weapon_zoom(player);
+            lr.WeaponZoom(player);
         }
 
         return HookResult.Continue;
@@ -450,10 +453,10 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     {
         CCSPlayerController? player = @event.Userid;
 
-        if(player.is_valid())
+        if(player.IsLegal())
         {
-            lr.weapon_equip(player,@event.Item);
-            sd.weapon_equip(player,@event.Item);
+            lr.WeaponEquip(player,@event.Item);
+            sd.WeaponEquip(player,@event.Item);
         }
 
         return HookResult.Continue;
@@ -468,11 +471,11 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         int health = @event.Health;
         int hitgroup = @event.Hitgroup;
 
-        if(player.is_valid())
+        if(player.IsLegal())
         {
-            lr.player_hurt(player,attacker,damage,health,hitgroup);
-            warden.player_hurt(player,attacker,damage,health);
-            sd.player_hurt(player,attacker,damage,health,hitgroup);
+            lr.PlayerHurt(player,attacker,damage,health,hitgroup);
+            warden.PlayerHurt(player,attacker,damage,health);
+            sd.PlayerHurt(player,attacker,damage,health,hitgroup);
         }
 
         return HookResult.Continue;
@@ -486,13 +489,14 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         CHandle<CBaseEntity> dealer = damage_info.Attacker;
 
         // get player and attacker
-        CCSPlayerController? player = victim.player();
-        CCSPlayerController? attacker = dealer.player();
+        CCSPlayerController? player = victim.Player();
+        CCSPlayerController? attacker = dealer.Player();
 
-        if(player.is_valid())
+        if(player.IsLegal())
         {
-            sd.take_damage(player,attacker,ref damage_info.Damage);
-            lr.take_damage(player,attacker,ref damage_info.Damage);
+            warden.TakeDamage(player,attacker,ref damage_info.Damage);
+            sd.TakeDamage(player,attacker,ref damage_info.Damage);
+            lr.TakeDamage(player,attacker,ref damage_info.Damage);
         }
         
         return HookResult.Continue;
@@ -500,16 +504,16 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     HookResult OnMapChange(EventMapTransition @event, GameEventInfo info)
     {
-        warden.map_start();
+        warden.MapStart();
 
         return HookResult.Continue;
     }
 
     HookResult OnRoundStart(EventRoundStart @event, GameEventInfo info)
     {
-        warden.round_start();
-        lr.round_start();
-        sd.round_start();
+        warden.RoundStart();
+        lr.RoundStart();
+        sd.RoundStart();
 
         return HookResult.Continue;
     }
@@ -519,18 +523,18 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         CCSPlayerController? victim = @event.Userid;
         CCSPlayerController? killer = @event.Attacker;
 
-        // NOTE: have to check is_connected incase this is tripped by a dc
+        // NOTE: have to check IsConnected incase this is tripped by a dc
 
         // hide t killing ct
-        if(Config.hide_kills && victim.is_connected() && killer.is_connected() && killer.is_t() && victim.is_ct())
+        if(Config.hideKills && victim.IsConnected() && killer.IsConnected() && killer.IsT() && victim.IsCt())
         {
             //@event.Attacker = player;
             // fire event as is to T
             foreach(CCSPlayerController? player in Utilities.GetPlayers())
             {
-                if(player.is_valid())
+                if(player.IsLegal())
                 {
-                    if(player.is_t())
+                    if(player.IsT())
                     {
                         // T gets full event
                         @event.Userid = victim;
@@ -555,11 +559,11 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         }
 
 
-        if(victim.is_valid() && victim.is_connected())
+        if(victim.IsLegal() && victim.IsConnected())
         {
-            warden.death(victim,killer);
-            lr.death(victim);
-            sd.death(victim,killer);
+            warden.Death(victim,killer);
+            lr.Death(victim);
+            sd.Death(victim,killer);
         }
 
         return HookResult.Continue;
@@ -569,13 +573,13 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     {
         CCSPlayerController? player = @event.Userid;
 
-        if(player.is_valid())
+        if(player.IsLegal())
         {
             int slot = player.Slot;
 
             AddTimer(0.5f,() =>  
             {
-                warden.spawn(Utilities.GetPlayerFromSlot(slot));
+                warden.Spawn(Utilities.GetPlayerFromSlot(slot));
             });
             
         }
@@ -589,9 +593,11 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         int new_team = @event.Toteam;
 
-        if(player.is_valid())
+        if(player.IsLegal())
         {
-            warden.switch_team(player,new_team);
+            // close menu on team switch to prevent illegal usage
+            //MenuManager.CloseActiveMenu(player);
+            warden.SwitchTeam(player,new_team);
         }
 
         return HookResult.Continue;
@@ -601,16 +607,16 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(slot);
 
-        if(player.is_valid())
+        if(player.IsLegal())
         {
             // load in player stats
-            jail_stats.load_player(player);
+            jailStats.LoadPlayer(player);
             
-            JailPlayer? jail_player = warden.jail_player_from_player(player);
+            JailPlayer? jailPlayer = warden.JailPlayerFromPlayer(player);
 
-            if(jail_player != null)
+            if(jailPlayer != null)
             {
-                jail_player.load_player(player);
+                jailPlayer.LoadPlayer(player);
             }
         }
     }
@@ -619,11 +625,11 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     {
         CCSPlayerController? player = @event.Userid;
 
-        if(player.is_valid())
+        if(player.IsLegal())
         {
-            warden.disconnect(player);
-            lr.disconnect(player);
-            sd.disconnect(player);
+            warden.Disconnect(player);
+            lr.Disconnect(player);
+            sd.Disconnect(player);
         }
 
         return HookResult.Continue;
@@ -631,9 +637,9 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     HookResult OnRoundEnd(EventRoundEnd @event, GameEventInfo info)
     {
-        warden.round_end();
-        lr.round_end();
-        sd.round_end();
+        warden.RoundEnd();
+        lr.RoundEnd();
+        sd.RoundEnd();
 
         return HookResult.Continue;
     }
@@ -644,31 +650,31 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         var player = @event.Userid;
         String name = @event.Weapon;
 
-        if(player.is_valid_alive())
+        if(player.IsLegalAlive())
         {
-            warden.weapon_fire(player,name);
-            lr.weapon_fire(player,name);
+            warden.WeaponFire(player,name);
+            lr.WeaponFire(player,name);
         }
 
         return HookResult.Continue;
     }
 
-    public static String localize(string name,params Object[] args)
+    public static String Localize(string name,params Object[] args)
     {
-        return String.Format(global_ctx.Localizer[name],args);
+        return String.Format(globalCtx.Localizer[name],args);
     }
 
     public static Warden warden = new Warden();
     public static LastRequest lr = new LastRequest();
     public static SpecialDay sd = new SpecialDay();
-    public static JailStats jail_stats = new JailStats();
+    public static JailStats jailStats = new JailStats();
 
     // in practice these wont be null
     #pragma warning disable CS8618 
     public static Logs logs;
 
     // workaround to query global state!
-    public static JailPlugin global_ctx;
+    public static JailPlugin globalCtx;
 
     #pragma warning restore CS8618
 }

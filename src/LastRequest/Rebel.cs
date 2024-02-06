@@ -20,89 +20,89 @@ using System.Drawing;
 
 public partial class LastRequest
 {
-    bool can_rebel()
+    bool CanRebel()
     {
-        return Lib.alive_t_count() == 1;
+        return Lib.AliveTCount() == 1;
     }
 
-    public void rebel_guns(CCSPlayerController player, ChatMenuOption option)
+    public void RebelGuns(CCSPlayerController player, ChatMenuOption option)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
 
-        if(!can_rebel() || rebel_type != RebelType.NONE)
+        if(!CanRebel() || rebelType != RebelType.NONE)
         {
-            player.localise_prefix(LR_PREFIX,"lr.rebel_last");
+            player.LocalisePrefix(LR_PREFIX,"lr.rebel_last");
             return;
         }
 
-        player.strip_weapons();
+        player.StripWeapons();
 
-        player.give_menu_weapon(option.Text);
-        player.give_weapon("deagle");
+        player.GiveMenuWeapon(option.Text);
+        player.GiveWeapon("deagle");
 
-        player.give_armour();
+        player.GiveArmour();
     
-        player.set_health(Lib.alive_ct_count() * 100);
+        player.SetHealth(Lib.AliveCtCount() * 100);
 
-        rebel_type = RebelType.REBEL;
+        rebelType = RebelType.REBEL;
 
-        Chat.localize_announce(LR_PREFIX,"lr.player_name",player.PlayerName);
+        Chat.LocalizeAnnounce(LR_PREFIX,"lr.player_name",player.PlayerName);
     }
 
-    public void start_rebel(CCSPlayerController? player, ChatMenuOption option)
+    public void StartRebel(CCSPlayerController? player, ChatMenuOption option)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
 
-        player.gun_menu_internal(false,rebel_guns);
+        player.GunMenuInternal(false,RebelGuns);
     }
 
-    public void start_knife_rebel(CCSPlayerController? rebel, ChatMenuOption option)
+    public void StartKnifeRebel(CCSPlayerController? rebel, ChatMenuOption option)
     {
-        if(rebel == null || !rebel.is_valid())
+        if(rebel == null || !rebel.IsLegal())
         {
             return;
         }
 
-        if(!can_rebel())
+        if(!CanRebel())
         {
-            rebel.localise_prefix(LR_PREFIX,"rebel.last_alive");
+            rebel.LocalisePrefix(LR_PREFIX,"rebel.last_alive");
             return;
         }
 
-        rebel_type = RebelType.KNIFE;
+        rebelType = RebelType.KNIFE;
 
-        Chat.localize_announce(LR_PREFIX,"lr.knife_rebel",rebel.PlayerName);
-        rebel.set_health(Lib.alive_ct_count() * 100);
+        Chat.LocalizeAnnounce(LR_PREFIX,"lr.knife_rebel",rebel.PlayerName);
+        rebel.SetHealth(Lib.AliveCtCount() * 100);
 
         foreach(CCSPlayerController? player in Utilities.GetPlayers())
         {
-            if(player.is_valid_alive())
+            if(player.IsLegalAlive())
             {
-                player.strip_weapons();
+                player.StripWeapons();
             }
         }
     }
 
-    public void riot_respawn()
+    public void RiotRespawn()
     {
         // riot cancelled in mean time
-        if(rebel_type != RebelType.RIOT)
+        if(rebelType != RebelType.RIOT)
         {
             return;
         }
 
 
-        Chat.localize_announce(LR_PREFIX,"lr.riot_active");
+        Chat.LocalizeAnnounce(LR_PREFIX,"lr.riot_active");
 
         foreach(CCSPlayerController? player in Utilities.GetPlayers())
         {
-            if(player.is_valid() && !player.is_valid_alive())
+            if(player.IsLegal() && !player.IsLegalAlive())
             {
                 Server.PrintToChatAll($"Respawn {player.PlayerName}");
                 player.Respawn();
@@ -111,27 +111,27 @@ public partial class LastRequest
     }
 
 
-    public void start_riot(CCSPlayerController? rebel, ChatMenuOption option)
+    public void StartRiot(CCSPlayerController? rebel, ChatMenuOption option)
     {
-        if(rebel == null || !rebel.is_valid())
+        if(rebel == null || !rebel.IsLegal())
         {
             return;
         }
 
-        if(!can_rebel())
+        if(!CanRebel())
         {
-            rebel.localise_prefix(LR_PREFIX,"lr.rebel_last");
+            rebel.LocalisePrefix(LR_PREFIX,"lr.rebel_last");
             return;
         }
 
 
-        rebel_type = RebelType.RIOT;
+        rebelType = RebelType.RIOT;
 
-        Chat.localize_announce(LR_PREFIX,"lr.riot_start");
+        Chat.LocalizeAnnounce(LR_PREFIX,"lr.riot_start");
 
-        if(JailPlugin.global_ctx != null)
+        if(JailPlugin.globalCtx != null)
         {
-            JailPlugin.global_ctx.AddTimer(15.0f,riot_respawn,CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
+            JailPlugin.globalCtx.AddTimer(15.0f,RiotRespawn,CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
         }
     }
 
@@ -144,6 +144,6 @@ public partial class LastRequest
         RIOT,
     };
 
-    RebelType rebel_type = RebelType.NONE;
+    RebelType rebelType = RebelType.NONE;
 
 }

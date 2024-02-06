@@ -20,147 +20,147 @@ using System.Drawing;
 
 public partial class Warden
 {
-    void remove_marker()
+    void RemoveMarker()
     {
-        marker.destroy();
+        marker.Destroy();
     }
 
-    public void ping(CCSPlayerController? player, float x, float y, float z)
+    public void Ping(CCSPlayerController? player, float x, float y, float z)
     {
-        JailPlayer? jail_player = jail_player_from_player(player);
+        JailPlayer? jailPlayer = JailPlayerFromPlayer(player);
 
         // draw marker
-        if(is_warden(player) && player.is_valid() && jail_player != null)
+        if(IsWarden(player) && player.IsLegal() && jailPlayer != null)
         {
             // make sure we destroy the old marker
             // because this generates alot of ents
-            remove_marker();
+            RemoveMarker();
 
-            //Server.PrintToChatAll($"{Lib.ent_count()}");
+            //Server.PrintToChatAll($"{Lib.enTCount()}");
 
-            marker.colour = jail_player.marker_colour;
-            marker.draw(60.0f,75.0f,x,y,z);
+            marker.colour = jailPlayer.markerColour;
+            marker.Draw(60.0f,75.0f,x,y,z);
         }
     }
 
-    void remove_laser()
+    void RemoveLaser()
     {
-        laser.destroy();
+        laser.Destroy();
     }
 
-    public void laser_tick()
+    public void LaserTick()
     {
-        if(!config.warden_laser)
+        if(!Config.wardenLaser)
         {
             return;
         }
 
-        if(warden_slot == INAVLID_SLOT)
+        if(wardenSlot == INAVLID_SLOT)
         {
             return;
         }
 
-        CCSPlayerController? warden = Utilities.GetPlayerFromSlot(warden_slot);
+        CCSPlayerController? warden = Utilities.GetPlayerFromSlot(wardenSlot);
 
-        if(warden == null || !warden.is_valid())
+        if(warden == null || !warden.IsLegal())
         {
             return;
         }
 
-        bool use_key = (warden.Buttons & PlayerButtons.Use) == PlayerButtons.Use;
+        bool useKey = (warden.Buttons & PlayerButtons.Use) == PlayerButtons.Use;
 
-        CCSPlayerPawn? pawn = warden.pawn();
+        CCSPlayerPawn? pawn = warden.Pawn();
         CPlayer_CameraServices? camera = pawn?.CameraServices;
 
-        JailPlayer? jail_player = jail_player_from_player(warden);
+        JailPlayer? jailPlayer = JailPlayerFromPlayer(warden);
 
-        if(pawn != null && pawn.AbsOrigin != null && camera != null && use_key && jail_player != null)
+        if(pawn != null && pawn.AbsOrigin != null && camera != null && useKey && jailPlayer != null)
         {
             Vector eye = new Vector(pawn.AbsOrigin.X,pawn.AbsOrigin.Y,pawn.AbsOrigin.Z + camera.OldPlayerViewOffsetZ);
 
             Vector end = new Vector(eye.X,eye.Y,eye.Z);
 
-            QAngle eye_angle = pawn.EyeAngles;
+            QAngle eyeAngle = pawn.EyeAngles;
 
             // convert angles to rad 
-            double pitch = (Math.PI/180) * eye_angle.X;
-            double yaw = (Math.PI/180) * eye_angle.Y;
+            double pitch = (Math.PI/180) * eyeAngle.X;
+            double yaw = (Math.PI/180) * eyeAngle.Y;
 
             // get direction vector from angles
-            Vector eye_vector = new Vector((float)(Math.Cos(yaw) * Math.Cos(pitch)),(float)(Math.Sin(yaw) * Math.Cos(pitch)),(float)(-Math.Sin(pitch)));
+            Vector eyeVector = new Vector((float)(Math.Cos(yaw) * Math.Cos(pitch)),(float)(Math.Sin(yaw) * Math.Cos(pitch)),(float)(-Math.Sin(pitch)));
 
             int t = 3000;
 
-            end.X += (t * eye_vector.X);
-            end.Y += (t * eye_vector.Y);
-            end.Z += (t * eye_vector.Z);
+            end.X += (t * eyeVector.X);
+            end.Y += (t * eyeVector.Y);
+            end.Z += (t * eyeVector.Z);
 
             /*
                 warden.PrintToChat($"end: {end.X} {end.Y} {end.Z}");
                 warden.PrintToChat($"angle: {eye_angle.X} {eye_angle.Y}");
             */
 
-            laser.colour = jail_player.laser_colour;
-            laser.move(eye,end);
+            laser.colour = jailPlayer.laserColour;
+            laser.Move(eye,end);
         }
 
         // hide laser
         else
         {
-            remove_laser();
+            RemoveLaser();
         }
     }
 
-    void set_laser(CCSPlayerController player, ChatMenuOption option)
+    void SetLaser(CCSPlayerController player, ChatMenuOption option)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
 
         var text = option.Text;
-        JailPlayer? jail_player = jail_player_from_player(player);
+        JailPlayer? jailPlayer = JailPlayerFromPlayer(player);
 
-        if(jail_player != null)
+        if(jailPlayer != null)
         {
-            jail_player.set_laser(player,text);
+            jailPlayer.SetLaser(player,text);
         }
     }
 
-    void set_marker(CCSPlayerController player, ChatMenuOption option)
+    void SetMarker(CCSPlayerController player, ChatMenuOption option)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
 
         var text = option.Text;
-        JailPlayer? jail_player = jail_player_from_player(player);
+        JailPlayer? jailPlayer = JailPlayerFromPlayer(player);
 
-        if(jail_player != null)
+        if(jailPlayer != null)
         {
-            jail_player.set_marker(player,text);
+            jailPlayer.SetMarker(player,text);
         }
     }
 
-    public void laser_colour_cmd(CCSPlayerController? player, CommandInfo command)
+    public void LaserColourCmd(CCSPlayerController? player, CommandInfo command)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
 
-        Lib.colour_menu(player,set_laser,"Laser colour");
+        Lib.ColourMenu(player,SetLaser,"Laser colour");
     }
 
-    public void marker_colour_cmd(CCSPlayerController? player, CommandInfo command)
+    public void MarkerColourCmd(CCSPlayerController? player, CommandInfo command)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
 
-        Lib.colour_menu(player,set_marker,"Marker colour");
+        Lib.ColourMenu(player,SetMarker,"Marker colour");
     }
 
     public static readonly float LASER_TIME = 0.1f;

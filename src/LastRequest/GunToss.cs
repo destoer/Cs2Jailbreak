@@ -13,27 +13,27 @@ using CounterStrikeSharp.API.Modules.Entities.Constants;
 
 public class LRGunToss : LRBase
 {
-    public LRGunToss(LastRequest manager,LastRequest.LRType type,int lr_slot, int player_slot, String choice) : base(manager,type,lr_slot,player_slot,choice)
+    public LRGunToss(LastRequest manager,LastRequest.LRType type,int LRSlot, int playerSlot, String choice) : base(manager,type,LRSlot,playerSlot,choice)
     {
 
     }
 
-    public override void init_player(CCSPlayerController player)
+    public override void InitPlayer(CCSPlayerController player)
     {    
-        weapon_restrict = "deagle";
-        player.give_weapon("knife");
-        player.give_weapon("deagle");
+        weaponRestrict = "deagle";
+        player.GiveWeapon("knife");
+        player.GiveWeapon("deagle");
 
         // empty ammo so players dont shoot eachother
-        var deagle = player.find_weapon("weapon_deagle");
+        var deagle = player.FindWeapon("weapon_deagle");
 
         if(deagle != null)
         {
-            deagle.set_ammo(0,0);
+            deagle.SetAmmo(0,0);
         }         
     }
 
-    public override bool weapon_equip(String name) 
+    public override bool WeaponEquip(String name) 
     {
         return name.Contains("knife") || name.Contains("deagle");  
     }

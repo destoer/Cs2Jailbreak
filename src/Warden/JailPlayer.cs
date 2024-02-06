@@ -17,7 +17,7 @@ using McMaster.NETCore.Plugins;
 
 public class JailPlayer
 {
-    public static void setup_db()
+    public static void SetupDB()
     {
         try
         {
@@ -32,7 +32,7 @@ public class JailPlayer
 
                 create.ExecuteNonQuery();
 
-                String[] col_cmd =
+                String[] colCmd =
                 {
                     "ALTER TABLE config ADD COLUMN laser_colour varchar(64) DEFAULT 'Cyan'",
                     "ALTER TABLE config ADD COLUMN marker_colour varchar(64) DEFAULT 'Cyan'",
@@ -41,7 +41,7 @@ public class JailPlayer
 
 
                 // start populating our fields
-                foreach (var cmd in col_cmd)
+                foreach (var cmd in colCmd)
                 {
                     var col = connection.CreateCommand();
                     col.CommandText = cmd;
@@ -65,7 +65,7 @@ public class JailPlayer
         }
     }
 
-    async Task update_player_db(String steam_id, String name, String value)
+    async Task UpdatePlayerDB(String steamID, String name, String value)
     {
         try
         {
@@ -76,7 +76,7 @@ public class JailPlayer
                 // modify one of the setting fields
                 using var update = connection.CreateCommand();
                 update.CommandText = $"UPDATE config SET {name} = '{value}' WHERE steam_id = @steam_id";
-                update.Parameters.AddWithValue("@steam_id", steam_id);
+                update.Parameters.AddWithValue("@steam_id", steamID);
 
                 await update.ExecuteNonQueryAsync();
             }
@@ -88,7 +88,7 @@ public class JailPlayer
         }
     }
 
-    async Task insert_player_db(String steam_id)
+    async Task InsertPlayerDB(String steamID)
     {
         using (var connection = new SqliteConnection("Data Source=destoer_config.sqlite"))
         {
@@ -97,11 +97,11 @@ public class JailPlayer
                 await connection.OpenAsync();
 
                 // add a new steam id
-                using var insert_player = connection.CreateCommand();
-                insert_player.CommandText = "INSERT OR IGNORE INTO config (steam_id) VALUES (@steam_id)";
-                insert_player.Parameters.AddWithValue("@steam_id", steam_id);
+                using var insertPlayer = connection.CreateCommand();
+                insertPlayer.CommandText = "INSERT OR IGNORE INTO config (steam_id) VALUES (@steam_id)";
+                insertPlayer.Parameters.AddWithValue("@steam_id", steamID);
 
-                await insert_player.ExecuteNonQueryAsync();
+                await insertPlayer.ExecuteNonQueryAsync();
             }
 
             catch (Exception ex)
@@ -111,7 +111,7 @@ public class JailPlayer
         }
     }
 
-    async Task load_player_db(String steam_id)
+    async Task LoadPlayerDB(String steamID)
     {
         using (var connection = new SqliteConnection("Data Source=destoer_config.sqlite"))
         {
@@ -120,20 +120,20 @@ public class JailPlayer
                 await connection.OpenAsync();
 
 
-                using var query_steam_id = connection.CreateCommand();
+                using var querySteamID = connection.CreateCommand();
 
                 // query steamid
-                query_steam_id.CommandText = "SELECT * FROM config WHERE steam_id = @steam_id";
-                query_steam_id.Parameters.AddWithValue("@steam_id", steam_id);
+                querySteamID.CommandText = "SELECT * FROM config WHERE steam_id = @steam_id";
+                querySteamID.Parameters.AddWithValue("@steam_id", steamID);
 
-                using var reader = await query_steam_id.ExecuteReaderAsync();
+                using var reader = await querySteamID.ExecuteReaderAsync();
 
                 if (reader.Read())
                 {
                     // just override this
-                    laser_colour = Lib.COLOUR_CONFIG_MAP[(String)reader["laser_colour"]];
-                    marker_colour = Lib.COLOUR_CONFIG_MAP[(String)reader["marker_colour"]];
-                    ct_gun = (String)reader["ct_gun"];
+                    laserColour = Lib.COLOUR_CONFIG_MAP[(String)reader["laser_colour"]];
+                    markerColour = Lib.COLOUR_CONFIG_MAP[(String)reader["marker_colour"]];
+                    ctGun = (String)reader["ct_gun"];
 
                     // don't try reloading the player
                     cached = true;
@@ -144,7 +144,7 @@ public class JailPlayer
                 // insert a new steam id
                 else
                 {
-                    await insert_player_db(steam_id);
+                    await InsertPlayerDB(steamID);
                 }
             }
 
@@ -155,9 +155,9 @@ public class JailPlayer
         }
     }
 
-    public void load_player(CCSPlayerController? player)
+    public void LoadPlayer(CCSPlayerController? player)
     {
-        if (!player.is_valid())
+        if (!player.IsLegal())
         {
             return;
         }
@@ -169,159 +169,159 @@ public class JailPlayer
             return;
         }
 
-        String steam_id = new SteamID(player.SteamID).SteamId2;
+        String steamID = new SteamID(player.SteamID).SteamId2;
 
         // make sure this doesn't block the main thread
         Task.Run(async () =>
         {
-            await load_player_db(steam_id);
+            await LoadPlayerDB(steamID);
         });
     }
 
-    public void update_player(CCSPlayerController? player, String name, String value)
+    public void UpdatePlayer(CCSPlayerController? player, String name, String value)
     {
-        if (!player.is_valid())
+        if (!player.IsLegal())
         {
             return;
         }
 
-        String steam_id = new SteamID(player.SteamID).SteamId2;
+        String steamID = new SteamID(player.SteamID).SteamId2;
 
         // make sure this doesn't block the main thread
         Task.Run(async () =>
         {
-            await update_player_db(steam_id, name, value);
+            await UpdatePlayerDB(steamID, name, value);
         });
     }
 
-    public void set_laser(CCSPlayerController? player, String value)
+    public void SetLaser(CCSPlayerController? player, String value)
     {
-        if (!player.is_valid())
+        if (!player.IsLegal())
         {
             return;
         }
 
-        player.announce(Warden.WARDEN_PREFIX, $"Laser colour set to {value}");
-        laser_colour = Lib.COLOUR_CONFIG_MAP[value];
+        player.Announce(Warden.WARDEN_PREFIX, $"Laser colour set to {value}");
+        laserColour = Lib.COLOUR_CONFIG_MAP[value];
 
         // save back to the db too
-        update_player(player, "laser_colour", value);
+        UpdatePlayer(player, "laser_colour", value);
     }
 
-    public void set_marker(CCSPlayerController? player, String value)
+    public void SetMarker(CCSPlayerController? player, String value)
     {
-        if (!player.is_valid())
+        if (!player.IsLegal())
         {
             return;
         }
 
-        player.announce(Warden.WARDEN_PREFIX, $"Marker colour set to {value}");
-        marker_colour = Lib.COLOUR_CONFIG_MAP[value];
+        player.Announce(Warden.WARDEN_PREFIX, $"Marker colour set to {value}");
+        markerColour = Lib.COLOUR_CONFIG_MAP[value];
 
         // save back to the db too
-        update_player(player, "marker_colour", value);
+        UpdatePlayer(player, "marker_colour", value);
     }
 
-    public void purge_round()
+    public void PurgeRound()
     {
-        is_rebel = false;
+        IsRebel = false;
     }
 
-    public void reset()
+    public void Reset()
     {
-        purge_round();
+        PurgeRound();
 
         // TODO: reset client specific settings
-        laser_colour = Lib.CYAN;
-        marker_colour = Lib.CYAN;
-        ct_gun = "M4";
+        laserColour = Lib.CYAN;
+        markerColour = Lib.CYAN;
+        ctGun = "M4";
     }
 
-    public void set_rebel(CCSPlayerController? player)
+    public void SetRebel(CCSPlayerController? player)
     {
         // allready a rebel don't care
-        if (is_rebel)
+        if (IsRebel)
         {
             return;
         }
 
-        if (JailPlugin.event_active())
+        if (JailPlugin.EventActive())
         {
             return;
         }
 
         // ignore if they are in lr
-        if (JailPlugin.lr.in_lr(player))
+        if (JailPlugin.lr.InLR(player))
         {
             return;
         }
 
         // dont care if player is invalid
-        if (!player.is_valid())
+        if (!player.IsLegal())
         {
             return;
         }
 
         // on T with no warday or sd active
-        if (player.is_t())
+        if (player.IsT())
         {
-            if (config.colour_rebel)
+            if (Config.colourRebel)
             {
-                Chat.announce(REBEL_PREFIX, $"{player.PlayerName} is a rebel");
-                player.set_colour(Lib.RED);
+                Chat.Announce(REBEL_PREFIX, $"{player.PlayerName} is a rebel");
+                player.SetColour(Lib.RED);
             }
-            is_rebel = true;
+            IsRebel = true;
         }
     }
 
-    public void give_pardon(CCSPlayerController? player)
+    public void GivePardon(CCSPlayerController? player)
     {
-        if(player.is_valid_alive() && player.is_t())
+        if(player.IsLegalAlive() && player.IsT())
         {
-            Chat.localize_announce(Warden.WARDEN_PREFIX, "warden.give_pardon",player.PlayerName);
-            player.set_colour(Color.FromArgb(255, 255, 255, 255));
+            Chat.LocalizeAnnounce(Warden.WARDEN_PREFIX, "warden.give_pardon",player.PlayerName);
+            player.SetColour(Color.FromArgb(255, 255, 255, 255));
 
             // they are no longer a rebel
-            is_rebel = false;
+            IsRebel = false;
         }      
     }
 
-    public void give_freeday(CCSPlayerController? player)
+    public void GiveFreeday(CCSPlayerController? player)
     {
-        if(player.is_valid_alive() && player.is_t())
+        if(player.IsLegalAlive() && player.IsT())
         {
-            Chat.localize_announce(Warden.WARDEN_PREFIX, "warden.give_freeday",player.PlayerName);
-            player.set_colour(Lib.GREEN);
+            Chat.LocalizeAnnounce(Warden.WARDEN_PREFIX, "warden.give_freeday",player.PlayerName);
+            player.SetColour(Lib.GREEN);
 
             // they are no longer a rebel
-            is_rebel = false;
+            IsRebel = false;
         }
     }  
 
-    public void rebel_death(CCSPlayerController? player, CCSPlayerController? killer)
+    public void RebelDeath(CCSPlayerController? player, CCSPlayerController? killer)
     {
         // event active dont care
-        if (JailPlugin.event_active())
+        if (JailPlugin.EventActive())
         {
             return;
         }
 
         // players aernt valid dont care
-        if (killer == null || !player.is_valid() || !killer.is_valid())
+        if (killer == null || !player.IsLegal() || !killer.IsLegal())
         {
             return;
         }
 
         // print death if player is rebel and killer on CT
-        if (is_rebel && killer.is_ct())
+        if (IsRebel && killer.IsCt())
         {
-            Chat.localize_announce(REBEL_PREFIX, "rebel.kill", killer.PlayerName, player.PlayerName);
+            Chat.LocalizeAnnounce(REBEL_PREFIX, "rebel.kill", killer.PlayerName, player.PlayerName);
         }
     }
 
-    public void rebel_weapon_fire(CCSPlayerController? player, String weapon)
+    public void RebelWeaponFire(CCSPlayerController? player, String weapon)
     {
-        if (config.rebel_requirehit)
+        if (Config.rebelRequireHit)
         {
             return;
         }
@@ -329,18 +329,18 @@ public class JailPlayer
         // ignore weapons players are meant to have
         if (!weapon.Contains("knife") && !weapon.Contains("c4"))
         {
-            set_rebel(player);
+            SetRebel(player);
         }
     }
 
-    public void player_hurt(CCSPlayerController? player, CCSPlayerController? attacker, int health, int damage)
+    public void PlayerHurt(CCSPlayerController? player, CCSPlayerController? attacker, int health, int damage)
     {
-        if (!player.is_valid())
+        if (!player.IsLegal())
         {
             return;
         }
         
-        bool isWorld = attacker == null || !attacker.is_valid();
+        bool isWorld = attacker == null || !attacker.IsLegal();
 
         string localKey = health > 0 ? "logs.format.damage" : "logs.format.kill";
         if (isWorld)
@@ -358,28 +358,28 @@ public class JailPlayer
         }
 
         // ct hit by T they are a rebel
-        if (player.is_ct() && attacker.is_t())
+        if (player.IsCt() && attacker.IsT())
         {
-            set_rebel(attacker);
+            SetRebel(attacker);
         }
 
         // log any ct damage
-        else if (attacker.is_ct())
+        else if (attacker.IsCt())
         {
-            //Lib.print_console_all($"CT {attacker.PlayerName} hit {player.PlayerName} for {damage}");
+            //Lib.PrintConsoleAll($"CT {attacker.PlayerName} hit {player.PlayerName} for {damage}");
         }
     }
 
 
     public static readonly String REBEL_PREFIX = $" {ChatColors.Green}[REBEL]: {ChatColors.White}";
 
-    public static JailConfig config = new JailConfig();
+    public static JailConfig Config = new JailConfig();
 
-    public Color laser_colour { get; private set; } = Lib.CYAN;
-    public Color marker_colour { get; private set; } = Lib.CYAN;
+    public Color laserColour { get; private set; } = Lib.CYAN;
+    public Color markerColour { get; private set; } = Lib.CYAN;
     bool cached = false;
 
-    public String ct_gun = "M4";
+    public String ctGun = "M4";
 
-    public bool is_rebel = false;
+    public bool IsRebel = false;
 };

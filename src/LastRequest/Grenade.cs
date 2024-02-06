@@ -15,20 +15,20 @@ using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 public class LRGrenade : LRBase
 {
-    public LRGrenade(LastRequest manager,LastRequest.LRType type,int lr_slot, int player_slot, String choice) : base(manager,type,lr_slot,player_slot,choice)
+    public LRGrenade(LastRequest manager,LastRequest.LRType type,int LRSlot, int playerSlot, String choice) : base(manager,type,LRSlot,playerSlot,choice)
     {
 
     }
 
-    public override void init_player(CCSPlayerController player)
+    public override void InitPlayer(CCSPlayerController player)
     {    
-        weapon_restrict = "hegrenade";
+        weaponRestrict = "hegrenade";
 
-        if(player.is_valid_alive())
+        if(player.IsLegalAlive())
         {
-            player.set_health(150);
+            player.SetHealth(150);
 
-            player.give_weapon("hegrenade");
+            player.GiveWeapon("hegrenade");
 
             switch(choice)
             {
@@ -39,17 +39,17 @@ public class LRGrenade : LRBase
                 
                 case "Low gravity":
                 {
-                    player.set_gravity(0.6f);
+                    player.SetGravity(0.6f);
                     break;
                 }
             }
         }
     }
     
-    public override void grenade_thrown()
+    public override void GrenadeThrown()
     {
-        CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
-        player.strip_weapons(true);
-        give_lr_nade_delay(1.4f,"weapon_hegrenade");
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(playerSlot);
+        player.StripWeapons(true);
+        GiveLRNadeDelay(1.4f,"weapon_hegrenade");
     }
 }

@@ -15,32 +15,32 @@ using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 public class SDGrenade : SDBase
 {
-    public override void setup()
+    public override void Setup()
     {
-        localize_announce("sd.grenade_start");
-        localize_announce("sd.damage_enable",delay);
+        LocalizeAnnounce("sd.grenade_start");
+        LocalizeAnnounce("sd.damage_enable",delay);
     }
 
-    public override void start()
+    public override void Start()
     {
-        localize_announce("sd.fight");
+        LocalizeAnnounce("sd.fight");
     }
 
-    public override void end()
+    public override void End()
     {
-        localize_announce("sd.grenade_end");
+        LocalizeAnnounce("sd.grenade_end");
     }
 
-    public override void setup_player(CCSPlayerController player)
+    public override void SetupPlayer(CCSPlayerController player)
     {
-        player.strip_weapons(true);
-        player.set_health(175);
-        player.give_weapon("hegrenade");
-        weapon_restrict = "hegrenade";
+        player.StripWeapons(true);
+        player.SetHealth(175);
+        player.GiveWeapon("hegrenade");
+        weaponRestrict = "hegrenade";
     }
 
-    public override void grenade_thrown(CCSPlayerController? player)
+    public override void GrenadeThrown(CCSPlayerController? player)
     {
-        player.give_event_nade_delay(1.4f,"weapon_hegrenade");
+        player.GiveEventNadeDelay(1.4f,"weapon_hegrenade");
     }
 }

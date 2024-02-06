@@ -27,7 +27,7 @@ public class Logs
     {
         foreach (CCSPlayerController player in Utilities.GetPlayers())
         {
-            if (player.is_valid() && player.is_connected() && !player.IsBot)
+            if (player.IsLegal() && player.IsConnected() && !player.IsBot)
             {
                 printLogs(player);
             }
@@ -100,9 +100,9 @@ public class Logs
             case CsTeam.Spectator:
                 return plugin.Localizer["role.spectator"];
             case CsTeam.CounterTerrorist:
-                return plugin.Localizer[JailPlugin.warden.is_warden(player) ? "role.warden" : "role.guard"];
+                return plugin.Localizer[JailPlugin.warden.IsWarden(player) ? "role.warden" : "role.guard"];
             case CsTeam.Terrorist:
-                return plugin.Localizer[JailPlugin.warden.jail_players[player.Slot].is_rebel ? "role.rebel" : "role.prisoner"];
+                return plugin.Localizer[JailPlugin.warden.jailPlayers[player.Slot].IsRebel ? "role.rebel" : "role.prisoner"];
             default:
                 return plugin.Localizer["role.unknown"];
         }

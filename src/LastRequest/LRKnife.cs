@@ -13,16 +13,16 @@ using CounterStrikeSharp.API.Modules.Entities.Constants;
 
 public class LRKnife : LRBase
 {
-    public LRKnife(LastRequest manager,LastRequest.LRType type,int lr_slot, int player_slot, String choice) : base(manager,type,lr_slot,player_slot,choice)
+    public LRKnife(LastRequest manager,LastRequest.LRType type,int LRSlot, int playerSlot, String choice) : base(manager,type,LRSlot,playerSlot,choice)
     {
 
     }
 
-    public override void init_player(CCSPlayerController player)
+    public override void InitPlayer(CCSPlayerController player)
     {    
         // give player a knife and restrict them to it
-        player.give_weapon("knife");
-        weapon_restrict = "knife";
+        player.GiveWeapon("knife");
+        weaponRestrict = "knife";
 
         // Handle options
         switch(choice)
@@ -34,19 +34,19 @@ public class LRKnife : LRBase
 
             case "Low gravity":
             {
-                player.set_gravity(0.6f);
+                player.SetGravity(0.6f);
                 break;
             }
 
             case "High speed":
             {
-                player.set_velocity(2.5f);
+                player.SetVelocity(2.5f);
                 break;
             }
                 
             case "One hit":
             {
-                player.set_health(50);
+                player.SetHealth(50);
                 break;
             }
         }

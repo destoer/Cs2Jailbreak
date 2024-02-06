@@ -16,36 +16,36 @@ using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 public class SDScoutKnife : SDBase
 {
-    public override void setup()
+    public override void Setup()
     {
-        localize_announce("sd.scout_start");
-        localize_announce("sd.damage_enable",delay);
+        LocalizeAnnounce("sd.scout_start");
+        LocalizeAnnounce("sd.damage_enable",delay);
     }
 
-    public override void start()
+    public override void Start()
     {
-        localize_announce("sd.fight");
+        LocalizeAnnounce("sd.fight");
     }
 
-    public override void end()
+    public override void End()
     {
-        localize_announce("sd.scout_end");
+        LocalizeAnnounce("sd.scout_end");
     }
 
-    public override void setup_player(CCSPlayerController player)
+    public override void SetupPlayer(CCSPlayerController player)
     {
-        player.strip_weapons();
-        player.give_weapon("ssg08");
-        player.set_gravity(0.1f);
+        player.StripWeapons();
+        player.GiveWeapon("ssg08");
+        player.SetGravity(0.1f);
     }
 
-    public override bool weapon_equip(CCSPlayerController player,String name) 
+    public override bool WeaponEquip(CCSPlayerController player,String name) 
     {
         return name.Contains("knife") || name.Contains("ssg08");
     }
 
-    public override void cleanup_player(CCSPlayerController player)
+    public override void CleanupPlayer(CCSPlayerController player)
     {
-        player.set_gravity(1.0f);
+        player.SetGravity(1.0f);
     }
 }

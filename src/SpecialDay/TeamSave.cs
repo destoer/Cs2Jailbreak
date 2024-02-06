@@ -15,21 +15,21 @@ using CounterStrikeSharp.API.Modules.Admin;
 
 public class TeamSave
 {
-    public void save()
+    public void Save()
     {
         count = 0;
 
         // iter over each active player and save the theam they are on
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            if(!player.is_valid())
+            if(!player.IsLegal())
             {
                 continue;
             }
 
             int team = player.TeamNum;
 
-            if(Lib.is_active_team(team))
+            if(Lib.IsActiveTeam(team))
             {
                 slots[count] = player.Slot;
                 teams[count] = team;
@@ -38,19 +38,19 @@ public class TeamSave
         }      
     }
 
-    public void restore()
+    public void Restore()
     {
         // iter over each player and switch to recorded team
         for(int i = 0; i < count; i++)
         {
             CCSPlayerController? player = Utilities.GetPlayerFromSlot(slots[i]);
 
-            if(!player.is_valid())
+            if(!player.IsLegal())
             {
                 continue;
             }
 
-            if(Lib.is_active_team(player.TeamNum))
+            if(Lib.IsActiveTeam(player.TeamNum))
             {
                 player.SwitchTeam((CsTeam)teams[i]);
             }

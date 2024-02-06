@@ -16,54 +16,54 @@ using System.Drawing;
 
 public abstract class SDBase
 {
-    public abstract void setup();
+    public abstract void Setup();
 
-    public abstract void start();
+    public abstract void Start();
 
-    public abstract void end();
+    public abstract void End();
 
-    public void setup_common()
+    public void SetupCommon()
     {
         // no damage before start
-        restrict_damage = true;
+        restrictDamage = true;
 
         // revive all dead players
 
 
         state = SDState.STARTED;
-        setup();
+        Setup();
 
-        setup_players();
+        SetupPlayers();
     }
 
-    public void start_common()
+    public void StartCommon()
     {
-        restrict_damage = false;
+        restrictDamage = false;
 
         state = SDState.ACTIVE;
-        Entity.force_open();
-        start();
+        Entity.ForceOpen();
+        Start();
     }
 
-    // NOTE: this will be recalled by the disconnect function if the boss dc's
-    public virtual void make_boss(CCSPlayerController? tank, int count)
+    // NOTE: this will be recalled by the Disconnect function if the boss dc's
+    public virtual void MakeBoss(CCSPlayerController? tank, int count)
     {
 
     }
 
-    public (CCSPlayerController, int) pick_boss()
+    public (CCSPlayerController, int) PickBoss()
     {
         // get valid players
         List<CCSPlayerController> players = Utilities.GetPlayers();
-        var valid = players.FindAll(player => player.is_valid_alive());
+        var valid = players.FindAll(player => player.IsLegalAlive());
 
-        CCSPlayerController? rigged = Utilities.GetPlayerFromSlot(rigged_slot);
+        CCSPlayerController? rigged = Utilities.GetPlayerFromSlot(riggedSlot);
 
         // override pick
-        if(rigged.is_valid_alive())
+        if(rigged.IsLegalAlive())
         {
             var player = rigged;
-            rigged_slot = -1;
+            riggedSlot = -1;
             return (player,valid.Count);
         }
 
@@ -72,110 +72,110 @@ public abstract class SDBase
 
         int boss = rnd.Next(0,valid.Count);
 
-        boss_slot = valid[boss].Slot;
+        bossSlot = valid[boss].Slot;
 
         return (valid[boss],valid.Count);
     }
 
-    public void disconnect(CCSPlayerController? player)
+    public void Disconnect(CCSPlayerController? player)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
 
         // player has dced re roll the boss if we have one
-        if(player.Slot == boss_slot)
+        if(player.Slot == bossSlot)
         {
-            (CCSPlayerController boss, int count) = pick_boss();
+            (CCSPlayerController boss, int count) = PickBoss();
 
-            make_boss(boss,count);
+            MakeBoss(boss,count);
         }
     }
 
-    public void end_common()
+    public void EndCommon()
     {
         state = SDState.INACTIVE;
-        end();
+        End();
 
-        Lib.disable_friendly_fire();
+        Lib.DisableFriendlyFire();
 
-        CCSPlayerController? boss = Utilities.GetPlayerFromSlot(boss_slot);
+        CCSPlayerController? boss = Utilities.GetPlayerFromSlot(bossSlot);
 
         // reset the boss colour
-        if(boss.is_valid_alive())
+        if(boss.IsLegalAlive())
         {
-            boss.set_velocity(1.0f);
-            boss.set_colour(Color.FromArgb(255, 255, 255, 255));
+            boss.SetVelocity(1.0f);
+            boss.SetColour(Color.FromArgb(255, 255, 255, 255));
         }
 
-        cleanup_players();
+        CleanupPlayers();
     }
 
-    public bool is_boss(CCSPlayerController? player)
+    public bool IsBoss(CCSPlayerController? player)
     {
         if(player == null)
         {
             return false;
         }
 
-        return player.Slot == boss_slot;
+        return player.Slot == bossSlot;
     }
 
-    public virtual bool weapon_equip(CCSPlayerController player, String name) 
+    public virtual bool WeaponEquip(CCSPlayerController player, String name) 
     {
-        return weapon_restrict == "" || name.Contains(weapon_restrict); 
+        return weaponRestrict == "" || name.Contains(weaponRestrict); 
     }
 
-    public virtual void player_hurt(CCSPlayerController? player,int health,int damage, int hitgroup) {}
+    public virtual void PlayerHurt(CCSPlayerController? player,int health,int damage, int hitgroup) {}
 
-    public virtual void ent_created(CEntityInstance entity) {}
-    public virtual void grenade_thrown(CCSPlayerController? player) {}
+    public virtual void EntCreated(CEntityInstance entity) {}
+    public virtual void GrenadeThrown(CCSPlayerController? player) {}
 
     
 
-    public virtual void death(CCSPlayerController? player, CCSPlayerController? attacker) {}
+    public virtual void Death(CCSPlayerController? player, CCSPlayerController? attacker) {}
 
-    public abstract void setup_player(CCSPlayerController player);
+    public abstract void SetupPlayer(CCSPlayerController player);
 
-    public virtual void cleanup_player(CCSPlayerController player) {}
+    public virtual void CleanupPlayer(CCSPlayerController player) {}
 
-    public void setup_players()
+    public void SetupPlayers()
     {
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            if(player.is_valid_alive())
+            if(player.IsLegalAlive())
             {
                 // reset the player colour incase of rebel
-                player.set_colour(Player.DEFAULT_COLOUR);
+                player.SetColour(Player.DEFAULT_COLOUR);
 
-                setup_player(player);
+                SetupPlayer(player);
             }
         }       
     }
 
-    public void cleanup_players()
+    public void CleanupPlayers()
     {
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            if(player.is_valid_alive())
+            if(player.IsLegalAlive())
             {
-                cleanup_player(player);
+                CleanupPlayer(player);
             }
         }       
     }
 
-    public void localize_announce(String name, params Object[] args)
+    public void LocalizeAnnounce(String name, params Object[] args)
     {
-        Chat.localize_announce(SpecialDay.SPECIALDAY_PREFIX,name,args);
+        Chat.LocalizeAnnounce(SpecialDay.SPECIALDAY_PREFIX,name,args);
     }
 
 
-    public int boss_slot = -1;
-    public int rigged_slot = -1;
+    public int bossSlot = -1;
+    public int riggedSlot = -1;
 
-    public bool restrict_damage = false;
-    public String weapon_restrict = "";
+    public bool restrictDamage = false;
+    public String weaponRestrict = "";
     public SDState state = SDState.INACTIVE;
 
     public int delay = 15;

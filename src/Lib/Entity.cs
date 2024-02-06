@@ -8,7 +8,7 @@ using System.Drawing;
 
 public static class Entity
 {
-    static public void remove(int index, String name)
+    static public void Remove(int index, String name)
     {
         CBaseEntity? ent = Utilities.GetEntityFromIndex<CBaseEntity>(index);
 
@@ -18,21 +18,21 @@ public static class Entity
         }
     }
 
-    static public void remove_delay(this CEntityInstance entity, float delay, String name)
+    static public void RemoveDelay(this CEntityInstance entity, float delay, String name)
     {
         // remove projectile
         if(entity.DesignerName == name)
         {
             int index = (int)entity.Index;
 
-            JailPlugin.global_ctx.AddTimer(delay,() => 
+            JailPlugin.globalCtx.AddTimer(delay,() => 
             {
-                remove(index,name);
+                Remove(index,name);
             });
         }
     }
 
-    static void force_ent_input(String name, String input)
+    static void ForceEntInput(String name, String input)
     {
         // search for door entitys and open all of them!
         var target = Utilities.FindAllEntitiesByDesignerName<CBaseEntity>(name);
@@ -49,7 +49,7 @@ public static class Entity
     }
 
     // TODO: is their a cheaper way to do this?
-    static public int ent_count()
+    static public int EntCount()
     {
         return Utilities.GetAllEntities().Count();
     }
@@ -58,7 +58,7 @@ public static class Entity
     static Vector VEC_ZERO = new Vector(0.0f,0.0f,0.0f);
     static QAngle ANGLE_ZERO = new QAngle(0.0f,0.0f,0.0f);
 
-    static public void move(this CEnvBeam? laser,Vector start, Vector end)
+    static public void Move(this CEnvBeam? laser,Vector start, Vector end)
     {
         if(laser == null)
         {
@@ -77,16 +77,16 @@ public static class Entity
         Utilities.SetStateChanged(laser,"CBeam", "m_vecEndPos");
     }
 
-    static public void move_laser_by_index(int laser_index,Vector start, Vector end)
+    static public void MoveLaserByIndex(int laserIndex,Vector start, Vector end)
     {
-        CEnvBeam? laser = Utilities.GetEntityFromIndex<CEnvBeam>(laser_index);
+        CEnvBeam? laser = Utilities.GetEntityFromIndex<CEnvBeam>(laserIndex);
         if(laser != null && laser.DesignerName == "env_beam")
         {
-            laser.move(start,end);
+            laser.Move(start,end);
         }
     }
 
-    static public void set_colour(this CEnvBeam? laser, Color colour)
+    static public void SetColour(this CEnvBeam? laser, Color colour)
     {
         if(laser != null)
         {
@@ -95,7 +95,7 @@ public static class Entity
     }
 
 
-    static public int draw_laser(Vector start, Vector end, float width, Color colour)
+    static public int DrawLaser(Vector start, Vector end, float width, Color colour)
     {
         CEnvBeam? laser = Utilities.CreateEntityByName<CEnvBeam>("env_beam");
 
@@ -105,13 +105,13 @@ public static class Entity
         }
 
         // setup looks
-        laser.set_colour(colour);
+        laser.SetColour(colour);
         laser.Width = 2.0f;
 
         // circle not working?
         //laser.Flags |= 8;
 
-        laser.move(start,end);
+        laser.Move(start,end);
 
         // start spawn
         laser.DispatchSpawn(); 
@@ -121,29 +121,29 @@ public static class Entity
 
     static String DOOR_PREFIX =  $" {ChatColors.Green}[Door control]: {ChatColors.White}";
 
-    public static void force_close()
+    public static void ForceClose()
     {
-        Chat.announce(DOOR_PREFIX,"Forcing closing all doors!");
+        Chat.Announce(DOOR_PREFIX,"Forcing closing all doors!");
 
-        force_ent_input("func_door","Close");
-        force_ent_input("func_movelinear","Close");
-        force_ent_input("func_door_rotating","Close");
-        force_ent_input("prop_door_rotating","Close");
+        ForceEntInput("func_door","Close");
+        ForceEntInput("func_movelinear","Close");
+        ForceEntInput("func_door_rotating","Close");
+        ForceEntInput("prop_door_rotating","Close");
     }
 
-    public static void force_open()
+    public static void ForceOpen()
     {
-        Chat.announce(DOOR_PREFIX,"Forcing open all doors!");
+        Chat.Announce(DOOR_PREFIX,"Forcing open all doors!");
 
-        force_ent_input("func_door","Open");
-        force_ent_input("func_movelinear","Open");
-        force_ent_input("func_door_rotating","Open");
-        force_ent_input("prop_door_rotating","Open");
-        force_ent_input("func_breakable","Break");
+        ForceEntInput("func_door","Open");
+        ForceEntInput("func_movelinear","Open");
+        ForceEntInput("func_door_rotating","Open");
+        ForceEntInput("prop_door_rotating","Open");
+        ForceEntInput("func_breakable","Break");
     }
 
 
-    static public CCSPlayerController? player(this CEntityInstance? instance)
+    static public CCSPlayerController? Player(this CEntityInstance? instance)
     {
         if(instance == null)
         {
@@ -172,7 +172,7 @@ public static class Entity
         return player_pawn.OriginalController.Value;
     }
 
-    static public CCSPlayerController? player(this CHandle<CBaseEntity> handle)
+    static public CCSPlayerController? Player(this CHandle<CBaseEntity> handle)
     {
         if(handle.IsValid)
         {
@@ -180,7 +180,7 @@ public static class Entity
 
             if(ent != null)
             {
-                return handle.Value.player();
+                return handle.Value.Player();
             }
         }
 

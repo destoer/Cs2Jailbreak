@@ -21,24 +21,24 @@ using System.Diagnostics.CodeAnalysis;
 // wanting to use the timer
 public class Countdown<T>
 {
-    public void start(String countdown_name, int countdown_delay,
-        T countdown_data,Action<T,int>? countdown_print_func, Action <T> countdown_callback)
+    public void Start(String countdownName, int countdownDelay,
+        T countdownData,Action<T,int>? countdownPrintFunc, Action <T> countdownCallback)
     {
-        this.delay = countdown_delay;
-        this.callback = countdown_callback;
-        this.name = countdown_name;
-        this.data = countdown_data;
-        this.print_func = countdown_print_func;
+        this.delay = countdownDelay;
+        this.callback = countdownCallback;
+        this.name = countdownName;
+        this.data = countdownData;
+        this.printFunc = countdownPrintFunc;
 
-        this.handle = JailPlugin.global_ctx.AddTimer(1.0f,countdown,CSTimer.TimerFlags.STOP_ON_MAPCHANGE | CSTimer.TimerFlags.REPEAT);
+        this.handle = JailPlugin.globalCtx.AddTimer(1.0f,Tick,CSTimer.TimerFlags.STOP_ON_MAPCHANGE | CSTimer.TimerFlags.REPEAT);
     }
 
-    public void kill()
+    public void Kill()
     {
-       Lib.kill_timer(ref handle);
+       Lib.KillTimer(ref handle);
     }
 
-    void countdown()
+    void Tick()
     {
         delay -= 1;
 
@@ -47,7 +47,7 @@ public class Countdown<T>
         {
             // kill the timer
             // and then call the callback
-            kill();
+            Kill();
 
             if(callback != null && data != null)
             {
@@ -59,15 +59,15 @@ public class Countdown<T>
         else
         {
             // custom print
-            if(print_func != null && data != null)
+            if(printFunc != null && data != null)
             {
-                print_func(data,delay);
+                printFunc(data,delay);
             }
 
             // default print
             else
             {
-                Chat.print_centre_all($"{name} is starting in {delay} seconds");
+                Chat.PrintCentreAll($"{name} is starting in {delay} seconds");
             }
         }
     }
@@ -75,7 +75,7 @@ public class Countdown<T>
     public int delay = 0;
     public Action<T>? callback = null;
     public String name = "";
-    public Action<T,int>? print_func = null;
+    public Action<T,int>? printFunc = null;
     CSTimer.Timer? handle = null;
 
     // callback data
@@ -86,15 +86,15 @@ public class Countdown<T>
 
 public static class Lib
 {
-    static public bool is_windows()
+    static public bool IsWindows()
     {
         return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
     }
 
-    static public void invoke_player_menu(CCSPlayerController? invoke, String name,
+    static public void InvokePlayerMenu(CCSPlayerController? invoke, String name,
         Action<CCSPlayerController, ChatMenuOption> callback, Func<CCSPlayerController?,bool> filter)
     {
-        if(!invoke.is_valid())
+        if(!invoke.IsLegal())
         {
             return;
         }
@@ -112,43 +112,43 @@ public static class Lib
         ChatMenus.OpenMenu(invoke, menu); 
     }
 
-    public static void colour_menu(CCSPlayerController? player,Action<CCSPlayerController, ChatMenuOption> callback, String name)
+    public static void ColourMenu(CCSPlayerController? player,Action<CCSPlayerController, ChatMenuOption> callback, String name)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
 
-        var colour_menu = new ChatMenu(name);
+        var colourMenu = new ChatMenu(name);
 
         foreach(var item in Lib.COLOUR_CONFIG_MAP)
         {
-            colour_menu.AddMenuOption(item.Key, callback);
+            colourMenu.AddMenuOption(item.Key, callback);
         }
 
-        ChatMenus.OpenMenu(player, colour_menu);    
+        ChatMenus.OpenMenu(player, colourMenu);    
     }
 
-    static public void play_sound_all(String sound)
+    static public void PlaySoundAll(String sound)
     {
         foreach(CCSPlayerController? player in Utilities.GetPlayers())
         {
-            player.play_sound(sound);
+            player.PlaySound(sound);
         }
     }
 
-    static public void mute_t()
+    static public void MuteT()
     {
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            if(player.is_valid() && player.is_t())
+            if(player.IsLegal() && player.IsT())
             {
-                player.mute();
+                player.Mute();
             }
         }
     }
 
-    static public void kill_timer(ref CSTimer.Timer? timer)
+    static public void KillTimer(ref CSTimer.Timer? timer)
     {
         if(timer != null)
         {
@@ -157,24 +157,24 @@ public static class Lib
         }
     }
 
-    static public void unmute_all()
+    static public void UnMuteAll()
     {
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            if(player.is_valid())
+            if(player.IsLegal())
             {
-                player.unmute();
+                player.UnMute();
             }
         }
     }
 
-    static public long cur_timestamp()
+    static public long CurTimestamp()
     {
         return DateTimeOffset.Now.ToUnixTimeSeconds();
     }
 
 
-    static public void enable_friendly_fire()
+    static public void EnableFriendlyFire()
     {
         if(ff != null)
         {
@@ -182,7 +182,7 @@ public static class Lib
         }
     }
 
-    static public void disable_friendly_fire()
+    static public void DisableFriendlyFire()
     {
         if(ff != null)
         {
@@ -190,11 +190,11 @@ public static class Lib
         }
     }
 
-    static public void swap_all_t()
+    static public void SwapAllT()
     {
         // get valid players
         List<CCSPlayerController> players = Utilities.GetPlayers();
-        var valid = players.FindAll(player => player.is_valid_alive());
+        var valid = players.FindAll(player => player.IsLegalAlive());
 
         foreach(var player in valid)
         {
@@ -202,68 +202,68 @@ public static class Lib
         }
     }
 
-    static public List<CCSPlayerController> get_alive_ct()
+    static public List<CCSPlayerController> GetAliveCt()
     {
         List<CCSPlayerController> players = Utilities.GetPlayers();
-        return players.FindAll(player => player.is_valid_alive() && player.is_ct());
+        return players.FindAll(player => player.IsLegalAlive() && player.IsCt());
     }
 
-    static public int ct_count()
+    static public int CtCount()
     {
         List<CCSPlayerController> players = Utilities.GetPlayers();
-        return players.FindAll(player => player.is_valid() && player.is_ct()).Count;        
+        return players.FindAll(player => player.IsLegal() && player.IsCt()).Count;        
     }
 
-    static public int t_count()
+    static public int TCount()
     {
         List<CCSPlayerController> players = Utilities.GetPlayers();
-        return players.FindAll(player => player.is_valid() && player.is_t()).Count;        
+        return players.FindAll(player => player.IsLegal() && player.IsT()).Count;        
     }
 
-    static public int alive_ct_count()
+    static public int AliveCtCount()
     {
-        return get_alive_ct().Count;
+        return GetAliveCt().Count;
     }
 
-    static public List<CCSPlayerController> get_alive_t()
+    static public List<CCSPlayerController> GetAliveT()
     {
         List<CCSPlayerController> players = Utilities.GetPlayers();
-        return players.FindAll(player => player.is_valid_alive() && player.is_t());;
+        return players.FindAll(player => player.IsLegalAlive() && player.IsT());;
     }
 
-    static public int alive_t_count()
+    static public int AliveTCount()
     {
-        return get_alive_t().Count;
+        return GetAliveT().Count;
     }
 
-    static public bool block_enabled()
+    static public bool BlockEnabled()
     {
-        if(block_cvar != null)
+        if(blockCvar != null)
         {
-            return block_cvar.GetPrimitiveValue<int>() == 1;
+            return blockCvar.GetPrimitiveValue<int>() == 1;
         }
 
         return true;
     }
 
-    static public void block_all()
+    static public void BlockAll()
     {
-        if(block_cvar != null)
+        if(blockCvar != null)
         {
-            block_cvar.SetValue(1);
+            blockCvar.SetValue(1);
         }
     }
 
-    static public void unblock_all()
+    static public void UnBlockAll()
     {
-        if(block_cvar != null)
+        if(blockCvar != null)
         {
-            block_cvar.SetValue(0);
+            blockCvar.SetValue(0);
         }
     }
 
     
-    static public void set_cvar_str(String name, String value)
+    static public void SetCvarStr(String name, String value)
     {
         // why doesn't this work lol
         
@@ -275,7 +275,7 @@ public static class Lib
         }
     }
 
-    static public bool is_active_team(int team)
+    static public bool IsActiveTeam(int team)
     {
         return (team == Player.TEAM_T || team == Player.TEAM_CT);
     }
@@ -303,7 +303,7 @@ public static class Lib
         {"Yellow",Color.FromArgb(255,255, 255, 0)} // yellow
     };
 
-    static ConVar? block_cvar = ConVar.Find("mp_solid_teammates");
+    static ConVar? blockCvar = ConVar.Find("mp_solid_teammates");
     static ConVar? ff = ConVar.Find("mp_teammates_are_enemies");
 
     public const int HITGROUP_HEAD = 0x1;

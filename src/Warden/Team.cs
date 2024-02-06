@@ -22,27 +22,27 @@ public partial class Warden
 {
     static readonly String TEAM_PREFIX = $" {ChatColors.Green}[TEAM]: {ChatColors.White}";
     
-    public bool join_team(CCSPlayerController? invoke, CommandInfo command)
+    public bool JoinTeam(CCSPlayerController? invoke, CommandInfo command)
     {
-        if(!invoke.is_valid())
+        if(!invoke.IsLegal())
         {
-            invoke.play_sound("sounds/ui/counter_beep.vsnd");
+            invoke.PlaySound("sounds/ui/counter_beep.vsnd");
             return false;
         }
 
         if(command.ArgCount < 2)
         {
-            invoke.announce(TEAM_PREFIX,$"Invalid team swap args");
-            invoke.play_sound("sounds/ui/counter_beep.vsnd");
+            invoke.Announce(TEAM_PREFIX,$"Invalid team swap args");
+            invoke.PlaySound("sounds/ui/counter_beep.vsnd");
             return false;
         }
 
-        CCSPlayerPawn? pawn = invoke.pawn(); 
+        CCSPlayerPawn? pawn = invoke.Pawn(); 
 
 
         if(!Int32.TryParse(command.ArgByIndex(1),out int team))
         {
-            invoke.play_sound("sounds/ui/counter_beep.vsnd");
+            invoke.PlaySound("sounds/ui/counter_beep.vsnd");
             return false;
         }
 
@@ -50,22 +50,22 @@ public partial class Warden
         {
             case Player.TEAM_CT:
             {
-                if(config.ct_swap_only)
+                if(Config.ctSwapOnly)
                 {
-                    invoke.announce(TEAM_PREFIX,$"Sorry guards must be swapped to CT by admin");
-                    invoke.play_sound("sounds/ui/counter_beep.vsnd");
+                    invoke.Announce(TEAM_PREFIX,$"Sorry guards must be swapped to CT by admin");
+                    invoke.PlaySound("sounds/ui/counter_beep.vsnd");
                     return false;
                 }
 
-                int ct_count = Lib.ct_count();
-                int t_count = Lib.t_count();
+                int CtCount = Lib.CtCount();
+                int TCount = Lib.TCount();
 
                 // check CT aint full 
                 // i.e at a suitable raito or either team is empty
-                if((ct_count * config.bal_guards) > t_count && ct_count != 0 && t_count != 0)
+                if((CtCount * Config.balGuards) > TCount && CtCount != 0 && TCount != 0)
                 {
-                    invoke.announce(TEAM_PREFIX,$"Sorry, CT has too many players {config.bal_guards}:1 ratio maximum");
-                    invoke.play_sound("sounds/ui/counter_beep.vsnd");
+                    invoke.Announce(TEAM_PREFIX,$"Sorry, CT has too many players {Config.balGuards}:1 ratio maximum");
+                    invoke.PlaySound("sounds/ui/counter_beep.vsnd");
                     return false;
                 }
 
@@ -84,24 +84,24 @@ public partial class Warden
 
             default:
             {
-                invoke.announce(TEAM_PREFIX,$"Invalid team swap team");
-                invoke.play_sound("sounds/ui/counter_beep.vsnd");
+                invoke.Announce(TEAM_PREFIX,$"Invalid team swap team");
+                invoke.PlaySound("sounds/ui/counter_beep.vsnd");
                 return false;
             }
         }
     }
 
     [RequiresPermissions("@css/generic")]
-    public void swap_guard_cmd(CCSPlayerController? invoke, CommandInfo command)
+    public void SwapGuardCmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        if(!invoke.is_valid())
+        if(!invoke.IsLegal())
         {
             return;
         }
 
         if(command.ArgCount != 2)
         {
-            invoke.localize("warden.swap_guard_desc");
+            invoke.Localize("warden.swap_guard_desc");
             return;
         }
 
@@ -109,9 +109,9 @@ public partial class Warden
 
         foreach(CCSPlayerController player in target)
         {
-            if(player.is_valid())
+            if(player.IsLegal())
             {
-                invoke.localize("warden.guard_swapped",player.PlayerName);
+                invoke.Localize("warden.guard_swapped",player.PlayerName);
                 player.SwitchTeam(CsTeam.CounterTerrorist);
             }
         }

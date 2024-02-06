@@ -15,20 +15,20 @@ using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 public class LRDodgeball : LRBase
 {
-    public LRDodgeball(LastRequest manager,LastRequest.LRType type,int lr_slot, int player_slot, String choice) : base(manager,type,lr_slot,player_slot,choice)
+    public LRDodgeball(LastRequest manager,LastRequest.LRType type,int LRSlot, int playerSlot, String choice) : base(manager,type,LRSlot,playerSlot,choice)
     {
 
     }
 
-    public override void init_player(CCSPlayerController player)
+    public override void InitPlayer(CCSPlayerController player)
     {    
-        weapon_restrict = "flashbang";
+        weaponRestrict = "flashbang";
 
-        if(player.is_valid_alive())
+        if(player.IsLegalAlive())
         {
-            player.set_health(1);
+            player.SetHealth(1);
 
-            player.give_weapon("flashbang");
+            player.GiveWeapon("flashbang");
 
             switch(choice)
             {
@@ -39,31 +39,31 @@ public class LRDodgeball : LRBase
                 
                 case "Low gravity":
                 {
-                    player.set_gravity(0.6f);
+                    player.SetGravity(0.6f);
                     break;
                 }
             }
         }
     }
     
-    public override void player_hurt(int damage, int health, int hitgroup)
+    public override void PlayerHurt(int damage, int health, int hitgroup)
     {
-        CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(playerSlot);
     
-        if(player.is_valid_alive())
+        if(player.IsLegalAlive())
         {
-            player.slay();
+            player.Slay();
         }
     }
 
-    public override void grenade_thrown()
+    public override void GrenadeThrown()
     {
-        CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
-        give_lr_nade_delay(1.4f,"weapon_flashbang");
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(playerSlot);
+        GiveLRNadeDelay(1.4f,"weapon_flashbang");
     }
 
-    public override void ent_created(CEntityInstance entity)
+    public override void EntCreated(CEntityInstance entity)
     {
-        entity.remove_delay(1.4f,"flashbang_projectile");
+        entity.RemoveDelay(1.4f,"flashbang_projectile");
     }
 }

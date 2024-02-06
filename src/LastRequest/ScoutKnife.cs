@@ -13,19 +13,19 @@ using CounterStrikeSharp.API.Modules.Entities.Constants;
 
 public class LRScoutKnife : LRBase
 {
-    public LRScoutKnife(LastRequest manager,LastRequest.LRType type,int lr_slot, int player_slot, String choice) : base(manager,type,lr_slot,player_slot,choice)
+    public LRScoutKnife(LastRequest manager,LastRequest.LRType type,int LRSlot, int playerSlot, String choice) : base(manager,type,LRSlot,playerSlot,choice)
     {
 
     }
 
-    public override void init_player(CCSPlayerController player)
+    public override void InitPlayer(CCSPlayerController player)
     {
-        player.give_weapon("knife");
-        player.give_weapon("ssg08");
-        player.set_gravity(0.1f);
+        player.GiveWeapon("knife");
+        player.GiveWeapon("ssg08");
+        player.SetGravity(0.1f);
     }
 
-    public override bool weapon_equip(String name) 
+    public override bool WeaponEquip(String name) 
     {
         return name.Contains("knife") || name.Contains("ssg08");  
     }

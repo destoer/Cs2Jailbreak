@@ -15,20 +15,20 @@ using CounterStrikeSharp.API.Modules.Entities.Constants;
 
 public class LRShotForShot : LRBase
 {
-    public LRShotForShot(LastRequest manager,LastRequest.LRType type,int lr_slot, int player_slot, String choice, bool mag = false) : base(manager,type,lr_slot,player_slot,choice)
+    public LRShotForShot(LastRequest manager,LastRequest.LRType type,int LRSlot, int playerSlot, String choice, bool mag = false) : base(manager,type,LRSlot,playerSlot,choice)
     {
-        mag_for_mag = mag;
+        magForMag = mag;
     }
 
-    public override void init_player(CCSPlayerController player)
+    public override void InitPlayer(CCSPlayerController player)
     {   
         // NOTE: clip size assumes mag for mag
         switch(choice)
         {
             case "Deagle":
             {
-                weapon_restrict = "deagle";
-                clip_size = 7;
+                weaponRestrict = "deagle";
+                clipSize = 7;
                 break;
             }
 
@@ -36,122 +36,122 @@ public class LRShotForShot : LRBase
         /*
             case "Usp":
             {
-                weapon_restrict = "usp_silencer";
-                clip_size = 12;
+                weaponRestrict = "usp_silencer";
+                clipSize = 12;
                 break;
             }
         */
             case "Glock":
             {
-                weapon_restrict = "glock";
-                clip_size = 20;
+                weaponRestrict = "glock";
+                clipSize = 20;
                 break;
             }
 
             case "Five seven":
             {
-                weapon_restrict = "fiveseven";
-                clip_size = 20;
+                weaponRestrict = "fiveseven";
+                clipSize = 20;
                 break;
             }
 
             case "Dual Elite":
             {
-                weapon_restrict = "elite";
-                clip_size = 30;
+                weaponRestrict = "elite";
+                clipSize = 30;
                 break;
             }
 
         }
         
         // override to 1 if mag for mag
-        if(!mag_for_mag)
+        if(magForMag)
         {
-            clip_size = 1;
+            clipSize = 1;
         }
 
-        player.give_weapon("" + weapon_restrict);
+        player.GiveWeapon("" + weaponRestrict);
 
 
 
-        var deagle = player.find_weapon("weapon_" + weapon_restrict);
+        var deagle = player.FindWeapon("weapon_" + weaponRestrict);
 
         if(deagle != null)
         {
-            deagle.set_ammo(0,0);
+            deagle.SetAmmo(0,0);
         } 
 
     }
 
-    void pick_clip()
+    void PickClip()
     {
-        (CCSPlayerController? winner,CCSPlayerController? loser,LRBase? winner_lr_base) = pick_rand_player();
+        (CCSPlayerController? winner,CCSPlayerController? loser,LRBase? winnerLRBase) = pick_rand_player();
 
-        LRShotForShot? winner_lr = (LRShotForShot?)winner_lr_base;
+        LRShotForShot? winnerLR = (LRShotForShot?)winnerLRBase;
 
 
         // Give the lucky player the first shot
-        if(winner != null && loser != null && winner_lr != null)
+        if(winner != null && loser != null && winnerLR != null)
         {
-            winner.announce(LastRequest.LR_PREFIX,$"Randomly chose {winner.PlayerName} to shoot first");
-            loser.announce(LastRequest.LR_PREFIX,$"Randomly chose {winner.PlayerName} to shoot first");
+            winner.Announce(LastRequest.LR_PREFIX,$"Randomly chose {winner.PlayerName} to shoot first");
+            loser.Announce(LastRequest.LR_PREFIX,$"Randomly chose {winner.PlayerName} to shoot first");
 
-            winner_lr.reload_clip();
+            winnerLR.ReloadClip();
         }
     }
 
-    public override void pair_activate()
+    public override void PairActivate()
     {
-        pick_clip();
+        PickClip();
     }
 
-    public override void weapon_fire(String name)
+    public override void WeaponFire(String name)
     {
-        if(name.Contains(weapon_restrict))
+        if(name.Contains(weaponRestrict))
         {
             fire_clip();
         }
     }
 
-    void reload_clip()
+    void ReloadClip()
     {
-        CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(playerSlot);
 
-        if(player.is_valid_alive())
+        if(player.IsLegalAlive())
         {     
             player.PrintToChat($"{LastRequest.LR_PREFIX} Reload!");
 
-            var deagle = player.find_weapon("weapon_" + weapon_restrict);
+            var deagle = player.FindWeapon("weapon_" + weaponRestrict);
 
             if(deagle != null)
             {
-                deagle.set_ammo(clip_size,0);
+                deagle.SetAmmo(clipSize,0);
             } 
 
-            cur_clip = clip_size;
+            curClip = clipSize;
         }          
     }
 
     void fire_clip()
     {
-        if(cur_clip <= 0)
+        if(curClip <= 0)
         {
             return;
         }
 
-        cur_clip -= 1;
+        curClip -= 1;
 
-        //Server.PrintToChatAll($"Fired {cur_clip}");
+        //Server.PrintToChatAll($"Fired {curClip}");
 
-        if(cur_clip <= 0 && partner != null)
+        if(curClip <= 0 && partner != null)
         {
-            var lr_shot = (LRShotForShot)partner; 
-            lr_shot.reload_clip();
+            var lrShot = (LRShotForShot)partner; 
+            lrShot.ReloadClip();
         }
     }
 
-    int clip_size = 1;
-    int cur_clip = 0;
+    int clipSize = 1;
+    int curClip = 0;
 
-    bool mag_for_mag = false;
+    bool magForMag = false;
 }

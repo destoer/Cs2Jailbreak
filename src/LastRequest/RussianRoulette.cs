@@ -13,84 +13,84 @@ using CounterStrikeSharp.API.Modules.Entities.Constants;
 
 public class LRRussianRoulette : LRBase
 {
-    public LRRussianRoulette(LastRequest manager,LastRequest.LRType type,int lr_slot, int player_slot, String choice) : base(manager,type,lr_slot,player_slot,choice)
+    public LRRussianRoulette(LastRequest manager,LastRequest.LRType type,int LRSlot, int playerSlot, String choice) : base(manager,type,LRSlot,playerSlot,choice)
     {
 
     }
 
-    public override void init_player(CCSPlayerController player)
+    public override void InitPlayer(CCSPlayerController player)
     {    
-        weapon_restrict = "deagle";
+        weaponRestrict = "deagle";
 
-        player.give_weapon("deagle");
+        player.GiveWeapon("deagle");
 
-        var deagle = player.find_weapon("weapon_" + weapon_restrict);
+        var deagle = player.FindWeapon("weapon_" + weaponRestrict);
 
         if(deagle != null)
         {
-            deagle.set_ammo(0,0);
+            deagle.SetAmmo(0,0);
         } 
 
-        restrict_damage = true;
+        restrictDamage = true;
     }
 
-    public override void pair_activate()
+    public override void PairActivate()
     {
-        (CCSPlayerController? winner,CCSPlayerController? loser,LRBase? winner_lr_base) = pick_rand_player();
+        (CCSPlayerController? winner,CCSPlayerController? loser,LRBase? winnerLRBase) = pick_rand_player();
 
-        LRRussianRoulette? winner_lr = (LRRussianRoulette?)winner_lr_base;
+        LRRussianRoulette? winnerLR = (LRRussianRoulette?)winnerLRBase;
 
 
         // Give the lucky player the first shot
-        if(winner != null && loser != null && winner_lr != null)
+        if(winner != null && loser != null && winnerLR != null)
         {
-            winner.announce(LastRequest.LR_PREFIX,$"Randomly chose {winner.PlayerName} to shoot first");
-            loser.announce(LastRequest.LR_PREFIX,$"Randomly chose {winner.PlayerName} to shoot first");
+            winner.Announce(LastRequest.LR_PREFIX,$"Randomly chose {winner.PlayerName} to shoot first");
+            loser.Announce(LastRequest.LR_PREFIX,$"Randomly chose {winner.PlayerName} to shoot first");
 
-            winner_lr.reload_clip();
+            winnerLR.ReloadClip();
         }   
     }
 
-    public override void weapon_fire(String name)
+    public override void WeaponFire(String name)
     {
-        CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(playerSlot);
 
-        if(name.Contains(weapon_restrict) && player.is_valid())
+        if(name.Contains(weaponRestrict) && player.IsLegal())
         {
             Random rnd = new Random((int)DateTime.Now.Ticks);
 
             // Bang!
             if(rnd.Next(0,7) == 6)
             {
-                player.slay();
-                Chat.announce(LastRequest.LR_PREFIX,$"{player.PlayerName} brains splattered against the wall");
+                player.Slay();
+                Chat.Announce(LastRequest.LR_PREFIX,$"{player.PlayerName} brains splattered against the wall");
             }
 
             else if(partner != null)
             {
-                player.announce(LastRequest.LR_PREFIX,"Click!");
+                player.Announce(LastRequest.LR_PREFIX,"Click!");
                 var lr_shot = (LRRussianRoulette)partner; 
-                lr_shot.reload_clip();
+                lr_shot.ReloadClip();
             }
         }
     }
 
-    void reload_clip()
+    void ReloadClip()
     {
-        CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(playerSlot);
 
-        if(player.is_valid_alive())
+        if(player.IsLegalAlive())
         {     
             player.PrintToChat($"{LastRequest.LR_PREFIX} Reload!");
 
-            var deagle = player.find_weapon("weapon_" + weapon_restrict);
+            var deagle = player.FindWeapon("weapon_" + weaponRestrict);
 
             // NOTE: this doesn't update the unload state
             // however giving a new gun doesn't work either because it doesnt register fast enough
             // also taking a gun away too quickly after a shot will cause it not to register
             if(deagle != null)
             {
-                deagle.set_ammo(1,0);
+                deagle.SetAmmo(1,0);
             }
         }     
     }

@@ -16,45 +16,45 @@ using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 public partial class LastRequest
 {
-    bool can_start_lr(CCSPlayerController? player)
+    bool CanStartLR(CCSPlayerController? player)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return false;
         }
 
         // prevent starts are round begin to stop lr activations on map joins
-        if(Lib.cur_timestamp() - start_timestamp < 15)
+        if(Lib.CurTimestamp() - startTimestamp < 15)
         {
-            player.localise_prefix(LR_PREFIX,"lr.wait");
+            player.LocalisePrefix(LR_PREFIX,"lr.wait");
             return false;
         }
 
-        if(!is_valid_t(player))
+        if(!IsValidT(player))
         {
             return false;
         } 
 
-        if(JailPlugin.warden.is_alive_rebel(player) && config.rebel_cant_lr)
+        if(JailPlugin.warden.IsAliveRebel(player) && Config.rebelCantLr)
         {
-            player.localise_prefix(LR_PREFIX,"lr.rebel_cant_lr");
+            player.LocalisePrefix(LR_PREFIX,"lr.rebel_cant_lr");
             return false;
         }
 
         
-        if(Lib.alive_t_count() > active_lr.Length)
+        if(Lib.AliveTCount() > activeLR.Length)
         {
-            player.localise_prefix(LR_PREFIX,"lr.too_many",active_lr.Length);
+            player.LocalisePrefix(LR_PREFIX,"lr.too_many",activeLR.Length);
             return false;
         }
 
         return true;
     }
 
-    public void finialise_choice(CCSPlayerController? player, ChatMenuOption option)
+    public void FinaliseChoice(CCSPlayerController? player, ChatMenuOption option)
     {
         // called from pick_parter -> finalise the type struct
-        LRChoice? choice = choice_from_player(player);
+        LRChoice? choice = ChoiceFromPlayer(player);
 
         if(choice == null)
         {
@@ -63,129 +63,129 @@ public partial class LastRequest
         
         String name = option.Text;
 
-        choice.ct_slot = Player.slot_from_name(name);
+        choice.ctSlot = Player.SlotFromName(name);
 
         // finally setup the lr
-        init_lr(choice);
+        InitLR(choice);
     }
 
-    public void picked_option(CCSPlayerController? player, ChatMenuOption option)
+    public void PickedOption(CCSPlayerController? player, ChatMenuOption option)
     {
-        pick_partner_internal(player,option.Text);
+        PickPartnerInternal(player,option.Text);
     }
 
-    public void pick_option(CCSPlayerController? player, ChatMenuOption option)
+    public void PickOption(CCSPlayerController? player, ChatMenuOption option)
     {
         // called from lr_type selection
         // save type
-        LRChoice? choice = choice_from_player(player);
+        LRChoice? choice = ChoiceFromPlayer(player);
 
-        if(choice == null || !player.is_valid())
+        if(choice == null || !player.IsLegal())
         {
             return;
         }
 
-        choice.type = type_from_name(option.Text);
+        choice.type = TypeFromName(option.Text);
 
-        String lr_name = LR_NAME[(int)choice.type];
+        String lrName = LR_NAME[(int)choice.type];
 
         // now select option
         switch(choice.type)
         {
             case LRType.KNIFE:
             {
-                var lr_menu = new ChatMenu($"Choice Menu ({lr_name})");
+                var lrMenu = new ChatMenu($"Choice Menu ({lrName})");
 
-                lr_menu.AddMenuOption("Vanilla", picked_option);
-                lr_menu.AddMenuOption("Low gravity", picked_option);
-                lr_menu.AddMenuOption("High speed", picked_option);
-                lr_menu.AddMenuOption("One hit", picked_option);
+                lrMenu.AddMenuOption("Vanilla", PickedOption);
+                lrMenu.AddMenuOption("Low gravity", PickedOption);
+                lrMenu.AddMenuOption("High speed", PickedOption);
+                lrMenu.AddMenuOption("One hit", PickedOption);
                 
-                ChatMenus.OpenMenu(player, lr_menu);                
+                ChatMenus.OpenMenu(player, lrMenu);                
                 break;
             }
 
             case LRType.DODGEBALL:
             {
-                var lr_menu = new ChatMenu($"Choice Menu ({lr_name})");
+                var lrMenu = new ChatMenu($"Choice Menu ({lrName})");
 
-                lr_menu.AddMenuOption("Vanilla", picked_option);
-                lr_menu.AddMenuOption("Low gravity", picked_option);
+                lrMenu.AddMenuOption("Vanilla", PickedOption);
+                lrMenu.AddMenuOption("Low gravity", PickedOption);
 
-                ChatMenus.OpenMenu(player, lr_menu);
+                ChatMenus.OpenMenu(player, lrMenu);
                 break;
             }
 
             case LRType.NO_SCOPE:
             {
-                var lr_menu = new ChatMenu($"Choice Menu ({lr_name})");
+                var lrMenu = new ChatMenu($"Choice Menu ({lrName})");
 
-                lr_menu.AddMenuOption("Awp", picked_option);
-                lr_menu.AddMenuOption("Scout", picked_option);
+                lrMenu.AddMenuOption("Awp", PickedOption);
+                lrMenu.AddMenuOption("Scout", PickedOption);
 
-                ChatMenus.OpenMenu(player, lr_menu);
+                ChatMenus.OpenMenu(player, lrMenu);
                 break;                
             }
 
             case LRType.GRENADE:
             {
-                var lr_menu = new ChatMenu($"Choice Menu ({lr_name})");
+                var lrMenu = new ChatMenu($"Choice Menu ({lrName})");
 
-                lr_menu.AddMenuOption("Vanilla", picked_option);
-                lr_menu.AddMenuOption("Low gravity", picked_option);
+                lrMenu.AddMenuOption("Vanilla", PickedOption);
+                lrMenu.AddMenuOption("Low gravity", PickedOption);
 
-                ChatMenus.OpenMenu(player, lr_menu);
+                ChatMenus.OpenMenu(player, lrMenu);
                 break;
             }
 
             case LRType.SHOT_FOR_SHOT:
             case LRType.MAG_FOR_MAG:
             {
-                var lr_menu = new ChatMenu($"Choice Menu ({lr_name})");
+                var lrMenu = new ChatMenu($"Choice Menu ({lrName})");
 
-                lr_menu.AddMenuOption("Deagle",picked_option);
-                //lr_menu.AddMenuOption("Usp",picked_option);
-                lr_menu.AddMenuOption("Glock",picked_option);
-                lr_menu.AddMenuOption("Five seven",picked_option);
-                lr_menu.AddMenuOption("Dual Elite",picked_option);
+                lrMenu.AddMenuOption("Deagle",PickedOption);
+                //lrMenu.AddMenuOption("Usp",PickedOption);
+                lrMenu.AddMenuOption("Glock",PickedOption);
+                lrMenu.AddMenuOption("Five seven",PickedOption);
+                lrMenu.AddMenuOption("Dual Elite",PickedOption);
 
-                ChatMenus.OpenMenu(player, lr_menu);
+                ChatMenus.OpenMenu(player, lrMenu);
                 break;
             }
 
             // no choices just pick a partner
             default:
             {
-                pick_partner_internal(player,"");
+                PickPartnerInternal(player,"");
                 break;
             }
         }
     }
 
-    void pick_partner_internal(CCSPlayerController? player, String name)
+    void PickPartnerInternal(CCSPlayerController? player, String name)
     {
         // called from pick_choice -> pick partner
-        LRChoice? choice = choice_from_player(player);
+        LRChoice? choice = ChoiceFromPlayer(player);
 
-        if(choice == null || !player.is_valid())
+        if(choice == null || !player.IsLegal())
         {
             return;
         }
 
         choice.option = name;
 
-        String lr_name = LR_NAME[(int)choice.type];
-        String menu_name = $"Partner Menu ({lr_name})";
+        String lrName = LR_NAME[(int)choice.type];
+        String menuName = $"Partner Menu ({lrName})";
 
         // Debugging pick t's
-        if(choice.bypass && player.is_ct())
+        if(choice.bypass && player.IsCt())
         {
-            Lib.invoke_player_menu(player,menu_name,finialise_choice,Player.is_valid_alive_t);
+            Lib.InvokePlayerMenu(player,menuName,FinaliseChoice,Player.IsLegalAliveT);
         }
 
         else
         {
-            Lib.invoke_player_menu(player,menu_name,finialise_choice,Player.is_valid_alive_ct);
+            Lib.InvokePlayerMenu(player,menuName,FinaliseChoice,Player.IsLegalAliveCT);
         }   
     }
 

@@ -27,44 +27,44 @@ public enum SDState
 public partial class SpecialDay
 {
 
-    public void end_sd(bool forced = false)
+    public void EndSD(bool forced = false)
     {
-        if(active_sd != null)
+        if(activeSD != null)
         {
-            JailPlugin.end_event();
-            active_sd.end_common();
-            active_sd = null;
+            JailPlugin.EndEvent();
+            activeSD.EndCommon();
+            activeSD = null;
 
-            countdown.kill();
+            countdown.Kill();
 
             // restore all players if from a cancel
             if(forced)
             {
-                Chat.announce(SPECIALDAY_PREFIX,"Special day cancelled");
+                Chat.Announce(SPECIALDAY_PREFIX,"Special day cancelled");
             }  
 
-            team_save.restore();
+            teamSave.Restore();
         }     
     }
 
-    public void setup_sd(CCSPlayerController? invoke, ChatMenuOption option)
+    public void SetupSD(CCSPlayerController? invoke, ChatMenuOption option)
     {
-        if(!invoke.is_valid())
+        if(!invoke.IsLegal())
         {
             return;
         }
 
-        if(active_sd != null)
+        if(activeSD != null)
         {
-            invoke.announce(SPECIALDAY_PREFIX,"You cannot call two SD's at once");
+            invoke.Announce(SPECIALDAY_PREFIX,"You cannot call two SD's at once");
             return;
         }
 
         // invoked as warden
         // reset the round counter so they can't do it again
-        if(wsd_command)
+        if(wsdCommand)
         {
-            wsd_round = 0;
+            wsdRound = 0;
         }
 
 
@@ -74,70 +74,70 @@ public partial class SpecialDay
         {
             case "Friendly fire":
             {
-                active_sd = new SDFriendlyFire();
+                activeSD = new SDFriendlyFire();
                 type = SDType.FRIENDLY_FIRE;
                 break;
             }
 
             case "Juggernaut":
             {
-                active_sd = new SDJuggernaut();
+                activeSD = new SDJuggernaut();
                 type = SDType.JUGGERNAUT;
                 break;             
             }
 
             case "Tank":
             {
-                active_sd = new SDTank();
+                activeSD = new SDTank();
                 type = SDType.TANK;
                 break;                          
             }
 
             case "Scout knife":
             {
-                active_sd = new SDScoutKnife();
+                activeSD = new SDScoutKnife();
                 type = SDType.SCOUT_KNIFE;
                 break;
             }
 
             case "Headshot only":
             {
-                active_sd = new SDHeadshotOnly();
+                activeSD = new SDHeadshotOnly();
                 type = SDType.HEADSHOT_ONLY;
                 break;             
             }
 
             case "Knife warday":
             {
-                active_sd = new SDKnifeWarday();
+                activeSD = new SDKnifeWarday();
                 type = SDType.KNIFE_WARDAY;
                 break;             
             }
 
             case "Hide and seek":
             {
-                active_sd = new SDHideAndSeek();
+                activeSD = new SDHideAndSeek();
                 type = SDType.HIDE_AND_SEEK;
                 break;               
             }
 
             case "Dodgeball":
             {
-                active_sd = new SDDodgeball();
+                activeSD = new SDDodgeball();
                 type = SDType.DODGEBALL;
                 break;             
             }
 
             case "Spectre":
             {
-                active_sd = new SDSpectre();
+                activeSD = new SDSpectre();
                 type = SDType.SPECTRE;
                 break;                            
             }
 
             case "Grenade":
             {
-                active_sd = new SDGrenade();
+                activeSD = new SDGrenade();
                 type = SDType.GRENADE;
                 break;             
             }
@@ -147,141 +147,141 @@ public partial class SpecialDay
         // 1up all dead players
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            if(player.is_valid() && !player.is_valid_alive())
+            if(player.IsLegal() && !player.IsLegalAlive())
             {
                 player.Respawn();
             }
         }
 
         // call the intiail sd setup
-        if(active_sd != null)
+        if(activeSD != null)
         {
-            JailPlugin.start_event();
+            JailPlugin.StartEvent();
 
-            active_sd.delay = delay;
-            active_sd.setup_common();
+            activeSD.delay = delay;
+            activeSD.SetupCommon();
         }
 
         // start the countdown for enable
-        if(JailPlugin.global_ctx != null)
+        if(JailPlugin.globalCtx != null)
         {
-            countdown.start($"{name} specialday",delay,0,null,start_sd);
+            countdown.Start($"{name} specialday",delay,0,null,StartSD);
         }
 
-        team_save.save();
+        teamSave.Save();
     }
 
-    public void start_sd(int unused)
+    public void StartSD(int unused)
     {
-        if(active_sd != null)
+        if(activeSD != null)
         {
             // force ff active
-            if(override_ff)
+            if(overrideFF)
             {
-                Chat.localize_announce(SPECIALDAY_PREFIX,"sd.ffd_enable");
-                Lib.enable_friendly_fire();
+                Chat.LocalizeAnnounce(SPECIALDAY_PREFIX,"sd.ffd_enable");
+                Lib.EnableFriendlyFire();
             }
 
-            active_sd.start_common();
+            activeSD.StartCommon();
         }  
     }
 
     [RequiresPermissions("@css/generic")]
-    public void cancel_sd_cmd(CCSPlayerController? player,CommandInfo command)
+    public void CancelSDCmd(CCSPlayerController? player,CommandInfo command)
     {
-        end_sd(true);
+        EndSD(true);
     }
 
-    public void sd_cmd_internal(CCSPlayerController? player,CommandInfo command)
+    public void SDCmdInternal(CCSPlayerController? player,CommandInfo command)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
 
         delay = 15;
 
-        if(Int32.TryParse(command.ArgByIndex(1),out int delay_opt))
+        if(Int32.TryParse(command.ArgByIndex(1),out int delayOpt))
         {
-            delay = delay_opt;
+            delay = delayOpt;
         }
 
 
-        ChatMenu sd_menu = new ChatMenu("Specialday");
+        ChatMenu sdMenu = new ChatMenu("Specialday");
 
         // Build the basic LR menu
         for(int s = 0; s < SD_NAME.Length - 1; s++)
         {
-            sd_menu.AddMenuOption(SD_NAME[s], setup_sd);
+            sdMenu.AddMenuOption(SD_NAME[s], SetupSD);
         }
         
-        ChatMenus.OpenMenu(player, sd_menu);
+        ChatMenus.OpenMenu(player, sdMenu);
     }
 
 
     [RequiresPermissions("@jail/debug")]
-    public void sd_rig_cmd(CCSPlayerController? player,CommandInfo command)
+    public void SDRigCmd(CCSPlayerController? player,CommandInfo command)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
 
-        if(active_sd != null && active_sd.state == SDState.STARTED)
+        if(activeSD != null && activeSD.state == SDState.STARTED)
         {
             player.PrintToChat($"Rigged sd boss to {player.PlayerName}");
-            active_sd.rigged_slot = player.Slot;
+            activeSD.riggedSlot = player.Slot;
         }
     }   
 
     [RequiresPermissions("@css/generic")]
-    public void sd_cmd(CCSPlayerController? player,CommandInfo command)
+    public void SDCmd(CCSPlayerController? player,CommandInfo command)
     {
-        override_ff = false;
-        wsd_command = false;
-        sd_cmd_internal(player,command);
+        overrideFF = false;
+        wsdCommand = false;
+        SDCmdInternal(player,command);
     }   
 
     [RequiresPermissions("@css/generic")]
-    public void sd_ff_cmd(CCSPlayerController? player,CommandInfo command)
+    public void SDFFCmd(CCSPlayerController? player,CommandInfo command)
     {
-        override_ff = true;
-        wsd_command = false;
-        sd_cmd_internal(player,command);
+        overrideFF = true;
+        wsdCommand = false;
+        SDCmdInternal(player,command);
     }   
 
-    public void warden_sd_cmd_internal(CCSPlayerController? player,CommandInfo command)
+    public void WardenSDCmdInternal(CCSPlayerController? player,CommandInfo command)
     {
-        if(!JailPlugin.is_warden(player))
+        if(!JailPlugin.IsWarden(player))
         {
-            player.announce(SPECIALDAY_PREFIX,"You must be a warden to use this command");
+            player.Announce(SPECIALDAY_PREFIX,"You must be a warden to use this command");
             return;
         }
 
         // Not ready yet
-        if(wsd_round < config.wsd_round)
+        if(wsdRound < Config.wsdRound)
         {
-            player.announce(SPECIALDAY_PREFIX,$"Please wait {config.wsd_round - wsd_round} more rounds");
+            player.Announce(SPECIALDAY_PREFIX,$"Please wait {Config.wsdRound - wsdRound} more rounds");
             return;
         }
 
         // Go!
-        wsd_command = true;
-        sd_cmd_internal(player,command);
+        wsdCommand = true;
+        SDCmdInternal(player,command);
     }
 
-    public void warden_sd_cmd(CCSPlayerController? player,CommandInfo command)
+    public void WardenSDCmd(CCSPlayerController? player,CommandInfo command)
     {
-        override_ff = false;
+        overrideFF = false;
 
-        warden_sd_cmd_internal(player,command);
+        WardenSDCmdInternal(player,command);
     }   
 
-    public void warden_sd_ff_cmd(CCSPlayerController? player,CommandInfo command)
+    public void WardenSDFFCmd(CCSPlayerController? player,CommandInfo command)
     {
-        override_ff = true;
+        overrideFF = true;
 
-        warden_sd_cmd_internal(player,command);
+        WardenSDCmdInternal(player,command);
     }   
 
     public enum SDType
@@ -317,21 +317,21 @@ public partial class SpecialDay
 
     int delay = 15;
 
-    public int wsd_round = 0;
+    public int wsdRound = 0;
 
     // NOTE: if we cared we would make this per player
     // so we can't get weird conflicts, but its not a big deal
-    bool wsd_command = false;
+    bool wsdCommand = false;
 
-    SDBase? active_sd = null;
+    SDBase? activeSD = null;
 
-    bool override_ff = false;
+    bool overrideFF = false;
 
     Countdown<int> countdown = new Countdown<int>();
 
     SDType type = SDType.NONE;
 
-    public JailConfig config = new JailConfig();
+    public JailConfig Config = new JailConfig();
 
-    TeamSave team_save = new TeamSave();
+    TeamSave teamSave = new TeamSave();
 };
