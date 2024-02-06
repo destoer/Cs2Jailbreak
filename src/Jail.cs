@@ -595,6 +595,8 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         if(player.IsLegal())
         {
+            // close menu on team switch to prevent illegal usage
+            //MenuManager.CloseActiveMenu(player);
             warden.SwitchTeam(player,new_team);
         }
 

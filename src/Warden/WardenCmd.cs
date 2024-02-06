@@ -322,7 +322,7 @@ public partial class Warden
         }
 
         // player must be alive
-        if(!player.PawnIsAlive)
+        if(!player.IsLegalAlive())
         {
             player.LocalisePrefix(WARDEN_PREFIX,"warden.warden_req_alive");
         }        

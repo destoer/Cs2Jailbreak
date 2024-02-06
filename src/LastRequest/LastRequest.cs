@@ -96,7 +96,7 @@ public partial class LastRequest
         // Double check we can still do an LR before we trigger!
         if(!choice.bypass)
         {
-            if(!can_start_lr(tPlayer))
+            if(!CanStartLR(tPlayer) || !CanStartLR(ctPlayer))
             {
                 return;
             }
@@ -120,6 +120,12 @@ public partial class LastRequest
                 slot = lr;
                 break;
             }
+        }
+
+        if(slot == -1)
+        {
+            Chat.Announce(LR_PREFIX,"error Could not find empty lr slot");  
+            return;
         }
 
         // create the LR
@@ -285,7 +291,7 @@ public partial class LastRequest
         activeLR[slot] = null;
     }
 
-    bool is_valid_t(CCSPlayerController? player)
+    bool IsValidT(CCSPlayerController? player)
     {
         if(!player.IsLegal())
         {
@@ -354,11 +360,11 @@ public partial class LastRequest
     }
 
 
-    public void add_lr(ChatMenu menu, bool cond, LRType type)
+    public void AddLR(ChatMenu menu, bool cond, LRType type)
     {
         if(cond)
         {
-            menu.AddMenuOption(LR_NAME[(int)type],pick_option);
+            menu.AddMenuOption(LR_NAME[(int)type],PickOption);
         }
     }
 
@@ -376,40 +382,40 @@ public partial class LastRequest
         lrChoice[playerSlot].tSlot = playerSlot;
         lrChoice[playerSlot].bypass = bypass;
 
-        var lr_menu = new ChatMenu("LR Menu");
+        var lrMenu = new ChatMenu("LR Menu");
 
-        add_lr(lr_menu,Config.lrKnife,LRType.KNIFE);
-        add_lr(lr_menu,Config.lrGunToss,LRType.GUN_TOSS);
-        add_lr(lr_menu,Config.lrDodgeball,LRType.DODGEBALL);
-        add_lr(lr_menu,Config.lrNoScope,LRType.NO_SCOPE);
-        add_lr(lr_menu,Config.lrGrenade,LRType.GRENADE);
-        add_lr(lr_menu,Config.lrShotgunWar,LRType.SHOTGUN_WAR);
-        add_lr(lr_menu,Config.lrRussianRoulette,LRType.RUSSIAN_ROULETTE);
-        add_lr(lr_menu,Config.lrScoutKnife,LRType.SCOUT_KNIFE);
-        add_lr(lr_menu,Config.lrHeadshotOnly,LRType.HEADSHOT_ONLY);
-        add_lr(lr_menu,Config.lrShotForShot,LRType.SHOT_FOR_SHOT);
-        add_lr(lr_menu,Config.lrMagForMag,LRType.MAG_FOR_MAG);
+        AddLR(lrMenu,Config.lrKnife,LRType.KNIFE);
+        AddLR(lrMenu,Config.lrGunToss,LRType.GUN_TOSS);
+        AddLR(lrMenu,Config.lrDodgeball,LRType.DODGEBALL);
+        AddLR(lrMenu,Config.lrNoScope,LRType.NO_SCOPE);
+        AddLR(lrMenu,Config.lrGrenade,LRType.GRENADE);
+        AddLR(lrMenu,Config.lrShotgunWar,LRType.SHOTGUN_WAR);
+        AddLR(lrMenu,Config.lrRussianRoulette,LRType.RUSSIAN_ROULETTE);
+        AddLR(lrMenu,Config.lrScoutKnife,LRType.SCOUT_KNIFE);
+        AddLR(lrMenu,Config.lrHeadshotOnly,LRType.HEADSHOT_ONLY);
+        AddLR(lrMenu,Config.lrShotForShot,LRType.SHOT_FOR_SHOT);
+        AddLR(lrMenu,Config.lrMagForMag,LRType.MAG_FOR_MAG);
 
 
         // rebel
         if(CanRebel())
         {
-            lr_menu.AddMenuOption("Knife rebel",StartKnifeRebel);
-            lr_menu.AddMenuOption("Rebel",StartRebel);
+            lrMenu.AddMenuOption("Knife rebel",StartKnifeRebel);
+            lrMenu.AddMenuOption("Rebel",StartRebel);
         /*
             if(Config.riotEnable)
             {
-                lr_menu.AddMenuOption("Riot",start_riot);
+                lrMenu.AddMenuOption("Riot",start_riot);
             }
         */
         }
 
-        ChatMenus.OpenMenu(player, lr_menu);
+        ChatMenus.OpenMenu(player, lrMenu);
     }
 
     public void LRCmd(CCSPlayerController? player, CommandInfo command)
     {   
-        if(!can_start_lr(player))
+        if(!CanStartLR(player))
         {
             return;
         }
@@ -443,7 +449,7 @@ public partial class LastRequest
     }
 
     // TODO: when we can pass extra data in menus this should not be needed
-    LRType type_from_name(String name)
+    LRType TypeFromName(String name)
     {
         for(int t = 0; t < LR_NAME.Length; t++)
         {
@@ -456,7 +462,7 @@ public partial class LastRequest
         return LRType.NONE;
     }
 
-    LRChoice? choice_from_player(CCSPlayerController? player)
+    LRChoice? ChoiceFromPlayer(CCSPlayerController? player)
     {
         if(!player.IsLegal())
         {
