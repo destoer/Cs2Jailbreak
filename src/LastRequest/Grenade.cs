@@ -46,7 +46,7 @@ public class LRGrenade : LRBase
         }
     }
     
-    public override void grenade_thrown()
+    public override void GrenadeThrown()
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
         player.StripWeapons(true);

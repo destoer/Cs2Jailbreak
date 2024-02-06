@@ -33,7 +33,7 @@ public class LRGunToss : LRBase
         }         
     }
 
-    public override bool weapon_equip(String name) 
+    public override bool WeaponEquip(String name) 
     {
         return name.Contains("knife") || name.Contains("deagle");  
     }

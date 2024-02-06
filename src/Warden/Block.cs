@@ -41,7 +41,7 @@ public class Block
         }
     }
 
-    public void round_start()
+    public void RoundStart()
     {
         // TODO: for now we just assume no block
         // we wont have a cvar

@@ -111,7 +111,7 @@ public class JailPlayer
         }
     }
 
-    async Task load_player_db(String steam_id)
+    async Task LoadPlayer_db(String steam_id)
     {
         using (var connection = new SqliteConnection("Data Source=destoer_config.sqlite"))
         {
@@ -155,7 +155,7 @@ public class JailPlayer
         }
     }
 
-    public void load_player(CCSPlayerController? player)
+    public void LoadPlayer(CCSPlayerController? player)
     {
         if (!player.is_valid())
         {
@@ -174,7 +174,7 @@ public class JailPlayer
         // make sure this doesn't block the main thread
         Task.Run(async () =>
         {
-            await load_player_db(steam_id);
+            await LoadPlayer_db(steam_id);
         });
     }
 
@@ -298,7 +298,7 @@ public class JailPlayer
         }
     }  
 
-    public void rebel_death(CCSPlayerController? player, CCSPlayerController? killer)
+    public void RebelDeath(CCSPlayerController? player, CCSPlayerController? killer)
     {
         // event active dont care
         if (JailPlugin.event_active())
@@ -319,7 +319,7 @@ public class JailPlayer
         }
     }
 
-    public void rebel_weapon_fire(CCSPlayerController? player, String weapon)
+    public void rebel_WeaponFire(CCSPlayerController? player, String weapon)
     {
         if (Config.rebelRequireHit)
         {
@@ -333,7 +333,7 @@ public class JailPlayer
         }
     }
 
-    public void player_hurt(CCSPlayerController? player, CCSPlayerController? attacker, int health, int damage)
+    public void PlayerHurt(CCSPlayerController? player, CCSPlayerController? attacker, int health, int damage)
     {
         if (!player.is_valid())
         {

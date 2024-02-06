@@ -39,7 +39,7 @@ public class SDHeadshotOnly : SDBase
         weapon_restrict = "deagle";
     }
 
-    public override void player_hurt(CCSPlayerController? player,int health,int damage, int hitgroup) 
+    public override void PlayerHurt(CCSPlayerController? player,int health,int damage, int hitgroup) 
     {
         if(!player.is_valid_alive())
         {

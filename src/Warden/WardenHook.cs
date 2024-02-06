@@ -22,7 +22,7 @@ using System.Drawing;
 
 public partial class Warden
 {
-    void setup_cvar()
+    void SetupCvar()
     {
         Server.ExecuteCommand("mp_force_pick_time 3000");
         Server.ExecuteCommand("mp_autoteambalance 0");
@@ -36,16 +36,16 @@ public partial class Warden
         }
     }
 
-    public void round_start()
+    public void RoundStart()
     {
-        setup_cvar();
+        SetupCvar();
 
         PurgeRound();
 
         // handle submodules
-        mute.round_start();
-        block.round_start();
-        warday.round_start();
+        mute.RoundStart();
+        block.RoundStart();
+        warday.RoundStart();
 
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
@@ -63,7 +63,7 @@ public partial class Warden
     */
     }
 
-    public void take_damage(CCSPlayerController? victim,CCSPlayerController? attacker, ref float damage)
+    public void TakeDamage(CCSPlayerController? victim,CCSPlayerController? attacker, ref float damage)
     {
         // TODO: cant figure out how to get current player weapon
     /*
@@ -80,37 +80,37 @@ public partial class Warden
     */
     }
 
-    public void round_end()
+    public void RoundEnd()
     {
-        mute.round_end();
-        warday.round_end();
+        mute.RoundEnd();
+        warday.RoundEnd();
         PurgeRound();
     }
 
 
-    public void connect(CCSPlayerController? player)
+    public void Connect(CCSPlayerController? player)
     {
         if(player != null)
         {
             jailPlayers[player.Slot].reset();
         }
 
-        mute.connect(player);
+        mute.Connect(player);
     }
 
-    public void disconnect(CCSPlayerController? player)
+    public void Disconnect(CCSPlayerController? player)
     {
         RemoveIfWarden(player);
     }
 
 
-    public void map_start()
+    public void MapStart()
     {
-        setup_cvar();
-        warday.map_start();
+        SetupCvar();
+        warday.MapStart();
     }
 
-    public void voice(CCSPlayerController? player)
+    public void Voice(CCSPlayerController? player)
     {
         if(!player.is_valid_alive())
         {
@@ -128,7 +128,7 @@ public partial class Warden
         }
     }
 
-    public void spawn(CCSPlayerController? player)
+    public void Spawn(CCSPlayerController? player)
     {
         if(!player.is_valid_alive())
         {
@@ -142,16 +142,16 @@ public partial class Warden
 
         SetupPlayerGuns(player);
 
-        mute.spawn(player);
+        mute.Spawn(player);
     }   
 
-    public void switch_team(CCSPlayerController? player,int new_team)
+    public void SwitchTeam(CCSPlayerController? player,int new_team)
     {
         RemoveIfWarden(player);
-        mute.switch_team(player,new_team);
+        mute.SwitchTeam(player,new_team);
     }
 
-    public void death(CCSPlayerController? player, CCSPlayerController? killer)
+    public void Death(CCSPlayerController? player, CCSPlayerController? killer)
     {
         // player is no longer on server
         if(!player.is_valid())
@@ -166,13 +166,13 @@ public partial class Warden
         }
 
         // mute player
-        mute.death(player);
+        mute.Death(player);
 
         var jailPlayer = JailPlayerFromPlayer(player);
 
         if(jailPlayer != null)
         {
-            jailPlayer.rebel_death(player,killer);
+            jailPlayer.RebelDeath(player,killer);
         }
 
         // if a t dies we dont need to regive the warden
@@ -182,24 +182,24 @@ public partial class Warden
         }
     }
 
-    public void player_hurt(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health)
+    public void PlayerHurt(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health)
     {
         var jailPlayer = JailPlayerFromPlayer(player);
 
         if(jailPlayer != null)
         {  
-            jailPlayer.player_hurt(player,attacker,damage, health);
+            jailPlayer.PlayerHurt(player,attacker,damage, health);
         }  
     }
 
-    public void weapon_fire(CCSPlayerController? player, String name)
+    public void WeaponFire(CCSPlayerController? player, String name)
     {
         // attempt to set rebel
         var jailPlayer = JailPlayerFromPlayer(player);
 
         if(jailPlayer != null)
         {
-            jailPlayer.rebel_weapon_fire(player,name);
+            jailPlayer.rebel_WeaponFire(player,name);
         }
     }
 

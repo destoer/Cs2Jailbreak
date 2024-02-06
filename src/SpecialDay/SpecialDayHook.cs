@@ -23,19 +23,19 @@ using System.Drawing;
 public partial class SpecialDay
 {
 
-    public void round_end()
+    public void RoundEnd()
     {
         end_sd();
     }
 
-    public void round_start()
+    public void RoundStart()
     {
         // increment our round counter
         wsd_round += 1;
         end_sd();
     }
 
-    public void weapon_equip(CCSPlayerController? player,String name) 
+    public void WeaponEquip(CCSPlayerController? player,String name) 
     {
         if(!player.is_valid_alive())
         {
@@ -45,14 +45,14 @@ public partial class SpecialDay
         if(active_sd != null)
         {
             // weapon equip not valid drop the weapons
-            if(!active_sd.weapon_equip(player,name))
+            if(!active_sd.WeaponEquip(player,name))
             {
                 active_sd.setup_player(player);
             }
         }
     }
 
-    public void disconnect(CCSPlayerController? player)
+    public void Disconnect(CCSPlayerController? player)
     {
         if(!player.is_valid())
         {
@@ -61,16 +61,16 @@ public partial class SpecialDay
 
         if(active_sd != null)
         {
-            active_sd.disconnect(player);
+            active_sd.Disconnect(player);
         }
     }
 
 
-    public void grenade_thrown(CCSPlayerController? player)
+    public void GrenadeThrown(CCSPlayerController? player)
     {
         if(active_sd != null)
         {
-            active_sd.grenade_thrown(player);
+            active_sd.GrenadeThrown(player);
         }       
     }
 
@@ -83,23 +83,23 @@ public partial class SpecialDay
     }
         
 
-    public void death(CCSPlayerController? player, CCSPlayerController? attacker)
+    public void Death(CCSPlayerController? player, CCSPlayerController? attacker)
     {
         if(active_sd != null)
         {
-            active_sd.death(player,attacker);
+            active_sd.Death(player,attacker);
         }
     }
 
-    public void player_hurt(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health, int hitgroup)
+    public void PlayerHurt(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health, int hitgroup)
     {
         if(active_sd != null && player.is_valid())
         {
-            active_sd.player_hurt(player,damage,health,hitgroup);
+            active_sd.PlayerHurt(player,damage,health,hitgroup);
         }
     }
 
-    public void take_damage(CCSPlayerController? player, CCSPlayerController? attacker, ref float damage)
+    public void TakeDamage(CCSPlayerController? player, CCSPlayerController? attacker, ref float damage)
     {
         if(active_sd == null || !player.is_valid())
         {

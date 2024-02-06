@@ -25,7 +25,7 @@ public class LRHeadshotOnly : LRBase
         player.GiveWeapon("deagle");
     }
 
-    public override void player_hurt(int health,int damage, int hitgroup) 
+    public override void PlayerHurt(int health,int damage, int hitgroup) 
     {
         // dont allow damage when its not to head
         if(hitgroup != Lib.HITGROUP_HEAD)

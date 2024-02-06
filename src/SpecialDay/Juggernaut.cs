@@ -32,7 +32,7 @@ public class SDJuggernaut : SDBase
         localize_announce("sd.juggernaut_end");
     }
 
-    public override void death(CCSPlayerController? player, CCSPlayerController? attacker)
+    public override void Death(CCSPlayerController? player, CCSPlayerController? attacker)
     {
         if(!player.is_valid() || attacker == null || !attacker.is_valid_alive())
         {

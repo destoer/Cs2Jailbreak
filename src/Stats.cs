@@ -264,7 +264,7 @@ public class JailStats
         }
     }
 
-    public void load_player(CCSPlayerController? player)
+    public void LoadPlayer(CCSPlayerController? player)
     {
         if(!player.is_valid())
         {

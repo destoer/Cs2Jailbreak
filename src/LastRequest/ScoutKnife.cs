@@ -25,7 +25,7 @@ public class LRScoutKnife : LRBase
         player.set_gravity(0.1f);
     }
 
-    public override bool weapon_equip(String name) 
+    public override bool WeaponEquip(String name) 
     {
         return name.Contains("knife") || name.Contains("ssg08");  
     }

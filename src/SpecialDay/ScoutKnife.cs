@@ -39,7 +39,7 @@ public class SDScoutKnife : SDBase
         player.set_gravity(0.1f);
     }
 
-    public override bool weapon_equip(CCSPlayerController player,String name) 
+    public override bool WeaponEquip(CCSPlayerController player,String name) 
     {
         return name.Contains("knife") || name.Contains("ssg08");
     }

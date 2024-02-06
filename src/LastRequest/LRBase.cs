@@ -166,16 +166,16 @@ public abstract class LRBase
     abstract public void init_player(CCSPlayerController player);
 
     // what events might we want access to?
-    public virtual void weapon_fire(String name) {}
+    public virtual void WeaponFire(String name) {}
 
     public virtual void ent_created(CEntityInstance entity) {}
     
-    public virtual bool take_damage()
+    public virtual bool TakeDamage()
     {
         return !restrict_damage;
     }
 
-    public virtual void player_hurt(int health,int damage, int hitgroup) 
+    public virtual void PlayerHurt(int health,int damage, int hitgroup) 
     {
        
     }
@@ -185,7 +185,7 @@ public abstract class LRBase
         return !restrict_drop;
     }
 
-    public virtual bool weapon_equip(String name) 
+    public virtual bool WeaponEquip(String name) 
     {
         //Server.PrintToChatAll($"{name} : {weapon_restrict}");
         return weapon_restrict == "" || name.Contains(weapon_restrict); 
@@ -316,9 +316,9 @@ public abstract class LRBase
 
     public virtual void ent_created(String name) {}
 
-    public virtual void grenade_thrown() {}
+    public virtual void GrenadeThrown() {}
 
-    public virtual void weapon_zoom() {}
+    public virtual void WeaponZoom() {}
 
     public String lr_name = "";
 

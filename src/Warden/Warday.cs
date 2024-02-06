@@ -70,13 +70,13 @@ public class Warday
         return false;
     }
 
-    public void round_end()
+    public void RoundEnd()
     {
         countdown.kill();
     }
 
 
-    public void round_start()
+    public void RoundStart()
     {
         // one less round till a warday can be called
         round_counter++;
@@ -87,7 +87,7 @@ public class Warday
         JailPlugin.end_event();
     }
 
-    public void map_start()
+    public void MapStart()
     {
         // give a warday on map start
         round_counter = ROUND_LIMIT;

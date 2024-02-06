@@ -46,7 +46,7 @@ public class LRDodgeball : LRBase
         }
     }
     
-    public override void player_hurt(int damage, int health, int hitgroup)
+    public override void PlayerHurt(int damage, int health, int hitgroup)
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
     
@@ -56,7 +56,7 @@ public class LRDodgeball : LRBase
         }
     }
 
-    public override void grenade_thrown()
+    public override void GrenadeThrown()
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
         give_lr_nade_delay(1.4f,"weapon_flashbang");

@@ -39,7 +39,7 @@ public class SDGrenade : SDBase
         weapon_restrict = "hegrenade";
     }
 
-    public override void grenade_thrown(CCSPlayerController? player)
+    public override void GrenadeThrown(CCSPlayerController? player)
     {
         player.give_event_nade_delay(1.4f,"weapon_hegrenade");
     }

@@ -316,13 +316,13 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public HookResult join_team(CCSPlayerController? invoke, CommandInfo command)
     {
-        jail_stats.load_player(invoke);
+        jail_stats.LoadPlayer(invoke);
 
         JailPlayer? jailPlayer = warden.JailPlayerFromPlayer(invoke);
 
         if(jailPlayer != null)
         {
-            jailPlayer.load_player(invoke);
+            jailPlayer.LoadPlayer(invoke);
         }        
 
         if(!warden.join_team(invoke,command))
@@ -398,7 +398,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         if(player.is_valid())
         {
-            warden.voice(player);
+            warden.Voice(player);
         }
     }
 
@@ -429,8 +429,8 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         if(player.is_valid())
         {
-            lr.grenade_thrown(player);
-            sd.grenade_thrown(player);
+            lr.GrenadeThrown(player);
+            sd.GrenadeThrown(player);
             logs.AddLocalized(player, "logs.format.grenade", @event.Weapon); 
         }
 
@@ -443,7 +443,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         if(player.is_valid())
         {
-            lr.weapon_zoom(player);
+            lr.WeaponZoom(player);
         }
 
         return HookResult.Continue;
@@ -455,8 +455,8 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         if(player.is_valid())
         {
-            lr.weapon_equip(player,@event.Item);
-            sd.weapon_equip(player,@event.Item);
+            lr.WeaponEquip(player,@event.Item);
+            sd.WeaponEquip(player,@event.Item);
         }
 
         return HookResult.Continue;
@@ -473,9 +473,9 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         if(player.is_valid())
         {
-            lr.player_hurt(player,attacker,damage,health,hitgroup);
-            warden.player_hurt(player,attacker,damage,health);
-            sd.player_hurt(player,attacker,damage,health,hitgroup);
+            lr.PlayerHurt(player,attacker,damage,health,hitgroup);
+            warden.PlayerHurt(player,attacker,damage,health);
+            sd.PlayerHurt(player,attacker,damage,health,hitgroup);
         }
 
         return HookResult.Continue;
@@ -494,9 +494,9 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         if(player.is_valid())
         {
-            warden.take_damage(player,attacker,ref damage_info.Damage);
-            sd.take_damage(player,attacker,ref damage_info.Damage);
-            lr.take_damage(player,attacker,ref damage_info.Damage);
+            warden.TakeDamage(player,attacker,ref damage_info.Damage);
+            sd.TakeDamage(player,attacker,ref damage_info.Damage);
+            lr.TakeDamage(player,attacker,ref damage_info.Damage);
         }
         
         return HookResult.Continue;
@@ -504,16 +504,16 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     HookResult OnMapChange(EventMapTransition @event, GameEventInfo info)
     {
-        warden.map_start();
+        warden.MapStart();
 
         return HookResult.Continue;
     }
 
     HookResult OnRoundStart(EventRoundStart @event, GameEventInfo info)
     {
-        warden.round_start();
-        lr.round_start();
-        sd.round_start();
+        warden.RoundStart();
+        lr.RoundStart();
+        sd.RoundStart();
 
         return HookResult.Continue;
     }
@@ -561,9 +561,9 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         if(victim.is_valid() && victim.is_connected())
         {
-            warden.death(victim,killer);
-            lr.death(victim);
-            sd.death(victim,killer);
+            warden.Death(victim,killer);
+            lr.Death(victim);
+            sd.Death(victim,killer);
         }
 
         return HookResult.Continue;
@@ -579,7 +579,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
             AddTimer(0.5f,() =>  
             {
-                warden.spawn(Utilities.GetPlayerFromSlot(slot));
+                warden.Spawn(Utilities.GetPlayerFromSlot(slot));
             });
             
         }
@@ -595,7 +595,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         if(player.is_valid())
         {
-            warden.switch_team(player,new_team);
+            warden.SwitchTeam(player,new_team);
         }
 
         return HookResult.Continue;
@@ -608,13 +608,13 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         if(player.is_valid())
         {
             // load in player stats
-            jail_stats.load_player(player);
+            jail_stats.LoadPlayer(player);
             
             JailPlayer? jailPlayer = warden.JailPlayerFromPlayer(player);
 
             if(jailPlayer != null)
             {
-                jailPlayer.load_player(player);
+                jailPlayer.LoadPlayer(player);
             }
         }
     }
@@ -625,9 +625,9 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         if(player.is_valid())
         {
-            warden.disconnect(player);
-            lr.disconnect(player);
-            sd.disconnect(player);
+            warden.Disconnect(player);
+            lr.Disconnect(player);
+            sd.Disconnect(player);
         }
 
         return HookResult.Continue;
@@ -635,9 +635,9 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     HookResult OnRoundEnd(EventRoundEnd @event, GameEventInfo info)
     {
-        warden.round_end();
-        lr.round_end();
-        sd.round_end();
+        warden.RoundEnd();
+        lr.RoundEnd();
+        sd.RoundEnd();
 
         return HookResult.Continue;
     }
@@ -650,8 +650,8 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         if(player.is_valid_alive())
         {
-            warden.weapon_fire(player,name);
-            lr.weapon_fire(player,name);
+            warden.WeaponFire(player,name);
+            lr.WeaponFire(player,name);
         }
 
         return HookResult.Continue;

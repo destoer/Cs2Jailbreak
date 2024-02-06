@@ -105,7 +105,7 @@ public class LRShotForShot : LRBase
         pick_clip();
     }
 
-    public override void weapon_fire(String name)
+    public override void WeaponFire(String name)
     {
         if(name.Contains(weapon_restrict))
         {

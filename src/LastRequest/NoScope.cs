@@ -51,7 +51,7 @@ public class LRNoScope : LRBase
         GiveWeapon(player);
     }
 
-    public override void weapon_zoom()
+    public override void WeaponZoom()
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
 

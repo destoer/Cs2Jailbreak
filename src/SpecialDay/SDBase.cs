@@ -45,7 +45,7 @@ public abstract class SDBase
         start();
     }
 
-    // NOTE: this will be recalled by the disconnect function if the boss dc's
+    // NOTE: this will be recalled by the Disconnect function if the boss dc's
     public virtual void make_boss(CCSPlayerController? tank, int count)
     {
 
@@ -77,7 +77,7 @@ public abstract class SDBase
         return (valid[boss],valid.Count);
     }
 
-    public void disconnect(CCSPlayerController? player)
+    public void Disconnect(CCSPlayerController? player)
     {
         if(!player.is_valid())
         {
@@ -122,19 +122,19 @@ public abstract class SDBase
         return player.Slot == boss_slot;
     }
 
-    public virtual bool weapon_equip(CCSPlayerController player, String name) 
+    public virtual bool WeaponEquip(CCSPlayerController player, String name) 
     {
         return weapon_restrict == "" || name.Contains(weapon_restrict); 
     }
 
-    public virtual void player_hurt(CCSPlayerController? player,int health,int damage, int hitgroup) {}
+    public virtual void PlayerHurt(CCSPlayerController? player,int health,int damage, int hitgroup) {}
 
     public virtual void ent_created(CEntityInstance entity) {}
-    public virtual void grenade_thrown(CCSPlayerController? player) {}
+    public virtual void GrenadeThrown(CCSPlayerController? player) {}
 
     
 
-    public virtual void death(CCSPlayerController? player, CCSPlayerController? attacker) {}
+    public virtual void Death(CCSPlayerController? player, CCSPlayerController? attacker) {}
 
     public abstract void setup_player(CCSPlayerController player);
 

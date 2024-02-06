@@ -40,7 +40,7 @@ public class SDSpectre : SDBase
         }
     }
 
-    public override bool weapon_equip(CCSPlayerController player,String name) 
+    public override bool WeaponEquip(CCSPlayerController player,String name) 
     {
         // spectre can only carry a knife
         if(is_boss(player))

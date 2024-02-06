@@ -56,21 +56,21 @@ public class Mute
 
 
 
-    public void round_start()
+    public void RoundStart()
     {
         Lib.kill_timer(ref mute_timer);
 
         mute_t();
     }
 
-    public void round_end()
+    public void RoundEnd()
     {
         Lib.kill_timer(ref mute_timer);
 
         Lib.unmute_all();
     }
 
-    public void connect(CCSPlayerController? player)
+    public void Connect(CCSPlayerController? player)
     {
         // just connected mute them
         player.mute();
@@ -88,7 +88,7 @@ public class Mute
         }
     }
 
-    public void spawn(CCSPlayerController? player)
+    public void Spawn(CCSPlayerController? player)
     {
         if(!player.is_valid())
         {
@@ -110,7 +110,7 @@ public class Mute
 		}
     }   
 
-    public void death(CCSPlayerController? player)
+    public void Death(CCSPlayerController? player)
     {
         // mute on death
         if(!player.is_valid())
@@ -131,7 +131,7 @@ public class Mute
         }
     }
 
-    public void switch_team(CCSPlayerController? player,int new_team)
+    public void SwitchTeam(CCSPlayerController? player,int new_team)
     {
         if(!player.is_valid())
         {

@@ -107,7 +107,7 @@ public partial class LastRequest
         // our handlers only check once we have actually triggered the LR
         if(!t_player.is_valid_alive() || !ct_player.is_valid_alive())
         {
-            Server.PrintToChatAll($"{LR_PREFIX}disconnection during lr setup");
+            Server.PrintToChatAll($"{LR_PREFIX}Disconnection during lr setup");
             return;
         }
 

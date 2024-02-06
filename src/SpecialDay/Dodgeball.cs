@@ -38,12 +38,12 @@ public class SDDodgeball : SDBase
         weapon_restrict = "flashbang";
     }
 
-    public override void grenade_thrown(CCSPlayerController? player)
+    public override void GrenadeThrown(CCSPlayerController? player)
     {
         player.give_event_nade_delay(1.4f,"weapon_flashbang");
     }
 
-    public override void player_hurt(CCSPlayerController? player,int damage, int health, int hitgroup)
+    public override void PlayerHurt(CCSPlayerController? player,int damage, int health, int hitgroup)
     {
         if(player.is_valid_alive())
         {

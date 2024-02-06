@@ -51,7 +51,7 @@ public class LRRussianRoulette : LRBase
         }   
     }
 
-    public override void weapon_fire(String name)
+    public override void WeaponFire(String name)
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
 
