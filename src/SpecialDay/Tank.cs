@@ -29,7 +29,7 @@ public class SDTank : SDBase
 
             // give the tank the HP and swap him
             tank.set_health(count * 100);
-            tank.set_colour(Lib.RED);
+            tank.SetColour(Lib.RED);
             tank.SwitchTeam(CsTeam.CounterTerrorist);
         }
 

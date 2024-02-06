@@ -32,9 +32,9 @@ public class SDHideAndSeek : SDBase
                 continue;
             }
 
-            if(player.is_t())
+            if(player.IsT())
             {
-                player.give_weapon("knife");
+                player.GiveWeapon("knife");
             }
 
             player.unfreeze();
@@ -51,7 +51,7 @@ public class SDHideAndSeek : SDBase
     public override void setup_player(CCSPlayerController player)
     {
         // lock them in place 500 hp, gun menu
-        if(player.is_ct())
+        if(player.IsCt())
         {
             player.freeze();
             player.event_gun_menu();
@@ -61,8 +61,8 @@ public class SDHideAndSeek : SDBase
         // invis
         else
         {
-            player.set_colour(Color.FromArgb(0,0,0,0));
-            player.strip_weapons(true);
+            player.SetColour(Color.FromArgb(0,0,0,0));
+            player.StripWeapons(true);
         }
     }
 

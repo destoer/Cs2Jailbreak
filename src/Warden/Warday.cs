@@ -21,12 +21,12 @@ public class Warday
         if(warday_active)
         {
 
-            if(config.warday_guns)
+            if(Config.wardayGuns)
             {
                 // give T guns
                 foreach(CCSPlayerController player in Utilities.GetPlayers())
                 {
-                    if(player.is_valid() && player.is_t())
+                    if(player.is_valid() && player.IsT())
                     {
                         player.event_gun_menu();
                     }
@@ -51,11 +51,11 @@ public class Warday
             
             Entity.force_close();
 
-            if(config.warday_guns)
+            if(Config.wardayGuns)
             {
                 foreach(CCSPlayerController player in Utilities.GetPlayers())
                 {
-                    if(player.is_valid() && player.is_ct())
+                    if(player.is_valid() && player.IsCt())
                     {
                         player.event_gun_menu();
                     }
@@ -93,7 +93,7 @@ public class Warday
         round_counter = ROUND_LIMIT;
     }
 
-    public JailConfig config = new JailConfig();
+    public JailConfig Config = new JailConfig();
 
     String WARDAY_PREFIX = $" {ChatColors.Green} [Warday]: {ChatColors.White}";
 

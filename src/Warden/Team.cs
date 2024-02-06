@@ -50,21 +50,21 @@ public partial class Warden
         {
             case Player.TEAM_CT:
             {
-                if(config.ct_swap_only)
+                if(Config.ctSwapOnly)
                 {
                     invoke.announce(TEAM_PREFIX,$"Sorry guards must be swapped to CT by admin");
                     invoke.play_sound("sounds/ui/counter_beep.vsnd");
                     return false;
                 }
 
-                int ct_count = Lib.ct_count();
-                int t_count = Lib.t_count();
+                int CtCount = Lib.CtCount();
+                int TCount = Lib.TCount();
 
                 // check CT aint full 
                 // i.e at a suitable raito or either team is empty
-                if((ct_count * config.bal_guards) > t_count && ct_count != 0 && t_count != 0)
+                if((CtCount * Config.balGuards) > TCount && CtCount != 0 && TCount != 0)
                 {
-                    invoke.announce(TEAM_PREFIX,$"Sorry, CT has too many players {config.bal_guards}:1 ratio maximum");
+                    invoke.announce(TEAM_PREFIX,$"Sorry, CT has too many players {Config.balGuards}:1 ratio maximum");
                     invoke.play_sound("sounds/ui/counter_beep.vsnd");
                     return false;
                 }

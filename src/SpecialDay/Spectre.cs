@@ -70,10 +70,10 @@ public class SDSpectre : SDBase
         if(is_boss(player))
         {
             // invis and speed
-            player.set_colour(Color.FromArgb(0,0,0,0));
+            player.SetColour(Color.FromArgb(0,0,0,0));
             player.set_velocity(2.5f);
 
-            player.strip_weapons();
+            player.StripWeapons();
         }
 
         else

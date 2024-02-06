@@ -20,8 +20,8 @@ public class LRScoutKnife : LRBase
 
     public override void init_player(CCSPlayerController player)
     {
-        player.give_weapon("knife");
-        player.give_weapon("ssg08");
+        player.GiveWeapon("knife");
+        player.GiveWeapon("ssg08");
         player.set_gravity(0.1f);
     }
 

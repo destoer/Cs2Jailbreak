@@ -338,7 +338,7 @@ public class JailStats
     public async Task<MySqlConnection?> connect_db()
     {
         // No credentials don't even try a connection
-        if(config.username == "")
+        if(Config.username == "")
         {
             return null;
         }
@@ -346,7 +346,7 @@ public class JailStats
         try
         {
             MySqlConnection? database = new MySqlConnection(
-                $"Server={config.server};User ID={config.username};Password={config.password};Database={config.database};Port={config.port}");
+                $"Server={Config.server};User ID={Config.username};Password={Config.password};Database={Config.database};Port={Config.port}");
 
             await database.OpenAsync();
 
@@ -360,7 +360,7 @@ public class JailStats
         }
     }
 
-    public JailConfig config = new JailConfig();
+    public JailConfig Config = new JailConfig();
 
     PlayerStat[] player_stats = new PlayerStat[64];
 }

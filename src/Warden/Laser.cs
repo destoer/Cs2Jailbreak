@@ -20,47 +20,47 @@ using System.Drawing;
 
 public partial class Warden
 {
-    void remove_marker()
+    void RemoveMarker()
     {
         marker.destroy();
     }
 
     public void ping(CCSPlayerController? player, float x, float y, float z)
     {
-        JailPlayer? jail_player = jail_player_from_player(player);
+        JailPlayer? jailPlayer = JailPlayerFromPlayer(player);
 
         // draw marker
-        if(is_warden(player) && player.is_valid() && jail_player != null)
+        if(IsWarden(player) && player.is_valid() && jailPlayer != null)
         {
             // make sure we destroy the old marker
             // because this generates alot of ents
-            remove_marker();
+            RemoveMarker();
 
-            //Server.PrintToChatAll($"{Lib.ent_count()}");
+            //Server.PrintToChatAll($"{Lib.enTCount()}");
 
-            marker.colour = jail_player.marker_colour;
+            marker.colour = jailPlayer.marker_colour;
             marker.draw(60.0f,75.0f,x,y,z);
         }
     }
 
-    void remove_laser()
+    void RemoveLaser()
     {
         laser.destroy();
     }
 
     public void laser_tick()
     {
-        if(!config.warden_laser)
+        if(!Config.wardenLaser)
         {
             return;
         }
 
-        if(warden_slot == INAVLID_SLOT)
+        if(wardenSlot == INAVLID_SLOT)
         {
             return;
         }
 
-        CCSPlayerController? warden = Utilities.GetPlayerFromSlot(warden_slot);
+        CCSPlayerController? warden = Utilities.GetPlayerFromSlot(wardenSlot);
 
         if(warden == null || !warden.is_valid())
         {
@@ -72,9 +72,9 @@ public partial class Warden
         CCSPlayerPawn? pawn = warden.pawn();
         CPlayer_CameraServices? camera = pawn?.CameraServices;
 
-        JailPlayer? jail_player = jail_player_from_player(warden);
+        JailPlayer? jailPlayer = JailPlayerFromPlayer(warden);
 
-        if(pawn != null && pawn.AbsOrigin != null && camera != null && use_key && jail_player != null)
+        if(pawn != null && pawn.AbsOrigin != null && camera != null && use_key && jailPlayer != null)
         {
             Vector eye = new Vector(pawn.AbsOrigin.X,pawn.AbsOrigin.Y,pawn.AbsOrigin.Z + camera.OldPlayerViewOffsetZ);
 
@@ -100,14 +100,14 @@ public partial class Warden
                 warden.PrintToChat($"angle: {eye_angle.X} {eye_angle.Y}");
             */
 
-            laser.colour = jail_player.laser_colour;
+            laser.colour = jailPlayer.laser_colour;
             laser.move(eye,end);
         }
 
         // hide laser
         else
         {
-            remove_laser();
+            RemoveLaser();
         }
     }
 
@@ -119,11 +119,11 @@ public partial class Warden
         }
 
         var text = option.Text;
-        JailPlayer? jail_player = jail_player_from_player(player);
+        JailPlayer? jailPlayer = JailPlayerFromPlayer(player);
 
-        if(jail_player != null)
+        if(jailPlayer != null)
         {
-            jail_player.set_laser(player,text);
+            jailPlayer.set_laser(player,text);
         }
     }
 
@@ -135,11 +135,11 @@ public partial class Warden
         }
 
         var text = option.Text;
-        JailPlayer? jail_player = jail_player_from_player(player);
+        JailPlayer? jailPlayer = JailPlayerFromPlayer(player);
 
-        if(jail_player != null)
+        if(jailPlayer != null)
         {
-            jail_player.set_marker(player,text);
+            jailPlayer.set_marker(player,text);
         }
     }
 

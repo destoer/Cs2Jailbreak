@@ -74,7 +74,7 @@ public partial class LastRequest
 
         if(rebel_type == RebelType.KNIFE && !name.Contains("knife"))
         {
-            player.strip_weapons();
+            player.StripWeapons();
             return;
         }
 
@@ -157,7 +157,7 @@ public partial class LastRequest
 
     public void round_start()
     {
-        start_timestamp = Lib.cur_timestamp();
+        start_timestamp = Lib.CurTimestamp();
 
         purge_lr();
     }
@@ -204,7 +204,7 @@ public partial class LastRequest
 
     public void death(CCSPlayerController? player)
     {
-        if(Lib.alive_t_count() == config.lr_count && player.is_t())
+        if(Lib.AliveTCount() == Config.lrCount && player.IsT())
         {
             Chat.localize_announce(LR_PREFIX,"lr.ready");
         }

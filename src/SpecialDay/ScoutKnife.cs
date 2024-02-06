@@ -34,8 +34,8 @@ public class SDScoutKnife : SDBase
 
     public override void setup_player(CCSPlayerController player)
     {
-        player.strip_weapons();
-        player.give_weapon("ssg08");
+        player.StripWeapons();
+        player.GiveWeapon("ssg08");
         player.set_gravity(0.1f);
     }
 

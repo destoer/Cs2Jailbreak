@@ -22,7 +22,7 @@ public class LRHeadshotOnly : LRBase
     {    
         weapon_restrict = "deagle";
 
-        player.give_weapon("deagle");
+        player.GiveWeapon("deagle");
     }
 
     public override void player_hurt(int health,int damage, int hitgroup) 

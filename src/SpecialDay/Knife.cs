@@ -33,7 +33,7 @@ public class SDKnifeWarday : SDBase
 
     public override void setup_player(CCSPlayerController player)
     {
-        player.strip_weapons();
+        player.StripWeapons();
         weapon_restrict = "knife";
     }
 }

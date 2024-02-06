@@ -22,7 +22,7 @@ public class LRShotgunWar : LRBase
     {    
         // give shotty health and plenty of ammo
         weapon_restrict = "xm1014";
-        player.give_weapon("xm1014");
+        player.GiveWeapon("xm1014");
 
         player.set_health(1000);
 

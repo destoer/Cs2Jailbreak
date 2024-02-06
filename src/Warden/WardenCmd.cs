@@ -24,7 +24,7 @@ public partial class Warden
 {
     public void leave_warden_cmd(CCSPlayerController? player, CommandInfo command)
     {
-        remove_if_warden(player);
+        RemoveIfWarden(player);
     }
 
     public void remove_marker_cmd(CCSPlayerController? player, CommandInfo command)
@@ -34,10 +34,10 @@ public partial class Warden
             return;
         }
 
-        if(is_warden(player))
+        if(IsWarden(player))
         {
             player.announce(WARDEN_PREFIX,"Marker removed");
-            remove_marker();
+            RemoveMarker();
         }
     }
 
@@ -45,7 +45,7 @@ public partial class Warden
     public void remove_warden_cmd(CCSPlayerController? player, CommandInfo command)
     {
         Chat.localize_announce(WARDEN_PREFIX,"warden.remove");
-        remove_warden();
+        RemoveWarden();
     }
 
     [RequiresPermissions("@css/generic")]
@@ -70,7 +70,7 @@ public partial class Warden
         }
 
         // must be warden
-        if(!is_warden(player))
+        if(!IsWarden(player))
         {
             player.localise_prefix(WARDEN_PREFIX,"warden.warday_restrict");
             return;
@@ -106,7 +106,7 @@ public partial class Warden
 
     (JailPlayer?, CCSPlayerController?)  give_t_internal(CCSPlayerController? invoke, String name, String player_name)
     {
-        if(!is_warden(invoke))
+        if(!IsWarden(invoke))
         {
             invoke.announce(WARDEN_PREFIX,$"You must be the warden to give a {name}");
             return (null,null);
@@ -116,10 +116,10 @@ public partial class Warden
 
         if(slot != -1)
         {
-            JailPlayer jail_player = jail_players[slot];
+            JailPlayer jailPlayer = jailPlayers[slot];
             CCSPlayerController? player = Utilities.GetPlayerFromSlot(slot);
 
-            return (jail_player,player);
+            return (jailPlayer,player);
         }
 
         return (null,null);
@@ -127,25 +127,25 @@ public partial class Warden
 
     public void give_freeday_callback(CCSPlayerController? invoke, ChatMenuOption option)
     {
-        var (jail_player,player) = give_t_internal(invoke,"freeday",option.Text);
+        var (jailPlayer,player) = give_t_internal(invoke,"freeday",option.Text);
 
-        jail_player?.give_freeday(player);  
+        jailPlayer?.give_freeday(player);  
     }
 
     public void give_pardon_callback(CCSPlayerController? invoke, ChatMenuOption option)
     {
-        var (jail_player,player) = give_t_internal(invoke,"pardon",option.Text);
+        var (jailPlayer,player) = give_t_internal(invoke,"pardon",option.Text);
 
-        jail_player?.give_pardon(player);  
+        jailPlayer?.give_pardon(player);  
     }
 
     public bool is_alive_rebel(CCSPlayerController? player)
     {
-        var jail_player = jail_player_from_player(player);
+        var jailPlayer = JailPlayerFromPlayer(player);
 
-        if(jail_player != null)
+        if(jailPlayer != null)
         {
-            return jail_player.is_rebel && player.is_valid_alive();
+            return jailPlayer.is_rebel && player.is_valid_alive();
         }
 
         return false;
@@ -153,7 +153,7 @@ public partial class Warden
 
     public void give_t(CCSPlayerController? invoke, String name, Action<CCSPlayerController, ChatMenuOption> callback,Func<CCSPlayerController?,bool> filter)
     {
-        if(!is_warden(invoke))
+        if(!IsWarden(invoke))
         {
             invoke.announce(WARDEN_PREFIX,$"Must be warden to give {name}");
             return;
@@ -164,26 +164,26 @@ public partial class Warden
 
     public void colour_callback(CCSPlayerController? invoke, ChatMenuOption option)
     {
-        if(!is_warden(invoke))
+        if(!IsWarden(invoke))
         {
             invoke.announce(WARDEN_PREFIX,$"You must be the warden to colour t's");
             return;        
         }
 
-        CCSPlayerController? player = Utilities.GetPlayerFromSlot(colour_slot);
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(colourSlot);
 
         Color colour = Lib.COLOUR_CONFIG_MAP[option.Text];
 
         Chat.announce(WARDEN_PREFIX,$"Setting {player.PlayerName} colour to {option.Text}");
-        player.set_colour(colour);
+        player.SetColour(colour);
     }
 
     public void colour_player_callback(CCSPlayerController? invoke, ChatMenuOption option)
     {
         // save this slot for 2nd stage of the command
-        colour_slot = Player.slot_from_name(option.Text);
+        colourSlot = Player.slot_from_name(option.Text);
 
-        CCSPlayerController? player = Utilities.GetPlayerFromSlot(colour_slot);
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(colourSlot);
 
         if(player.is_valid_alive())
         {
@@ -198,7 +198,7 @@ public partial class Warden
 
     public void colour_cmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        if(!is_warden(invoke))
+        if(!IsWarden(invoke))
         {
             invoke.announce(WARDEN_PREFIX,$"You must be the warden to colour t's");
             return;
@@ -225,7 +225,7 @@ public partial class Warden
         }
 
         // must be warden
-        if(!is_warden(player))
+        if(!IsWarden(player))
         {
             player.localise_prefix(WARDEN_PREFIX,"warden.wub_restrict");
             return;
@@ -242,7 +242,7 @@ public partial class Warden
         }
 
         // must be warden
-        if(!is_warden(player))
+        if(!IsWarden(player))
         {
             player.localise_prefix(WARDEN_PREFIX,"warden.wb_restrict");
             return;
@@ -269,7 +269,7 @@ public partial class Warden
                 continue;
             }
 
-            invoke.PrintToConsole($"{jail_players[player.Slot].is_rebel} : {player.PlayerName}\n");
+            invoke.PrintToConsole($"{jailPlayers[player.Slot].is_rebel} : {player.PlayerName}\n");
         }
     }
 
@@ -280,13 +280,13 @@ public partial class Warden
             return;
         }
 
-        if(warden_slot == INAVLID_SLOT)
+        if(wardenSlot == INAVLID_SLOT)
         {
             invoke.localise_prefix(WARDEN_PREFIX,"warden.no_warden");
             return;
         }
 
-        long elasped_min = (Lib.cur_timestamp() - warden_timestamp) / 60;
+        long elasped_min = (Lib.CurTimestamp() - wardenTimestamp) / 60;
 
         invoke.localise_prefix(WARDEN_PREFIX,"warden.time",elasped_min);
     }
@@ -328,15 +328,15 @@ public partial class Warden
         }        
 
         // check team is valid
-        else if(!player.is_ct())
+        else if(!player.IsCt())
         {
             player.localise_prefix(WARDEN_PREFIX,"warden.warden_req_ct");
         }
 
         // check there is no warden
-        else if(warden_slot != INAVLID_SLOT)
+        else if(wardenSlot != INAVLID_SLOT)
         {
-            var warden = Utilities.GetPlayerFromSlot(warden_slot);
+            var warden = Utilities.GetPlayerFromSlot(wardenSlot);
 
             player.localise_prefix(WARDEN_PREFIX,"warden.warden_taken",warden.PlayerName);
         }
@@ -344,7 +344,7 @@ public partial class Warden
         // player is valid to take warden
         else
         {
-            set_warden(player.Slot);
+            SetWarden(player.Slot);
         }
     }
 
@@ -356,7 +356,7 @@ public partial class Warden
 
         // swap every guard apart from warden to T
         List<CCSPlayerController> players = Utilities.GetPlayers();
-        var valid = players.FindAll(player => player.is_valid() && player.is_ct() && !is_warden(player));
+        var valid = players.FindAll(player => player.is_valid() && player.IsCt() && !IsWarden(player));
 
         foreach(var player in valid)
         {
@@ -367,28 +367,28 @@ public partial class Warden
 
     public void ct_guns(CCSPlayerController player, ChatMenuOption option)
     {
-        if(!player.is_valid_alive() || !player.is_ct()) 
+        if(!player.is_valid_alive() || !player.IsCt()) 
         {
             return;
         }
 
-        player.strip_weapons();
+        player.StripWeapons();
 
    
-        var jail_player = jail_player_from_player(player);
+        var jailPlayer = JailPlayerFromPlayer(player);
 
-        if(jail_player != null)
+        if(jailPlayer != null)
         {
-            jail_player.update_player(player, "ct_gun", option.Text);
-            jail_player.ct_gun = option.Text;
+            jailPlayer.update_player(player, "ct_gun", option.Text);
+            jailPlayer.ctGun = option.Text;
         }
 
-        player.give_menu_weapon(option.Text);
-        player.give_weapon("deagle");
+        player.GiveMenuWeapon(option.Text);
+        player.GiveWeapon("deagle");
 
-        if(config.ct_armour)
+        if(Config.ctArmour)
         {
-            player.give_armour();
+            player.GiveArmour();
         }
     }
 
@@ -399,13 +399,13 @@ public partial class Warden
             return;
         }
 
-        if(!player.is_ct())
+        if(!player.IsCt())
         {
             player.localize_announce(WARDEN_PREFIX,"warden.ct_gun_menu");
             return;
         }
 
-        if(!config.ct_gun_menu)
+        if(!Config.ctGunMenu)
         {
             player.localize_announce(WARDEN_PREFIX,"warden.gun_menu_disabled");
             return;

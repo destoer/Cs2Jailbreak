@@ -84,18 +84,18 @@ public abstract class LRBase
         player.set_health(100);
 
         // restore weapons
-        player.strip_weapons();
+        player.StripWeapons();
 
         // reset gravity
         player.set_gravity(1.0f);
 
         player.set_velocity(1.0f);
 
-        if(player.is_ct())
+        if(player.IsCt())
         {
-            player.give_armour();
-            player.give_weapon("deagle");
-            player.give_weapon("m4a1");           
+            player.GiveArmour();
+            player.GiveWeapon("deagle");
+            player.GiveWeapon("m4a1");           
         }
     }
 
@@ -239,13 +239,13 @@ public abstract class LRBase
             if(player.is_valid_alive() && manager.in_lr(player))
             {
                 //Server.PrintToChatAll("give nade");
-                player.strip_weapons(true);
+                player.StripWeapons(true);
                 player.GiveNamedItem(name);
             }
         });
     }
 
-    static public void print_countdown(LRBase lr, int delay)
+    static public void prinTCountdown(LRBase lr, int delay)
     {
         if(lr.partner == null)
         {
@@ -275,7 +275,7 @@ public abstract class LRBase
             }
         }
 
-        countdown.start(lr_name,5,this,print_countdown,manager.activate_lr);
+        countdown.start(lr_name,5,this,prinTCountdown,manager.activate_lr);
     }
 
     public void laser_tick()

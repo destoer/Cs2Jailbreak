@@ -106,7 +106,7 @@ public abstract class SDBase
         if(boss.is_valid_alive())
         {
             boss.set_velocity(1.0f);
-            boss.set_colour(Color.FromArgb(255, 255, 255, 255));
+            boss.SetColour(Color.FromArgb(255, 255, 255, 255));
         }
 
         cleanup_players();
@@ -147,7 +147,7 @@ public abstract class SDBase
             if(player.is_valid_alive())
             {
                 // reset the player colour incase of rebel
-                player.set_colour(Player.DEFAULT_COLOUR);
+                player.SetColour(Player.DEFAULT_COLOUR);
 
                 setup_player(player);
             }

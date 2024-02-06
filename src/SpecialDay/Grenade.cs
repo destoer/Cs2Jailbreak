@@ -33,9 +33,9 @@ public class SDGrenade : SDBase
 
     public override void setup_player(CCSPlayerController player)
     {
-        player.strip_weapons(true);
+        player.StripWeapons(true);
         player.set_health(175);
-        player.give_weapon("hegrenade");
+        player.GiveWeapon("hegrenade");
         weapon_restrict = "hegrenade";
     }
 

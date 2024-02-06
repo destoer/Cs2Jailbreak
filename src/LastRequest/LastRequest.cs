@@ -32,7 +32,7 @@ public partial class LastRequest
 
     public void lr_config_reload()
     {
-        create_lr_slots(config.lr_count);
+        create_lr_slots(Config.lrCount);
     }
 
     void create_lr_slots(uint slots)
@@ -55,8 +55,8 @@ public partial class LastRequest
         // strip weapons restore hp
         player.set_health(100);
         player.set_armour(100);
-        player.strip_weapons(true);
-        player.give_armour();
+        player.StripWeapons(true);
+        player.GiveArmour();
 
         player.announce(LR_PREFIX,$"{lr_name} is starting\n");
     }
@@ -305,7 +305,7 @@ public partial class LastRequest
             return false;            
         }
 
-        if(!player.is_t())
+        if(!player.IsT())
         {
             player.localize_announce(LR_PREFIX,"lr.req_t");
             return false;        
@@ -379,17 +379,17 @@ public partial class LastRequest
 
         var lr_menu = new ChatMenu("LR Menu");
 
-        add_lr(lr_menu,config.lr_knife,LRType.KNIFE);
-        add_lr(lr_menu,config.lr_gun_toss,LRType.GUN_TOSS);
-        add_lr(lr_menu,config.lr_dodgeball,LRType.DODGEBALL);
-        add_lr(lr_menu,config.lr_no_scope,LRType.NO_SCOPE);
-        add_lr(lr_menu,config.lr_grenade,LRType.GRENADE);
-        add_lr(lr_menu,config.lr_shotgun_war,LRType.SHOTGUN_WAR);
-        add_lr(lr_menu,config.lr_russian_roulette,LRType.RUSSIAN_ROULETTE);
-        add_lr(lr_menu,config.lr_scout_knife,LRType.SCOUT_KNIFE);
-        add_lr(lr_menu,config.lr_headshot_only,LRType.HEADSHOT_ONLY);
-        add_lr(lr_menu,config.lr_shot_for_shot,LRType.SHOT_FOR_SHOT);
-        add_lr(lr_menu,config.lr_mag_for_mag,LRType.MAG_FOR_MAG);
+        add_lr(lr_menu,Config.lrKnife,LRType.KNIFE);
+        add_lr(lr_menu,Config.lrGunToss,LRType.GUN_TOSS);
+        add_lr(lr_menu,Config.lrDodgeball,LRType.DODGEBALL);
+        add_lr(lr_menu,Config.lrNoScope,LRType.NO_SCOPE);
+        add_lr(lr_menu,Config.lrGrenade,LRType.GRENADE);
+        add_lr(lr_menu,Config.lrShotgunWar,LRType.SHOTGUN_WAR);
+        add_lr(lr_menu,Config.lrRussianRoulette,LRType.RUSSIAN_ROULETTE);
+        add_lr(lr_menu,Config.lrScoutKnife,LRType.SCOUT_KNIFE);
+        add_lr(lr_menu,Config.lrHeadshotOnly,LRType.HEADSHOT_ONLY);
+        add_lr(lr_menu,Config.lrShotForShot,LRType.SHOT_FOR_SHOT);
+        add_lr(lr_menu,Config.lrMagForMag,LRType.MAG_FOR_MAG);
 
 
         // rebel
@@ -398,7 +398,7 @@ public partial class LastRequest
             lr_menu.AddMenuOption("Knife rebel",start_knife_rebel);
             lr_menu.AddMenuOption("Rebel",start_rebel);
         /*
-            if(config.riot_enable)
+            if(Config.riotEnable)
             {
                 lr_menu.AddMenuOption("Riot",start_riot);
             }
@@ -433,7 +433,7 @@ public partial class LastRequest
         }
 
         // must be admin or warden
-        if(!player.is_generic_admin() && !JailPlugin.is_warden(player))
+        if(!player.is_generic_admin() && !JailPlugin.IsWarden(player))
         {
             player.localise_prefix(LR_PREFIX,"lr.cancel_admin");
             return;
@@ -515,7 +515,7 @@ public partial class LastRequest
     } 
 
 
-    public JailConfig config = new JailConfig();
+    public JailConfig Config = new JailConfig();
 
     LRChoice[] lr_choice = new LRChoice[64];
     

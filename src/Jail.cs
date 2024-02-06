@@ -33,104 +33,107 @@ public class JailConfig : BasePluginConfig
     public String database { get; set; } = "cs2_jail";
 
     [JsonPropertyName("mute_dead")]
-    public bool mute_dead { get; set; } = true;
+    public bool muteDead { get; set; } = true;
 
     [JsonPropertyName("warden_laser")]
-    public bool warden_laser { get; set; } = true;
+    public bool wardenLaser { get; set; } = true;
 
     [JsonPropertyName("ct_voice_only")]
-    public bool ct_voice_only { get; set; } = false;
+    public bool ctVoiceOnly { get; set; } = false;
 
     [JsonPropertyName("thirty_sec_mute")]
-    public bool thirty_sec_mute { get; set; } = true;
+    public bool thirtySecMute { get; set; } = true;
 
     [JsonPropertyName("mute_t_allways")]
-    public bool mute_t_allways { get; set; } = false;
+    public bool muteTAllways { get; set; } = false;
 
     [JsonPropertyName("warden_on_voice")]
-    public bool warden_on_voice { get; set; } = true;
+    public bool wardenOnVoice { get; set; } = true;
 
     [JsonPropertyName("ct_swap_only")]
-    public bool ct_swap_only { get; set; } = false;
+    public bool ctSwapOnly { get; set; } = false;
 
     [JsonPropertyName("ct_guns")]
-    public bool ct_guns { get; set; } = true;
+    public bool ctGuns { get; set; } = true;
+
+    [JsonPropertyName("ct_handicap")]
+    public bool ctHandicap { get; set; } = false;
 
     [JsonPropertyName("ct_gun_menu")]
-    public bool ct_gun_menu { get; set; } = true;
+    public bool ctGunMenu { get; set; } = true;
 
     [JsonPropertyName("ct_armour")]
-    public bool ct_armour { get; set; } = true;
+    public bool ctArmour { get; set; } = true;
 
     [JsonPropertyName("warden_force_removal")]
-    public bool warden_force_removal { get; set; } = true;
+    public bool wardenForceRemoval { get; set; } = true;
 
     [JsonPropertyName("strip_spawn_weapons")]
-    public bool strip_spawn_weapons { get; set; } = true;
+    public bool stripSpawnWeapons { get; set; } = true;
 
     [JsonPropertyName("warday_guns")]
-    public bool warday_guns { get; set; } = false;
+    public bool wardayGuns { get; set; } = false;
 
     // ratio of t to CT
     [JsonPropertyName("bal_guards")]
-    public int bal_guards { get; set; } = 0;
+    public int balGuards { get; set; } = 0;
 
     [JsonPropertyName("enable_riot")]
-    public bool riot_enable { get; set; } = false;
+    public bool riotEnable { get; set; } = false;
 
     [JsonPropertyName("hide_kills")]
-    public bool hide_kills { get; set; } = false;
+    public bool hideKills { get; set; } = false;
 
     [JsonPropertyName("restrict_ping")]
-    public bool restrict_ping { get; set; } = true;
+    public bool restrictPing { get; set; } = true;
 
     [JsonPropertyName("colour_rebel")]
-    public bool colour_rebel { get; set; } = false;
+    public bool colourRebel { get; set; } = false;
 
     [JsonPropertyName("rebel_cant_lr")]
-    public bool rebel_cant_lr { get; set; } = false;   
+    public bool rebelCantLr { get; set; } = false;   
 
     [JsonPropertyName("lr_knife")]
-    public bool lr_knife { get; set; } = true;
+    public bool lrKnife { get; set; } = true;
 
     [JsonPropertyName("lr_gun_toss")]
-    public bool lr_gun_toss { get; set; } = true;
+    public bool lrGunToss { get; set; } = true;
 
     [JsonPropertyName("lr_dodgeball")]
-    public bool lr_dodgeball { get; set; } = true;
+    public bool lrDodgeball { get; set; } = true;
 
     [JsonPropertyName("lr_no_scope")]
-    public bool lr_no_scope { get; set; } = true;
+    public bool lrNoScope { get; set; } = true;
 
     [JsonPropertyName("lr_shotgun_war")]
-    public bool lr_shotgun_war { get; set; } = true;
+    public bool lrShotgunWar { get; set; } = true;
 
     [JsonPropertyName("lr_grenade")]
-    public bool lr_grenade { get; set; } = true;
+    public bool lrGrenade { get; set; } = true;
 
     [JsonPropertyName("lr_russian_roulette")]
-    public bool lr_russian_roulette { get; set; } = true;
+    public bool lrRussianRoulette { get; set; } = true;
 
     [JsonPropertyName("lr_scout_knife")]
-    public bool lr_scout_knife { get; set; } = true;
+    public bool lrScoutKnife { get; set; } = true;
 
     [JsonPropertyName("lr_headshot_only")]
-    public bool lr_headshot_only { get; set; } = true;
+    public bool lrHeadshotOnly { get; set; } = true;
 
     [JsonPropertyName("lr_shot_for_shot")]
-    public bool lr_shot_for_shot { get; set; } = true;
+    public bool lrShotForShot { get; set; } = true;
 
     [JsonPropertyName("lr_mag_for_mag")]
-    public bool lr_mag_for_mag { get; set; } = true;
+    public bool lrMagForMag { get; set; } = true;
 
     [JsonPropertyName("lr_count")]
-    public uint lr_count { get; set; } = 2;
+    public uint lrCount { get; set; } = 2;
 
     [JsonPropertyName("rebel_requirehit")]
-    public bool rebel_requirehit { get; set; } = false;
+    public bool rebelRequireHit { get; set; } = false;
 
     [JsonPropertyName("wsd_round")]
-    public int wsd_round { get; set; } = 50;
+    public int wsdRound { get; set; } = 50;
 }
 
 // main plugin file, controls central hooking
@@ -144,9 +147,9 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public JailConfig Config  { get; set; } = new JailConfig();
 
-    public static bool is_warden(CCSPlayerController? player)
+    public static bool IsWarden(CCSPlayerController? player)
     {
-        return warden.is_warden(player);
+        return warden.IsWarden(player);
     }
 
     public static bool event_active()
@@ -181,7 +184,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public override string ModuleName => "CS2 Jailbreak - destoer";
 
-    public override string ModuleVersion => "v0.3.4";
+    public override string ModuleVersion => "v0.3.5";
 
     public override void Load(bool hotReload)
     {
@@ -217,15 +220,15 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         // give each sub plugin the config
         this.Config = config;
         
-        jail_stats.config = config;
-        lr.config = config;
+        jail_stats.Config = config;
+        lr.Config = config;
 
-        warden.config = config;
-        warden.mute.config = config;
-        warden.warday.config = config;
-        JailPlayer.config = config;
+        warden.Config = config;
+        warden.mute.Config = config;
+        warden.warday.Config = config;
+        JailPlayer.Config = config;
 
-        sd.config = config;
+        sd.Config = config;
 
         lr.lr_config_reload();
         stat_db_reload();
@@ -315,11 +318,11 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     {
         jail_stats.load_player(invoke);
 
-        JailPlayer? jail_player = warden.jail_player_from_player(invoke);
+        JailPlayer? jailPlayer = warden.JailPlayerFromPlayer(invoke);
 
-        if(jail_player != null)
+        if(jailPlayer != null)
         {
-            jail_player.load_player(invoke);
+            jailPlayer.load_player(invoke);
         }        
 
         if(!warden.join_team(invoke,command))
@@ -369,7 +372,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     public HookResult player_ping_cmd(CCSPlayerController? invoke, CommandInfo command)
     {
         // if player is not warden ignore the ping
-        if(Config.restrict_ping && !warden.is_warden(invoke))
+        if(Config.restrictPing && !warden.IsWarden(invoke))
         {
             return HookResult.Handled;
         }
@@ -491,6 +494,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         if(player.is_valid())
         {
+            warden.take_damage(player,attacker,ref damage_info.Damage);
             sd.take_damage(player,attacker,ref damage_info.Damage);
             lr.take_damage(player,attacker,ref damage_info.Damage);
         }
@@ -522,7 +526,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         // NOTE: have to check is_connected incase this is tripped by a dc
 
         // hide t killing ct
-        if(Config.hide_kills && victim.is_connected() && killer.is_connected() && killer.is_t() && victim.is_ct())
+        if(Config.hideKills && victim.is_connected() && killer.is_connected() && killer.IsT() && victim.IsCt())
         {
             //@event.Attacker = player;
             // fire event as is to T
@@ -530,7 +534,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
             {
                 if(player.is_valid())
                 {
-                    if(player.is_t())
+                    if(player.IsT())
                     {
                         // T gets full event
                         @event.Userid = victim;
@@ -606,11 +610,11 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
             // load in player stats
             jail_stats.load_player(player);
             
-            JailPlayer? jail_player = warden.jail_player_from_player(player);
+            JailPlayer? jailPlayer = warden.JailPlayerFromPlayer(player);
 
-            if(jail_player != null)
+            if(jailPlayer != null)
             {
-                jail_player.load_player(player);
+                jailPlayer.load_player(player);
             }
         }
     }

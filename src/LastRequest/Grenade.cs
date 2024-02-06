@@ -28,7 +28,7 @@ public class LRGrenade : LRBase
         {
             player.set_health(150);
 
-            player.give_weapon("hegrenade");
+            player.GiveWeapon("hegrenade");
 
             switch(choice)
             {
@@ -49,7 +49,7 @@ public class LRGrenade : LRBase
     public override void grenade_thrown()
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
-        player.strip_weapons(true);
+        player.StripWeapons(true);
         give_lr_nade_delay(1.4f,"weapon_hegrenade");
     }
 }

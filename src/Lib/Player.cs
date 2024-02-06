@@ -26,7 +26,7 @@ public static class Player
 
     public static readonly Color DEFAULT_COLOUR = Color.FromArgb(255, 255, 255, 255);
 
-    static public void give_armour(this CCSPlayerController? player)
+    static public void GiveArmour(this CCSPlayerController? player)
     {
         if(player.is_valid_alive())
         {
@@ -53,12 +53,12 @@ public static class Player
         return player.is_valid() && player.Connected == PlayerConnectedState.PlayerConnected;
     }
 
-    static public bool is_t(this CCSPlayerController? player)
+    static public bool IsT(this CCSPlayerController? player)
     {
         return is_valid(player) && player.TeamNum == TEAM_T;
     }
 
-    static public bool is_ct(this CCSPlayerController? player)
+    static public bool IsCt(this CCSPlayerController? player)
     {
         return is_valid(player) && player.TeamNum == TEAM_CT;
     }
@@ -70,13 +70,13 @@ public static class Player
 
     static public bool is_valid_alive_t([NotNullWhen(true)] this CCSPlayerController? player)
     {
-        return player.is_valid_alive() && player.is_t();
+        return player.is_valid_alive() && player.IsT();
     }
 
 
     static public bool is_valid_alive_ct([NotNullWhen(true)] this CCSPlayerController? player)
     {
-        return player.is_valid_alive() && player.is_ct();
+        return player.is_valid_alive() && player.IsCt();
     }
 
     static public int slot_from_name(String name)
@@ -158,7 +158,7 @@ public static class Player
             if(player.is_valid_alive())
             {
                 //Server.PrintToChatAll("give nade");
-                player.strip_weapons(true);
+                player.StripWeapons(true);
                 player.GiveNamedItem(name);
             }
         });
@@ -205,7 +205,7 @@ public static class Player
         }
     }
 
-    static public void strip_weapons(this CCSPlayerController? player, bool remove_knife = false)
+    static public void StripWeapons(this CCSPlayerController? player, bool remove_knife = false)
     {
         // only care if player is valid
         if(!player.is_valid_alive())
@@ -218,11 +218,11 @@ public static class Player
         // dont remove knife its buggy
         if(!remove_knife)
         {
-            player.give_weapon("knife");
+            player.GiveWeapon("knife");
         }
     }
 
-    static public void set_colour(this CCSPlayerController? player, Color colour)
+    static public void SetColour(this CCSPlayerController? player, Color colour)
     {
         CCSPlayerPawn? pawn = player.pawn();
 

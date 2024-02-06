@@ -107,7 +107,7 @@ public static class Weapon
         player.gun_menu(false);
     }
 
-    static void give_menu_weapon_callback(this CCSPlayerController player, ChatMenuOption option)
+    static void GiveMenuWeaponCallback(this CCSPlayerController player, ChatMenuOption option)
     {
         if(!player.is_valid())
         {
@@ -115,11 +115,11 @@ public static class Weapon
         }
 
         // strip guns so the new ones don't just drop to the ground
-        player.strip_weapons();
+        player.StripWeapons();
 
         // give their desired guns with lots of reserve ammo
         player.GiveNamedItem(gun_give_name(option.Text));
-        player.give_weapon("deagle");
+        player.GiveWeapon("deagle");
 
         CBasePlayerWeapon? primary = player.find_weapon(GUN_LIST[option.Text]);
         primary.set_ammo(-1,999);
@@ -127,7 +127,7 @@ public static class Weapon
         CBasePlayerWeapon? secondary = player.find_weapon("deagle");
         secondary.set_ammo(-1,999);
         
-        player.give_armour();
+        player.GiveArmour();
     }
 
     static Dictionary<String,String> GUN_LIST = new Dictionary<String,String>()
@@ -153,7 +153,7 @@ public static class Weapon
         return "weapon_" + GUN_LIST[name];
     }
 
-    static public void give_weapon(this CCSPlayerController? player,String name)
+    static public void GiveWeapon(this CCSPlayerController? player,String name)
     {
         if(player.is_valid_alive())
         {
@@ -162,9 +162,9 @@ public static class Weapon
     }
 
 
-    static public void give_menu_weapon(this CCSPlayerController? player,String name)
+    static public void GiveMenuWeapon(this CCSPlayerController? player,String name)
     {
-        player.give_weapon(GUN_LIST[name]);
+        player.GiveWeapon(GUN_LIST[name]);
     }
 
     static public void gun_menu_internal(this CCSPlayerController? player, bool no_awp, Action<CCSPlayerController, ChatMenuOption> callback)
@@ -198,10 +198,10 @@ public static class Weapon
         // give bots some test guns
         if(player.is_valid_alive() && player.IsBot)
         {
-            player.give_weapon("ak47");
-            player.give_weapon("deagle");
+            player.GiveWeapon("ak47");
+            player.GiveWeapon("deagle");
         }
 
-        gun_menu_internal(player,no_awp,give_menu_weapon_callback);
+        gun_menu_internal(player,no_awp,GiveMenuWeaponCallback);
     }    
 }

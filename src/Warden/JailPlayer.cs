@@ -133,7 +133,7 @@ public class JailPlayer
                     // just override this
                     laser_colour = Lib.COLOUR_CONFIG_MAP[(String)reader["laser_colour"]];
                     marker_colour = Lib.COLOUR_CONFIG_MAP[(String)reader["marker_colour"]];
-                    ct_gun = (String)reader["ct_gun"];
+                    ctGun = (String)reader["ct_gun"];
 
                     // don't try reloading the player
                     cached = true;
@@ -222,19 +222,19 @@ public class JailPlayer
         update_player(player, "marker_colour", value);
     }
 
-    public void purge_round()
+    public void PurgeRound()
     {
         is_rebel = false;
     }
 
     public void reset()
     {
-        purge_round();
+        PurgeRound();
 
         // TODO: reset client specific settings
         laser_colour = Lib.CYAN;
         marker_colour = Lib.CYAN;
-        ct_gun = "M4";
+        ctGun = "M4";
     }
 
     public void set_rebel(CCSPlayerController? player)
@@ -263,12 +263,12 @@ public class JailPlayer
         }
 
         // on T with no warday or sd active
-        if (player.is_t())
+        if (player.IsT())
         {
-            if (config.colour_rebel)
+            if (Config.colourRebel)
             {
                 Chat.announce(REBEL_PREFIX, $"{player.PlayerName} is a rebel");
-                player.set_colour(Lib.RED);
+                player.SetColour(Lib.RED);
             }
             is_rebel = true;
         }
@@ -276,10 +276,10 @@ public class JailPlayer
 
     public void give_pardon(CCSPlayerController? player)
     {
-        if(player.is_valid_alive() && player.is_t())
+        if(player.is_valid_alive() && player.IsT())
         {
             Chat.localize_announce(Warden.WARDEN_PREFIX, "warden.give_pardon",player.PlayerName);
-            player.set_colour(Color.FromArgb(255, 255, 255, 255));
+            player.SetColour(Color.FromArgb(255, 255, 255, 255));
 
             // they are no longer a rebel
             is_rebel = false;
@@ -288,10 +288,10 @@ public class JailPlayer
 
     public void give_freeday(CCSPlayerController? player)
     {
-        if(player.is_valid_alive() && player.is_t())
+        if(player.is_valid_alive() && player.IsT())
         {
             Chat.localize_announce(Warden.WARDEN_PREFIX, "warden.give_freeday",player.PlayerName);
-            player.set_colour(Lib.GREEN);
+            player.SetColour(Lib.GREEN);
 
             // they are no longer a rebel
             is_rebel = false;
@@ -313,7 +313,7 @@ public class JailPlayer
         }
 
         // print death if player is rebel and killer on CT
-        if (is_rebel && killer.is_ct())
+        if (is_rebel && killer.IsCt())
         {
             Chat.localize_announce(REBEL_PREFIX, "rebel.kill", killer.PlayerName, player.PlayerName);
         }
@@ -321,7 +321,7 @@ public class JailPlayer
 
     public void rebel_weapon_fire(CCSPlayerController? player, String weapon)
     {
-        if (config.rebel_requirehit)
+        if (Config.rebelRequireHit)
         {
             return;
         }
@@ -358,13 +358,13 @@ public class JailPlayer
         }
 
         // ct hit by T they are a rebel
-        if (player.is_ct() && attacker.is_t())
+        if (player.IsCt() && attacker.IsT())
         {
             set_rebel(attacker);
         }
 
         // log any ct damage
-        else if (attacker.is_ct())
+        else if (attacker.IsCt())
         {
             //Lib.print_console_all($"CT {attacker.PlayerName} hit {player.PlayerName} for {damage}");
         }
@@ -373,13 +373,13 @@ public class JailPlayer
 
     public static readonly String REBEL_PREFIX = $" {ChatColors.Green}[REBEL]: {ChatColors.White}";
 
-    public static JailConfig config = new JailConfig();
+    public static JailConfig Config = new JailConfig();
 
     public Color laser_colour { get; private set; } = Lib.CYAN;
     public Color marker_colour { get; private set; } = Lib.CYAN;
     bool cached = false;
 
-    public String ct_gun = "M4";
+    public String ctGun = "M4";
 
     public bool is_rebel = false;
 };

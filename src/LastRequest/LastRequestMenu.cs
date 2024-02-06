@@ -24,7 +24,7 @@ public partial class LastRequest
         }
 
         // prevent starts are round begin to stop lr activations on map joins
-        if(Lib.cur_timestamp() - start_timestamp < 15)
+        if(Lib.CurTimestamp() - start_timestamp < 15)
         {
             player.localise_prefix(LR_PREFIX,"lr.wait");
             return false;
@@ -35,14 +35,14 @@ public partial class LastRequest
             return false;
         } 
 
-        if(JailPlugin.warden.is_alive_rebel(player) && config.rebel_cant_lr)
+        if(JailPlugin.warden.is_alive_rebel(player) && Config.rebelCantLr)
         {
             player.localise_prefix(LR_PREFIX,"lr.rebel_cant_lr");
             return false;
         }
 
         
-        if(Lib.alive_t_count() > active_lr.Length)
+        if(Lib.AliveTCount() > active_lr.Length)
         {
             player.localise_prefix(LR_PREFIX,"lr.too_many",active_lr.Length);
             return false;
@@ -178,7 +178,7 @@ public partial class LastRequest
         String menu_name = $"Partner Menu ({lr_name})";
 
         // Debugging pick t's
-        if(choice.bypass && player.is_ct())
+        if(choice.bypass && player.IsCt())
         {
             Lib.invoke_player_menu(player,menu_name,finialise_choice,Player.is_valid_alive_t);
         }

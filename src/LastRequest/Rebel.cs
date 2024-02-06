@@ -22,7 +22,7 @@ public partial class LastRequest
 {
     bool can_rebel()
     {
-        return Lib.alive_t_count() == 1;
+        return Lib.AliveTCount() == 1;
     }
 
     public void rebel_guns(CCSPlayerController player, ChatMenuOption option)
@@ -38,14 +38,14 @@ public partial class LastRequest
             return;
         }
 
-        player.strip_weapons();
+        player.StripWeapons();
 
-        player.give_menu_weapon(option.Text);
-        player.give_weapon("deagle");
+        player.GiveMenuWeapon(option.Text);
+        player.GiveWeapon("deagle");
 
-        player.give_armour();
+        player.GiveArmour();
     
-        player.set_health(Lib.alive_ct_count() * 100);
+        player.set_health(Lib.AliveCtCount() * 100);
 
         rebel_type = RebelType.REBEL;
 
@@ -78,13 +78,13 @@ public partial class LastRequest
         rebel_type = RebelType.KNIFE;
 
         Chat.localize_announce(LR_PREFIX,"lr.knife_rebel",rebel.PlayerName);
-        rebel.set_health(Lib.alive_ct_count() * 100);
+        rebel.set_health(Lib.AliveCtCount() * 100);
 
         foreach(CCSPlayerController? player in Utilities.GetPlayers())
         {
             if(player.is_valid_alive())
             {
-                player.strip_weapons();
+                player.StripWeapons();
             }
         }
     }

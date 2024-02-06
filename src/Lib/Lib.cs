@@ -141,7 +141,7 @@ public static class Lib
     {
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            if(player.is_valid() && player.is_t())
+            if(player.is_valid() && player.IsT())
             {
                 player.mute();
             }
@@ -168,7 +168,7 @@ public static class Lib
         }
     }
 
-    static public long cur_timestamp()
+    static public long CurTimestamp()
     {
         return DateTimeOffset.Now.ToUnixTimeSeconds();
     }
@@ -202,38 +202,38 @@ public static class Lib
         }
     }
 
-    static public List<CCSPlayerController> get_alive_ct()
+    static public List<CCSPlayerController> GetAliveCt()
     {
         List<CCSPlayerController> players = Utilities.GetPlayers();
-        return players.FindAll(player => player.is_valid_alive() && player.is_ct());
+        return players.FindAll(player => player.is_valid_alive() && player.IsCt());
     }
 
-    static public int ct_count()
+    static public int CtCount()
     {
         List<CCSPlayerController> players = Utilities.GetPlayers();
-        return players.FindAll(player => player.is_valid() && player.is_ct()).Count;        
+        return players.FindAll(player => player.is_valid() && player.IsCt()).Count;        
     }
 
-    static public int t_count()
+    static public int TCount()
     {
         List<CCSPlayerController> players = Utilities.GetPlayers();
-        return players.FindAll(player => player.is_valid() && player.is_t()).Count;        
+        return players.FindAll(player => player.is_valid() && player.IsT()).Count;        
     }
 
-    static public int alive_ct_count()
+    static public int AliveCtCount()
     {
-        return get_alive_ct().Count;
+        return GetAliveCt().Count;
     }
 
-    static public List<CCSPlayerController> get_alive_t()
+    static public List<CCSPlayerController> GetAliveT()
     {
         List<CCSPlayerController> players = Utilities.GetPlayers();
-        return players.FindAll(player => player.is_valid_alive() && player.is_t());;
+        return players.FindAll(player => player.is_valid_alive() && player.IsT());;
     }
 
-    static public int alive_t_count()
+    static public int AliveTCount()
     {
-        return get_alive_t().Count;
+        return GetAliveT().Count;
     }
 
     static public bool block_enabled()

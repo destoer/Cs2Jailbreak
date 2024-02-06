@@ -19,7 +19,7 @@ public class Mute
 
     void mute_t()
     {
-        if(config.mute_t_allways || !config.thirty_sec_mute)
+        if(Config.muteTAllways || !Config.thirtySecMute)
         {
             return;
         }
@@ -82,7 +82,7 @@ public class Mute
         player.listen_all();
 
         // if ct cannot hear team, change listen flags to team only
-        if(player.is_ct() && config.ct_voice_only)
+        if(player.IsCt() && Config.ctVoiceOnly)
         {
             player.listen_team();
         }
@@ -97,14 +97,14 @@ public class Mute
 
         apply_listen_flags(player);
 
-        if(config.mute_t_allways && player.is_t())
+        if(Config.muteTAllways && player.IsT())
         {
             player.mute();
             return;
         }
 
         // no mute active or on ct unmute
-		if(!mute_active || player.is_ct())
+		if(!mute_active || player.IsCt())
 		{
             player.unmute();
 		}
@@ -119,12 +119,12 @@ public class Mute
         }
 
         // warden with no forced removal let them keep speaking
-        if(JailPlugin.is_warden(player) && !config.warden_force_removal)
+        if(JailPlugin.IsWarden(player) && !Config.wardenForceRemoval)
         {
             return;
         }
 
-        if(config.mute_dead)
+        if(Config.muteDead)
         {
             player.localise_prefix(MUTE_PREFIX,"mute.end_round");
             player.mute();
@@ -158,7 +158,7 @@ public class Mute
             else
             {
                 // mute timer active, mute the client
-                if(mute_active || config.mute_t_allways)
+                if(mute_active || Config.muteTAllways)
                 {
                     player.mute();
                 }
@@ -166,7 +166,7 @@ public class Mute
 		}
     }
 
-    public JailConfig config = new JailConfig();
+    public JailConfig Config = new JailConfig();
 
 
     CSTimer.Timer? mute_timer = null;

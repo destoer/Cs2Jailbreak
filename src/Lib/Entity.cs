@@ -32,7 +32,7 @@ public static class Entity
         }
     }
 
-    static void force_ent_input(String name, String input)
+    static void ForceEntInput(String name, String input)
     {
         // search for door entitys and open all of them!
         var target = Utilities.FindAllEntitiesByDesignerName<CBaseEntity>(name);
@@ -49,7 +49,7 @@ public static class Entity
     }
 
     // TODO: is their a cheaper way to do this?
-    static public int ent_count()
+    static public int enTCount()
     {
         return Utilities.GetAllEntities().Count();
     }
@@ -86,7 +86,7 @@ public static class Entity
         }
     }
 
-    static public void set_colour(this CEnvBeam? laser, Color colour)
+    static public void SetColour(this CEnvBeam? laser, Color colour)
     {
         if(laser != null)
         {
@@ -105,7 +105,7 @@ public static class Entity
         }
 
         // setup looks
-        laser.set_colour(colour);
+        laser.SetColour(colour);
         laser.Width = 2.0f;
 
         // circle not working?
@@ -125,21 +125,21 @@ public static class Entity
     {
         Chat.announce(DOOR_PREFIX,"Forcing closing all doors!");
 
-        force_ent_input("func_door","Close");
-        force_ent_input("func_movelinear","Close");
-        force_ent_input("func_door_rotating","Close");
-        force_ent_input("prop_door_rotating","Close");
+        ForceEntInput("func_door","Close");
+        ForceEntInput("func_movelinear","Close");
+        ForceEntInput("func_door_rotating","Close");
+        ForceEntInput("prop_door_rotating","Close");
     }
 
     public static void force_open()
     {
         Chat.announce(DOOR_PREFIX,"Forcing open all doors!");
 
-        force_ent_input("func_door","Open");
-        force_ent_input("func_movelinear","Open");
-        force_ent_input("func_door_rotating","Open");
-        force_ent_input("prop_door_rotating","Open");
-        force_ent_input("func_breakable","Break");
+        ForceEntInput("func_door","Open");
+        ForceEntInput("func_movelinear","Open");
+        ForceEntInput("func_door_rotating","Open");
+        ForceEntInput("prop_door_rotating","Open");
+        ForceEntInput("func_breakable","Break");
     }
 
 

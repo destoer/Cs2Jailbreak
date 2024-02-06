@@ -78,7 +78,7 @@ public static class Debug
     [RequiresPermissions("@jail/debug")]
     public static void test_strip_cmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        invoke.strip_weapons(true);
+        invoke.StripWeapons(true);
     }
 
     [RequiresPermissions("@jail/debug")]

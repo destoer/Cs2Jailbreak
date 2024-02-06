@@ -22,7 +22,7 @@ public class LRRussianRoulette : LRBase
     {    
         weapon_restrict = "deagle";
 
-        player.give_weapon("deagle");
+        player.GiveWeapon("deagle");
 
         var deagle = player.find_weapon("weapon_" + weapon_restrict);
 

@@ -18,7 +18,7 @@ public class LRNoScope : LRBase
 
     }
 
-    void give_weapon(CCSPlayerController? player)
+    void GiveWeapon(CCSPlayerController? player)
     {
         if(!player.is_valid())
         {
@@ -26,21 +26,21 @@ public class LRNoScope : LRBase
         }
 
 
-        player.strip_weapons(true);
+        player.StripWeapons(true);
 
         switch(choice)
         {
             case "Scout":
             {
                 weapon_restrict = "ssg08";
-                player.give_weapon("ssg08");
+                player.GiveWeapon("ssg08");
                 break;
             }
 
             case "Awp":
             {
                 weapon_restrict = "awp";
-                player.give_weapon("awp");
+                player.GiveWeapon("awp");
                 break;
             }
         }
@@ -48,7 +48,7 @@ public class LRNoScope : LRBase
 
     public override void init_player(CCSPlayerController player)
     {
-        give_weapon(player);
+        GiveWeapon(player);
     }
 
     public override void weapon_zoom()
@@ -56,6 +56,6 @@ public class LRNoScope : LRBase
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
 
         // re give the weapons so they cannot zoom
-        give_weapon(player);
+        GiveWeapon(player);
     }
 }

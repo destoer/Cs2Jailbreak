@@ -70,7 +70,7 @@ public class LRShotForShot : LRBase
             clip_size = 1;
         }
 
-        player.give_weapon("" + weapon_restrict);
+        player.GiveWeapon("" + weapon_restrict);
 
 
 

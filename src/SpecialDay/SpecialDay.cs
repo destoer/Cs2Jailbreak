@@ -252,16 +252,16 @@ public partial class SpecialDay
 
     public void warden_sd_cmd_internal(CCSPlayerController? player,CommandInfo command)
     {
-        if(!JailPlugin.is_warden(player))
+        if(!JailPlugin.IsWarden(player))
         {
             player.announce(SPECIALDAY_PREFIX,"You must be a warden to use this command");
             return;
         }
 
         // Not ready yet
-        if(wsd_round < config.wsd_round)
+        if(wsd_round < Config.wsdRound)
         {
-            player.announce(SPECIALDAY_PREFIX,$"Please wait {config.wsd_round - wsd_round} more rounds");
+            player.announce(SPECIALDAY_PREFIX,$"Please wait {Config.wsdRound - wsd_round} more rounds");
             return;
         }
 
@@ -331,7 +331,7 @@ public partial class SpecialDay
 
     SDType type = SDType.NONE;
 
-    public JailConfig config = new JailConfig();
+    public JailConfig Config = new JailConfig();
 
     TeamSave team_save = new TeamSave();
 };
