@@ -244,7 +244,7 @@ public static class Player
         return AdminManager.PlayerHasPermissions(player,new String[] {"@css/generic"});
     }
 
-    static public void play_sound(this CCSPlayerController? player, String sound)
+    static public void PlaySound(this CCSPlayerController? player, String sound)
     {
         if(!player.is_valid())
         {
@@ -269,7 +269,7 @@ public static class Player
         }
     }
 
-    static public void listen_all(this CCSPlayerController? player)
+    static public void ListenAll(this CCSPlayerController? player)
     {
         if(!player.is_valid())
         {
@@ -280,7 +280,7 @@ public static class Player
         player.VoiceFlags &= ~VoiceFlags.ListenTeam;
     }
 
-    static public void listen_team(this CCSPlayerController? player)
+    static public void ListenTeam(this CCSPlayerController? player)
     {
         if(!player.is_valid())
         {
@@ -291,7 +291,7 @@ public static class Player
         player.VoiceFlags |= VoiceFlags.ListenTeam;
     }
 
-    static public void mute(this CCSPlayerController? player)
+    static public void Mute(this CCSPlayerController? player)
     {
         if(!player.is_valid())
         {
@@ -306,7 +306,7 @@ public static class Player
     }
 
     // TODO: this needs to be hooked into the ban system that becomes used
-    static public void unmute(this CCSPlayerController? player)
+    static public void UnMute(this CCSPlayerController? player)
     {
         if(!player.is_valid())
         {

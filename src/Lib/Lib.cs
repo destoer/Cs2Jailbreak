@@ -129,21 +129,21 @@ public static class Lib
         ChatMenus.OpenMenu(player, colour_menu);    
     }
 
-    static public void play_sound_all(String sound)
+    static public void PlaySoundAll(String sound)
     {
         foreach(CCSPlayerController? player in Utilities.GetPlayers())
         {
-            player.play_sound(sound);
+            player.PlaySound(sound);
         }
     }
 
-    static public void mute_t()
+    static public void MuteT()
     {
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
             if(player.is_valid() && player.IsT())
             {
-                player.mute();
+                player.Mute();
             }
         }
     }
@@ -157,13 +157,13 @@ public static class Lib
         }
     }
 
-    static public void unmute_all()
+    static public void UnMuteAll()
     {
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
             if(player.is_valid())
             {
-                player.unmute();
+                player.UnMute();
             }
         }
     }

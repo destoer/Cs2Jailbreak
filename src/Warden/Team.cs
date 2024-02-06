@@ -26,14 +26,14 @@ public partial class Warden
     {
         if(!invoke.is_valid())
         {
-            invoke.play_sound("sounds/ui/counter_beep.vsnd");
+            invoke.PlaySound("sounds/ui/counter_beep.vsnd");
             return false;
         }
 
         if(command.ArgCount < 2)
         {
             invoke.announce(TEAM_PREFIX,$"Invalid team swap args");
-            invoke.play_sound("sounds/ui/counter_beep.vsnd");
+            invoke.PlaySound("sounds/ui/counter_beep.vsnd");
             return false;
         }
 
@@ -42,7 +42,7 @@ public partial class Warden
 
         if(!Int32.TryParse(command.ArgByIndex(1),out int team))
         {
-            invoke.play_sound("sounds/ui/counter_beep.vsnd");
+            invoke.PlaySound("sounds/ui/counter_beep.vsnd");
             return false;
         }
 
@@ -53,7 +53,7 @@ public partial class Warden
                 if(Config.ctSwapOnly)
                 {
                     invoke.announce(TEAM_PREFIX,$"Sorry guards must be swapped to CT by admin");
-                    invoke.play_sound("sounds/ui/counter_beep.vsnd");
+                    invoke.PlaySound("sounds/ui/counter_beep.vsnd");
                     return false;
                 }
 
@@ -65,7 +65,7 @@ public partial class Warden
                 if((CtCount * Config.balGuards) > TCount && CtCount != 0 && TCount != 0)
                 {
                     invoke.announce(TEAM_PREFIX,$"Sorry, CT has too many players {Config.balGuards}:1 ratio maximum");
-                    invoke.play_sound("sounds/ui/counter_beep.vsnd");
+                    invoke.PlaySound("sounds/ui/counter_beep.vsnd");
                     return false;
                 }
 
@@ -85,7 +85,7 @@ public partial class Warden
             default:
             {
                 invoke.announce(TEAM_PREFIX,$"Invalid team swap team");
-                invoke.play_sound("sounds/ui/counter_beep.vsnd");
+                invoke.PlaySound("sounds/ui/counter_beep.vsnd");
                 return false;
             }
         }

@@ -129,7 +129,7 @@ public partial class Warden
             {
                 // play sfx for last ct
                 // TODO: this is too loud as there is no way to control volume..
-                //Lib.play_sound_all("sounds/vo/agents/sas/lastmanstanding03");
+                //Lib.PlaySound_all("sounds/vo/agents/sas/lastmanstanding03");
             }
         
             int slot = ctPlayers[0].Slot;

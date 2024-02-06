@@ -16,8 +16,7 @@ using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 public class Mute
 {
-
-    void mute_t()
+    void MuteT()
     {
         if(Config.muteTAllways || !Config.thirtySecMute)
         {
@@ -26,17 +25,17 @@ public class Mute
 
         Chat.localize_announce(MUTE_PREFIX,"mute.thirty");
 
-        Lib.mute_t();
+        Lib.MuteT();
 
         if(JailPlugin.global_ctx != null)
         {
-            mute_timer = JailPlugin.global_ctx.AddTimer(30.0f,unmute_all,CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
+            muteTimer = JailPlugin.global_ctx.AddTimer(30.0f,UnMuteAll,CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
         }
 
-        mute_active = true;
+        muteActive = true;
     }
 
-    public void unmute_all()
+    public void UnMuteAll()
     {
         Chat.localize_announce(MUTE_PREFIX,"mute.speak_quietly");
 
@@ -45,46 +44,46 @@ public class Mute
         {
             if(player.is_valid() && player.PawnIsAlive)
             {
-                player.unmute();
+                player.UnMute();
             }
         }
 
-        mute_timer = null;
+        muteTimer = null;
 
-        mute_active = false;
+        muteActive = false;
     }
 
 
 
     public void RoundStart()
     {
-        Lib.KillTimer(ref mute_timer);
+        Lib.KillTimer(ref muteTimer);
 
-        mute_t();
+        MuteT();
     }
 
     public void RoundEnd()
     {
-        Lib.KillTimer(ref mute_timer);
+        Lib.KillTimer(ref muteTimer);
 
-        Lib.unmute_all();
+        Lib.UnMuteAll();
     }
 
     public void Connect(CCSPlayerController? player)
     {
         // just connected mute them
-        player.mute();
+        player.Mute();
     }
 
-    public void apply_listen_flags(CCSPlayerController player)
+    public void ApplyListenFlags(CCSPlayerController player)
     {
         // default to listen all
-        player.listen_all();
+        player.ListenAll();
 
         // if ct cannot hear team, change listen flags to team only
         if(player.IsCt() && Config.ctVoiceOnly)
         {
-            player.listen_team();
+            player.ListenTeam();
         }
     }
 
@@ -95,18 +94,18 @@ public class Mute
             return;
         }
 
-        apply_listen_flags(player);
+        ApplyListenFlags(player);
 
         if(Config.muteTAllways && player.IsT())
         {
-            player.mute();
+            player.Mute();
             return;
         }
 
         // no mute active or on ct unmute
-		if(!mute_active || player.IsCt())
+		if(!muteActive || player.IsCt())
 		{
-            player.unmute();
+            player.UnMute();
 		}
     }   
 
@@ -127,7 +126,7 @@ public class Mute
         if(Config.muteDead)
         {
             player.localise_prefix(MUTE_PREFIX,"mute.end_round");
-            player.mute();
+            player.Mute();
         }
     }
 
@@ -138,12 +137,12 @@ public class Mute
             return;
         }
 
-        apply_listen_flags(player);
+        ApplyListenFlags(player);
 
         // player not alive mute
 		if(!player.is_valid_alive())
 		{
-            player.mute();
+            player.Mute();
 		}
 
 		// player is alive
@@ -152,15 +151,15 @@ public class Mute
             // on ct fine to unmute
 			if(new_team == Player.TEAM_CT)
 			{
-                player.unmute();
+                player.UnMute();
 			}
 
             else
             {
                 // mute timer active, mute the client
-                if(mute_active || Config.muteTAllways)
+                if(muteActive || Config.muteTAllways)
                 {
-                    player.mute();
+                    player.Mute();
                 }
             }
 		}
@@ -169,10 +168,10 @@ public class Mute
     public JailConfig Config = new JailConfig();
 
 
-    CSTimer.Timer? mute_timer = null;
+    CSTimer.Timer? muteTimer = null;
 
     static readonly String MUTE_PREFIX = $" {ChatColors.Green}[MUTE]: {ChatColors.White}";
 
     // has the mute timer finished?
-    bool mute_active = false;
+    bool muteActive = false;
 };
