@@ -25,7 +25,7 @@ public class Warday
                 // give T guns
                 foreach(CCSPlayerController player in Utilities.GetPlayers())
                 {
-                    if(player.is_valid() && player.IsT())
+                    if(player.IsLegal() && player.IsT())
                     {
                         player.EventGunMenu();
                     }
@@ -54,7 +54,7 @@ public class Warday
             {
                 foreach(CCSPlayerController player in Utilities.GetPlayers())
                 {
-                    if(player.is_valid() && player.IsCt())
+                    if(player.IsLegal() && player.IsCt())
                     {
                         player.EventGunMenu();
                     }

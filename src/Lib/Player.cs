@@ -28,7 +28,7 @@ public static class Player
 
     static public void GiveArmour(this CCSPlayerController? player)
     {
-        if(player.is_valid_alive())
+        if(player.IsLegalAlive())
         {
             player.GiveNamedItem("item_assaultsuit");
         }
@@ -36,54 +36,54 @@ public static class Player
 
     static public void Slay(this CCSPlayerController? player)
     {
-        if(player.is_valid_alive())
+        if(player.IsLegalAlive())
         {
             player.PlayerPawn.Value?.CommitSuicide(true, true);
         }
     }
 
     // Cheers Kill for suggesting method extenstions
-    static public bool is_valid([NotNullWhen(true)] this CCSPlayerController? player)
+    static public bool IsLegal([NotNullWhen(true)] this CCSPlayerController? player)
     {
         return player != null && player.IsValid && player.PlayerPawn.IsValid && player.PlayerPawn.Value?.IsValid == true; 
     }
 
-    static public bool is_connected([NotNullWhen(true)] this CCSPlayerController? player)
+    static public bool IsConnected([NotNullWhen(true)] this CCSPlayerController? player)
     {
-        return player.is_valid() && player.Connected == PlayerConnectedState.PlayerConnected;
+        return player.IsLegal() && player.Connected == PlayerConnectedState.PlayerConnected;
     }
 
     static public bool IsT(this CCSPlayerController? player)
     {
-        return is_valid(player) && player.TeamNum == TEAM_T;
+        return IsLegal(player) && player.TeamNum == TEAM_T;
     }
 
     static public bool IsCt(this CCSPlayerController? player)
     {
-        return is_valid(player) && player.TeamNum == TEAM_CT;
+        return IsLegal(player) && player.TeamNum == TEAM_CT;
     }
 
-    static public bool is_valid_alive([NotNullWhen(true)] this CCSPlayerController? player)
+    static public bool IsLegalAlive([NotNullWhen(true)] this CCSPlayerController? player)
     {
-        return player.is_connected() && player.PawnIsAlive && player.PlayerPawn.Value?.LifeState == (byte)LifeState_t.LIFE_ALIVE;
+        return player.IsConnected() && player.PawnIsAlive && player.PlayerPawn.Value?.LifeState == (byte)LifeState_t.LIFE_ALIVE;
     }
 
-    static public bool is_valid_alive_t([NotNullWhen(true)] this CCSPlayerController? player)
+    static public bool IsLegalAliveT([NotNullWhen(true)] this CCSPlayerController? player)
     {
-        return player.is_valid_alive() && player.IsT();
+        return player.IsLegalAlive() && player.IsT();
     }
 
 
-    static public bool is_valid_alive_ct([NotNullWhen(true)] this CCSPlayerController? player)
+    static public bool IsLegalAliveCT([NotNullWhen(true)] this CCSPlayerController? player)
     {
-        return player.is_valid_alive() && player.IsCt();
+        return player.IsLegalAlive() && player.IsCt();
     }
 
     static public int SlotFromName(String name)
     {
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            if(!player.is_valid())
+            if(!player.IsLegal())
             {
                 continue;
             }
@@ -97,9 +97,9 @@ public static class Player
         return -1;
     }
 
-    static public CCSPlayerPawn? pawn(this CCSPlayerController? player)
+    static public CCSPlayerPawn? Pawn(this CCSPlayerController? player)
     {
-        if(!player.is_valid_alive())
+        if(!player.IsLegalAlive())
         {
             return null;
         }
@@ -111,7 +111,7 @@ public static class Player
 
     static public void SetHealth(this CCSPlayerController? player, int hp)
     {
-        CCSPlayerPawn? pawn = player.pawn();
+        CCSPlayerPawn? pawn = player.Pawn();
 
         if(pawn != null)
         {
@@ -122,7 +122,7 @@ public static class Player
 
     static public int GetHealth(this CCSPlayerController? player)
     {
-        CCSPlayerPawn? pawn = player.pawn();
+        CCSPlayerPawn? pawn = player.Pawn();
 
         if(pawn == null)
         {
@@ -144,7 +144,7 @@ public static class Player
 
     static public void GiveEventNadeDelay(this CCSPlayerController? target,float delay, String name)
     {
-        if(!target.is_valid_alive())
+        if(!target.IsLegalAlive())
         {
             return;
         }
@@ -155,7 +155,7 @@ public static class Player
         {
             CCSPlayerController? player = Utilities.GetPlayerFromSlot(slot);
 
-            if(player.is_valid_alive())
+            if(player.IsLegalAlive())
             {
                 //Server.PrintToChatAll("give nade");
                 player.StripWeapons(true);
@@ -166,7 +166,7 @@ public static class Player
 
     static public void SetMoveType(this CCSPlayerController? player, MoveType_t type)
     {
-        CCSPlayerPawn? pawn = player.pawn();
+        CCSPlayerPawn? pawn = player.Pawn();
 
         if(pawn != null)
         {
@@ -176,7 +176,7 @@ public static class Player
 
     static public void SetGravity(this CCSPlayerController? player, float value)
     {
-        CCSPlayerPawn? pawn = player.pawn();
+        CCSPlayerPawn? pawn = player.Pawn();
 
         if(pawn != null)
         {
@@ -186,7 +186,7 @@ public static class Player
 
     static public void SetVelocity(this CCSPlayerController? player, float value)
     {
-        CCSPlayerPawn? pawn = player.pawn();
+        CCSPlayerPawn? pawn = player.Pawn();
 
         if(pawn != null)
         {
@@ -195,9 +195,9 @@ public static class Player
     }
 
 
-    static public void set_armour(this CCSPlayerController? player, int hp)
+    static public void SetArmour(this CCSPlayerController? player, int hp)
     {
-        CCSPlayerPawn? pawn = player.pawn();
+        CCSPlayerPawn? pawn = player.Pawn();
 
         if(pawn != null)
         {
@@ -208,7 +208,7 @@ public static class Player
     static public void StripWeapons(this CCSPlayerController? player, bool remove_knife = false)
     {
         // only care if player is valid
-        if(!player.is_valid_alive())
+        if(!player.IsLegalAlive())
         {
             return;
         }
@@ -224,9 +224,9 @@ public static class Player
 
     static public void SetColour(this CCSPlayerController? player, Color colour)
     {
-        CCSPlayerPawn? pawn = player.pawn();
+        CCSPlayerPawn? pawn = player.Pawn();
 
-        if(pawn != null && player.is_valid_alive())
+        if(pawn != null && player.IsLegalAlive())
         {
             pawn.RenderMode = RenderMode_t.kRenderTransColor;
             pawn.Render = colour;
@@ -234,9 +234,9 @@ public static class Player
         }
     }
 
-    static public bool is_generic_admin(this CCSPlayerController? player)
+    static public bool IsGenericAdmin(this CCSPlayerController? player)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return false;
         }
@@ -246,7 +246,7 @@ public static class Player
 
     static public void PlaySound(this CCSPlayerController? player, String sound)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
@@ -257,9 +257,9 @@ public static class Player
 
     // NOTE: i dont think we call this in the right context
     // OnPostThink doesn't appear to be good enough?
-    static public void hide_weapon(this CCSPlayerController? player)
+    static public void HideWeapon(this CCSPlayerController? player)
     {
-        CCSPlayerPawn? pawn = player.pawn();
+        CCSPlayerPawn? pawn = player.Pawn();
 
         if(pawn != null)
         {
@@ -271,7 +271,7 @@ public static class Player
 
     static public void ListenAll(this CCSPlayerController? player)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
@@ -282,7 +282,7 @@ public static class Player
 
     static public void ListenTeam(this CCSPlayerController? player)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
@@ -293,13 +293,13 @@ public static class Player
 
     static public void Mute(this CCSPlayerController? player)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
 
         // admins cannot be muted by the plugin
-        if(!player.is_generic_admin())
+        if(!player.IsGenericAdmin())
         {
             player.VoiceFlags |= VoiceFlags.Muted;
         }
@@ -308,7 +308,7 @@ public static class Player
     // TODO: this needs to be hooked into the ban system that becomes used
     static public void UnMute(this CCSPlayerController? player)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
@@ -319,7 +319,7 @@ public static class Player
 
     public static void RestoreHP(this CCSPlayerController? player, int damage, int health)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
@@ -337,27 +337,27 @@ public static class Player
     }
 
 
-    static void respawn_callback(int? slot)
+    static void RespawnCallback(int? slot)
     {
         if(slot != null)
         {
             var player = Utilities.GetPlayerFromSlot(slot.Value);
 
-            if(player.is_valid())
+            if(player.IsLegal())
             {
                 player.Respawn();
             }
         }   
     }
 
-    static public void respawn_delay(this CCSPlayerController? player, float delay)
+    static public void RespawnDelay(this CCSPlayerController? player, float delay)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
 
-        JailPlugin.globalCtx.AddTimer(delay,() => respawn_callback(player.Slot),CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
+        JailPlugin.globalCtx.AddTimer(delay,() => RespawnCallback(player.Slot),CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
     }
 
 }

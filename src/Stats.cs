@@ -27,7 +27,7 @@ public class JailStats
     {
         var lrPlayer = PlayerStatFromPlayer(player);
 
-        if(lrPlayer != null && type != LastRequest.LRType.NONE && player.is_valid())
+        if(lrPlayer != null && type != LastRequest.LRType.NONE && player.IsLegal())
         {
             int idx = (int)type;
             lrPlayer.win[idx] += 1;
@@ -40,7 +40,7 @@ public class JailStats
     {
         var lrPlayer = PlayerStatFromPlayer(player);
 
-        if(lrPlayer != null && type != LastRequest.LRType.NONE && player.is_valid())
+        if(lrPlayer != null && type != LastRequest.LRType.NONE && player.IsLegal())
         {
             int idx = (int)type;
             lrPlayer.loss[idx] += 1;
@@ -52,7 +52,7 @@ public class JailStats
 
     PlayerStat? PlayerStatFromPlayer(CCSPlayerController? player)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return null;
         }
@@ -64,14 +64,14 @@ public class JailStats
 
     void PrintStats(CCSPlayerController? invoke, CCSPlayerController? player)
     {
-        if(!invoke.is_valid())
+        if(!invoke.IsLegal())
         {
             return;
         }
 
         var lrPlayer = PlayerStatFromPlayer(player);
 
-        if(lrPlayer != null && player.is_valid())
+        if(lrPlayer != null && player.IsLegal())
         {
             invoke.PrintToChat($"{LastRequest.LR_PREFIX} lr stats for {player.PlayerName}");
 
@@ -138,7 +138,7 @@ public class JailStats
 
     public void IncDB(CCSPlayerController? player,LastRequest.LRType type, bool win)
     {
-        if(!player.is_valid() || type == LastRequest.LRType.NONE  || player.IsBot)
+        if(!player.IsLegal() || type == LastRequest.LRType.NONE  || player.IsBot)
         {
             return;
         }
@@ -194,7 +194,7 @@ public class JailStats
          // repull player from steamid if they are still around
         CCSPlayerController? player = Utilities.GetPlayerFromSteamId(id);
 
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
@@ -266,7 +266,7 @@ public class JailStats
 
     public void LoadPlayer(CCSPlayerController? player)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }

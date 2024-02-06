@@ -42,7 +42,7 @@ public class Mute
         // Go through and unmute all alive players!
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            if(player.is_valid() && player.PawnIsAlive)
+            if(player.IsLegal() && player.PawnIsAlive)
             {
                 player.UnMute();
             }
@@ -89,7 +89,7 @@ public class Mute
 
     public void Spawn(CCSPlayerController? player)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
@@ -112,7 +112,7 @@ public class Mute
     public void Death(CCSPlayerController? player)
     {
         // mute on death
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
@@ -132,7 +132,7 @@ public class Mute
 
     public void SwitchTeam(CCSPlayerController? player,int new_team)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
@@ -140,7 +140,7 @@ public class Mute
         ApplyListenFlags(player);
 
         // player not alive mute
-		if(!player.is_valid_alive())
+		if(!player.IsLegalAlive())
 		{
             player.Mute();
 		}

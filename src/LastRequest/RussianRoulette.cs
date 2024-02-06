@@ -24,11 +24,11 @@ public class LRRussianRoulette : LRBase
 
         player.GiveWeapon("deagle");
 
-        var deagle = player.find_weapon("weapon_" + weaponRestrict);
+        var deagle = player.FindWeapon("weapon_" + weaponRestrict);
 
         if(deagle != null)
         {
-            deagle.set_ammo(0,0);
+            deagle.SetAmmo(0,0);
         } 
 
         restrictDamage = true;
@@ -55,7 +55,7 @@ public class LRRussianRoulette : LRBase
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
 
-        if(name.Contains(weaponRestrict) && player.is_valid())
+        if(name.Contains(weaponRestrict) && player.IsLegal())
         {
             Random rnd = new Random((int)DateTime.Now.Ticks);
 
@@ -79,18 +79,18 @@ public class LRRussianRoulette : LRBase
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
 
-        if(player.is_valid_alive())
+        if(player.IsLegalAlive())
         {     
             player.PrintToChat($"{LastRequest.LR_PREFIX} Reload!");
 
-            var deagle = player.find_weapon("weapon_" + weaponRestrict);
+            var deagle = player.FindWeapon("weapon_" + weaponRestrict);
 
             // NOTE: this doesn't update the unload state
             // however giving a new gun doesn't work either because it doesnt register fast enough
             // also taking a gun away too quickly after a shot will cause it not to register
             if(deagle != null)
             {
-                deagle.set_ammo(1,0);
+                deagle.SetAmmo(1,0);
             }
         }     
     }

@@ -67,7 +67,7 @@ public partial class LastRequest
 
     public void WeaponEquip(CCSPlayerController? player,String name) 
     {
-        if(!player.is_valid_alive())
+        if(!player.IsLegalAlive())
         {
             return;
         }
@@ -82,7 +82,7 @@ public partial class LastRequest
 
         if(lr != null)
         {
-            CCSPlayerPawn? pawn = player.pawn();
+            CCSPlayerPawn? pawn = player.Pawn();
 
             if(pawn == null)
             {

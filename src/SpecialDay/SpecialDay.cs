@@ -49,7 +49,7 @@ public partial class SpecialDay
 
     public void SetupSD(CCSPlayerController? invoke, ChatMenuOption option)
     {
-        if(!invoke.is_valid())
+        if(!invoke.IsLegal())
         {
             return;
         }
@@ -147,7 +147,7 @@ public partial class SpecialDay
         // 1up all dead players
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            if(player.is_valid() && !player.is_valid_alive())
+            if(player.IsLegal() && !player.IsLegalAlive())
             {
                 player.Respawn();
             }
@@ -194,7 +194,7 @@ public partial class SpecialDay
 
     public void SDCmdInternal(CCSPlayerController? player,CommandInfo command)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
@@ -222,7 +222,7 @@ public partial class SpecialDay
     [RequiresPermissions("@jail/debug")]
     public void SDRigCmd(CCSPlayerController? player,CommandInfo command)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }

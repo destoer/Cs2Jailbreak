@@ -67,7 +67,7 @@ public partial class Warden
     {
         // TODO: cant figure out how to get current player weapon
     /*
-        if(!victim.is_valid_alive() && !attacker.is_valid_alive())
+        if(!victim.IsLegalAlive() && !attacker.IsLegalAlive())
         {
             String weapon = 
 
@@ -112,7 +112,7 @@ public partial class Warden
 
     public void Voice(CCSPlayerController? player)
     {
-        if(!player.is_valid_alive())
+        if(!player.IsLegalAlive())
         {
             return;
         }
@@ -130,7 +130,7 @@ public partial class Warden
 
     public void Spawn(CCSPlayerController? player)
     {
-        if(!player.is_valid_alive())
+        if(!player.IsLegalAlive())
         {
             return;
         }
@@ -154,7 +154,7 @@ public partial class Warden
     public void Death(CCSPlayerController? player, CCSPlayerController? killer)
     {
         // player is no longer on server
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }

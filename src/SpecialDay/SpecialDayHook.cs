@@ -37,7 +37,7 @@ public partial class SpecialDay
 
     public void WeaponEquip(CCSPlayerController? player,String name) 
     {
-        if(!player.is_valid_alive())
+        if(!player.IsLegalAlive())
         {
             return;
         }
@@ -54,7 +54,7 @@ public partial class SpecialDay
 
     public void Disconnect(CCSPlayerController? player)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
@@ -93,7 +93,7 @@ public partial class SpecialDay
 
     public void PlayerHurt(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health, int hitgroup)
     {
-        if(activeSD != null && player.is_valid())
+        if(activeSD != null && player.IsLegal())
         {
             activeSD.PlayerHurt(player,damage,health,hitgroup);
         }
@@ -101,7 +101,7 @@ public partial class SpecialDay
 
     public void TakeDamage(CCSPlayerController? player, CCSPlayerController? attacker, ref float damage)
     {
-        if(activeSD == null || !player.is_valid())
+        if(activeSD == null || !player.IsLegal())
         {
             return;
         }

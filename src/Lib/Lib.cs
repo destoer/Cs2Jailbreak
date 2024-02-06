@@ -94,7 +94,7 @@ public static class Lib
     static public void InvokePlayerMenu(CCSPlayerController? invoke, String name,
         Action<CCSPlayerController, ChatMenuOption> callback, Func<CCSPlayerController?,bool> filter)
     {
-        if(!invoke.is_valid())
+        if(!invoke.IsLegal())
         {
             return;
         }
@@ -114,7 +114,7 @@ public static class Lib
 
     public static void ColourMenu(CCSPlayerController? player,Action<CCSPlayerController, ChatMenuOption> callback, String name)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
@@ -141,7 +141,7 @@ public static class Lib
     {
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            if(player.is_valid() && player.IsT())
+            if(player.IsLegal() && player.IsT())
             {
                 player.Mute();
             }
@@ -161,7 +161,7 @@ public static class Lib
     {
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            if(player.is_valid())
+            if(player.IsLegal())
             {
                 player.UnMute();
             }
@@ -194,7 +194,7 @@ public static class Lib
     {
         // get valid players
         List<CCSPlayerController> players = Utilities.GetPlayers();
-        var valid = players.FindAll(player => player.is_valid_alive());
+        var valid = players.FindAll(player => player.IsLegalAlive());
 
         foreach(var player in valid)
         {
@@ -205,19 +205,19 @@ public static class Lib
     static public List<CCSPlayerController> GetAliveCt()
     {
         List<CCSPlayerController> players = Utilities.GetPlayers();
-        return players.FindAll(player => player.is_valid_alive() && player.IsCt());
+        return players.FindAll(player => player.IsLegalAlive() && player.IsCt());
     }
 
     static public int CtCount()
     {
         List<CCSPlayerController> players = Utilities.GetPlayers();
-        return players.FindAll(player => player.is_valid() && player.IsCt()).Count;        
+        return players.FindAll(player => player.IsLegal() && player.IsCt()).Count;        
     }
 
     static public int TCount()
     {
         List<CCSPlayerController> players = Utilities.GetPlayers();
-        return players.FindAll(player => player.is_valid() && player.IsT()).Count;        
+        return players.FindAll(player => player.IsLegal() && player.IsT()).Count;        
     }
 
     static public int AliveCtCount()
@@ -228,7 +228,7 @@ public static class Lib
     static public List<CCSPlayerController> GetAliveT()
     {
         List<CCSPlayerController> players = Utilities.GetPlayers();
-        return players.FindAll(player => player.is_valid_alive() && player.IsT());;
+        return players.FindAll(player => player.IsLegalAlive() && player.IsT());;
     }
 
     static public int AliveTCount()

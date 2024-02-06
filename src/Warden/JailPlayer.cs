@@ -157,7 +157,7 @@ public class JailPlayer
 
     public void LoadPlayer(CCSPlayerController? player)
     {
-        if (!player.is_valid())
+        if (!player.IsLegal())
         {
             return;
         }
@@ -180,7 +180,7 @@ public class JailPlayer
 
     public void UpdatePlayer(CCSPlayerController? player, String name, String value)
     {
-        if (!player.is_valid())
+        if (!player.IsLegal())
         {
             return;
         }
@@ -196,7 +196,7 @@ public class JailPlayer
 
     public void SetLaser(CCSPlayerController? player, String value)
     {
-        if (!player.is_valid())
+        if (!player.IsLegal())
         {
             return;
         }
@@ -210,7 +210,7 @@ public class JailPlayer
 
     public void SetMarker(CCSPlayerController? player, String value)
     {
-        if (!player.is_valid())
+        if (!player.IsLegal())
         {
             return;
         }
@@ -257,7 +257,7 @@ public class JailPlayer
         }
 
         // dont care if player is invalid
-        if (!player.is_valid())
+        if (!player.IsLegal())
         {
             return;
         }
@@ -276,7 +276,7 @@ public class JailPlayer
 
     public void GivePardon(CCSPlayerController? player)
     {
-        if(player.is_valid_alive() && player.IsT())
+        if(player.IsLegalAlive() && player.IsT())
         {
             Chat.localize_announce(Warden.WARDEN_PREFIX, "warden.give_pardon",player.PlayerName);
             player.SetColour(Color.FromArgb(255, 255, 255, 255));
@@ -288,7 +288,7 @@ public class JailPlayer
 
     public void GiveFreeday(CCSPlayerController? player)
     {
-        if(player.is_valid_alive() && player.IsT())
+        if(player.IsLegalAlive() && player.IsT())
         {
             Chat.localize_announce(Warden.WARDEN_PREFIX, "warden.give_freeday",player.PlayerName);
             player.SetColour(Lib.GREEN);
@@ -307,7 +307,7 @@ public class JailPlayer
         }
 
         // players aernt valid dont care
-        if (killer == null || !player.is_valid() || !killer.is_valid())
+        if (killer == null || !player.IsLegal() || !killer.IsLegal())
         {
             return;
         }
@@ -335,12 +335,12 @@ public class JailPlayer
 
     public void PlayerHurt(CCSPlayerController? player, CCSPlayerController? attacker, int health, int damage)
     {
-        if (!player.is_valid())
+        if (!player.IsLegal())
         {
             return;
         }
         
-        bool isWorld = attacker == null || !attacker.is_valid();
+        bool isWorld = attacker == null || !attacker.IsLegal();
 
         string localKey = health > 0 ? "logs.format.damage" : "logs.format.kill";
         if (isWorld)

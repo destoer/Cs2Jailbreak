@@ -18,7 +18,7 @@ public partial class LastRequest
 {
     bool can_start_lr(CCSPlayerController? player)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return false;
         }
@@ -80,7 +80,7 @@ public partial class LastRequest
         // save type
         LRChoice? choice = choice_from_player(player);
 
-        if(choice == null || !player.is_valid())
+        if(choice == null || !player.IsLegal())
         {
             return;
         }
@@ -167,7 +167,7 @@ public partial class LastRequest
         // called from pick_choice -> pick partner
         LRChoice? choice = choice_from_player(player);
 
-        if(choice == null || !player.is_valid())
+        if(choice == null || !player.IsLegal())
         {
             return;
         }
@@ -180,12 +180,12 @@ public partial class LastRequest
         // Debugging pick t's
         if(choice.bypass && player.IsCt())
         {
-            Lib.InvokePlayerMenu(player,menu_name,finialise_choice,Player.is_valid_alive_t);
+            Lib.InvokePlayerMenu(player,menu_name,finialise_choice,Player.IsLegalAliveT);
         }
 
         else
         {
-            Lib.InvokePlayerMenu(player,menu_name,finialise_choice,Player.is_valid_alive_ct);
+            Lib.InvokePlayerMenu(player,menu_name,finialise_choice,Player.IsLegalAliveCT);
         }   
     }
 

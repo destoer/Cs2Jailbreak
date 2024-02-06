@@ -74,11 +74,11 @@ public class LRShotForShot : LRBase
 
 
 
-        var deagle = player.find_weapon("weapon_" + weaponRestrict);
+        var deagle = player.FindWeapon("weapon_" + weaponRestrict);
 
         if(deagle != null)
         {
-            deagle.set_ammo(0,0);
+            deagle.SetAmmo(0,0);
         } 
 
     }
@@ -117,15 +117,15 @@ public class LRShotForShot : LRBase
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
 
-        if(player.is_valid_alive())
+        if(player.IsLegalAlive())
         {     
             player.PrintToChat($"{LastRequest.LR_PREFIX} Reload!");
 
-            var deagle = player.find_weapon("weapon_" + weaponRestrict);
+            var deagle = player.FindWeapon("weapon_" + weaponRestrict);
 
             if(deagle != null)
             {
-                deagle.set_ammo(clip_size,0);
+                deagle.SetAmmo(clip_size,0);
             } 
 
             cur_clip = clip_size;

@@ -27,7 +27,7 @@ public partial class LastRequest
 
     public void rebel_guns(CCSPlayerController player, ChatMenuOption option)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
@@ -54,7 +54,7 @@ public partial class LastRequest
 
     public void start_rebel(CCSPlayerController? player, ChatMenuOption option)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
@@ -64,7 +64,7 @@ public partial class LastRequest
 
     public void start_knife_rebel(CCSPlayerController? rebel, ChatMenuOption option)
     {
-        if(rebel == null || !rebel.is_valid())
+        if(rebel == null || !rebel.IsLegal())
         {
             return;
         }
@@ -82,7 +82,7 @@ public partial class LastRequest
 
         foreach(CCSPlayerController? player in Utilities.GetPlayers())
         {
-            if(player.is_valid_alive())
+            if(player.IsLegalAlive())
             {
                 player.StripWeapons();
             }
@@ -102,7 +102,7 @@ public partial class LastRequest
 
         foreach(CCSPlayerController? player in Utilities.GetPlayers())
         {
-            if(player.is_valid() && !player.is_valid_alive())
+            if(player.IsLegal() && !player.IsLegalAlive())
             {
                 Server.PrintToChatAll($"Respawn {player.PlayerName}");
                 player.Respawn();
@@ -113,7 +113,7 @@ public partial class LastRequest
 
     public void start_riot(CCSPlayerController? rebel, ChatMenuOption option)
     {
-        if(rebel == null || !rebel.is_valid())
+        if(rebel == null || !rebel.IsLegal())
         {
             return;
         }

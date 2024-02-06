@@ -22,7 +22,7 @@ public class TeamSave
         // iter over each active player and save the theam they are on
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            if(!player.is_valid())
+            if(!player.IsLegal())
             {
                 continue;
             }
@@ -45,7 +45,7 @@ public class TeamSave
         {
             CCSPlayerController? player = Utilities.GetPlayerFromSlot(slots[i]);
 
-            if(!player.is_valid())
+            if(!player.IsLegal())
             {
                 continue;
             }

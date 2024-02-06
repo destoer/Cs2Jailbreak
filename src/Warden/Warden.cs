@@ -38,7 +38,7 @@ public partial class Warden
         var player = Utilities.GetPlayerFromSlot(wardenSlot);
 
         // one last saftey check
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             wardenSlot = INAVLID_SLOT;
             return;
@@ -58,7 +58,7 @@ public partial class Warden
 
     public bool IsWarden(CCSPlayerController? player)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return false;
         }
@@ -76,7 +76,7 @@ public partial class Warden
     {
         var player = Utilities.GetPlayerFromSlot(wardenSlot);
 
-        if(player.is_valid())
+        if(player.IsLegal())
         {
             player.SetColour(Player.DEFAULT_COLOUR);
             Chat.localize_announce(WARDEN_PREFIX,"warden.removed",player.PlayerName);
@@ -139,7 +139,7 @@ public partial class Warden
 
     public void SetupPlayerGuns(CCSPlayerController? player)
     {
-        if(!player.is_valid_alive())
+        if(!player.IsLegalAlive())
         {
             return;
         }
@@ -174,7 +174,7 @@ public partial class Warden
     // util func to get a jail player
     public JailPlayer? JailPlayerFromPlayer(CCSPlayerController? player)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return null;
         }

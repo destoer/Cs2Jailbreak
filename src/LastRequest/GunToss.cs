@@ -25,11 +25,11 @@ public class LRGunToss : LRBase
         player.GiveWeapon("deagle");
 
         // empty ammo so players dont shoot eachother
-        var deagle = player.find_weapon("weapon_deagle");
+        var deagle = player.FindWeapon("weapon_deagle");
 
         if(deagle != null)
         {
-            deagle.set_ammo(0,0);
+            deagle.SetAmmo(0,0);
         }         
     }
 

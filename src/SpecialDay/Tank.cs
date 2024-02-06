@@ -23,7 +23,7 @@ public class SDTank : SDBase
 
     public override void MakeBoss(CCSPlayerController? tank, int count)
     {
-        if(tank != null && tank.is_valid_alive())
+        if(tank != null && tank.IsLegalAlive())
         {
             localize_announce($"sd.tank",tank.PlayerName);
 

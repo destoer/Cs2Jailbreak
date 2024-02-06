@@ -27,11 +27,11 @@ public class LRShotgunWar : LRBase
         player.SetHealth(1000);
 
 
-        var shotgun = player.find_weapon("xm1014");
+        var shotgun = player.FindWeapon("xm1014");
 
         if(shotgun != null)
         {
-            shotgun.set_ammo(999,999);
+            shotgun.SetAmmo(999,999);
         }
     }
 }

@@ -8,20 +8,20 @@ using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 public static class Weapon
 {
-    static public bool is_valid(this CBasePlayerWeapon? weapon)
+    static public bool IsLegal(this CBasePlayerWeapon? weapon)
     {
         return weapon != null && weapon.IsValid;
     }
 
-    static public CBasePlayerWeapon? find_weapon(this CCSPlayerController? player, String name)
+    static public CBasePlayerWeapon? FindWeapon(this CCSPlayerController? player, String name)
     {
         // only care if player is alive
-        if(!player.is_valid_alive())
+        if(!player.IsLegalAlive())
         {
             return null;
         }
 
-        CCSPlayerPawn? pawn = player.pawn();
+        CCSPlayerPawn? pawn = player.Pawn();
 
         if(pawn == null)
         {
@@ -35,9 +35,9 @@ public static class Weapon
             return null;
         }
 
-        foreach (var weapon_opt in weapons)
+        foreach (var weaponOpt in weapons)
         {
-            CBasePlayerWeapon? weapon = weapon_opt.Value;
+            CBasePlayerWeapon? weapon = weaponOpt.Value;
 
             if(weapon == null)
             {
@@ -55,9 +55,9 @@ public static class Weapon
 
 
 
-    static public void set_ammo(this CBasePlayerWeapon? weapon, int clip, int reserve)
+    static public void SetAmmo(this CBasePlayerWeapon? weapon, int clip, int reserve)
     {
-        if(weapon == null || !weapon.is_valid())
+        if(weapon == null || !weapon.IsLegal())
         {
             return;
         }
@@ -65,19 +65,19 @@ public static class Weapon
         // overide reserve max so it doesn't get clipped when
         // setting "infinite ammo"
         // thanks 1Mack
-        CCSWeaponBaseVData? weapon_data = weapon.As<CCSWeaponBase>().VData;
+        CCSWeaponBaseVData? weaponData = weapon.As<CCSWeaponBase>().VData;
 
-        if(weapon_data != null)
+        if(weaponData != null)
         {
-            if(clip > weapon_data.MaxClip1)
+            if(clip > weaponData.MaxClip1)
             {
-                weapon_data.MaxClip1 = clip;
-                weapon_data.DefaultClip1 = clip;
+                weaponData.MaxClip1 = clip;
+                weaponData.DefaultClip1 = clip;
             }
 
-            if(reserve > weapon_data.PrimaryReserveAmmoMax)
+            if(reserve > weaponData.PrimaryReserveAmmoMax)
             {
-                weapon_data.PrimaryReserveAmmoMax = reserve;
+                weaponData.PrimaryReserveAmmoMax = reserve;
             }
         }
 
@@ -104,12 +104,12 @@ public static class Weapon
             return;
         }
 
-        player.gun_menu(false);
+        player.GunMenu(false);
     }
 
     static void GiveMenuWeaponCallback(this CCSPlayerController player, ChatMenuOption option)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
@@ -121,11 +121,11 @@ public static class Weapon
         player.GiveNamedItem(gun_give_name(option.Text));
         player.GiveWeapon("deagle");
 
-        CBasePlayerWeapon? primary = player.find_weapon(GUN_LIST[option.Text]);
-        primary.set_ammo(-1,999);
+        CBasePlayerWeapon? primary = player.FindWeapon(GUN_LIST[option.Text]);
+        primary.SetAmmo(-1,999);
 
-        CBasePlayerWeapon? secondary = player.find_weapon("deagle");
-        secondary.set_ammo(-1,999);
+        CBasePlayerWeapon? secondary = player.FindWeapon("deagle");
+        secondary.SetAmmo(-1,999);
         
         player.GiveArmour();
     }
@@ -155,7 +155,7 @@ public static class Weapon
 
     static public void GiveWeapon(this CCSPlayerController? player,String name)
     {
-        if(player.is_valid_alive())
+        if(player.IsLegalAlive())
         {
             player.GiveNamedItem("weapon_" + name);
         }
@@ -170,13 +170,13 @@ public static class Weapon
     static public void GunMenuInternal(this CCSPlayerController? player, bool no_awp, Action<CCSPlayerController, ChatMenuOption> callback)
     {
         // player must be alive and active!
-        if(!player.is_valid_alive())
+        if(!player.IsLegalAlive())
         {
             return;
         } 
 
     
-        var gun_menu = new ChatMenu("Gun Menu");
+        var gunMenu = new ChatMenu("Gun Menu");
 
         foreach(var weapon_pair in GUN_LIST)
         {
@@ -187,16 +187,16 @@ public static class Weapon
                 continue;
             }
 
-            gun_menu.AddMenuOption(weapon_name, callback);
+            gunMenu.AddMenuOption(weapon_name, callback);
         }
 
-        ChatMenus.OpenMenu(player, gun_menu);
+        ChatMenus.OpenMenu(player, gunMenu);
     }
 
-    static public void gun_menu(this CCSPlayerController? player, bool no_awp)
+    static public void GunMenu(this CCSPlayerController? player, bool no_awp)
     {
         // give bots some test guns
-        if(player.is_valid_alive() && player.IsBot)
+        if(player.IsLegalAlive() && player.IsBot)
         {
             player.GiveWeapon("ak47");
             player.GiveWeapon("deagle");

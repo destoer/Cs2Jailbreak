@@ -47,7 +47,7 @@ public abstract class LRBase
         var player = Utilities.GetPlayerFromSlot(player_slot);
 
         // player is not alive cancel the lr
-        if(!player.is_valid_alive())
+        if(!player.IsLegalAlive())
         {
             manager.end_lr(slot);
             return;
@@ -71,7 +71,7 @@ public abstract class LRBase
         // reset alive player
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
 
-        if(!player.is_valid_alive())
+        if(!player.IsLegalAlive())
         {
             return;
         }
@@ -109,7 +109,7 @@ public abstract class LRBase
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
         CCSPlayerController? winner = Utilities.GetPlayerFromSlot(partner.player_slot);
 
-        if(!player.is_valid() || winner == null || !winner.is_valid())
+        if(!player.IsLegal() || winner == null || !winner.IsLegal())
         {
             manager.end_lr(slot);
             return;
@@ -142,7 +142,7 @@ public abstract class LRBase
 
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
 
-        if(player.is_valid_alive())
+        if(player.IsLegalAlive())
         {
             player.announce(LastRequest.LR_PREFIX,"Fight!");
         }
@@ -236,7 +236,7 @@ public abstract class LRBase
             CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
 
             // need to double check LR is actually still active...
-            if(player.is_valid_alive() && manager.InLR(player))
+            if(player.IsLegalAlive() && manager.InLR(player))
             {
                 //Server.PrintToChatAll("give nade");
                 player.StripWeapons(true);
@@ -255,7 +255,7 @@ public abstract class LRBase
         CCSPlayerController? t_player = Utilities.GetPlayerFromSlot(lr.player_slot);
         CCSPlayerController? ct_player = Utilities.GetPlayerFromSlot(lr.partner.player_slot);
 
-        if(!t_player.is_valid() || !ct_player.is_valid())
+        if(!t_player.IsLegal() || !ct_player.IsLegal())
         {
             return;
         }
@@ -289,13 +289,13 @@ public abstract class LRBase
             other = Utilities.GetPlayerFromSlot(partner.player_slot);
         }
 
-        if(!player.is_valid_alive() || other == null || !other.is_valid_alive())
+        if(!player.IsLegalAlive() || other == null || !other.IsLegalAlive())
         {
             return;
         }
 
-        CCSPlayerPawn? v1 = player.pawn();
-        CCSPlayerPawn? v2 = other.pawn();
+        CCSPlayerPawn? v1 = player.Pawn();
+        CCSPlayerPawn? v2 = other.Pawn();
 
         // check we can get origin!
         if(v1 == null || v2 == null || v1.AbsOrigin == null || v2.AbsOrigin == null)

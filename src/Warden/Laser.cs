@@ -30,7 +30,7 @@ public partial class Warden
         JailPlayer? jailPlayer = JailPlayerFromPlayer(player);
 
         // draw marker
-        if(IsWarden(player) && player.is_valid() && jailPlayer != null)
+        if(IsWarden(player) && player.IsLegal() && jailPlayer != null)
         {
             // make sure we destroy the old marker
             // because this generates alot of ents
@@ -62,14 +62,14 @@ public partial class Warden
 
         CCSPlayerController? warden = Utilities.GetPlayerFromSlot(wardenSlot);
 
-        if(warden == null || !warden.is_valid())
+        if(warden == null || !warden.IsLegal())
         {
             return;
         }
 
         bool useKey = (warden.Buttons & PlayerButtons.Use) == PlayerButtons.Use;
 
-        CCSPlayerPawn? pawn = warden.pawn();
+        CCSPlayerPawn? pawn = warden.Pawn();
         CPlayer_CameraServices? camera = pawn?.CameraServices;
 
         JailPlayer? jailPlayer = JailPlayerFromPlayer(warden);
@@ -113,7 +113,7 @@ public partial class Warden
 
     void SetLaser(CCSPlayerController player, ChatMenuOption option)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
@@ -129,7 +129,7 @@ public partial class Warden
 
     void SetMarker(CCSPlayerController player, ChatMenuOption option)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
@@ -145,7 +145,7 @@ public partial class Warden
 
     public void LaserColourCmd(CCSPlayerController? player, CommandInfo command)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
@@ -155,7 +155,7 @@ public partial class Warden
 
     public void MarkerColourCmd(CCSPlayerController? player, CommandInfo command)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }

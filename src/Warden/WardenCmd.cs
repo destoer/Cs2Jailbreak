@@ -29,7 +29,7 @@ public partial class Warden
 
     public void RemoveMarkerCmd(CCSPlayerController? player, CommandInfo command)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
@@ -64,7 +64,7 @@ public partial class Warden
 
     public void WardayCmd(CCSPlayerController? player, CommandInfo command)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
@@ -145,7 +145,7 @@ public partial class Warden
 
         if(jailPlayer != null)
         {
-            return jailPlayer.IsRebel && player.is_valid_alive();
+            return jailPlayer.IsRebel && player.IsLegalAlive();
         }
 
         return false;
@@ -185,7 +185,7 @@ public partial class Warden
 
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(colourSlot);
 
-        if(player.is_valid_alive())
+        if(player.IsLegalAlive())
         {
             Lib.ColourMenu(invoke,ColourCallback,$"Player colour {player.PlayerName}");
         }
@@ -204,12 +204,12 @@ public partial class Warden
             return;
         }
 
-        Lib.InvokePlayerMenu(invoke,"Colour",ColourPlayerCallback,Player.is_valid_alive_t);
+        Lib.InvokePlayerMenu(invoke,"Colour",ColourPlayerCallback,Player.IsLegalAliveT);
     }
 
     public void GiveFreedayCmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        GiveT(invoke,"Freeday",GiveFreedayCallback,Player.is_valid_alive_t);
+        GiveT(invoke,"Freeday",GiveFreedayCallback,Player.IsLegalAliveT);
     }
 
     public void GivePardonCmd(CCSPlayerController? invoke, CommandInfo command)
@@ -219,7 +219,7 @@ public partial class Warden
     
     public void WubCmd(CCSPlayerController? player, CommandInfo command)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
@@ -236,7 +236,7 @@ public partial class Warden
 
     public void WbCmd(CCSPlayerController? player, CommandInfo command)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
@@ -255,7 +255,7 @@ public partial class Warden
     [RequiresPermissions("@jail/debug")]
     public void IsRebelCmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        if(!invoke.is_valid())
+        if(!invoke.IsLegal())
         {
             return;
         }
@@ -264,7 +264,7 @@ public partial class Warden
 
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            if(!player.is_valid())
+            if(!player.IsLegal())
             {
                 continue;
             }
@@ -275,7 +275,7 @@ public partial class Warden
 
     public void WardenTimeCmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        if(!invoke.is_valid())
+        if(!invoke.IsLegal())
         {
             return;
         }
@@ -293,7 +293,7 @@ public partial class Warden
 
     public void CmdInfo(CCSPlayerController? player, CommandInfo command)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
@@ -316,7 +316,7 @@ public partial class Warden
     public void TakeWardenCmd(CCSPlayerController? player, CommandInfo command)
     {
         // invalid player we dont care
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
@@ -356,7 +356,7 @@ public partial class Warden
 
         // swap every guard apart from warden to T
         List<CCSPlayerController> players = Utilities.GetPlayers();
-        var valid = players.FindAll(player => player.is_valid() && player.IsCt() && !IsWarden(player));
+        var valid = players.FindAll(player => player.IsLegal() && player.IsCt() && !IsWarden(player));
 
         foreach(var player in valid)
         {
@@ -367,7 +367,7 @@ public partial class Warden
 
     public void CtGuns(CCSPlayerController player, ChatMenuOption option)
     {
-        if(!player.is_valid_alive() || !player.IsCt()) 
+        if(!player.IsLegalAlive() || !player.IsCt()) 
         {
             return;
         }
@@ -394,7 +394,7 @@ public partial class Warden
 
     public void CmdCtGuns(CCSPlayerController? player, CommandInfo command)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }

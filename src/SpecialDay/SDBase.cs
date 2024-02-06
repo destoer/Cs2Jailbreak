@@ -55,12 +55,12 @@ public abstract class SDBase
     {
         // get valid players
         List<CCSPlayerController> players = Utilities.GetPlayers();
-        var valid = players.FindAll(player => player.is_valid_alive());
+        var valid = players.FindAll(player => player.IsLegalAlive());
 
         CCSPlayerController? rigged = Utilities.GetPlayerFromSlot(riggedSlot);
 
         // override pick
-        if(rigged.is_valid_alive())
+        if(rigged.IsLegalAlive())
         {
             var player = rigged;
             riggedSlot = -1;
@@ -79,7 +79,7 @@ public abstract class SDBase
 
     public void Disconnect(CCSPlayerController? player)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
@@ -103,7 +103,7 @@ public abstract class SDBase
         CCSPlayerController? boss = Utilities.GetPlayerFromSlot(bossSlot);
 
         // reset the boss colour
-        if(boss.is_valid_alive())
+        if(boss.IsLegalAlive())
         {
             boss.SetVelocity(1.0f);
             boss.SetColour(Color.FromArgb(255, 255, 255, 255));
@@ -144,7 +144,7 @@ public abstract class SDBase
     {
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            if(player.is_valid_alive())
+            if(player.IsLegalAlive())
             {
                 // reset the player colour incase of rebel
                 player.SetColour(Player.DEFAULT_COLOUR);
@@ -158,7 +158,7 @@ public abstract class SDBase
     {
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            if(player.is_valid_alive())
+            if(player.IsLegalAlive())
             {
                 CleanupPlayer(player);
             }

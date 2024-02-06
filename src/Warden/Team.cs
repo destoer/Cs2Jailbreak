@@ -24,7 +24,7 @@ public partial class Warden
     
     public bool JoinTeam(CCSPlayerController? invoke, CommandInfo command)
     {
-        if(!invoke.is_valid())
+        if(!invoke.IsLegal())
         {
             invoke.PlaySound("sounds/ui/counter_beep.vsnd");
             return false;
@@ -37,7 +37,7 @@ public partial class Warden
             return false;
         }
 
-        CCSPlayerPawn? pawn = invoke.pawn(); 
+        CCSPlayerPawn? pawn = invoke.Pawn(); 
 
 
         if(!Int32.TryParse(command.ArgByIndex(1),out int team))
@@ -94,7 +94,7 @@ public partial class Warden
     [RequiresPermissions("@css/generic")]
     public void SwapGuardCmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        if(!invoke.is_valid())
+        if(!invoke.IsLegal())
         {
             return;
         }
@@ -109,7 +109,7 @@ public partial class Warden
 
         foreach(CCSPlayerController player in target)
         {
-            if(player.is_valid())
+            if(player.IsLegal())
             {
                 invoke.localize("warden.guard_swapped",player.PlayerName);
                 player.SwitchTeam(CsTeam.CounterTerrorist);

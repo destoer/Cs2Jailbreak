@@ -13,7 +13,7 @@ public static class Chat
 
     static public void print_prefix(this CCSPlayerController? player, String prefix, String str)
     {
-        if(player.is_valid() && player.is_connected() && !player.IsBot)
+        if(player.IsLegal() && player.IsConnected() && !player.IsBot)
         {
             player.PrintToChat(prefix + str);
         }
@@ -21,7 +21,7 @@ public static class Chat
 
     static public void announce(this CCSPlayerController? player,String prefix,String str)
     {
-        if(player.is_valid() && player.is_connected() && !player.IsBot)
+        if(player.IsLegal() && player.IsConnected() && !player.IsBot)
         {
             player.print_prefix(prefix,str);
             player.PrintToCenter(str);
@@ -33,7 +33,7 @@ public static class Chat
     {
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            if(!player.is_valid())
+            if(!player.IsLegal())
             {
                 continue;
             }
@@ -46,12 +46,12 @@ public static class Chat
     {
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            if(!player.is_valid() || !player.is_connected() || player.IsBot)
+            if(!player.IsLegal() || !player.IsConnected() || player.IsBot)
             {
                 continue;
             }
 
-            if(admin_only && !player.is_generic_admin())
+            if(admin_only && !player.IsGenericAdmin())
             {
                 return;
             }
@@ -81,7 +81,7 @@ public static class Chat
 
     static public void localize(this CCSPlayerController? player,String name, params Object[] args)
     {
-        if(player.is_valid())
+        if(player.IsLegal())
         {
             player.PrintToChat(localize(name,args));
         }    
@@ -89,7 +89,7 @@ public static class Chat
 
     static public void localise_prefix(this CCSPlayerController? player,String prefix, String name, params Object[] args)
     {
-        if(player.is_valid())
+        if(player.IsLegal())
         {
             player.PrintToChat(prefix + localize(name,args));
         }    

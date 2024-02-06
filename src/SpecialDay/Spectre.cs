@@ -23,7 +23,7 @@ public class SDSpectre : SDBase
 
     public override void MakeBoss(CCSPlayerController? spectre, int count)
     {
-        if(spectre != null && spectre.is_valid_alive())
+        if(spectre != null && spectre.IsLegalAlive())
         {
             localize_announce($"sd.spectre",spectre.PlayerName);
 

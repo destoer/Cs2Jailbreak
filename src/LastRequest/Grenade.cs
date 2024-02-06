@@ -24,7 +24,7 @@ public class LRGrenade : LRBase
     {    
         weaponRestrict = "hegrenade";
 
-        if(player.is_valid_alive())
+        if(player.IsLegalAlive())
         {
             player.SetHealth(150);
 

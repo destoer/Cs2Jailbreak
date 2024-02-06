@@ -47,14 +47,14 @@ public partial class LastRequest
 
     void init_player_common(CCSPlayerController? player, String lr_name)
     {
-        if(!player.is_valid_alive())
+        if(!player.IsLegalAlive())
         {
             return;
         }
 
         // strip weapons restore hp
         player.SetHealth(100);
-        player.set_armour(100);
+        player.SetArmour(100);
         player.StripWeapons(true);
         player.GiveArmour();
 
@@ -105,7 +105,7 @@ public partial class LastRequest
 
         // check we still actually have all the players
         // our handlers only check once we have actually triggered the LR
-        if(!t_player.is_valid_alive() || !ct_player.is_valid_alive())
+        if(!t_player.IsLegalAlive() || !ct_player.IsLegalAlive())
         {
             Server.PrintToChatAll($"{LR_PREFIX}Disconnection during lr setup");
             return;
@@ -288,7 +288,7 @@ public partial class LastRequest
 
     bool is_valid_t(CCSPlayerController? player)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return false;
         }
@@ -368,7 +368,7 @@ public partial class LastRequest
         // check player can start lr
         // NOTE: higher level function checks its valid to start an lr
         // so we can do a bypass for debugging
-        if(!player.is_valid() || rebel_type != RebelType.NONE || JailPlugin.EventActive())
+        if(!player.IsLegal() || rebel_type != RebelType.NONE || JailPlugin.EventActive())
         {
             return;
         }
@@ -427,13 +427,13 @@ public partial class LastRequest
 
     public void CancelLRCmd(CCSPlayerController? player, CommandInfo command)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }
 
         // must be admin or warden
-        if(!player.is_generic_admin() && !JailPlugin.IsWarden(player))
+        if(!player.IsGenericAdmin() && !JailPlugin.IsWarden(player))
         {
             player.localise_prefix(LR_PREFIX,"lr.cancel_admin");
             return;
@@ -459,7 +459,7 @@ public partial class LastRequest
 
     LRChoice? choice_from_player(CCSPlayerController? player)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return null;
         }

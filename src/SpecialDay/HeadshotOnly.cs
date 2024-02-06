@@ -41,7 +41,7 @@ public class SDHeadshotOnly : SDBase
 
     public override void PlayerHurt(CCSPlayerController? player,int health,int damage, int hitgroup) 
     {
-        if(!player.is_valid_alive())
+        if(!player.IsLegalAlive())
         {
             return;
         }

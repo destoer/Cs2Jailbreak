@@ -27,7 +27,7 @@ public class Logs
     {
         foreach (CCSPlayerController player in Utilities.GetPlayers())
         {
-            if (player.is_valid() && player.is_connected() && !player.IsBot)
+            if (player.IsLegal() && player.IsConnected() && !player.IsBot)
             {
                 printLogs(player);
             }

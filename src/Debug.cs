@@ -33,7 +33,7 @@ public static class Debug
     [RequiresPermissions("@jail/debug")]
     public static void TestLaser(CCSPlayerController? invoke, CommandInfo command)
     {
-        CCSPlayerPawn? pawn = invoke.pawn();
+        CCSPlayerPawn? pawn = invoke.Pawn();
 
         if(pawn != null && pawn.AbsOrigin != null)
         {
@@ -49,7 +49,7 @@ public static class Debug
     [RequiresPermissions("@jail/debug")]
     public static void TestNoblockCmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        if(!invoke.is_valid())
+        if(!invoke.IsLegal())
         {
             return;
         }
@@ -58,7 +58,7 @@ public static class Debug
 
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            var pawn = player.pawn();
+            var pawn = player.Pawn();
 
             if(pawn == null)
             {
@@ -84,7 +84,7 @@ public static class Debug
     [RequiresPermissions("@jail/debug")]
     public static void JoinCtCmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        if(invoke != null && invoke.is_valid())
+        if(invoke != null && invoke.IsLegal())
         {
             invoke.SwitchTeam(CsTeam.CounterTerrorist);
         }
@@ -93,18 +93,18 @@ public static class Debug
     [RequiresPermissions("@jail/debug")]
     public static void HideWeaponCmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        if(invoke != null && invoke.is_valid())
+        if(invoke != null && invoke.IsLegal())
         {
             invoke.PrintToChat("hiding weapons");
         }
 
-        invoke.hide_weapon();
+        invoke.HideWeapon();
     }
 
     [RequiresPermissions("@jail/debug")]
     public static void WSDEnableCmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        if(invoke != null && invoke.is_valid())
+        if(invoke != null && invoke.IsLegal())
         {
             invoke.PrintToChat("enable wsd");
             JailPlugin.sd.wsdRound = 0x7000_0000;
@@ -114,7 +114,7 @@ public static class Debug
     [RequiresPermissions("@jail/debug")]
     public static void IsMutedCmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        if(!invoke.is_valid())
+        if(!invoke.IsLegal())
         {
             return;
         }

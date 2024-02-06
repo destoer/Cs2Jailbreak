@@ -20,7 +20,7 @@ public class LRNoScope : LRBase
 
     void GiveWeapon(CCSPlayerController? player)
     {
-        if(!player.is_valid())
+        if(!player.IsLegal())
         {
             return;
         }

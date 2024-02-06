@@ -34,7 +34,7 @@ public class SDJuggernaut : SDBase
 
     public override void Death(CCSPlayerController? player, CCSPlayerController? attacker)
     {
-        if(!player.is_valid() || attacker == null || !attacker.is_valid_alive())
+        if(!player.IsLegal() || attacker == null || !attacker.IsLegalAlive())
         {
             return;
         }

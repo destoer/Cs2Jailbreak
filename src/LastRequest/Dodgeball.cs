@@ -24,7 +24,7 @@ public class LRDodgeball : LRBase
     {    
         weaponRestrict = "flashbang";
 
-        if(player.is_valid_alive())
+        if(player.IsLegalAlive())
         {
             player.SetHealth(1);
 
@@ -50,7 +50,7 @@ public class LRDodgeball : LRBase
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
     
-        if(player.is_valid_alive())
+        if(player.IsLegalAlive())
         {
             player.Slay();
         }

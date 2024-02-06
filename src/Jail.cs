@@ -384,7 +384,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     {
         var player = @event.Userid;
 
-        if(player.is_valid())
+        if(player.IsLegal())
         {
             warden.Ping(player,@event.X,@event.Y,@event.Z);
         }
@@ -396,7 +396,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(slot);
 
-        if(player.is_valid())
+        if(player.IsLegal())
         {
             warden.Voice(player);
         }
@@ -410,7 +410,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         // grab player controller from pawn
         CBaseEntity? ent =  Utilities.GetEntityFromIndex<CBaseEntity>((int)caller.Index);
 
-        if(player.is_valid() && ent != null && ent.IsValid)
+        if(player.IsLegal() && ent != null && ent.IsValid)
         {
             logs.AddLocalized(player, "logs.format.button", ent.Entity?.Name ?? "Unlabeled", output?.Connections?.TargetDesc ?? "None");
         }
@@ -427,7 +427,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     {
         CCSPlayerController? player = @event.Userid;
 
-        if(player.is_valid())
+        if(player.IsLegal())
         {
             lr.GrenadeThrown(player);
             sd.GrenadeThrown(player);
@@ -441,7 +441,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     {
         CCSPlayerController? player = @event.Userid;
 
-        if(player.is_valid())
+        if(player.IsLegal())
         {
             lr.WeaponZoom(player);
         }
@@ -453,7 +453,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     {
         CCSPlayerController? player = @event.Userid;
 
-        if(player.is_valid())
+        if(player.IsLegal())
         {
             lr.WeaponEquip(player,@event.Item);
             sd.WeaponEquip(player,@event.Item);
@@ -471,7 +471,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         int health = @event.Health;
         int hitgroup = @event.Hitgroup;
 
-        if(player.is_valid())
+        if(player.IsLegal())
         {
             lr.PlayerHurt(player,attacker,damage,health,hitgroup);
             warden.PlayerHurt(player,attacker,damage,health);
@@ -492,7 +492,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         CCSPlayerController? player = victim.player();
         CCSPlayerController? attacker = dealer.player();
 
-        if(player.is_valid())
+        if(player.IsLegal())
         {
             warden.TakeDamage(player,attacker,ref damage_info.Damage);
             sd.TakeDamage(player,attacker,ref damage_info.Damage);
@@ -523,16 +523,16 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         CCSPlayerController? victim = @event.Userid;
         CCSPlayerController? killer = @event.Attacker;
 
-        // NOTE: have to check is_connected incase this is tripped by a dc
+        // NOTE: have to check IsConnected incase this is tripped by a dc
 
         // hide t killing ct
-        if(Config.hideKills && victim.is_connected() && killer.is_connected() && killer.IsT() && victim.IsCt())
+        if(Config.hideKills && victim.IsConnected() && killer.IsConnected() && killer.IsT() && victim.IsCt())
         {
             //@event.Attacker = player;
             // fire event as is to T
             foreach(CCSPlayerController? player in Utilities.GetPlayers())
             {
-                if(player.is_valid())
+                if(player.IsLegal())
                 {
                     if(player.IsT())
                     {
@@ -559,7 +559,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         }
 
 
-        if(victim.is_valid() && victim.is_connected())
+        if(victim.IsLegal() && victim.IsConnected())
         {
             warden.Death(victim,killer);
             lr.Death(victim);
@@ -573,7 +573,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     {
         CCSPlayerController? player = @event.Userid;
 
-        if(player.is_valid())
+        if(player.IsLegal())
         {
             int slot = player.Slot;
 
@@ -593,7 +593,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         int new_team = @event.Toteam;
 
-        if(player.is_valid())
+        if(player.IsLegal())
         {
             warden.SwitchTeam(player,new_team);
         }
@@ -605,7 +605,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(slot);
 
-        if(player.is_valid())
+        if(player.IsLegal())
         {
             // load in player stats
             jailStats.LoadPlayer(player);
@@ -623,7 +623,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     {
         CCSPlayerController? player = @event.Userid;
 
-        if(player.is_valid())
+        if(player.IsLegal())
         {
             warden.Disconnect(player);
             lr.Disconnect(player);
@@ -648,7 +648,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         var player = @event.Userid;
         String name = @event.Weapon;
 
-        if(player.is_valid_alive())
+        if(player.IsLegalAlive())
         {
             warden.WeaponFire(player,name);
             lr.WeaponFire(player,name);
