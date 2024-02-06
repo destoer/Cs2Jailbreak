@@ -187,7 +187,7 @@ public partial class Warden
 
         if(player.is_valid_alive())
         {
-            Lib.colour_menu(invoke,ColourCallback,$"Player colour {player.PlayerName}");
+            Lib.ColourMenu(invoke,ColourCallback,$"Player colour {player.PlayerName}");
         }
 
         else

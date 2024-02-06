@@ -112,21 +112,21 @@ public static class Lib
         ChatMenus.OpenMenu(invoke, menu); 
     }
 
-    public static void colour_menu(CCSPlayerController? player,Action<CCSPlayerController, ChatMenuOption> callback, String name)
+    public static void ColourMenu(CCSPlayerController? player,Action<CCSPlayerController, ChatMenuOption> callback, String name)
     {
         if(!player.is_valid())
         {
             return;
         }
 
-        var colour_menu = new ChatMenu(name);
+        var colourMenu = new ChatMenu(name);
 
         foreach(var item in Lib.COLOUR_CONFIG_MAP)
         {
-            colour_menu.AddMenuOption(item.Key, callback);
+            colourMenu.AddMenuOption(item.Key, callback);
         }
 
-        ChatMenus.OpenMenu(player, colour_menu);    
+        ChatMenus.OpenMenu(player, colourMenu);    
     }
 
     static public void PlaySoundAll(String sound)

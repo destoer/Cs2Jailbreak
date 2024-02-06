@@ -201,7 +201,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         Console.WriteLine("Sucessfully started JB");
 
-        AddTimer(Warden.LASER_TIME,warden.laser_tick,CSTimer.TimerFlags.REPEAT);
+        AddTimer(Warden.LASER_TIME,warden.LaserTick,CSTimer.TimerFlags.REPEAT);
 
     }
 

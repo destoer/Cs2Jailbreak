@@ -8,7 +8,7 @@ using System.Drawing;
 
 public static class Entity
 {
-    static public void remove(int index, String name)
+    static public void Remove(int index, String name)
     {
         CBaseEntity? ent = Utilities.GetEntityFromIndex<CBaseEntity>(index);
 
@@ -18,7 +18,7 @@ public static class Entity
         }
     }
 
-    static public void remove_delay(this CEntityInstance entity, float delay, String name)
+    static public void RemoveDelay(this CEntityInstance entity, float delay, String name)
     {
         // remove projectile
         if(entity.DesignerName == name)
@@ -27,7 +27,7 @@ public static class Entity
 
             JailPlugin.global_ctx.AddTimer(delay,() => 
             {
-                remove(index,name);
+                Remove(index,name);
             });
         }
     }
@@ -49,7 +49,7 @@ public static class Entity
     }
 
     // TODO: is their a cheaper way to do this?
-    static public int enTCount()
+    static public int EntCount()
     {
         return Utilities.GetAllEntities().Count();
     }
@@ -58,7 +58,7 @@ public static class Entity
     static Vector VEC_ZERO = new Vector(0.0f,0.0f,0.0f);
     static QAngle ANGLE_ZERO = new QAngle(0.0f,0.0f,0.0f);
 
-    static public void move(this CEnvBeam? laser,Vector start, Vector end)
+    static public void Move(this CEnvBeam? laser,Vector start, Vector end)
     {
         if(laser == null)
         {
@@ -77,12 +77,12 @@ public static class Entity
         Utilities.SetStateChanged(laser,"CBeam", "m_vecEndPos");
     }
 
-    static public void move_laser_by_index(int laser_index,Vector start, Vector end)
+    static public void MoveLaserByIndex(int laserIndex,Vector start, Vector end)
     {
-        CEnvBeam? laser = Utilities.GetEntityFromIndex<CEnvBeam>(laser_index);
+        CEnvBeam? laser = Utilities.GetEntityFromIndex<CEnvBeam>(laserIndex);
         if(laser != null && laser.DesignerName == "env_beam")
         {
-            laser.move(start,end);
+            laser.Move(start,end);
         }
     }
 
@@ -95,7 +95,7 @@ public static class Entity
     }
 
 
-    static public int draw_laser(Vector start, Vector end, float width, Color colour)
+    static public int DrawLaser(Vector start, Vector end, float width, Color colour)
     {
         CEnvBeam? laser = Utilities.CreateEntityByName<CEnvBeam>("env_beam");
 
@@ -111,7 +111,7 @@ public static class Entity
         // circle not working?
         //laser.Flags |= 8;
 
-        laser.move(start,end);
+        laser.Move(start,end);
 
         // start spawn
         laser.DispatchSpawn(); 

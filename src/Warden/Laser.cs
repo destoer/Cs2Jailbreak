@@ -22,7 +22,7 @@ public partial class Warden
 {
     void RemoveMarker()
     {
-        marker.destroy();
+        marker.Destroy();
     }
 
     public void ping(CCSPlayerController? player, float x, float y, float z)
@@ -38,17 +38,17 @@ public partial class Warden
 
             //Server.PrintToChatAll($"{Lib.enTCount()}");
 
-            marker.colour = jailPlayer.marker_colour;
-            marker.draw(60.0f,75.0f,x,y,z);
+            marker.colour = jailPlayer.markerColour;
+            marker.Draw(60.0f,75.0f,x,y,z);
         }
     }
 
     void RemoveLaser()
     {
-        laser.destroy();
+        laser.Destroy();
     }
 
-    public void laser_tick()
+    public void LaserTick()
     {
         if(!Config.wardenLaser)
         {
@@ -67,41 +67,41 @@ public partial class Warden
             return;
         }
 
-        bool use_key = (warden.Buttons & PlayerButtons.Use) == PlayerButtons.Use;
+        bool useKey = (warden.Buttons & PlayerButtons.Use) == PlayerButtons.Use;
 
         CCSPlayerPawn? pawn = warden.pawn();
         CPlayer_CameraServices? camera = pawn?.CameraServices;
 
         JailPlayer? jailPlayer = JailPlayerFromPlayer(warden);
 
-        if(pawn != null && pawn.AbsOrigin != null && camera != null && use_key && jailPlayer != null)
+        if(pawn != null && pawn.AbsOrigin != null && camera != null && useKey && jailPlayer != null)
         {
             Vector eye = new Vector(pawn.AbsOrigin.X,pawn.AbsOrigin.Y,pawn.AbsOrigin.Z + camera.OldPlayerViewOffsetZ);
 
             Vector end = new Vector(eye.X,eye.Y,eye.Z);
 
-            QAngle eye_angle = pawn.EyeAngles;
+            QAngle eyeAngle = pawn.EyeAngles;
 
             // convert angles to rad 
-            double pitch = (Math.PI/180) * eye_angle.X;
-            double yaw = (Math.PI/180) * eye_angle.Y;
+            double pitch = (Math.PI/180) * eyeAngle.X;
+            double yaw = (Math.PI/180) * eyeAngle.Y;
 
             // get direction vector from angles
-            Vector eye_vector = new Vector((float)(Math.Cos(yaw) * Math.Cos(pitch)),(float)(Math.Sin(yaw) * Math.Cos(pitch)),(float)(-Math.Sin(pitch)));
+            Vector eyeVector = new Vector((float)(Math.Cos(yaw) * Math.Cos(pitch)),(float)(Math.Sin(yaw) * Math.Cos(pitch)),(float)(-Math.Sin(pitch)));
 
             int t = 3000;
 
-            end.X += (t * eye_vector.X);
-            end.Y += (t * eye_vector.Y);
-            end.Z += (t * eye_vector.Z);
+            end.X += (t * eyeVector.X);
+            end.Y += (t * eyeVector.Y);
+            end.Z += (t * eyeVector.Z);
 
             /*
                 warden.PrintToChat($"end: {end.X} {end.Y} {end.Z}");
                 warden.PrintToChat($"angle: {eye_angle.X} {eye_angle.Y}");
             */
 
-            laser.colour = jailPlayer.laser_colour;
-            laser.move(eye,end);
+            laser.colour = jailPlayer.laserColour;
+            laser.Move(eye,end);
         }
 
         // hide laser
@@ -150,7 +150,7 @@ public partial class Warden
             return;
         }
 
-        Lib.colour_menu(player,SetLaser,"Laser colour");
+        Lib.ColourMenu(player,SetLaser,"Laser colour");
     }
 
     public void MarkerColourCmd(CCSPlayerController? player, CommandInfo command)
@@ -160,7 +160,7 @@ public partial class Warden
             return;
         }
 
-        Lib.colour_menu(player,SetMarker,"Marker colour");
+        Lib.ColourMenu(player,SetMarker,"Marker colour");
     }
 
     public static readonly float LASER_TIME = 0.1f;

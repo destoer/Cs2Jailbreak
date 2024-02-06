@@ -131,8 +131,8 @@ public class JailPlayer
                 if (reader.Read())
                 {
                     // just override this
-                    laser_colour = Lib.COLOUR_CONFIG_MAP[(String)reader["laser_colour"]];
-                    marker_colour = Lib.COLOUR_CONFIG_MAP[(String)reader["marker_colour"]];
+                    laserColour = Lib.COLOUR_CONFIG_MAP[(String)reader["laser_colour"]];
+                    markerColour = Lib.COLOUR_CONFIG_MAP[(String)reader["marker_colour"]];
                     ctGun = (String)reader["ct_gun"];
 
                     // don't try reloading the player
@@ -202,7 +202,7 @@ public class JailPlayer
         }
 
         player.announce(Warden.WARDEN_PREFIX, $"Laser colour set to {value}");
-        laser_colour = Lib.COLOUR_CONFIG_MAP[value];
+        laserColour = Lib.COLOUR_CONFIG_MAP[value];
 
         // save back to the db too
         update_player(player, "laser_colour", value);
@@ -216,7 +216,7 @@ public class JailPlayer
         }
 
         player.announce(Warden.WARDEN_PREFIX, $"Marker colour set to {value}");
-        marker_colour = Lib.COLOUR_CONFIG_MAP[value];
+        markerColour = Lib.COLOUR_CONFIG_MAP[value];
 
         // save back to the db too
         update_player(player, "marker_colour", value);
@@ -232,8 +232,8 @@ public class JailPlayer
         PurgeRound();
 
         // TODO: reset client specific settings
-        laser_colour = Lib.CYAN;
-        marker_colour = Lib.CYAN;
+        laserColour = Lib.CYAN;
+        markerColour = Lib.CYAN;
         ctGun = "M4";
     }
 
@@ -375,8 +375,8 @@ public class JailPlayer
 
     public static JailConfig Config = new JailConfig();
 
-    public Color laser_colour { get; private set; } = Lib.CYAN;
-    public Color marker_colour { get; private set; } = Lib.CYAN;
+    public Color laserColour { get; private set; } = Lib.CYAN;
+    public Color markerColour { get; private set; } = Lib.CYAN;
     bool cached = false;
 
     public String ctGun = "M4";

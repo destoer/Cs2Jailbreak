@@ -39,7 +39,7 @@ public static class Debug
         {
             Circle marker = new Circle();
 
-            marker.draw(30.0f,72.0f,pawn.AbsOrigin);
+            marker.Draw(30.0f,72.0f,pawn.AbsOrigin);
         }
     }
     

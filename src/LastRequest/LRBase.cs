@@ -64,7 +64,7 @@ public abstract class LRBase
         // clean up laser
         Lib.KillTimer(ref laser_timer);
 
-        laser.destroy();
+        laser.Destroy();
 
         countdown.Kill();
 
@@ -271,14 +271,14 @@ public abstract class LRBase
             // create the laser timer
             if(JailPlugin.global_ctx != null)
             {
-                laser_timer = JailPlugin.global_ctx.AddTimer(1.0f / 25.0f,laser_tick,CSTimer.TimerFlags.STOP_ON_MAPCHANGE | CSTimer.TimerFlags.REPEAT);
+                laser_timer = JailPlugin.global_ctx.AddTimer(1.0f / 25.0f,LaserTick,CSTimer.TimerFlags.STOP_ON_MAPCHANGE | CSTimer.TimerFlags.REPEAT);
             }
         }
 
         countdown.Start(lr_name,5,this,prinTCountdown,manager.activate_lr);
     }
 
-    public void laser_tick()
+    public void LaserTick()
     {
         // get both players and check they are valid
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
@@ -311,7 +311,7 @@ public abstract class LRBase
         start.Z += 3.0f;
         end.Z += 3.0f;
 
-        laser.move(start,end);
+        laser.Move(start,end);
     }
 
     public virtual void ent_created(String name) {}
