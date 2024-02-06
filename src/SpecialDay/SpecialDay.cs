@@ -29,11 +29,11 @@ public partial class SpecialDay
 
     public void end_sd(bool forced = false)
     {
-        if(active_sd != null)
+        if(activeSD != null)
         {
             JailPlugin.EndEvent();
-            active_sd.end_common();
-            active_sd = null;
+            activeSD.end_common();
+            activeSD = null;
 
             countdown.Kill();
 
@@ -43,7 +43,7 @@ public partial class SpecialDay
                 Chat.announce(SPECIALDAY_PREFIX,"Special day cancelled");
             }  
 
-            team_save.restore();
+            team_save.Restore();
         }     
     }
 
@@ -54,7 +54,7 @@ public partial class SpecialDay
             return;
         }
 
-        if(active_sd != null)
+        if(activeSD != null)
         {
             invoke.announce(SPECIALDAY_PREFIX,"You cannot call two SD's at once");
             return;
@@ -64,7 +64,7 @@ public partial class SpecialDay
         // reset the round counter so they can't do it again
         if(wsd_command)
         {
-            wsd_round = 0;
+            wsdRound = 0;
         }
 
 
@@ -74,70 +74,70 @@ public partial class SpecialDay
         {
             case "Friendly fire":
             {
-                active_sd = new SDFriendlyFire();
+                activeSD = new SDFriendlyFire();
                 type = SDType.FRIENDLY_FIRE;
                 break;
             }
 
             case "Juggernaut":
             {
-                active_sd = new SDJuggernaut();
+                activeSD = new SDJuggernaut();
                 type = SDType.JUGGERNAUT;
                 break;             
             }
 
             case "Tank":
             {
-                active_sd = new SDTank();
+                activeSD = new SDTank();
                 type = SDType.TANK;
                 break;                          
             }
 
             case "Scout knife":
             {
-                active_sd = new SDScoutKnife();
+                activeSD = new SDScoutKnife();
                 type = SDType.SCOUT_KNIFE;
                 break;
             }
 
             case "Headshot only":
             {
-                active_sd = new SDHeadshotOnly();
+                activeSD = new SDHeadshotOnly();
                 type = SDType.HEADSHOT_ONLY;
                 break;             
             }
 
             case "Knife warday":
             {
-                active_sd = new SDKnifeWarday();
+                activeSD = new SDKnifeWarday();
                 type = SDType.KNIFE_WARDAY;
                 break;             
             }
 
             case "Hide and seek":
             {
-                active_sd = new SDHideAndSeek();
+                activeSD = new SDHideAndSeek();
                 type = SDType.HIDE_AND_SEEK;
                 break;               
             }
 
             case "Dodgeball":
             {
-                active_sd = new SDDodgeball();
+                activeSD = new SDDodgeball();
                 type = SDType.DODGEBALL;
                 break;             
             }
 
             case "Spectre":
             {
-                active_sd = new SDSpectre();
+                activeSD = new SDSpectre();
                 type = SDType.SPECTRE;
                 break;                            
             }
 
             case "Grenade":
             {
-                active_sd = new SDGrenade();
+                activeSD = new SDGrenade();
                 type = SDType.GRENADE;
                 break;             
             }
@@ -154,12 +154,12 @@ public partial class SpecialDay
         }
 
         // call the intiail sd setup
-        if(active_sd != null)
+        if(activeSD != null)
         {
             JailPlugin.StartEvent();
 
-            active_sd.delay = delay;
-            active_sd.setup_common();
+            activeSD.delay = delay;
+            activeSD.SetupCommon();
         }
 
         // start the countdown for enable
@@ -168,21 +168,21 @@ public partial class SpecialDay
             countdown.Start($"{name} specialday",delay,0,null,start_sd);
         }
 
-        team_save.save();
+        team_save.Save();
     }
 
     public void start_sd(int unused)
     {
-        if(active_sd != null)
+        if(activeSD != null)
         {
             // force ff active
             if(override_ff)
             {
                 Chat.localize_announce(SPECIALDAY_PREFIX,"sd.ffd_enable");
-                Lib.enable_friendly_fire();
+                Lib.EnableFriendlyFire();
             }
 
-            active_sd.start_common();
+            activeSD.StartCommon();
         }  
     }
 
@@ -227,10 +227,10 @@ public partial class SpecialDay
             return;
         }
 
-        if(active_sd != null && active_sd.state == SDState.STARTED)
+        if(activeSD != null && activeSD.state == SDState.STARTED)
         {
             player.PrintToChat($"Rigged sd boss to {player.PlayerName}");
-            active_sd.rigged_slot = player.Slot;
+            activeSD.rigged_slot = player.Slot;
         }
     }   
 
@@ -259,9 +259,9 @@ public partial class SpecialDay
         }
 
         // Not ready yet
-        if(wsd_round < Config.wsdRound)
+        if(wsdRound < Config.wsdRound)
         {
-            player.announce(SPECIALDAY_PREFIX,$"Please wait {Config.wsdRound - wsd_round} more rounds");
+            player.announce(SPECIALDAY_PREFIX,$"Please wait {Config.wsdRound - wsdRound} more rounds");
             return;
         }
 
@@ -317,13 +317,13 @@ public partial class SpecialDay
 
     int delay = 15;
 
-    public int wsd_round = 0;
+    public int wsdRound = 0;
 
     // NOTE: if we cared we would make this per player
     // so we can't get weird conflicts, but its not a big deal
     bool wsd_command = false;
 
-    SDBase? active_sd = null;
+    SDBase? activeSD = null;
 
     bool override_ff = false;
 

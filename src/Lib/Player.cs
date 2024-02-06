@@ -34,7 +34,7 @@ public static class Player
         }
     }
 
-    static public void slay(this CCSPlayerController? player)
+    static public void Slay(this CCSPlayerController? player)
     {
         if(player.is_valid_alive())
         {
@@ -109,7 +109,7 @@ public static class Player
         return pawn;
     }
 
-    static public void set_health(this CCSPlayerController? player, int hp)
+    static public void SetHealth(this CCSPlayerController? player, int hp)
     {
         CCSPlayerPawn? pawn = player.pawn();
 
@@ -120,7 +120,7 @@ public static class Player
         }
     }
 
-    static public int get_health(this CCSPlayerController? player)
+    static public int GetHealth(this CCSPlayerController? player)
     {
         CCSPlayerPawn? pawn = player.pawn();
 
@@ -132,17 +132,17 @@ public static class Player
         return pawn.Health;
     }
 
-    static public void freeze(this CCSPlayerController? player)
+    static public void Freeze(this CCSPlayerController? player)
     {
-        player.set_movetype(MoveType_t.MOVETYPE_NONE);
+        player.SetMoveType(MoveType_t.MOVETYPE_NONE);
     }
 
-    static public void unfreeze(this CCSPlayerController? player)
+    static public void UnFreeze(this CCSPlayerController? player)
     {
-        player.set_movetype(MoveType_t.MOVETYPE_WALK);
+        player.SetMoveType(MoveType_t.MOVETYPE_WALK);
     }
 
-    static public void give_event_nade_delay(this CCSPlayerController? target,float delay, String name)
+    static public void GiveEventNadeDelay(this CCSPlayerController? target,float delay, String name)
     {
         if(!target.is_valid_alive())
         {
@@ -164,7 +164,7 @@ public static class Player
         });
     }
 
-    static public void set_movetype(this CCSPlayerController? player, MoveType_t type)
+    static public void SetMoveType(this CCSPlayerController? player, MoveType_t type)
     {
         CCSPlayerPawn? pawn = player.pawn();
 
@@ -174,7 +174,7 @@ public static class Player
         }
     }
 
-    static public void set_gravity(this CCSPlayerController? player, float value)
+    static public void SetGravity(this CCSPlayerController? player, float value)
     {
         CCSPlayerPawn? pawn = player.pawn();
 
@@ -184,7 +184,7 @@ public static class Player
         }
     }
 
-    static public void set_velocity(this CCSPlayerController? player, float value)
+    static public void SetVelocity(this CCSPlayerController? player, float value)
     {
         CCSPlayerPawn? pawn = player.pawn();
 
@@ -317,7 +317,7 @@ public static class Player
     }
 
 
-    public static void restore_hp(this CCSPlayerController? player, int damage, int health)
+    public static void RestoreHP(this CCSPlayerController? player, int damage, int health)
     {
         if(!player.is_valid())
         {
@@ -327,12 +327,12 @@ public static class Player
         // TODO: why does this sometimes mess up?
         if(health < 100)
         {
-            player.set_health(Math.Min(health + damage,100));
+            player.SetHealth(Math.Min(health + damage,100));
         }
 
         else
         {
-            player.set_health(health + damage);
+            player.SetHealth(health + damage);
         }
     }
 

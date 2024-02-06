@@ -20,7 +20,7 @@ public class LRHeadshotOnly : LRBase
 
     public override void init_player(CCSPlayerController player)
     {    
-        weapon_restrict = "deagle";
+        weaponRestrict = "deagle";
 
         player.GiveWeapon("deagle");
     }
@@ -31,7 +31,7 @@ public class LRHeadshotOnly : LRBase
         if(hitgroup != Lib.HITGROUP_HEAD)
         {
             CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
-            player.restore_hp(damage,health);
+            player.RestoreHP(damage,health);
         }
     }
 }

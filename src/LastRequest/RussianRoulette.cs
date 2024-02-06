@@ -20,18 +20,18 @@ public class LRRussianRoulette : LRBase
 
     public override void init_player(CCSPlayerController player)
     {    
-        weapon_restrict = "deagle";
+        weaponRestrict = "deagle";
 
         player.GiveWeapon("deagle");
 
-        var deagle = player.find_weapon("weapon_" + weapon_restrict);
+        var deagle = player.find_weapon("weapon_" + weaponRestrict);
 
         if(deagle != null)
         {
             deagle.set_ammo(0,0);
         } 
 
-        restrict_damage = true;
+        restrictDamage = true;
     }
 
     public override void pair_activate()
@@ -55,14 +55,14 @@ public class LRRussianRoulette : LRBase
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
 
-        if(name.Contains(weapon_restrict) && player.is_valid())
+        if(name.Contains(weaponRestrict) && player.is_valid())
         {
             Random rnd = new Random((int)DateTime.Now.Ticks);
 
             // Bang!
             if(rnd.Next(0,7) == 6)
             {
-                player.slay();
+                player.Slay();
                 Chat.announce(LastRequest.LR_PREFIX,$"{player.PlayerName} brains splattered against the wall");
             }
 
@@ -83,7 +83,7 @@ public class LRRussianRoulette : LRBase
         {     
             player.PrintToChat($"{LastRequest.LR_PREFIX} Reload!");
 
-            var deagle = player.find_weapon("weapon_" + weapon_restrict);
+            var deagle = player.find_weapon("weapon_" + weaponRestrict);
 
             // NOTE: this doesn't update the unload state
             // however giving a new gun doesn't work either because it doesnt register fast enough

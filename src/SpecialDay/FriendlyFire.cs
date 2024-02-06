@@ -16,24 +16,24 @@ using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 public class SDFriendlyFire : SDBase
 {
-    public override void setup()
+    public override void Setup()
     {
         localize_announce("sd.ffd_start");
         localize_announce("sd.damage_enable",delay);
     }
 
-    public override void start()
+    public override void Start()
     {
         localize_announce("sd.ffd_enable");
-        Lib.enable_friendly_fire();
+        Lib.EnableFriendlyFire();
     }
 
-    public override void end()
+    public override void End()
     {
         localize_announce("sd.ffd_end");
     }
 
-    public override void setup_player(CCSPlayerController? player)
+    public override void SetupPlayer(CCSPlayerController? player)
     {
         player.EventGunMenu();
     }

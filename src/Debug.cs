@@ -26,7 +26,7 @@ public static class Debug
 
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
-            player.slay();
+            player.Slay();
         }       
     }
 
@@ -107,7 +107,7 @@ public static class Debug
         if(invoke != null && invoke.is_valid())
         {
             invoke.PrintToChat("enable wsd");
-            JailPlugin.sd.wsd_round = 0x7000_0000;
+            JailPlugin.sd.wsdRound = 0x7000_0000;
         }
     }
 

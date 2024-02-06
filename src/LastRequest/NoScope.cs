@@ -32,14 +32,14 @@ public class LRNoScope : LRBase
         {
             case "Scout":
             {
-                weapon_restrict = "ssg08";
+                weaponRestrict = "ssg08";
                 player.GiveWeapon("ssg08");
                 break;
             }
 
             case "Awp":
             {
-                weapon_restrict = "awp";
+                weaponRestrict = "awp";
                 player.GiveWeapon("awp");
                 break;
             }

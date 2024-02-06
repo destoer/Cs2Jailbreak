@@ -360,7 +360,7 @@ public partial class Warden
 
         foreach(var player in valid)
         {
-            player.slay();
+            player.Slay();
             player.SwitchTeam(CsTeam.Terrorist);
         }
     }

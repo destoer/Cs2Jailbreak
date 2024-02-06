@@ -34,15 +34,15 @@ public abstract class LRBase
         type = lr_type;
 
         // while lr is pending damage is off
-        restrict_damage = true;
+        restrictDamage = true;
         manager = lr_manager;
 
         // make sure we cant get guns during startup
-        weapon_restrict = "knife";
+        weaponRestrict = "knife";
     }
 
 
-    public virtual void start()
+    public virtual void Start()
     {
         var player = Utilities.GetPlayerFromSlot(player_slot);
 
@@ -78,18 +78,18 @@ public abstract class LRBase
 
 
         // make sure our weapons dont get taken off 
-        weapon_restrict = "";
+        weaponRestrict = "";
 
         // restore hp
-        player.set_health(100);
+        player.SetHealth(100);
 
         // restore weapons
         player.StripWeapons();
 
         // reset gravity
-        player.set_gravity(1.0f);
+        player.SetGravity(1.0f);
 
-        player.set_velocity(1.0f);
+        player.SetVelocity(1.0f);
 
         if(player.IsCt())
         {
@@ -149,9 +149,9 @@ public abstract class LRBase
 
         // renable damage
         // NOTE: start_lr can override this if it so pleases
-        restrict_damage = false;
+        restrictDamage = false;
 
-        start();
+        Start();
 
         state = LrState.ACTIVE;
 
@@ -172,7 +172,7 @@ public abstract class LRBase
     
     public virtual bool TakeDamage()
     {
-        return !restrict_damage;
+        return !restrictDamage;
     }
 
     public virtual void PlayerHurt(int health,int damage, int hitgroup) 
@@ -187,8 +187,8 @@ public abstract class LRBase
 
     public virtual bool WeaponEquip(String name) 
     {
-        //Server.PrintToChatAll($"{name} : {weapon_restrict}");
-        return weapon_restrict == "" || name.Contains(weapon_restrict); 
+        //Server.PrintToChatAll($"{name} : {weaponRestrict}");
+        return weaponRestrict == "" || name.Contains(weaponRestrict); 
     }
 
     public (CCSPlayerController? winner, CCSPlayerController? loser, LRBase? winner_lr) pick_rand_player()
@@ -264,7 +264,7 @@ public abstract class LRBase
         ct_player.PrintToCenter($"Starting {lr.lr_name} against {t_player.PlayerName} in {delay} seconds");
     }
 
-    public void countdown_start()
+    public void countdown_Start()
     {
         if(laser_timer == null)
         {
@@ -329,9 +329,9 @@ public abstract class LRBase
     LastRequest manager;
 
     // what weapon are we allowed to use?
-    public String weapon_restrict = "";
+    public String weaponRestrict = "";
 
-    public bool restrict_damage = true;
+    public bool restrictDamage = true;
 
     public bool restrict_drop = true;
 

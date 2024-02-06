@@ -22,7 +22,7 @@ public class LRScoutKnife : LRBase
     {
         player.GiveWeapon("knife");
         player.GiveWeapon("ssg08");
-        player.set_gravity(0.1f);
+        player.SetGravity(0.1f);
     }
 
     public override bool WeaponEquip(String name) 

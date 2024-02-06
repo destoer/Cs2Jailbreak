@@ -15,20 +15,20 @@ using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 public class SDTank : SDBase
 {
-    public override void setup()
+    public override void Setup()
     {
         localize_announce("sd.tank_start");
         localize_announce("sd.damage_enable",delay);
     }
 
-    public override void make_boss(CCSPlayerController? tank, int count)
+    public override void MakeBoss(CCSPlayerController? tank, int count)
     {
         if(tank != null && tank.is_valid_alive())
         {
             localize_announce($"sd.tank",tank.PlayerName);
 
             // give the tank the HP and swap him
-            tank.set_health(count * 100);
+            tank.SetHealth(count * 100);
             tank.SetColour(Lib.RED);
             tank.SwitchTeam(CsTeam.CounterTerrorist);
         }
@@ -39,21 +39,21 @@ public class SDTank : SDBase
         }
     }
 
-    public override void start()
+    public override void Start()
     {
         localize_announce("sd.fight");
         Lib.swap_all_t();
 
-        (CCSPlayerController? boss, int count) = pick_boss();
-        make_boss(boss,count);
+        (CCSPlayerController? boss, int count) = PickBoss();
+        MakeBoss(boss,count);
     }
 
-    public override void end()
+    public override void End()
     {
         localize_announce("sd.tank_end");
     }
 
-    public override void setup_player(CCSPlayerController player)
+    public override void SetupPlayer(CCSPlayerController player)
     {
         player.EventGunMenu();
     }

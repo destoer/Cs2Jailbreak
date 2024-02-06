@@ -15,23 +15,23 @@ using System.Drawing;
 
 public class SDSpectre : SDBase
 {
-    public override void setup()
+    public override void Setup()
     {
         localize_announce("sd.spectre_start");
         localize_announce("sd.damage_enable",delay);
     }
 
-    public override void make_boss(CCSPlayerController? spectre, int count)
+    public override void MakeBoss(CCSPlayerController? spectre, int count)
     {
         if(spectre != null && spectre.is_valid_alive())
         {
             localize_announce($"sd.spectre",spectre.PlayerName);
 
             // give the spectre the HP and swap him
-            spectre.set_health(count * 60);
+            spectre.SetHealth(count * 60);
             spectre.SwitchTeam(CsTeam.CounterTerrorist);
             
-            setup_player(spectre);
+            SetupPlayer(spectre);
         }
 
         else
@@ -51,27 +51,27 @@ public class SDSpectre : SDBase
         return true;
     }
 
-    public override void start()
+    public override void Start()
     {
         localize_announce("sd.fight");
         Lib.swap_all_t();
 
-        (CCSPlayerController? boss, int count) = pick_boss();
-        make_boss(boss,count);
+        (CCSPlayerController? boss, int count) = PickBoss();
+        MakeBoss(boss,count);
     }
 
-    public override void end()
+    public override void End()
     {
         localize_announce("sd.spectre_end");
     }
 
-    public override void setup_player(CCSPlayerController player)
+    public override void SetupPlayer(CCSPlayerController player)
     {
         if(is_boss(player))
         {
             // invis and speed
             player.SetColour(Color.FromArgb(0,0,0,0));
-            player.set_velocity(2.5f);
+            player.SetVelocity(2.5f);
 
             player.StripWeapons();
         }

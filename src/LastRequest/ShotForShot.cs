@@ -27,7 +27,7 @@ public class LRShotForShot : LRBase
         {
             case "Deagle":
             {
-                weapon_restrict = "deagle";
+                weaponRestrict = "deagle";
                 clip_size = 7;
                 break;
             }
@@ -36,28 +36,28 @@ public class LRShotForShot : LRBase
         /*
             case "Usp":
             {
-                weapon_restrict = "usp_silencer";
+                weaponRestrict = "usp_silencer";
                 clip_size = 12;
                 break;
             }
         */
             case "Glock":
             {
-                weapon_restrict = "glock";
+                weaponRestrict = "glock";
                 clip_size = 20;
                 break;
             }
 
             case "Five seven":
             {
-                weapon_restrict = "fiveseven";
+                weaponRestrict = "fiveseven";
                 clip_size = 20;
                 break;
             }
 
             case "Dual Elite":
             {
-                weapon_restrict = "elite";
+                weaponRestrict = "elite";
                 clip_size = 30;
                 break;
             }
@@ -70,11 +70,11 @@ public class LRShotForShot : LRBase
             clip_size = 1;
         }
 
-        player.GiveWeapon("" + weapon_restrict);
+        player.GiveWeapon("" + weaponRestrict);
 
 
 
-        var deagle = player.find_weapon("weapon_" + weapon_restrict);
+        var deagle = player.find_weapon("weapon_" + weaponRestrict);
 
         if(deagle != null)
         {
@@ -107,7 +107,7 @@ public class LRShotForShot : LRBase
 
     public override void WeaponFire(String name)
     {
-        if(name.Contains(weapon_restrict))
+        if(name.Contains(weaponRestrict))
         {
             fire_clip();
         }
@@ -121,7 +121,7 @@ public class LRShotForShot : LRBase
         {     
             player.PrintToChat($"{LastRequest.LR_PREFIX} Reload!");
 
-            var deagle = player.find_weapon("weapon_" + weapon_restrict);
+            var deagle = player.find_weapon("weapon_" + weaponRestrict);
 
             if(deagle != null)
             {

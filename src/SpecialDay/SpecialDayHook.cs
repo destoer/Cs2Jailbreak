@@ -31,7 +31,7 @@ public partial class SpecialDay
     public void RoundStart()
     {
         // increment our round counter
-        wsd_round += 1;
+        wsdRound += 1;
         end_sd();
     }
 
@@ -42,12 +42,12 @@ public partial class SpecialDay
             return;
         }
 
-        if(active_sd != null)
+        if(activeSD != null)
         {
             // weapon equip not valid drop the weapons
-            if(!active_sd.WeaponEquip(player,name))
+            if(!activeSD.WeaponEquip(player,name))
             {
-                active_sd.setup_player(player);
+                activeSD.SetupPlayer(player);
             }
         }
     }
@@ -59,54 +59,54 @@ public partial class SpecialDay
             return;
         }
 
-        if(active_sd != null)
+        if(activeSD != null)
         {
-            active_sd.Disconnect(player);
+            activeSD.Disconnect(player);
         }
     }
 
 
     public void GrenadeThrown(CCSPlayerController? player)
     {
-        if(active_sd != null)
+        if(activeSD != null)
         {
-            active_sd.GrenadeThrown(player);
+            activeSD.GrenadeThrown(player);
         }       
     }
 
     public void EntCreated(CEntityInstance entity)
     {
-        if(active_sd != null)
+        if(activeSD != null)
         {
-            active_sd.EntCreated(entity);
+            activeSD.EntCreated(entity);
         }
     }
         
 
     public void Death(CCSPlayerController? player, CCSPlayerController? attacker)
     {
-        if(active_sd != null)
+        if(activeSD != null)
         {
-            active_sd.Death(player,attacker);
+            activeSD.Death(player,attacker);
         }
     }
 
     public void PlayerHurt(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health, int hitgroup)
     {
-        if(active_sd != null && player.is_valid())
+        if(activeSD != null && player.is_valid())
         {
-            active_sd.PlayerHurt(player,damage,health,hitgroup);
+            activeSD.PlayerHurt(player,damage,health,hitgroup);
         }
     }
 
     public void TakeDamage(CCSPlayerController? player, CCSPlayerController? attacker, ref float damage)
     {
-        if(active_sd == null || !player.is_valid())
+        if(activeSD == null || !player.is_valid())
         {
             return;
         }
 
-        if(active_sd.restrict_damage)
+        if(activeSD.restrictDamage)
         {
             damage = 0.0f;
         }

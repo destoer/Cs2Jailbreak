@@ -21,10 +21,10 @@ public class LRShotgunWar : LRBase
     public override void init_player(CCSPlayerController player)
     {    
         // give shotty health and plenty of ammo
-        weapon_restrict = "xm1014";
+        weaponRestrict = "xm1014";
         player.GiveWeapon("xm1014");
 
-        player.set_health(1000);
+        player.SetHealth(1000);
 
 
         var shotgun = player.find_weapon("xm1014");

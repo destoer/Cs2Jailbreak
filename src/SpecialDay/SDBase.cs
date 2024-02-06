@@ -16,42 +16,42 @@ using System.Drawing;
 
 public abstract class SDBase
 {
-    public abstract void setup();
+    public abstract void Setup();
 
-    public abstract void start();
+    public abstract void Start();
 
-    public abstract void end();
+    public abstract void End();
 
-    public void setup_common()
+    public void SetupCommon()
     {
         // no damage before start
-        restrict_damage = true;
+        restrictDamage = true;
 
         // revive all dead players
 
 
         state = SDState.STARTED;
-        setup();
+        Setup();
 
-        setup_players();
+        SetupPlayers();
     }
 
-    public void start_common()
+    public void StartCommon()
     {
-        restrict_damage = false;
+        restrictDamage = false;
 
         state = SDState.ACTIVE;
         Entity.ForceOpen();
-        start();
+        Start();
     }
 
     // NOTE: this will be recalled by the Disconnect function if the boss dc's
-    public virtual void make_boss(CCSPlayerController? tank, int count)
+    public virtual void MakeBoss(CCSPlayerController? tank, int count)
     {
 
     }
 
-    public (CCSPlayerController, int) pick_boss()
+    public (CCSPlayerController, int) PickBoss()
     {
         // get valid players
         List<CCSPlayerController> players = Utilities.GetPlayers();
@@ -87,25 +87,25 @@ public abstract class SDBase
         // player has dced re roll the boss if we have one
         if(player.Slot == boss_slot)
         {
-            (CCSPlayerController boss, int count) = pick_boss();
+            (CCSPlayerController boss, int count) = PickBoss();
 
-            make_boss(boss,count);
+            MakeBoss(boss,count);
         }
     }
 
     public void end_common()
     {
         state = SDState.INACTIVE;
-        end();
+        End();
 
-        Lib.disable_friendly_fire();
+        Lib.DisableFriendlyFire();
 
         CCSPlayerController? boss = Utilities.GetPlayerFromSlot(boss_slot);
 
         // reset the boss colour
         if(boss.is_valid_alive())
         {
-            boss.set_velocity(1.0f);
+            boss.SetVelocity(1.0f);
             boss.SetColour(Color.FromArgb(255, 255, 255, 255));
         }
 
@@ -124,7 +124,7 @@ public abstract class SDBase
 
     public virtual bool WeaponEquip(CCSPlayerController player, String name) 
     {
-        return weapon_restrict == "" || name.Contains(weapon_restrict); 
+        return weaponRestrict == "" || name.Contains(weaponRestrict); 
     }
 
     public virtual void PlayerHurt(CCSPlayerController? player,int health,int damage, int hitgroup) {}
@@ -136,11 +136,11 @@ public abstract class SDBase
 
     public virtual void Death(CCSPlayerController? player, CCSPlayerController? attacker) {}
 
-    public abstract void setup_player(CCSPlayerController player);
+    public abstract void SetupPlayer(CCSPlayerController player);
 
-    public virtual void cleanup_player(CCSPlayerController player) {}
+    public virtual void CleanupPlayer(CCSPlayerController player) {}
 
-    public void setup_players()
+    public void SetupPlayers()
     {
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
@@ -149,7 +149,7 @@ public abstract class SDBase
                 // reset the player colour incase of rebel
                 player.SetColour(Player.DEFAULT_COLOUR);
 
-                setup_player(player);
+                SetupPlayer(player);
             }
         }       
     }
@@ -160,7 +160,7 @@ public abstract class SDBase
         {
             if(player.is_valid_alive())
             {
-                cleanup_player(player);
+                CleanupPlayer(player);
             }
         }       
     }
@@ -174,8 +174,8 @@ public abstract class SDBase
     public int boss_slot = -1;
     public int rigged_slot = -1;
 
-    public bool restrict_damage = false;
-    public String weapon_restrict = "";
+    public bool restrictDamage = false;
+    public String weaponRestrict = "";
     public SDState state = SDState.INACTIVE;
 
     public int delay = 15;

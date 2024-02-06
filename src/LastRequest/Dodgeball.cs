@@ -22,11 +22,11 @@ public class LRDodgeball : LRBase
 
     public override void init_player(CCSPlayerController player)
     {    
-        weapon_restrict = "flashbang";
+        weaponRestrict = "flashbang";
 
         if(player.is_valid_alive())
         {
-            player.set_health(1);
+            player.SetHealth(1);
 
             player.GiveWeapon("flashbang");
 
@@ -39,7 +39,7 @@ public class LRDodgeball : LRBase
                 
                 case "Low gravity":
                 {
-                    player.set_gravity(0.6f);
+                    player.SetGravity(0.6f);
                     break;
                 }
             }
@@ -52,7 +52,7 @@ public class LRDodgeball : LRBase
     
         if(player.is_valid_alive())
         {
-            player.slay();
+            player.Slay();
         }
     }
 

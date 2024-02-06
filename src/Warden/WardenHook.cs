@@ -137,7 +137,7 @@ public partial class Warden
 
         if(player.IsCt() && ctHandicap)
         {
-            player.set_health(130);
+            player.SetHealth(130);
         }
 
         SetupPlayerGuns(player);

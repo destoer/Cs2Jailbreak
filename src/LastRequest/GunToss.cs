@@ -20,7 +20,7 @@ public class LRGunToss : LRBase
 
     public override void init_player(CCSPlayerController player)
     {    
-        weapon_restrict = "deagle";
+        weaponRestrict = "deagle";
         player.GiveWeapon("knife");
         player.GiveWeapon("deagle");
 

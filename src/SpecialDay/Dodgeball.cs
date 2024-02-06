@@ -15,39 +15,39 @@ using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 public class SDDodgeball : SDBase
 {
-    public override void setup()
+    public override void Setup()
     {
         localize_announce("sd.dodgeball_start");
         localize_announce("sd.damage_enable",delay);
     }
 
-    public override void start()
+    public override void Start()
     {
         localize_announce("sd.fight");
     }
 
-    public override void end()
+    public override void End()
     {
         localize_announce("sd.dodgeball_end");
     }
 
-    public override void setup_player(CCSPlayerController player)
+    public override void SetupPlayer(CCSPlayerController player)
     {
         player.StripWeapons(true);
         player.GiveWeapon("flashbang");
-        weapon_restrict = "flashbang";
+        weaponRestrict = "flashbang";
     }
 
     public override void GrenadeThrown(CCSPlayerController? player)
     {
-        player.give_event_nade_delay(1.4f,"weapon_flashbang");
+        player.GiveEventNadeDelay(1.4f,"weapon_flashbang");
     }
 
     public override void PlayerHurt(CCSPlayerController? player,int damage, int health, int hitgroup)
     {
         if(player.is_valid_alive())
         {
-            player.slay();
+            player.Slay();
         }
     }
 

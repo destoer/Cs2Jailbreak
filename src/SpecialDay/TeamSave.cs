@@ -15,7 +15,7 @@ using CounterStrikeSharp.API.Modules.Admin;
 
 public class TeamSave
 {
-    public void save()
+    public void Save()
     {
         count = 0;
 
@@ -38,7 +38,7 @@ public class TeamSave
         }      
     }
 
-    public void restore()
+    public void Restore()
     {
         // iter over each player and switch to recorded team
         for(int i = 0; i < count; i++)

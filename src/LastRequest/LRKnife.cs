@@ -22,7 +22,7 @@ public class LRKnife : LRBase
     {    
         // give player a knife and restrict them to it
         player.GiveWeapon("knife");
-        weapon_restrict = "knife";
+        weaponRestrict = "knife";
 
         // Handle options
         switch(choice)
@@ -34,19 +34,19 @@ public class LRKnife : LRBase
 
             case "Low gravity":
             {
-                player.set_gravity(0.6f);
+                player.SetGravity(0.6f);
                 break;
             }
 
             case "High speed":
             {
-                player.set_velocity(2.5f);
+                player.SetVelocity(2.5f);
                 break;
             }
                 
             case "One hit":
             {
-                player.set_health(50);
+                player.SetHealth(50);
                 break;
             }
         }

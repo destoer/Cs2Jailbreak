@@ -16,13 +16,13 @@ using System.Drawing;
 
 public class SDHideAndSeek : SDBase
 {
-    public override void setup()
+    public override void Setup()
     {
         localize_announce("sd.hide_start");
         localize_announce("sd.t_hide",delay);
     }
 
-    public override void start()
+    public override void Start()
     {
         // unfreeze all players
         foreach(CCSPlayerController? player in Utilities.GetPlayers())
@@ -37,25 +37,25 @@ public class SDHideAndSeek : SDBase
                 player.GiveWeapon("knife");
             }
 
-            player.unfreeze();
+            player.UnFreeze();
         }
 
         localize_announce("sd.seeker_release");
     }
 
-    public override void end()
+    public override void End()
     {
         localize_announce("sd.hide_end");
     }
 
-    public override void setup_player(CCSPlayerController player)
+    public override void SetupPlayer(CCSPlayerController player)
     {
         // lock them in place 500 hp, gun menu
         if(player.IsCt())
         {
-            player.freeze();
+            player.Freeze();
             player.EventGunMenu();
-            player.set_health(500);
+            player.SetHealth(500);
         }
 
         // invis
@@ -66,8 +66,8 @@ public class SDHideAndSeek : SDBase
         }
     }
 
-    public override void cleanup_player(CCSPlayerController player)
+    public override void CleanupPlayer(CCSPlayerController player)
     {
-        player.unfreeze();
+        player.UnFreeze();
     }
 }

@@ -22,11 +22,11 @@ public class LRGrenade : LRBase
 
     public override void init_player(CCSPlayerController player)
     {    
-        weapon_restrict = "hegrenade";
+        weaponRestrict = "hegrenade";
 
         if(player.is_valid_alive())
         {
-            player.set_health(150);
+            player.SetHealth(150);
 
             player.GiveWeapon("hegrenade");
 
@@ -39,7 +39,7 @@ public class LRGrenade : LRBase
                 
                 case "Low gravity":
                 {
-                    player.set_gravity(0.6f);
+                    player.SetGravity(0.6f);
                     break;
                 }
             }

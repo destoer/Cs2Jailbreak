@@ -53,7 +53,7 @@ public partial class LastRequest
         }
 
         // strip weapons restore hp
-        player.set_health(100);
+        player.SetHealth(100);
         player.set_armour(100);
         player.StripWeapons(true);
         player.GiveArmour();
@@ -216,7 +216,7 @@ public partial class LastRequest
         // This should not happen
         if(slot == -1 || t_lr == null || ct_lr == null)
         {
-            Chat.announce(LR_PREFIX,$"Internal LR error in init_lr");
+            Chat.announce(LR_PREFIX,$"Internal LR error in init_lr {slot} {t_lr} {ct_lr}");
             return;
         }
 
@@ -231,7 +231,7 @@ public partial class LastRequest
         active_lr[slot] = t_lr;
 
         // begin counting down the lr
-        t_lr.countdown_start();
+        t_lr.countdown_Start();
     }
     
 

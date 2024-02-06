@@ -45,7 +45,7 @@ public partial class LastRequest
 
         player.GiveArmour();
     
-        player.set_health(Lib.AliveCtCount() * 100);
+        player.SetHealth(Lib.AliveCtCount() * 100);
 
         rebel_type = RebelType.REBEL;
 
@@ -78,7 +78,7 @@ public partial class LastRequest
         rebel_type = RebelType.KNIFE;
 
         Chat.localize_announce(LR_PREFIX,"lr.knife_rebel",rebel.PlayerName);
-        rebel.set_health(Lib.AliveCtCount() * 100);
+        rebel.SetHealth(Lib.AliveCtCount() * 100);
 
         foreach(CCSPlayerController? player in Utilities.GetPlayers())
         {

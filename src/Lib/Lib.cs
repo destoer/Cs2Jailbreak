@@ -174,7 +174,7 @@ public static class Lib
     }
 
 
-    static public void enable_friendly_fire()
+    static public void EnableFriendlyFire()
     {
         if(ff != null)
         {
@@ -182,7 +182,7 @@ public static class Lib
         }
     }
 
-    static public void disable_friendly_fire()
+    static public void DisableFriendlyFire()
     {
         if(ff != null)
         {
