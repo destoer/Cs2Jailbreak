@@ -13,12 +13,12 @@ using CounterStrikeSharp.API.Modules.Entities.Constants;
 
 public class LRRussianRoulette : LRBase
 {
-    public LRRussianRoulette(LastRequest manager,LastRequest.LRType type,int lr_slot, int player_slot, String choice) : base(manager,type,lr_slot,player_slot,choice)
+    public LRRussianRoulette(LastRequest manager,LastRequest.LRType type,int LRSlot, int playerSlot, String choice) : base(manager,type,LRSlot,playerSlot,choice)
     {
 
     }
 
-    public override void init_player(CCSPlayerController player)
+    public override void InitPlayer(CCSPlayerController player)
     {    
         weaponRestrict = "deagle";
 
@@ -34,26 +34,26 @@ public class LRRussianRoulette : LRBase
         restrictDamage = true;
     }
 
-    public override void pair_activate()
+    public override void PairActivate()
     {
-        (CCSPlayerController? winner,CCSPlayerController? loser,LRBase? winner_lr_base) = pick_rand_player();
+        (CCSPlayerController? winner,CCSPlayerController? loser,LRBase? winnerLRBase) = pick_rand_player();
 
-        LRRussianRoulette? winner_lr = (LRRussianRoulette?)winner_lr_base;
+        LRRussianRoulette? winnerLR = (LRRussianRoulette?)winnerLRBase;
 
 
         // Give the lucky player the first shot
-        if(winner != null && loser != null && winner_lr != null)
+        if(winner != null && loser != null && winnerLR != null)
         {
             winner.Announce(LastRequest.LR_PREFIX,$"Randomly chose {winner.PlayerName} to shoot first");
             loser.Announce(LastRequest.LR_PREFIX,$"Randomly chose {winner.PlayerName} to shoot first");
 
-            winner_lr.reload_clip();
+            winnerLR.ReloadClip();
         }   
     }
 
     public override void WeaponFire(String name)
     {
-        CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(playerSlot);
 
         if(name.Contains(weaponRestrict) && player.IsLegal())
         {
@@ -70,14 +70,14 @@ public class LRRussianRoulette : LRBase
             {
                 player.Announce(LastRequest.LR_PREFIX,"Click!");
                 var lr_shot = (LRRussianRoulette)partner; 
-                lr_shot.reload_clip();
+                lr_shot.ReloadClip();
             }
         }
     }
 
-    void reload_clip()
+    void ReloadClip()
     {
-        CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(playerSlot);
 
         if(player.IsLegalAlive())
         {     

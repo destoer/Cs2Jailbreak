@@ -230,7 +230,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         sd.Config = config;
 
-        lr.lr_config_reload();
+        lr.LRConfigReload();
         StatDBReload();
     }
 

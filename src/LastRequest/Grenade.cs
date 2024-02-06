@@ -15,12 +15,12 @@ using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 public class LRGrenade : LRBase
 {
-    public LRGrenade(LastRequest manager,LastRequest.LRType type,int lr_slot, int player_slot, String choice) : base(manager,type,lr_slot,player_slot,choice)
+    public LRGrenade(LastRequest manager,LastRequest.LRType type,int LRSlot, int playerSlot, String choice) : base(manager,type,LRSlot,playerSlot,choice)
     {
 
     }
 
-    public override void init_player(CCSPlayerController player)
+    public override void InitPlayer(CCSPlayerController player)
     {    
         weaponRestrict = "hegrenade";
 
@@ -48,8 +48,8 @@ public class LRGrenade : LRBase
     
     public override void GrenadeThrown()
     {
-        CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(playerSlot);
         player.StripWeapons(true);
-        give_lr_nade_delay(1.4f,"weapon_hegrenade");
+        GiveLRNadeDelay(1.4f,"weapon_hegrenade");
     }
 }

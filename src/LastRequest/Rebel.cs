@@ -20,19 +20,19 @@ using System.Drawing;
 
 public partial class LastRequest
 {
-    bool can_rebel()
+    bool CanRebel()
     {
         return Lib.AliveTCount() == 1;
     }
 
-    public void rebel_guns(CCSPlayerController player, ChatMenuOption option)
+    public void RebelGuns(CCSPlayerController player, ChatMenuOption option)
     {
         if(!player.IsLegal())
         {
             return;
         }
 
-        if(!can_rebel() || rebel_type != RebelType.NONE)
+        if(!CanRebel() || rebelType != RebelType.NONE)
         {
             player.LocalisePrefix(LR_PREFIX,"lr.rebel_last");
             return;
@@ -47,35 +47,35 @@ public partial class LastRequest
     
         player.SetHealth(Lib.AliveCtCount() * 100);
 
-        rebel_type = RebelType.REBEL;
+        rebelType = RebelType.REBEL;
 
         Chat.LocalizeAnnounce(LR_PREFIX,"lr.player_name",player.PlayerName);
     }
 
-    public void start_rebel(CCSPlayerController? player, ChatMenuOption option)
+    public void StartRebel(CCSPlayerController? player, ChatMenuOption option)
     {
         if(!player.IsLegal())
         {
             return;
         }
 
-        player.GunMenuInternal(false,rebel_guns);
+        player.GunMenuInternal(false,RebelGuns);
     }
 
-    public void start_knife_rebel(CCSPlayerController? rebel, ChatMenuOption option)
+    public void StartKnifeRebel(CCSPlayerController? rebel, ChatMenuOption option)
     {
         if(rebel == null || !rebel.IsLegal())
         {
             return;
         }
 
-        if(!can_rebel())
+        if(!CanRebel())
         {
             rebel.LocalisePrefix(LR_PREFIX,"rebel.last_alive");
             return;
         }
 
-        rebel_type = RebelType.KNIFE;
+        rebelType = RebelType.KNIFE;
 
         Chat.LocalizeAnnounce(LR_PREFIX,"lr.knife_rebel",rebel.PlayerName);
         rebel.SetHealth(Lib.AliveCtCount() * 100);
@@ -89,10 +89,10 @@ public partial class LastRequest
         }
     }
 
-    public void riot_respawn()
+    public void RiotRespawn()
     {
         // riot cancelled in mean time
-        if(rebel_type != RebelType.RIOT)
+        if(rebelType != RebelType.RIOT)
         {
             return;
         }
@@ -111,27 +111,27 @@ public partial class LastRequest
     }
 
 
-    public void start_riot(CCSPlayerController? rebel, ChatMenuOption option)
+    public void StartRiot(CCSPlayerController? rebel, ChatMenuOption option)
     {
         if(rebel == null || !rebel.IsLegal())
         {
             return;
         }
 
-        if(!can_rebel())
+        if(!CanRebel())
         {
             rebel.LocalisePrefix(LR_PREFIX,"lr.rebel_last");
             return;
         }
 
 
-        rebel_type = RebelType.RIOT;
+        rebelType = RebelType.RIOT;
 
         Chat.LocalizeAnnounce(LR_PREFIX,"lr.riot_start");
 
         if(JailPlugin.globalCtx != null)
         {
-            JailPlugin.globalCtx.AddTimer(15.0f,riot_respawn,CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
+            JailPlugin.globalCtx.AddTimer(15.0f,RiotRespawn,CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
         }
     }
 
@@ -144,6 +144,6 @@ public partial class LastRequest
         RIOT,
     };
 
-    RebelType rebel_type = RebelType.NONE;
+    RebelType rebelType = RebelType.NONE;
 
 }

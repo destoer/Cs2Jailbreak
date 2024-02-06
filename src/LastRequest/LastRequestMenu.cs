@@ -24,7 +24,7 @@ public partial class LastRequest
         }
 
         // prevent starts are round begin to stop lr activations on map joins
-        if(Lib.CurTimestamp() - start_timestamp < 15)
+        if(Lib.CurTimestamp() - startTimestamp < 15)
         {
             player.LocalisePrefix(LR_PREFIX,"lr.wait");
             return false;
@@ -42,9 +42,9 @@ public partial class LastRequest
         }
 
         
-        if(Lib.AliveTCount() > active_lr.Length)
+        if(Lib.AliveTCount() > activeLR.Length)
         {
-            player.LocalisePrefix(LR_PREFIX,"lr.too_many",active_lr.Length);
+            player.LocalisePrefix(LR_PREFIX,"lr.too_many",activeLR.Length);
             return false;
         }
 
@@ -63,10 +63,10 @@ public partial class LastRequest
         
         String name = option.Text;
 
-        choice.ct_slot = Player.SlotFromName(name);
+        choice.ctSlot = Player.SlotFromName(name);
 
         // finally setup the lr
-        init_lr(choice);
+        InitLR(choice);
     }
 
     public void picked_option(CCSPlayerController? player, ChatMenuOption option)
@@ -87,14 +87,14 @@ public partial class LastRequest
 
         choice.type = type_from_name(option.Text);
 
-        String lr_name = LR_NAME[(int)choice.type];
+        String lrName = LR_NAME[(int)choice.type];
 
         // now select option
         switch(choice.type)
         {
             case LRType.KNIFE:
             {
-                var lr_menu = new ChatMenu($"Choice Menu ({lr_name})");
+                var lr_menu = new ChatMenu($"Choice Menu ({lrName})");
 
                 lr_menu.AddMenuOption("Vanilla", picked_option);
                 lr_menu.AddMenuOption("Low gravity", picked_option);
@@ -107,7 +107,7 @@ public partial class LastRequest
 
             case LRType.DODGEBALL:
             {
-                var lr_menu = new ChatMenu($"Choice Menu ({lr_name})");
+                var lr_menu = new ChatMenu($"Choice Menu ({lrName})");
 
                 lr_menu.AddMenuOption("Vanilla", picked_option);
                 lr_menu.AddMenuOption("Low gravity", picked_option);
@@ -118,7 +118,7 @@ public partial class LastRequest
 
             case LRType.NO_SCOPE:
             {
-                var lr_menu = new ChatMenu($"Choice Menu ({lr_name})");
+                var lr_menu = new ChatMenu($"Choice Menu ({lrName})");
 
                 lr_menu.AddMenuOption("Awp", picked_option);
                 lr_menu.AddMenuOption("Scout", picked_option);
@@ -129,7 +129,7 @@ public partial class LastRequest
 
             case LRType.GRENADE:
             {
-                var lr_menu = new ChatMenu($"Choice Menu ({lr_name})");
+                var lr_menu = new ChatMenu($"Choice Menu ({lrName})");
 
                 lr_menu.AddMenuOption("Vanilla", picked_option);
                 lr_menu.AddMenuOption("Low gravity", picked_option);
@@ -141,7 +141,7 @@ public partial class LastRequest
             case LRType.SHOT_FOR_SHOT:
             case LRType.MAG_FOR_MAG:
             {
-                var lr_menu = new ChatMenu($"Choice Menu ({lr_name})");
+                var lr_menu = new ChatMenu($"Choice Menu ({lrName})");
 
                 lr_menu.AddMenuOption("Deagle",picked_option);
                 //lr_menu.AddMenuOption("Usp",picked_option);
@@ -174,8 +174,8 @@ public partial class LastRequest
 
         choice.option = name;
 
-        String lr_name = LR_NAME[(int)choice.type];
-        String menu_name = $"Partner Menu ({lr_name})";
+        String lrName = LR_NAME[(int)choice.type];
+        String menu_name = $"Partner Menu ({lrName})";
 
         // Debugging pick t's
         if(choice.bypass && player.IsCt())

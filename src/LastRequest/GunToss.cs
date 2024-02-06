@@ -13,12 +13,12 @@ using CounterStrikeSharp.API.Modules.Entities.Constants;
 
 public class LRGunToss : LRBase
 {
-    public LRGunToss(LastRequest manager,LastRequest.LRType type,int lr_slot, int player_slot, String choice) : base(manager,type,lr_slot,player_slot,choice)
+    public LRGunToss(LastRequest manager,LastRequest.LRType type,int LRSlot, int playerSlot, String choice) : base(manager,type,LRSlot,playerSlot,choice)
     {
 
     }
 
-    public override void init_player(CCSPlayerController player)
+    public override void InitPlayer(CCSPlayerController player)
     {    
         weaponRestrict = "deagle";
         player.GiveWeapon("knife");

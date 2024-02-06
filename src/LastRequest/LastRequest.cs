@@ -19,33 +19,33 @@ public partial class LastRequest
 {
     public LastRequest()
     {
-        for(int c = 0; c < lr_choice.Length; c++)
+        for(int c = 0; c < lrChoice.Length; c++)
         {
-            lr_choice[c] = new LRChoice();
+            lrChoice[c] = new LRChoice();
         }
 
-        for(int lr = 0; lr < active_lr.Length; lr++)
+        for(int lr = 0; lr < activeLR.Length; lr++)
         {
-            active_lr[lr] = null;
+            activeLR[lr] = null;
         }
     }
 
-    public void lr_config_reload()
+    public void LRConfigReload()
     {
-        create_lr_slots(Config.lrCount);
+        CreateLRSlots(Config.lrCount);
     }
 
-    void create_lr_slots(uint slots)
+    void CreateLRSlots(uint slots)
     {
-        active_lr = new LRBase[slots];
+        activeLR = new LRBase[slots];
 
-        for(int lr = 0; lr < active_lr.Length; lr++)
+        for(int lr = 0; lr < activeLR.Length; lr++)
         {
-            active_lr[lr] = null;
+            activeLR[lr] = null;
         }
     }
 
-    void init_player_common(CCSPlayerController? player, String lr_name)
+    void InitPlayerCommon(CCSPlayerController? player, String lrName)
     {
         if(!player.IsLegalAlive())
         {
@@ -58,14 +58,14 @@ public partial class LastRequest
         player.StripWeapons(true);
         player.GiveArmour();
 
-        player.Announce(LR_PREFIX,$"{lr_name} is starting\n");
+        player.Announce(LR_PREFIX,$"{lrName} is starting\n");
     }
 
-    bool lr_exists(LRBase lr)
+    bool LRExists(LRBase lr)
     {
-        for(int l = 0; l < active_lr.Count(); l++)
+        for(int l = 0; l < activeLR.Count(); l++)
         {
-            if(active_lr[l] == lr)
+            if(activeLR[l] == lr)
             {
                 return true;
             }
@@ -75,29 +75,28 @@ public partial class LastRequest
     }
 
     // called back by the lr countdown function
-    public void activate_lr(LRBase lr)
+    public void ActivateLR(LRBase lr)
     {
-        if(lr_exists(lr))
+        if(LRExists(lr))
         {
             // call the final LR init function and mark it as truly active
-            lr.activate();
-            lr.pair_activate();
+            lr.Activate();
+            lr.PairActivate();
         }
     }
 
-    // init_lr
-    void init_lr(LRChoice choice)
+    void InitLR(LRChoice choice)
     {
         // Okay type, choice, partner selected
         // now we have all the info we need to setup the lr
 
-        CCSPlayerController? t_player = Utilities.GetPlayerFromSlot(choice.t_slot);
-        CCSPlayerController? ct_player = Utilities.GetPlayerFromSlot(choice.ct_slot);
+        CCSPlayerController? tPlayer = Utilities.GetPlayerFromSlot(choice.tSlot);
+        CCSPlayerController? ctPlayer = Utilities.GetPlayerFromSlot(choice.ctSlot);
 
         // Double check we can still do an LR before we trigger!
         if(!choice.bypass)
         {
-            if(!can_start_lr(t_player))
+            if(!can_start_lr(tPlayer))
             {
                 return;
             }
@@ -105,7 +104,7 @@ public partial class LastRequest
 
         // check we still actually have all the players
         // our handlers only check once we have actually triggered the LR
-        if(!t_player.IsLegalAlive() || !ct_player.IsLegalAlive())
+        if(!tPlayer.IsLegalAlive() || !ctPlayer.IsLegalAlive())
         {
             Server.PrintToChatAll($"{LR_PREFIX}Disconnection during lr setup");
             return;
@@ -114,9 +113,9 @@ public partial class LastRequest
         int slot = -1;
 
         // find a slot to install the lr
-        for(int lr = 0; lr < active_lr.Length; lr++)
+        for(int lr = 0; lr < activeLR.Length; lr++)
         {
-            if(active_lr[lr] == null)
+            if(activeLR[lr] == null)
             {
                 slot = lr;
                 break;
@@ -124,85 +123,85 @@ public partial class LastRequest
         }
 
         // create the LR
-        LRBase? t_lr = null;
-        LRBase? ct_lr = null;
+        LRBase? tLR = null;
+        LRBase? ctLR = null;
 
         switch(choice.type)
         {
             case LRType.KNIFE:
             {
-                t_lr = new LRKnife(this,choice.type,slot,choice.t_slot,choice.option);
-                ct_lr = new LRKnife(this,choice.type,slot,choice.ct_slot,choice.option);
+                tLR = new LRKnife(this,choice.type,slot,choice.tSlot,choice.option);
+                ctLR = new LRKnife(this,choice.type,slot,choice.ctSlot,choice.option);
                 break;
             }
 
             case LRType.GUN_TOSS:
             {
-                t_lr = new LRGunToss(this,choice.type,slot,choice.t_slot,choice.option);
-                ct_lr = new LRGunToss(this,choice.type,slot,choice.ct_slot,choice.option);
+                tLR = new LRGunToss(this,choice.type,slot,choice.tSlot,choice.option);
+                ctLR = new LRGunToss(this,choice.type,slot,choice.ctSlot,choice.option);
                 break;
             }
 
             case LRType.DODGEBALL:
             {
-                t_lr = new LRDodgeball(this,choice.type,slot,choice.t_slot,choice.option);
-                ct_lr = new LRDodgeball(this,choice.type,slot,choice.ct_slot,choice.option);
+                tLR = new LRDodgeball(this,choice.type,slot,choice.tSlot,choice.option);
+                ctLR = new LRDodgeball(this,choice.type,slot,choice.ctSlot,choice.option);
                 break;              
             }
 
             case LRType.GRENADE:
             {
-                t_lr = new LRGrenade(this,choice.type,slot,choice.t_slot,choice.option);
-                ct_lr = new LRGrenade(this,choice.type,slot,choice.ct_slot,choice.option);
+                tLR = new LRGrenade(this,choice.type,slot,choice.tSlot,choice.option);
+                ctLR = new LRGrenade(this,choice.type,slot,choice.ctSlot,choice.option);
                 break;              
             }
 
             case LRType.SHOTGUN_WAR:
             {
-                t_lr = new LRShotgunWar(this,choice.type,slot,choice.t_slot,choice.option);
-                ct_lr = new LRShotgunWar(this,choice.type,slot,choice.ct_slot,choice.option);
+                tLR = new LRShotgunWar(this,choice.type,slot,choice.tSlot,choice.option);
+                ctLR = new LRShotgunWar(this,choice.type,slot,choice.ctSlot,choice.option);
                 break;              
             }
     
             case LRType.SCOUT_KNIFE:
             {
-                t_lr = new LRScoutKnife(this,choice.type,slot,choice.t_slot,choice.option);
-                ct_lr = new LRScoutKnife(this,choice.type,slot,choice.ct_slot,choice.option);
+                tLR = new LRScoutKnife(this,choice.type,slot,choice.tSlot,choice.option);
+                ctLR = new LRScoutKnife(this,choice.type,slot,choice.ctSlot,choice.option);
                 break;              
             }
 
             case LRType.SHOT_FOR_SHOT:
             {
-                t_lr = new LRShotForShot(this,choice.type,slot,choice.t_slot,choice.option);
-                ct_lr = new LRShotForShot(this,choice.type,slot,choice.ct_slot,choice.option);
+                tLR = new LRShotForShot(this,choice.type,slot,choice.tSlot,choice.option);
+                ctLR = new LRShotForShot(this,choice.type,slot,choice.ctSlot,choice.option);
                 break;              
             }
 
             case LRType.MAG_FOR_MAG:
             {
-                t_lr = new LRShotForShot(this,choice.type,slot,choice.t_slot,choice.option,true);
-                ct_lr = new LRShotForShot(this,choice.type,slot,choice.ct_slot,choice.option,true);
+                tLR = new LRShotForShot(this,choice.type,slot,choice.tSlot,choice.option,true);
+                ctLR = new LRShotForShot(this,choice.type,slot,choice.ctSlot,choice.option,true);
                 break;              
             }
 
             case LRType.HEADSHOT_ONLY:
             {
-                t_lr = new LRHeadshotOnly(this,choice.type,slot,choice.t_slot,choice.option);
-                ct_lr = new LRHeadshotOnly(this,choice.type,slot,choice.ct_slot,choice.option);
+                tLR = new LRHeadshotOnly(this,choice.type,slot,choice.tSlot,choice.option);
+                ctLR = new LRHeadshotOnly(this,choice.type,slot,choice.ctSlot,choice.option);
                 break;              
             }
 
             case LRType.RUSSIAN_ROULETTE:
             {
-                t_lr = new LRRussianRoulette(this,choice.type,slot,choice.t_slot,choice.option);
-                ct_lr = new LRRussianRoulette(this,choice.type,slot,choice.ct_slot,choice.option);
+                tLR = new LRRussianRoulette(this,choice.type,slot,choice.tSlot,choice.option);
+                ctLR = new LRRussianRoulette(this,choice.type,slot,choice.ctSlot,choice.option);
                 break;              
             }
 
             case LRType.NO_SCOPE:
             {
-                t_lr = new LRNoScope(this,choice.type,slot,choice.t_slot,choice.option);
-                ct_lr = new LRNoScope(this,choice.type,slot,choice.ct_slot,choice.option);
+                tLR = new LRNoScope(this,choice.type,slot,choice.tSlot,choice.option);
+                ctLR = new LRNoScope(this,choice.type,slot,choice.ctSlot,choice.option);
                 break;                 
             }
 
@@ -214,41 +213,41 @@ public partial class LastRequest
 
 
         // This should not happen
-        if(slot == -1 || t_lr == null || ct_lr == null)
+        if(slot == -1 || tLR == null || ctLR == null)
         {
-            Chat.Announce(LR_PREFIX,$"Internal LR error in init_lr {slot} {t_lr} {ct_lr}");
+            Chat.Announce(LR_PREFIX,$"Internal LR error in init_lr {slot} {tLR} {ctLR}");
             return;
         }
 
         // do common player setup
-        init_player_common(t_player,t_lr.lr_name);
-        init_player_common(ct_player,ct_lr.lr_name); 
+        InitPlayerCommon(tPlayer,tLR.lrName);
+        InitPlayerCommon(ctPlayer,ctLR.lrName); 
 
         // bind lr pair
-        t_lr.partner = ct_lr;
-        ct_lr.partner = t_lr;
+        tLR.partner = ctLR;
+        ctLR.partner = tLR;
 
-        active_lr[slot] = t_lr;
+        activeLR[slot] = tLR;
 
         // begin counting down the lr
-        t_lr.countdown_Start();
+        tLR.CountdownStart();
     }
     
 
-    public void purge_lr()
+    public void PurgeLR()
     {
-        for(int l = 0; l < active_lr.Length; l++)
+        for(int l = 0; l < activeLR.Length; l++)
         {
-            end_lr(l);
+            EndLR(l);
         }
 
-        rebel_type = RebelType.NONE;
+        rebelType = RebelType.NONE;
     }
 
-    bool is_pair(CCSPlayerController? v1, CCSPlayerController? v2)
+    bool IsPair(CCSPlayerController? v1, CCSPlayerController? v2)
     {
-        LRBase? lr1 = find_lr(v1);
-        LRBase? lr2 = find_lr(v2);
+        LRBase? lr1 = FindLR(v1);
+        LRBase? lr2 = FindLR(v2);
 
         // if either aint in lr they aernt a pair
         if(lr1 == null || lr2 == null)
@@ -263,9 +262,9 @@ public partial class LastRequest
 
 
     // end an lr
-    public void end_lr(int slot)
+    public void EndLR(int slot)
     {
-        LRBase? lr = active_lr[slot];
+        LRBase? lr = activeLR[slot];
 
         if(lr == null)
         {
@@ -273,17 +272,17 @@ public partial class LastRequest
         }
 
         // cleanup each lr
-        lr.cleanup();
+        lr.Cleanup();
 
         if(lr.partner != null)
         {
-            lr.partner.cleanup();
+            lr.partner.Cleanup();
         }
 
         // Remove lookup
 
         // remove the slot
-        active_lr[slot] = null;
+        activeLR[slot] = null;
     }
 
     bool is_valid_t(CCSPlayerController? player)
@@ -314,7 +313,7 @@ public partial class LastRequest
         return true;
     }
 
-    LRBase? find_lr(CCSPlayerController? player)
+    LRBase? FindLR(CCSPlayerController? player)
     {
         // NOTE: dont use anything much from player
         // because the pawn is not their as they may be dced
@@ -327,19 +326,19 @@ public partial class LastRequest
 
         // scan each active lr for player and partner
         // a HashTable setup is probably not worthwhile here
-        foreach(LRBase? lr in active_lr)
+        foreach(LRBase? lr in activeLR)
         {
             if(lr == null)
             {
                 continue;
             }
 
-            if(lr.player_slot == slot)
+            if(lr.playerSlot == slot)
             {
                 return lr;
             }
 
-            if(lr.partner != null && lr.partner.player_slot == slot)
+            if(lr.partner != null && lr.partner.playerSlot == slot)
             {
                 return lr.partner;
             }
@@ -351,7 +350,7 @@ public partial class LastRequest
 
     public bool InLR(CCSPlayerController? player)
     {
-        return find_lr(player) != null;        
+        return FindLR(player) != null;        
     }
 
 
@@ -368,14 +367,14 @@ public partial class LastRequest
         // check player can start lr
         // NOTE: higher level function checks its valid to start an lr
         // so we can do a bypass for debugging
-        if(!player.IsLegal() || rebel_type != RebelType.NONE || JailPlugin.EventActive())
+        if(!player.IsLegal() || rebelType != RebelType.NONE || JailPlugin.EventActive())
         {
             return;
         }
 
-        int player_slot = player.Slot;
-        lr_choice[player_slot].t_slot = player_slot;
-        lr_choice[player_slot].bypass = bypass;
+        int playerSlot = player.Slot;
+        lrChoice[playerSlot].tSlot = playerSlot;
+        lrChoice[playerSlot].bypass = bypass;
 
         var lr_menu = new ChatMenu("LR Menu");
 
@@ -393,10 +392,10 @@ public partial class LastRequest
 
 
         // rebel
-        if(can_rebel())
+        if(CanRebel())
         {
-            lr_menu.AddMenuOption("Knife rebel",start_knife_rebel);
-            lr_menu.AddMenuOption("Rebel",start_rebel);
+            lr_menu.AddMenuOption("Knife rebel",StartKnifeRebel);
+            lr_menu.AddMenuOption("Rebel",StartRebel);
         /*
             if(Config.riotEnable)
             {
@@ -440,7 +439,7 @@ public partial class LastRequest
         }
 
         Chat.LocalizeAnnounce(LR_PREFIX,"lr.cancel");
-        purge_lr();
+        PurgeLR();
     }
 
     // TODO: when we can pass extra data in menus this should not be needed
@@ -464,12 +463,12 @@ public partial class LastRequest
             return null;
         }
 
-        return lr_choice[player.Slot];
+        return lrChoice[player.Slot];
     }
 
     // our current LR's we use as an event dispatch
     // NOTE: each one of these is the T lr and each holds the other pair
-    LRBase?[] active_lr = new LRBase[2];
+    LRBase?[] activeLR = new LRBase[2];
 
     public enum LRType
     {
@@ -509,17 +508,17 @@ public partial class LastRequest
     {
         public LRType type = LRType.NONE;
         public String option = "";
-        public int t_slot = -1;
-        public int ct_slot = -1;
+        public int tSlot = -1;
+        public int ctSlot = -1;
         public bool bypass = false;
     } 
 
 
     public JailConfig Config = new JailConfig();
 
-    LRChoice[] lr_choice = new LRChoice[64];
+    LRChoice[] lrChoice = new LRChoice[64];
     
-    long start_timestamp = 0;
+    long startTimestamp = 0;
 
     public static readonly String LR_PREFIX = $" {ChatColors.Green}[LR]: {ChatColors.White}";
 }

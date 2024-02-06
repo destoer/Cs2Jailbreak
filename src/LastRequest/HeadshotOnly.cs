@@ -13,12 +13,12 @@ using CounterStrikeSharp.API.Modules.Entities.Constants;
 
 public class LRHeadshotOnly : LRBase
 {
-    public LRHeadshotOnly(LastRequest manager,LastRequest.LRType type,int lr_slot, int player_slot, String choice) : base(manager,type,lr_slot,player_slot,choice)
+    public LRHeadshotOnly(LastRequest manager,LastRequest.LRType type,int LRSlot, int playerSlot, String choice) : base(manager,type,LRSlot,playerSlot,choice)
     {
 
     }
 
-    public override void init_player(CCSPlayerController player)
+    public override void InitPlayer(CCSPlayerController player)
     {    
         weaponRestrict = "deagle";
 
@@ -30,7 +30,7 @@ public class LRHeadshotOnly : LRBase
         // dont allow damage when its not to head
         if(hitgroup != Lib.HITGROUP_HEAD)
         {
-            CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
+            CCSPlayerController? player = Utilities.GetPlayerFromSlot(playerSlot);
             player.RestoreHP(damage,health);
         }
     }

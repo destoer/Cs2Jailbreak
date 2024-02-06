@@ -19,7 +19,7 @@ public partial class LastRequest
     public void PlayerHurt(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health, int hitgroup)
     {
         // check no damage restrict
-        LRBase? lr = find_lr(player);
+        LRBase? lr = FindLR(player);
 
         // no lr
         if(lr == null)
@@ -28,7 +28,7 @@ public partial class LastRequest
         }
         
         // not a pair
-        if(!is_pair(player,attacker))
+        if(!IsPair(player,attacker))
         {
             return;
         }
@@ -45,14 +45,14 @@ public partial class LastRequest
         }
 
         // not a pair restore hp
-        if(!is_pair(player,attacker))
+        if(!IsPair(player,attacker))
         {
             damage = 0.0f;
             return;
         }
 
         // check no damage restrict
-        LRBase? lr = find_lr(player);
+        LRBase? lr = FindLR(player);
 
         if(lr == null)
         {
@@ -72,13 +72,13 @@ public partial class LastRequest
             return;
         }
 
-        if(rebel_type == RebelType.KNIFE && !name.Contains("knife"))
+        if(rebelType == RebelType.KNIFE && !name.Contains("knife"))
         {
             player.StripWeapons();
             return;
         }
 
-        LRBase? lr = find_lr(player);
+        LRBase? lr = FindLR(player);
 
         if(lr != null)
         {
@@ -122,7 +122,7 @@ public partial class LastRequest
     // so instead we opt for this
     public void WeaponZoom(CCSPlayerController? player)
     {
-        LRBase? lr = find_lr(player);
+        LRBase? lr = FindLR(player);
 
         if(lr != null)
         {
@@ -134,7 +134,7 @@ public partial class LastRequest
     // so instead we opt for this
     public void GrenadeThrown(CCSPlayerController? player)
     {
-        LRBase? lr = find_lr(player);
+        LRBase? lr = FindLR(player);
 
         if(lr != null)
         {
@@ -144,9 +144,9 @@ public partial class LastRequest
 
     public void EntCreated(CEntityInstance entity)
     {
-        for(int l = 0; l < active_lr.Length; l++)
+        for(int l = 0; l < activeLR.Length; l++)
         {
-            LRBase? lr = active_lr[l];
+            LRBase? lr = activeLR[l];
 
             if(lr != null && entity.IsValid)
             {
@@ -157,36 +157,36 @@ public partial class LastRequest
 
     public void RoundStart()
     {
-        start_timestamp = Lib.CurTimestamp();
+        startTimestamp = Lib.CurTimestamp();
 
-        purge_lr();
+        PurgeLR();
     }
 
     public void RoundEnd()
     {
-        purge_lr();
+        PurgeLR();
     }
 
     public void Disconnect(CCSPlayerController? player)
     {
         JailPlugin.PurgePlayerStats(player);
 
-        LRBase? lr = find_lr(player);
+        LRBase? lr = FindLR(player);
 
         if(lr != null)
         {
             Chat.Announce(LR_PREFIX,"Player Disconnection cancelling LR");
-            end_lr(lr.slot);
+            EndLR(lr.slot);
         }
     }
 
-    public bool weapon_drop(CCSPlayerController? player,String name) 
+    public bool WeaponDrop(CCSPlayerController? player,String name) 
     {
-        LRBase? lr = find_lr(player);
+        LRBase? lr = FindLR(player);
 
         if(lr != null)
         {
-            return lr.weapon_drop(name);
+            return lr.WeaponDrop(name);
         }
 
         return true;
@@ -194,7 +194,7 @@ public partial class LastRequest
 
     public void WeaponFire(CCSPlayerController? player,String name) 
     {
-        LRBase? lr = find_lr(player);
+        LRBase? lr = FindLR(player);
 
         if(lr != null)
         {
@@ -210,11 +210,11 @@ public partial class LastRequest
         }
 
 
-        LRBase? lr = find_lr(player);
+        LRBase? lr = FindLR(player);
 
         if(lr != null)
         {
-            lr.lose();
+            lr.Lose();
         }
     }
 

@@ -13,7 +13,7 @@ using CounterStrikeSharp.API.Modules.Entities.Constants;
 
 public class LRNoScope : LRBase
 {
-    public LRNoScope(LastRequest manager,LastRequest.LRType type,int lr_slot, int player_slot, String choice) : base(manager,type,lr_slot,player_slot,choice)
+    public LRNoScope(LastRequest manager,LastRequest.LRType type,int LRSlot, int playerSlot, String choice) : base(manager,type,LRSlot,playerSlot,choice)
     {
 
     }
@@ -46,14 +46,14 @@ public class LRNoScope : LRBase
         }
     }
 
-    public override void init_player(CCSPlayerController player)
+    public override void InitPlayer(CCSPlayerController player)
     {
         GiveWeapon(player);
     }
 
     public override void WeaponZoom()
     {
-        CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(playerSlot);
 
         // re give the weapons so they cannot zoom
         GiveWeapon(player);
