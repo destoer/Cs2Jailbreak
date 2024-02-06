@@ -18,14 +18,14 @@ public class Block
     [RequiresPermissions("@jail/debug")]
     public void IsBlocked(CCSPlayerController? invoke, CommandInfo command)
     {
-        invoke.announce(Debug.DEBUG_PREFIX,$"Block state {blockState} : {Lib.BlockEnabled()}");
+        invoke.Announce(Debug.DEBUG_PREFIX,$"Block state {blockState} : {Lib.BlockEnabled()}");
     }
 
     public void BlockAll()
     {
         if(!Lib.BlockEnabled())
         {
-            Chat.localize_announce(Warden.WARDEN_PREFIX,"block.enable");
+            Chat.LocalizeAnnounce(Warden.WARDEN_PREFIX,"block.enable");
             Lib.BlockAll();
             blockState = true;
         }
@@ -35,7 +35,7 @@ public class Block
     {
         if(Lib.BlockEnabled())
         {
-            Chat.localize_announce(Warden.WARDEN_PREFIX,"block.disable");
+            Chat.LocalizeAnnounce(Warden.WARDEN_PREFIX,"block.disable");
             Lib.UnBlockAll();
             blockState = false;
         }

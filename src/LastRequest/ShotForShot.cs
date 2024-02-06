@@ -93,8 +93,8 @@ public class LRShotForShot : LRBase
         // Give the lucky player the first shot
         if(winner != null && loser != null && winner_lr != null)
         {
-            winner.announce(LastRequest.LR_PREFIX,$"Randomly chose {winner.PlayerName} to shoot first");
-            loser.announce(LastRequest.LR_PREFIX,$"Randomly chose {winner.PlayerName} to shoot first");
+            winner.Announce(LastRequest.LR_PREFIX,$"Randomly chose {winner.PlayerName} to shoot first");
+            loser.Announce(LastRequest.LR_PREFIX,$"Randomly chose {winner.PlayerName} to shoot first");
 
             winner_lr.reload_clip();
         }

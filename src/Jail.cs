@@ -405,7 +405,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     // button log
     HookResult OnButtonPressed(CEntityIOOutput output, String name, CEntityInstance activator, CEntityInstance caller, CVariant value, float delay)
     {
-        CCSPlayerController? player = activator.player();
+        CCSPlayerController? player = activator.Player();
 
         // grab player controller from pawn
         CBaseEntity? ent =  Utilities.GetEntityFromIndex<CBaseEntity>((int)caller.Index);
@@ -489,8 +489,8 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         CHandle<CBaseEntity> dealer = damage_info.Attacker;
 
         // get player and attacker
-        CCSPlayerController? player = victim.player();
-        CCSPlayerController? attacker = dealer.player();
+        CCSPlayerController? player = victim.Player();
+        CCSPlayerController? attacker = dealer.Player();
 
         if(player.IsLegal())
         {
@@ -657,7 +657,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         return HookResult.Continue;
     }
 
-    public static String localize(string name,params Object[] args)
+    public static String Localize(string name,params Object[] args)
     {
         return String.Format(globalCtx.Localizer[name],args);
     }

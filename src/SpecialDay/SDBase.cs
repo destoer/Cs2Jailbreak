@@ -165,9 +165,9 @@ public abstract class SDBase
         }       
     }
 
-    public void localize_announce(String name, params Object[] args)
+    public void LocalizeAnnounce(String name, params Object[] args)
     {
-        Chat.localize_announce(SpecialDay.SPECIALDAY_PREFIX,name,args);
+        Chat.LocalizeAnnounce(SpecialDay.SPECIALDAY_PREFIX,name,args);
     }
 
 

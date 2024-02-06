@@ -18,19 +18,19 @@ public class SDFriendlyFire : SDBase
 {
     public override void Setup()
     {
-        localize_announce("sd.ffd_start");
-        localize_announce("sd.damage_enable",delay);
+        LocalizeAnnounce("sd.ffd_start");
+        LocalizeAnnounce("sd.damage_enable",delay);
     }
 
     public override void Start()
     {
-        localize_announce("sd.ffd_enable");
+        LocalizeAnnounce("sd.ffd_enable");
         Lib.EnableFriendlyFire();
     }
 
     public override void End()
     {
-        localize_announce("sd.ffd_end");
+        LocalizeAnnounce("sd.ffd_end");
     }
 
     public override void SetupPlayer(CCSPlayerController? player)

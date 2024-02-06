@@ -44,8 +44,8 @@ public class LRRussianRoulette : LRBase
         // Give the lucky player the first shot
         if(winner != null && loser != null && winner_lr != null)
         {
-            winner.announce(LastRequest.LR_PREFIX,$"Randomly chose {winner.PlayerName} to shoot first");
-            loser.announce(LastRequest.LR_PREFIX,$"Randomly chose {winner.PlayerName} to shoot first");
+            winner.Announce(LastRequest.LR_PREFIX,$"Randomly chose {winner.PlayerName} to shoot first");
+            loser.Announce(LastRequest.LR_PREFIX,$"Randomly chose {winner.PlayerName} to shoot first");
 
             winner_lr.reload_clip();
         }   
@@ -63,12 +63,12 @@ public class LRRussianRoulette : LRBase
             if(rnd.Next(0,7) == 6)
             {
                 player.Slay();
-                Chat.announce(LastRequest.LR_PREFIX,$"{player.PlayerName} brains splattered against the wall");
+                Chat.Announce(LastRequest.LR_PREFIX,$"{player.PlayerName} brains splattered against the wall");
             }
 
             else if(partner != null)
             {
-                player.announce(LastRequest.LR_PREFIX,"Click!");
+                player.Announce(LastRequest.LR_PREFIX,"Click!");
                 var lr_shot = (LRRussianRoulette)partner; 
                 lr_shot.reload_clip();
             }

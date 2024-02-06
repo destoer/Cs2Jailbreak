@@ -26,7 +26,7 @@ public partial class LastRequest
         // prevent starts are round begin to stop lr activations on map joins
         if(Lib.CurTimestamp() - start_timestamp < 15)
         {
-            player.localise_prefix(LR_PREFIX,"lr.wait");
+            player.LocalisePrefix(LR_PREFIX,"lr.wait");
             return false;
         }
 
@@ -37,14 +37,14 @@ public partial class LastRequest
 
         if(JailPlugin.warden.IsAliveRebel(player) && Config.rebelCantLr)
         {
-            player.localise_prefix(LR_PREFIX,"lr.rebel_cant_lr");
+            player.LocalisePrefix(LR_PREFIX,"lr.rebel_cant_lr");
             return false;
         }
 
         
         if(Lib.AliveTCount() > active_lr.Length)
         {
-            player.localise_prefix(LR_PREFIX,"lr.too_many",active_lr.Length);
+            player.LocalisePrefix(LR_PREFIX,"lr.too_many",active_lr.Length);
             return false;
         }
 

@@ -17,19 +17,19 @@ public class SDJuggernaut : SDBase
 {
     public override void Setup()
     {
-        localize_announce("sd.juggernaut_start");
-        localize_announce("sd.damage_enable",delay);
+        LocalizeAnnounce("sd.juggernaut_start");
+        LocalizeAnnounce("sd.damage_enable",delay);
     }
 
     public override void Start()
     {
-        localize_announce("sd.ffd_enable");
+        LocalizeAnnounce("sd.ffd_enable");
         Lib.EnableFriendlyFire();
     }
 
     public override void End()
     {
-        localize_announce("sd.juggernaut_end");
+        LocalizeAnnounce("sd.juggernaut_end");
     }
 
     public override void Death(CCSPlayerController? player, CCSPlayerController? attacker)

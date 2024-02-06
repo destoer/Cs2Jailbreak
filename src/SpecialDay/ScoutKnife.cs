@@ -18,18 +18,18 @@ public class SDScoutKnife : SDBase
 {
     public override void Setup()
     {
-        localize_announce("sd.scout_start");
-        localize_announce("sd.damage_enable",delay);
+        LocalizeAnnounce("sd.scout_start");
+        LocalizeAnnounce("sd.damage_enable",delay);
     }
 
     public override void Start()
     {
-        localize_announce("sd.fight");
+        LocalizeAnnounce("sd.fight");
     }
 
     public override void End()
     {
-        localize_announce("sd.scout_end");
+        LocalizeAnnounce("sd.scout_end");
     }
 
     public override void SetupPlayer(CCSPlayerController player)

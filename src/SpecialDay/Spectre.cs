@@ -17,15 +17,15 @@ public class SDSpectre : SDBase
 {
     public override void Setup()
     {
-        localize_announce("sd.spectre_start");
-        localize_announce("sd.damage_enable",delay);
+        LocalizeAnnounce("sd.spectre_start");
+        LocalizeAnnounce("sd.damage_enable",delay);
     }
 
     public override void MakeBoss(CCSPlayerController? spectre, int count)
     {
         if(spectre != null && spectre.IsLegalAlive())
         {
-            localize_announce($"sd.spectre",spectre.PlayerName);
+            LocalizeAnnounce($"sd.spectre",spectre.PlayerName);
 
             // give the spectre the HP and swap him
             spectre.SetHealth(count * 60);
@@ -36,7 +36,7 @@ public class SDSpectre : SDBase
 
         else
         {
-            Chat.announce("[ERROR] ","Error picking spectre");
+            Chat.Announce("[ERROR] ","Error picking spectre");
         }
     }
 
@@ -53,8 +53,8 @@ public class SDSpectre : SDBase
 
     public override void Start()
     {
-        localize_announce("sd.fight");
-        Lib.swap_all_t();
+        LocalizeAnnounce("sd.fight");
+        Lib.SwapAllT();
 
         (CCSPlayerController? boss, int count) = PickBoss();
         MakeBoss(boss,count);
@@ -62,7 +62,7 @@ public class SDSpectre : SDBase
 
     public override void End()
     {
-        localize_announce("sd.spectre_end");
+        LocalizeAnnounce("sd.spectre_end");
     }
 
     public override void SetupPlayer(CCSPlayerController player)

@@ -58,7 +58,7 @@ public partial class LastRequest
         player.StripWeapons(true);
         player.GiveArmour();
 
-        player.announce(LR_PREFIX,$"{lr_name} is starting\n");
+        player.Announce(LR_PREFIX,$"{lr_name} is starting\n");
     }
 
     bool lr_exists(LRBase lr)
@@ -216,7 +216,7 @@ public partial class LastRequest
         // This should not happen
         if(slot == -1 || t_lr == null || ct_lr == null)
         {
-            Chat.announce(LR_PREFIX,$"Internal LR error in init_lr {slot} {t_lr} {ct_lr}");
+            Chat.Announce(LR_PREFIX,$"Internal LR error in init_lr {slot} {t_lr} {ct_lr}");
             return;
         }
 
@@ -295,19 +295,19 @@ public partial class LastRequest
 
         if(!player.PawnIsAlive)
         {
-            player.localize_announce(LR_PREFIX,"lr.alive");
+            player.LocalizeAnnounce(LR_PREFIX,"lr.alive");
             return false;
         }
 
         if(InLR(player))
         {
-            player.localize_announce(LR_PREFIX,"lr.in_lr");
+            player.LocalizeAnnounce(LR_PREFIX,"lr.in_lr");
             return false;            
         }
 
         if(!player.IsT())
         {
-            player.localize_announce(LR_PREFIX,"lr.req_t");
+            player.LocalizeAnnounce(LR_PREFIX,"lr.req_t");
             return false;        
         }
 
@@ -435,11 +435,11 @@ public partial class LastRequest
         // must be admin or warden
         if(!player.IsGenericAdmin() && !JailPlugin.IsWarden(player))
         {
-            player.localise_prefix(LR_PREFIX,"lr.cancel_admin");
+            player.LocalisePrefix(LR_PREFIX,"lr.cancel_admin");
             return;
         }
 
-        Chat.localize_announce(LR_PREFIX,"lr.cancel");
+        Chat.LocalizeAnnounce(LR_PREFIX,"lr.cancel");
         purge_lr();
     }
 

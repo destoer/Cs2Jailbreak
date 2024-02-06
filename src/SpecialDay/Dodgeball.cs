@@ -17,18 +17,18 @@ public class SDDodgeball : SDBase
 {
     public override void Setup()
     {
-        localize_announce("sd.dodgeball_start");
-        localize_announce("sd.damage_enable",delay);
+        LocalizeAnnounce("sd.dodgeball_start");
+        LocalizeAnnounce("sd.damage_enable",delay);
     }
 
     public override void Start()
     {
-        localize_announce("sd.fight");
+        LocalizeAnnounce("sd.fight");
     }
 
     public override void End()
     {
-        localize_announce("sd.dodgeball_end");
+        LocalizeAnnounce("sd.dodgeball_end");
     }
 
     public override void SetupPlayer(CCSPlayerController player)

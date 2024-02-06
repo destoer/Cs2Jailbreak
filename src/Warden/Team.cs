@@ -32,7 +32,7 @@ public partial class Warden
 
         if(command.ArgCount < 2)
         {
-            invoke.announce(TEAM_PREFIX,$"Invalid team swap args");
+            invoke.Announce(TEAM_PREFIX,$"Invalid team swap args");
             invoke.PlaySound("sounds/ui/counter_beep.vsnd");
             return false;
         }
@@ -52,7 +52,7 @@ public partial class Warden
             {
                 if(Config.ctSwapOnly)
                 {
-                    invoke.announce(TEAM_PREFIX,$"Sorry guards must be swapped to CT by admin");
+                    invoke.Announce(TEAM_PREFIX,$"Sorry guards must be swapped to CT by admin");
                     invoke.PlaySound("sounds/ui/counter_beep.vsnd");
                     return false;
                 }
@@ -64,7 +64,7 @@ public partial class Warden
                 // i.e at a suitable raito or either team is empty
                 if((CtCount * Config.balGuards) > TCount && CtCount != 0 && TCount != 0)
                 {
-                    invoke.announce(TEAM_PREFIX,$"Sorry, CT has too many players {Config.balGuards}:1 ratio maximum");
+                    invoke.Announce(TEAM_PREFIX,$"Sorry, CT has too many players {Config.balGuards}:1 ratio maximum");
                     invoke.PlaySound("sounds/ui/counter_beep.vsnd");
                     return false;
                 }
@@ -84,7 +84,7 @@ public partial class Warden
 
             default:
             {
-                invoke.announce(TEAM_PREFIX,$"Invalid team swap team");
+                invoke.Announce(TEAM_PREFIX,$"Invalid team swap team");
                 invoke.PlaySound("sounds/ui/counter_beep.vsnd");
                 return false;
             }
@@ -101,7 +101,7 @@ public partial class Warden
 
         if(command.ArgCount != 2)
         {
-            invoke.localize("warden.swap_guard_desc");
+            invoke.Localize("warden.swap_guard_desc");
             return;
         }
 
@@ -111,7 +111,7 @@ public partial class Warden
         {
             if(player.IsLegal())
             {
-                invoke.localize("warden.guard_swapped",player.PlayerName);
+                invoke.Localize("warden.guard_swapped",player.PlayerName);
                 player.SwitchTeam(CsTeam.CounterTerrorist);
             }
         }

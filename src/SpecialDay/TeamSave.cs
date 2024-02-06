@@ -29,7 +29,7 @@ public class TeamSave
 
             int team = player.TeamNum;
 
-            if(Lib.is_active_team(team))
+            if(Lib.IsActiveTeam(team))
             {
                 slots[count] = player.Slot;
                 teams[count] = team;
@@ -50,7 +50,7 @@ public class TeamSave
                 continue;
             }
 
-            if(Lib.is_active_team(player.TeamNum))
+            if(Lib.IsActiveTeam(player.TeamNum))
             {
                 player.SwitchTeam((CsTeam)teams[i]);
             }

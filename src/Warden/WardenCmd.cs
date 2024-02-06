@@ -36,7 +36,7 @@ public partial class Warden
 
         if(IsWarden(player))
         {
-            player.announce(WARDEN_PREFIX,"Marker removed");
+            player.Announce(WARDEN_PREFIX,"Marker removed");
             RemoveMarker();
         }
     }
@@ -44,7 +44,7 @@ public partial class Warden
     [RequiresPermissions("@css/generic")]
     public void RemoveWardenCmd(CCSPlayerController? player, CommandInfo command)
     {
-        Chat.localize_announce(WARDEN_PREFIX,"warden.remove");
+        Chat.LocalizeAnnounce(WARDEN_PREFIX,"warden.remove");
         RemoveWarden();
     }
 
@@ -72,14 +72,14 @@ public partial class Warden
         // must be warden
         if(!IsWarden(player))
         {
-            player.localise_prefix(WARDEN_PREFIX,"warden.warday_restrict");
+            player.LocalisePrefix(WARDEN_PREFIX,"warden.warday_restrict");
             return;
         }
 
         // must specify location
         if(command.ArgCount < 2)
         {
-            player.localise_prefix(WARDEN_PREFIX,"warden.warday_usage");
+            player.LocalisePrefix(WARDEN_PREFIX,"warden.warday_usage");
             return;
         }
 
@@ -99,7 +99,7 @@ public partial class Warden
 
         if(!warday.StartWarday(location,delay))
         {
-            player.localise_prefix(WARDEN_PREFIX,"warden.warday_round_restrict",Warday.ROUND_LIMIT - warday.roundCounter);
+            player.LocalisePrefix(WARDEN_PREFIX,"warden.warday_round_restrict",Warday.ROUND_LIMIT - warday.roundCounter);
         }
     }
 
@@ -108,7 +108,7 @@ public partial class Warden
     {
         if(!IsWarden(invoke))
         {
-            invoke.announce(WARDEN_PREFIX,$"You must be the warden to give a {name}");
+            invoke.Announce(WARDEN_PREFIX,$"You must be the warden to give a {name}");
             return (null,null);
         }
 
@@ -155,7 +155,7 @@ public partial class Warden
     {
         if(!IsWarden(invoke))
         {
-            invoke.announce(WARDEN_PREFIX,$"Must be warden to give {name}");
+            invoke.Announce(WARDEN_PREFIX,$"Must be warden to give {name}");
             return;
         }
 
@@ -166,7 +166,7 @@ public partial class Warden
     {
         if(!IsWarden(invoke))
         {
-            invoke.announce(WARDEN_PREFIX,$"You must be the warden to colour t's");
+            invoke.Announce(WARDEN_PREFIX,$"You must be the warden to colour t's");
             return;        
         }
 
@@ -174,7 +174,7 @@ public partial class Warden
 
         Color colour = Lib.COLOUR_CONFIG_MAP[option.Text];
 
-        Chat.announce(WARDEN_PREFIX,$"Setting {player.PlayerName} colour to {option.Text}");
+        Chat.Announce(WARDEN_PREFIX,$"Setting {player.PlayerName} colour to {option.Text}");
         player.SetColour(colour);
     }
 
@@ -192,7 +192,7 @@ public partial class Warden
 
         else
         {
-            invoke.announce(WARDEN_PREFIX,$"No such alive player {option.Text} to colour");
+            invoke.Announce(WARDEN_PREFIX,$"No such alive player {option.Text} to colour");
         }
     }
 
@@ -200,7 +200,7 @@ public partial class Warden
     {
         if(!IsWarden(invoke))
         {
-            invoke.announce(WARDEN_PREFIX,$"You must be the warden to colour t's");
+            invoke.Announce(WARDEN_PREFIX,$"You must be the warden to colour t's");
             return;
         }
 
@@ -227,7 +227,7 @@ public partial class Warden
         // must be warden
         if(!IsWarden(player))
         {
-            player.localise_prefix(WARDEN_PREFIX,"warden.wub_restrict");
+            player.LocalisePrefix(WARDEN_PREFIX,"warden.wub_restrict");
             return;
         }
 
@@ -244,7 +244,7 @@ public partial class Warden
         // must be warden
         if(!IsWarden(player))
         {
-            player.localise_prefix(WARDEN_PREFIX,"warden.wb_restrict");
+            player.LocalisePrefix(WARDEN_PREFIX,"warden.wb_restrict");
             return;
         }
 
@@ -282,13 +282,13 @@ public partial class Warden
 
         if(wardenSlot == INAVLID_SLOT)
         {
-            invoke.localise_prefix(WARDEN_PREFIX,"warden.no_warden");
+            invoke.LocalisePrefix(WARDEN_PREFIX,"warden.no_warden");
             return;
         }
 
         long elaspedMin = (Lib.CurTimestamp() - wardenTimestamp) / 60;
 
-        invoke.localise_prefix(WARDEN_PREFIX,"warden.time",elaspedMin);
+        invoke.LocalisePrefix(WARDEN_PREFIX,"warden.time",elaspedMin);
     }
 
     public void CmdInfo(CCSPlayerController? player, CommandInfo command)
@@ -298,19 +298,19 @@ public partial class Warden
             return;
         }
 
-        player.localize("warden.warden_command_desc");
-        player.localize("warden.warday_command_desc");
-        player.localize("warden.unwarden_command_desc");
-        player.localize("warden.block_command_desc");
-        player.localize("warden.unblock_command_desc");
-        player.localize("warden.remove_warden_command_desc");
-        player.localize("warden.laser_colour_command_desc");
-        player.localize("warden.marker_colour_command_desc");
-        player.localize("warden.wsd_command_desc");
-        player.localize("warden.wsd_ff_command_desc");
-        player.localize("warden.give_pardon_command_desc");
-        player.localize("warden.give_freeday_command_desc");
-        player.localize("warden.colour_command_desc");
+        player.Localize("warden.warden_command_desc");
+        player.Localize("warden.warday_command_desc");
+        player.Localize("warden.unwarden_command_desc");
+        player.Localize("warden.block_command_desc");
+        player.Localize("warden.unblock_command_desc");
+        player.Localize("warden.remove_warden_command_desc");
+        player.Localize("warden.laser_colour_command_desc");
+        player.Localize("warden.marker_colour_command_desc");
+        player.Localize("warden.wsd_command_desc");
+        player.Localize("warden.wsd_ff_command_desc");
+        player.Localize("warden.give_pardon_command_desc");
+        player.Localize("warden.give_freeday_command_desc");
+        player.Localize("warden.colour_command_desc");
     }
 
     public void TakeWardenCmd(CCSPlayerController? player, CommandInfo command)
@@ -324,13 +324,13 @@ public partial class Warden
         // player must be alive
         if(!player.PawnIsAlive)
         {
-            player.localise_prefix(WARDEN_PREFIX,"warden.warden_req_alive");
+            player.LocalisePrefix(WARDEN_PREFIX,"warden.warden_req_alive");
         }        
 
         // check team is valid
         else if(!player.IsCt())
         {
-            player.localise_prefix(WARDEN_PREFIX,"warden.warden_req_ct");
+            player.LocalisePrefix(WARDEN_PREFIX,"warden.warden_req_ct");
         }
 
         // check there is no warden
@@ -338,7 +338,7 @@ public partial class Warden
         {
             var warden = Utilities.GetPlayerFromSlot(wardenSlot);
 
-            player.localise_prefix(WARDEN_PREFIX,"warden.warden_taken",warden.PlayerName);
+            player.LocalisePrefix(WARDEN_PREFIX,"warden.warden_taken",warden.PlayerName);
         }
 
         // player is valid to take warden
@@ -352,7 +352,7 @@ public partial class Warden
     [RequiresPermissions("@css/generic")]
     public void FireGuardCmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        Chat.localize_announce(WARDEN_PREFIX,"warden.fire_guard");
+        Chat.LocalizeAnnounce(WARDEN_PREFIX,"warden.fire_guard");
 
         // swap every guard apart from warden to T
         List<CCSPlayerController> players = Utilities.GetPlayers();
@@ -401,13 +401,13 @@ public partial class Warden
 
         if(!player.IsCt())
         {
-            player.localize_announce(WARDEN_PREFIX,"warden.ct_gun_menu");
+            player.LocalizeAnnounce(WARDEN_PREFIX,"warden.ct_gun_menu");
             return;
         }
 
         if(!Config.ctGunMenu)
         {
-            player.localize_announce(WARDEN_PREFIX,"warden.gun_menu_disabled");
+            player.LocalizeAnnounce(WARDEN_PREFIX,"warden.gun_menu_disabled");
             return;
         }
 

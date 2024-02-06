@@ -175,7 +175,7 @@ public partial class LastRequest
 
         if(lr != null)
         {
-            Chat.announce(LR_PREFIX,"Player Disconnection cancelling LR");
+            Chat.Announce(LR_PREFIX,"Player Disconnection cancelling LR");
             end_lr(lr.slot);
         }
     }
@@ -206,7 +206,7 @@ public partial class LastRequest
     {
         if(Lib.AliveTCount() == Config.lrCount && player.IsT())
         {
-            Chat.localize_announce(LR_PREFIX,"lr.ready");
+            Chat.LocalizeAnnounce(LR_PREFIX,"lr.ready");
         }
 
 

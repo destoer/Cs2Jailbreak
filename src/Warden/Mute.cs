@@ -23,7 +23,7 @@ public class Mute
             return;
         }
 
-        Chat.localize_announce(MUTE_PREFIX,"mute.thirty");
+        Chat.LocalizeAnnounce(MUTE_PREFIX,"mute.thirty");
 
         Lib.MuteT();
 
@@ -37,7 +37,7 @@ public class Mute
 
     public void UnMuteAll()
     {
-        Chat.localize_announce(MUTE_PREFIX,"mute.speak_quietly");
+        Chat.LocalizeAnnounce(MUTE_PREFIX,"mute.speak_quietly");
 
         // Go through and unmute all alive players!
         foreach(CCSPlayerController player in Utilities.GetPlayers())
@@ -125,7 +125,7 @@ public class Mute
 
         if(Config.muteDead)
         {
-            player.localise_prefix(MUTE_PREFIX,"mute.end_round");
+            player.LocalisePrefix(MUTE_PREFIX,"mute.end_round");
             player.Mute();
         }
     }

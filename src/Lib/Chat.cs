@@ -5,13 +5,13 @@ using CounterStrikeSharp.API.Core;
 public static class Chat
 {
     // chat + centre text print
-    static public void announce(String prefix,String str)
+    static public void Announce(String prefix,String str)
     {
         Server.PrintToChatAll(prefix + str);
-        print_centre_all(str);
+        PrintCentreAll(str);
     }
 
-    static public void print_prefix(this CCSPlayerController? player, String prefix, String str)
+    static public void PrintPrefix(this CCSPlayerController? player, String prefix, String str)
     {
         if(player.IsLegal() && player.IsConnected() && !player.IsBot)
         {
@@ -19,17 +19,17 @@ public static class Chat
         }
     }
 
-    static public void announce(this CCSPlayerController? player,String prefix,String str)
+    static public void Announce(this CCSPlayerController? player,String prefix,String str)
     {
         if(player.IsLegal() && player.IsConnected() && !player.IsBot)
         {
-            player.print_prefix(prefix,str);
+            player.PrintPrefix(prefix,str);
             player.PrintToCenter(str);
         }
     }
 
     // TODO: i dont think there is a builtin func for this...
-    static public void print_centre_all(String str)
+    static public void PrintCentreAll(String str)
     {
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
@@ -42,7 +42,7 @@ public static class Chat
         }
     }
 
-    static public void print_console_all(String str, bool admin_only = false)
+    static public void PrintConsoleAll(String str, bool admin_only = false)
     {
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
@@ -61,37 +61,37 @@ public static class Chat
     }
 
 
-    static public void localize_announce(this CCSPlayerController? player,String prefix, String name, params Object[] args)
+    static public void LocalizeAnnounce(this CCSPlayerController? player,String prefix, String name, params Object[] args)
     {
-        player.announce(prefix,localize(name,args));
+        player.Announce(prefix,Localize(name,args));
     }
 
-    static public void localize_announce(String prefix, String name, params Object[] args)
+    static public void LocalizeAnnounce(String prefix, String name, params Object[] args)
     {
-        String str = localize(name,args);
+        String str = Localize(name,args);
 
         Server.PrintToChatAll(prefix + str);
-        print_centre_all(str);
+        PrintCentreAll(str);
     }
 
-    public static String localize(String name, params Object[] args)
+    public static String Localize(String name, params Object[] args)
     {
-        return JailPlugin.localize(name,args);
+        return JailPlugin.Localize(name,args);
     }
 
-    static public void localize(this CCSPlayerController? player,String name, params Object[] args)
+    static public void Localize(this CCSPlayerController? player,String name, params Object[] args)
     {
         if(player.IsLegal())
         {
-            player.PrintToChat(localize(name,args));
+            player.PrintToChat(Localize(name,args));
         }    
     }
 
-    static public void localise_prefix(this CCSPlayerController? player,String prefix, String name, params Object[] args)
+    static public void LocalisePrefix(this CCSPlayerController? player,String prefix, String name, params Object[] args)
     {
         if(player.IsLegal())
         {
-            player.PrintToChat(prefix + localize(name,args));
+            player.PrintToChat(prefix + Localize(name,args));
         }    
     }
 }

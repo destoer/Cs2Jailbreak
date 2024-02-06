@@ -123,7 +123,7 @@ public static class Entity
 
     public static void ForceClose()
     {
-        Chat.announce(DOOR_PREFIX,"Forcing closing all doors!");
+        Chat.Announce(DOOR_PREFIX,"Forcing closing all doors!");
 
         ForceEntInput("func_door","Close");
         ForceEntInput("func_movelinear","Close");
@@ -133,7 +133,7 @@ public static class Entity
 
     public static void ForceOpen()
     {
-        Chat.announce(DOOR_PREFIX,"Forcing open all doors!");
+        Chat.Announce(DOOR_PREFIX,"Forcing open all doors!");
 
         ForceEntInput("func_door","Open");
         ForceEntInput("func_movelinear","Open");
@@ -143,7 +143,7 @@ public static class Entity
     }
 
 
-    static public CCSPlayerController? player(this CEntityInstance? instance)
+    static public CCSPlayerController? Player(this CEntityInstance? instance)
     {
         if(instance == null)
         {
@@ -172,7 +172,7 @@ public static class Entity
         return player_pawn.OriginalController.Value;
     }
 
-    static public CCSPlayerController? player(this CHandle<CBaseEntity> handle)
+    static public CCSPlayerController? Player(this CHandle<CBaseEntity> handle)
     {
         if(handle.IsValid)
         {
@@ -180,7 +180,7 @@ public static class Entity
 
             if(ent != null)
             {
-                return handle.Value.player();
+                return handle.Value.Player();
             }
         }
 

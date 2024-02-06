@@ -67,7 +67,7 @@ public class Countdown<T>
             // default print
             else
             {
-                Chat.print_centre_all($"{name} is starting in {delay} seconds");
+                Chat.PrintCentreAll($"{name} is starting in {delay} seconds");
             }
         }
     }
@@ -190,7 +190,7 @@ public static class Lib
         }
     }
 
-    static public void swap_all_t()
+    static public void SwapAllT()
     {
         // get valid players
         List<CCSPlayerController> players = Utilities.GetPlayers();
@@ -263,7 +263,7 @@ public static class Lib
     }
 
     
-    static public void set_cvar_str(String name, String value)
+    static public void SetCvarStr(String name, String value)
     {
         // why doesn't this work lol
         
@@ -275,7 +275,7 @@ public static class Lib
         }
     }
 
-    static public bool is_active_team(int team)
+    static public bool IsActiveTeam(int team)
     {
         return (team == Player.TEAM_T || team == Player.TEAM_CT);
     }

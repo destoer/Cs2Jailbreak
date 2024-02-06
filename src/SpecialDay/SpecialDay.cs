@@ -40,7 +40,7 @@ public partial class SpecialDay
             // restore all players if from a cancel
             if(forced)
             {
-                Chat.announce(SPECIALDAY_PREFIX,"Special day cancelled");
+                Chat.Announce(SPECIALDAY_PREFIX,"Special day cancelled");
             }  
 
             teamSave.Restore();
@@ -56,7 +56,7 @@ public partial class SpecialDay
 
         if(activeSD != null)
         {
-            invoke.announce(SPECIALDAY_PREFIX,"You cannot call two SD's at once");
+            invoke.Announce(SPECIALDAY_PREFIX,"You cannot call two SD's at once");
             return;
         }
 
@@ -178,7 +178,7 @@ public partial class SpecialDay
             // force ff active
             if(overrideFF)
             {
-                Chat.localize_announce(SPECIALDAY_PREFIX,"sd.ffd_enable");
+                Chat.LocalizeAnnounce(SPECIALDAY_PREFIX,"sd.ffd_enable");
                 Lib.EnableFriendlyFire();
             }
 
@@ -254,14 +254,14 @@ public partial class SpecialDay
     {
         if(!JailPlugin.IsWarden(player))
         {
-            player.announce(SPECIALDAY_PREFIX,"You must be a warden to use this command");
+            player.Announce(SPECIALDAY_PREFIX,"You must be a warden to use this command");
             return;
         }
 
         // Not ready yet
         if(wsdRound < Config.wsdRound)
         {
-            player.announce(SPECIALDAY_PREFIX,$"Please wait {Config.wsdRound - wsdRound} more rounds");
+            player.Announce(SPECIALDAY_PREFIX,$"Please wait {Config.wsdRound - wsdRound} more rounds");
             return;
         }
 

@@ -144,7 +144,7 @@ public abstract class LRBase
 
         if(player.IsLegalAlive())
         {
-            player.announce(LastRequest.LR_PREFIX,"Fight!");
+            player.Announce(LastRequest.LR_PREFIX,"Fight!");
         }
 
         // renable damage

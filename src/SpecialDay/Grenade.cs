@@ -17,18 +17,18 @@ public class SDGrenade : SDBase
 {
     public override void Setup()
     {
-        localize_announce("sd.grenade_start");
-        localize_announce("sd.damage_enable",delay);
+        LocalizeAnnounce("sd.grenade_start");
+        LocalizeAnnounce("sd.damage_enable",delay);
     }
 
     public override void Start()
     {
-        localize_announce("sd.fight");
+        LocalizeAnnounce("sd.fight");
     }
 
     public override void End()
     {
-        localize_announce("sd.grenade_end");
+        LocalizeAnnounce("sd.grenade_end");
     }
 
     public override void SetupPlayer(CCSPlayerController player)

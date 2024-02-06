@@ -18,8 +18,8 @@ public class SDHideAndSeek : SDBase
 {
     public override void Setup()
     {
-        localize_announce("sd.hide_start");
-        localize_announce("sd.t_hide",delay);
+        LocalizeAnnounce("sd.hide_start");
+        LocalizeAnnounce("sd.t_hide",delay);
     }
 
     public override void Start()
@@ -40,12 +40,12 @@ public class SDHideAndSeek : SDBase
             player.UnFreeze();
         }
 
-        localize_announce("sd.seeker_release");
+        LocalizeAnnounce("sd.seeker_release");
     }
 
     public override void End()
     {
-        localize_announce("sd.hide_end");
+        LocalizeAnnounce("sd.hide_end");
     }
 
     public override void SetupPlayer(CCSPlayerController player)

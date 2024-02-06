@@ -44,9 +44,9 @@ public partial class Warden
             return;
         }
 
-        Chat.localize_announce(WARDEN_PREFIX,"warden.took_warden",player.PlayerName);
+        Chat.LocalizeAnnounce(WARDEN_PREFIX,"warden.took_warden",player.PlayerName);
 
-        player.localize_announce(WARDEN_PREFIX,"warden.wcommand");
+        player.LocalizeAnnounce(WARDEN_PREFIX,"warden.wcommand");
 
         wardenTimestamp = Lib.CurTimestamp();
 
@@ -79,7 +79,7 @@ public partial class Warden
         if(player.IsLegal())
         {
             player.SetColour(Player.DEFAULT_COLOUR);
-            Chat.localize_announce(WARDEN_PREFIX,"warden.removed",player.PlayerName);
+            Chat.LocalizeAnnounce(WARDEN_PREFIX,"warden.removed",player.PlayerName);
             JailPlugin.logs.AddLocalized("warden.removed", player.PlayerName);
         }
 

@@ -58,7 +58,7 @@ public partial class Warden
 
         if(ctHandicap)
         {
-            Chat.announce(WARDEN_PREFIX,"CT ratio is too low, handicap enabled for this round");
+            Chat.Announce(WARDEN_PREFIX,"CT ratio is too low, handicap enabled for this round");
         }
     */
     }

@@ -34,7 +34,7 @@ public class Warday
 
             Entity.ForceOpen();
 
-            Chat.localize_announce(WARDAY_PREFIX,"warday.live");
+            Chat.LocalizeAnnounce(WARDAY_PREFIX,"warday.live");
         }
     }
 
@@ -62,7 +62,7 @@ public class Warday
             }
 
 
-            countdown.Start(Chat.localize("warday.location",location),delay,0,null,gun_callback);
+            countdown.Start(Chat.Localize("warday.location",location),delay,0,null,gun_callback);
             return true;
         }        
 

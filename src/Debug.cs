@@ -20,9 +20,9 @@ public static class Debug
     [RequiresPermissions("@jail/debug")]
     public static void Nuke(CCSPlayerController? invoke, CommandInfo command)
     {
-        Chat.announce(DEBUG_PREFIX,"Slaying all players");
+        Chat.Announce(DEBUG_PREFIX,"Slaying all players");
 
-        Chat.print_console_all("Nuke!");
+        Chat.PrintConsoleAll("Nuke!");
 
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {

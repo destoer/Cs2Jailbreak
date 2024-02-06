@@ -201,7 +201,7 @@ public class JailPlayer
             return;
         }
 
-        player.announce(Warden.WARDEN_PREFIX, $"Laser colour set to {value}");
+        player.Announce(Warden.WARDEN_PREFIX, $"Laser colour set to {value}");
         laserColour = Lib.COLOUR_CONFIG_MAP[value];
 
         // save back to the db too
@@ -215,7 +215,7 @@ public class JailPlayer
             return;
         }
 
-        player.announce(Warden.WARDEN_PREFIX, $"Marker colour set to {value}");
+        player.Announce(Warden.WARDEN_PREFIX, $"Marker colour set to {value}");
         markerColour = Lib.COLOUR_CONFIG_MAP[value];
 
         // save back to the db too
@@ -267,7 +267,7 @@ public class JailPlayer
         {
             if (Config.colourRebel)
             {
-                Chat.announce(REBEL_PREFIX, $"{player.PlayerName} is a rebel");
+                Chat.Announce(REBEL_PREFIX, $"{player.PlayerName} is a rebel");
                 player.SetColour(Lib.RED);
             }
             IsRebel = true;
@@ -278,7 +278,7 @@ public class JailPlayer
     {
         if(player.IsLegalAlive() && player.IsT())
         {
-            Chat.localize_announce(Warden.WARDEN_PREFIX, "warden.give_pardon",player.PlayerName);
+            Chat.LocalizeAnnounce(Warden.WARDEN_PREFIX, "warden.give_pardon",player.PlayerName);
             player.SetColour(Color.FromArgb(255, 255, 255, 255));
 
             // they are no longer a rebel
@@ -290,7 +290,7 @@ public class JailPlayer
     {
         if(player.IsLegalAlive() && player.IsT())
         {
-            Chat.localize_announce(Warden.WARDEN_PREFIX, "warden.give_freeday",player.PlayerName);
+            Chat.LocalizeAnnounce(Warden.WARDEN_PREFIX, "warden.give_freeday",player.PlayerName);
             player.SetColour(Lib.GREEN);
 
             // they are no longer a rebel
@@ -315,7 +315,7 @@ public class JailPlayer
         // print death if player is rebel and killer on CT
         if (IsRebel && killer.IsCt())
         {
-            Chat.localize_announce(REBEL_PREFIX, "rebel.kill", killer.PlayerName, player.PlayerName);
+            Chat.LocalizeAnnounce(REBEL_PREFIX, "rebel.kill", killer.PlayerName, player.PlayerName);
         }
     }
 
@@ -366,7 +366,7 @@ public class JailPlayer
         // log any ct damage
         else if (attacker.IsCt())
         {
-            //Lib.print_console_all($"CT {attacker.PlayerName} hit {player.PlayerName} for {damage}");
+            //Lib.PrintConsoleAll($"CT {attacker.PlayerName} hit {player.PlayerName} for {damage}");
         }
     }
 
