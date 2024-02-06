@@ -57,13 +57,13 @@ public abstract class SDBase
         List<CCSPlayerController> players = Utilities.GetPlayers();
         var valid = players.FindAll(player => player.is_valid_alive());
 
-        CCSPlayerController? rigged = Utilities.GetPlayerFromSlot(rigged_slot);
+        CCSPlayerController? rigged = Utilities.GetPlayerFromSlot(riggedSlot);
 
         // override pick
         if(rigged.is_valid_alive())
         {
             var player = rigged;
-            rigged_slot = -1;
+            riggedSlot = -1;
             return (player,valid.Count);
         }
 
@@ -72,7 +72,7 @@ public abstract class SDBase
 
         int boss = rnd.Next(0,valid.Count);
 
-        boss_slot = valid[boss].Slot;
+        bossSlot = valid[boss].Slot;
 
         return (valid[boss],valid.Count);
     }
@@ -85,7 +85,7 @@ public abstract class SDBase
         }
 
         // player has dced re roll the boss if we have one
-        if(player.Slot == boss_slot)
+        if(player.Slot == bossSlot)
         {
             (CCSPlayerController boss, int count) = PickBoss();
 
@@ -93,14 +93,14 @@ public abstract class SDBase
         }
     }
 
-    public void end_common()
+    public void EndCommon()
     {
         state = SDState.INACTIVE;
         End();
 
         Lib.DisableFriendlyFire();
 
-        CCSPlayerController? boss = Utilities.GetPlayerFromSlot(boss_slot);
+        CCSPlayerController? boss = Utilities.GetPlayerFromSlot(bossSlot);
 
         // reset the boss colour
         if(boss.is_valid_alive())
@@ -109,17 +109,17 @@ public abstract class SDBase
             boss.SetColour(Color.FromArgb(255, 255, 255, 255));
         }
 
-        cleanup_players();
+        CleanupPlayers();
     }
 
-    public bool is_boss(CCSPlayerController? player)
+    public bool IsBoss(CCSPlayerController? player)
     {
         if(player == null)
         {
             return false;
         }
 
-        return player.Slot == boss_slot;
+        return player.Slot == bossSlot;
     }
 
     public virtual bool WeaponEquip(CCSPlayerController player, String name) 
@@ -154,7 +154,7 @@ public abstract class SDBase
         }       
     }
 
-    public void cleanup_players()
+    public void CleanupPlayers()
     {
         foreach(CCSPlayerController player in Utilities.GetPlayers())
         {
@@ -171,8 +171,8 @@ public abstract class SDBase
     }
 
 
-    public int boss_slot = -1;
-    public int rigged_slot = -1;
+    public int bossSlot = -1;
+    public int riggedSlot = -1;
 
     public bool restrictDamage = false;
     public String weaponRestrict = "";

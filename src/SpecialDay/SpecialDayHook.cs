@@ -25,14 +25,14 @@ public partial class SpecialDay
 
     public void RoundEnd()
     {
-        end_sd();
+        EndSD();
     }
 
     public void RoundStart()
     {
         // increment our round counter
         wsdRound += 1;
-        end_sd();
+        EndSD();
     }
 
     public void WeaponEquip(CCSPlayerController? player,String name) 

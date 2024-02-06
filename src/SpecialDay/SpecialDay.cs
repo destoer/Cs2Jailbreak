@@ -27,12 +27,12 @@ public enum SDState
 public partial class SpecialDay
 {
 
-    public void end_sd(bool forced = false)
+    public void EndSD(bool forced = false)
     {
         if(activeSD != null)
         {
             JailPlugin.EndEvent();
-            activeSD.end_common();
+            activeSD.EndCommon();
             activeSD = null;
 
             countdown.Kill();
@@ -43,11 +43,11 @@ public partial class SpecialDay
                 Chat.announce(SPECIALDAY_PREFIX,"Special day cancelled");
             }  
 
-            team_save.Restore();
+            teamSave.Restore();
         }     
     }
 
-    public void setup_sd(CCSPlayerController? invoke, ChatMenuOption option)
+    public void SetupSD(CCSPlayerController? invoke, ChatMenuOption option)
     {
         if(!invoke.is_valid())
         {
@@ -62,7 +62,7 @@ public partial class SpecialDay
 
         // invoked as warden
         // reset the round counter so they can't do it again
-        if(wsd_command)
+        if(wsdCommand)
         {
             wsdRound = 0;
         }
@@ -165,18 +165,18 @@ public partial class SpecialDay
         // start the countdown for enable
         if(JailPlugin.globalCtx != null)
         {
-            countdown.Start($"{name} specialday",delay,0,null,start_sd);
+            countdown.Start($"{name} specialday",delay,0,null,StartSD);
         }
 
-        team_save.Save();
+        teamSave.Save();
     }
 
-    public void start_sd(int unused)
+    public void StartSD(int unused)
     {
         if(activeSD != null)
         {
             // force ff active
-            if(override_ff)
+            if(overrideFF)
             {
                 Chat.localize_announce(SPECIALDAY_PREFIX,"sd.ffd_enable");
                 Lib.EnableFriendlyFire();
@@ -189,7 +189,7 @@ public partial class SpecialDay
     [RequiresPermissions("@css/generic")]
     public void CancelSDCmd(CCSPlayerController? player,CommandInfo command)
     {
-        end_sd(true);
+        EndSD(true);
     }
 
     public void SDCmdInternal(CCSPlayerController? player,CommandInfo command)
@@ -201,21 +201,21 @@ public partial class SpecialDay
 
         delay = 15;
 
-        if(Int32.TryParse(command.ArgByIndex(1),out int delay_opt))
+        if(Int32.TryParse(command.ArgByIndex(1),out int delayOpt))
         {
-            delay = delay_opt;
+            delay = delayOpt;
         }
 
 
-        ChatMenu sd_menu = new ChatMenu("Specialday");
+        ChatMenu sdMenu = new ChatMenu("Specialday");
 
         // Build the basic LR menu
         for(int s = 0; s < SD_NAME.Length - 1; s++)
         {
-            sd_menu.AddMenuOption(SD_NAME[s], setup_sd);
+            sdMenu.AddMenuOption(SD_NAME[s], SetupSD);
         }
         
-        ChatMenus.OpenMenu(player, sd_menu);
+        ChatMenus.OpenMenu(player, sdMenu);
     }
 
 
@@ -230,23 +230,23 @@ public partial class SpecialDay
         if(activeSD != null && activeSD.state == SDState.STARTED)
         {
             player.PrintToChat($"Rigged sd boss to {player.PlayerName}");
-            activeSD.rigged_slot = player.Slot;
+            activeSD.riggedSlot = player.Slot;
         }
     }   
 
     [RequiresPermissions("@css/generic")]
     public void SDCmd(CCSPlayerController? player,CommandInfo command)
     {
-        override_ff = false;
-        wsd_command = false;
+        overrideFF = false;
+        wsdCommand = false;
         SDCmdInternal(player,command);
     }   
 
     [RequiresPermissions("@css/generic")]
     public void SDFFCmd(CCSPlayerController? player,CommandInfo command)
     {
-        override_ff = true;
-        wsd_command = false;
+        overrideFF = true;
+        wsdCommand = false;
         SDCmdInternal(player,command);
     }   
 
@@ -266,20 +266,20 @@ public partial class SpecialDay
         }
 
         // Go!
-        wsd_command = true;
+        wsdCommand = true;
         SDCmdInternal(player,command);
     }
 
     public void WardenSDCmd(CCSPlayerController? player,CommandInfo command)
     {
-        override_ff = false;
+        overrideFF = false;
 
         WardenSDCmdInternal(player,command);
     }   
 
     public void WardenSDFFCmd(CCSPlayerController? player,CommandInfo command)
     {
-        override_ff = true;
+        overrideFF = true;
 
         WardenSDCmdInternal(player,command);
     }   
@@ -321,11 +321,11 @@ public partial class SpecialDay
 
     // NOTE: if we cared we would make this per player
     // so we can't get weird conflicts, but its not a big deal
-    bool wsd_command = false;
+    bool wsdCommand = false;
 
     SDBase? activeSD = null;
 
-    bool override_ff = false;
+    bool overrideFF = false;
 
     Countdown<int> countdown = new Countdown<int>();
 
@@ -333,5 +333,5 @@ public partial class SpecialDay
 
     public JailConfig Config = new JailConfig();
 
-    TeamSave team_save = new TeamSave();
+    TeamSave teamSave = new TeamSave();
 };

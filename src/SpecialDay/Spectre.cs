@@ -43,7 +43,7 @@ public class SDSpectre : SDBase
     public override bool WeaponEquip(CCSPlayerController player,String name) 
     {
         // spectre can only carry a knife
-        if(is_boss(player))
+        if(IsBoss(player))
         {
             return name.Contains("knife") || name.Contains("decoy");
         }
@@ -67,7 +67,7 @@ public class SDSpectre : SDBase
 
     public override void SetupPlayer(CCSPlayerController player)
     {
-        if(is_boss(player))
+        if(IsBoss(player))
         {
             // invis and speed
             player.SetColour(Color.FromArgb(0,0,0,0));
