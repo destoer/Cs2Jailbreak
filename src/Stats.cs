@@ -19,65 +19,65 @@ public class JailStats
     {
         for(int i = 0; i < 64; i++)
         {
-            player_stats[i] = new PlayerStat();
+            playerStats[i] = new PlayerStat();
         }
     }
 
-    public void win(CCSPlayerController? player, LastRequest.LRType type)
+    public void Win(CCSPlayerController? player, LastRequest.LRType type)
     {
-        var lr_player = player_stat_from_player(player);
+        var lrPlayer = PlayerStatFromPlayer(player);
 
-        if(lr_player != null && type != LastRequest.LRType.NONE && player.is_valid())
+        if(lrPlayer != null && type != LastRequest.LRType.NONE && player.is_valid())
         {
             int idx = (int)type;
-            lr_player.win[idx] += 1;
-            inc_db(player,type,true);
-            Chat.announce(LastRequest.LR_PREFIX,$"{player.PlayerName} won {LastRequest.LR_NAME[idx]} win {lr_player.win[idx]} : loss {lr_player.loss[idx]}");
+            lrPlayer.win[idx] += 1;
+            IncDB(player,type,true);
+            Chat.announce(LastRequest.LR_PREFIX,$"{player.PlayerName} won {LastRequest.LR_NAME[idx]} win {lrPlayer.win[idx]} : loss {lrPlayer.loss[idx]}");
         }
     }
 
-    public void loss(CCSPlayerController? player, LastRequest.LRType type)
+    public void Loss(CCSPlayerController? player, LastRequest.LRType type)
     {
-        var lr_player = player_stat_from_player(player);
+        var lrPlayer = PlayerStatFromPlayer(player);
 
-        if(lr_player != null && type != LastRequest.LRType.NONE && player.is_valid())
+        if(lrPlayer != null && type != LastRequest.LRType.NONE && player.is_valid())
         {
             int idx = (int)type;
-            lr_player.loss[idx] += 1;
-            inc_db(player,type,false);
+            lrPlayer.loss[idx] += 1;
+            IncDB(player,type,false);
 
-            Chat.announce(LastRequest.LR_PREFIX,$"{player.PlayerName} lost {LastRequest.LR_NAME[idx]} win {lr_player.win[idx]} : loss {lr_player.loss[idx]}");
+            Chat.announce(LastRequest.LR_PREFIX,$"{player.PlayerName} lost {LastRequest.LR_NAME[idx]} win {lrPlayer.win[idx]} : loss {lrPlayer.loss[idx]}");
         }        
     }
 
-    PlayerStat? player_stat_from_player(CCSPlayerController? player)
+    PlayerStat? PlayerStatFromPlayer(CCSPlayerController? player)
     {
         if(!player.is_valid())
         {
             return null;
         }
 
-        return player_stats[player.Slot];        
+        return playerStats[player.Slot];        
     }
 
 
 
-    void print_stats(CCSPlayerController? invoke, CCSPlayerController? player)
+    void PrintStats(CCSPlayerController? invoke, CCSPlayerController? player)
     {
         if(!invoke.is_valid())
         {
             return;
         }
 
-        var lr_player = player_stat_from_player(player);
+        var lrPlayer = PlayerStatFromPlayer(player);
 
-        if(lr_player != null && player.is_valid())
+        if(lrPlayer != null && player.is_valid())
         {
             invoke.PrintToChat($"{LastRequest.LR_PREFIX} lr stats for {player.PlayerName}");
 
             for(int i = 0; i < LastRequest.LR_SIZE; i++)
             {
-                invoke.PrintToChat($"{LastRequest.LR_PREFIX} {LastRequest.LR_NAME[i]} win {lr_player.win[i]} : loss {lr_player.loss[i]}");
+                invoke.PrintToChat($"{LastRequest.LR_PREFIX} {LastRequest.LR_NAME[i]} win {lrPlayer.win[i]} : loss {lrPlayer.loss[i]}");
             }
         }
     }
@@ -85,22 +85,22 @@ public class JailStats
     public void LRStatsCmd(CCSPlayerController? player, CommandInfo command)
     {
         // just do own player for now
-        print_stats(player,player);
+        PrintStats(player,player);
     }
 
-    public void purge_player(CCSPlayerController? player)
+    public void PurgePlayer(CCSPlayerController? player)
     {
-        var lr_player = player_stat_from_player(player);
+        var lrPlayer = PlayerStatFromPlayer(player);
 
-        if(lr_player != null)
+        if(lrPlayer != null)
         {
             for(int i = 0; i < LastRequest.LR_SIZE; i++)
             {
-                lr_player.win[i] = 0;
-                lr_player.loss[i] = 0;
+                lrPlayer.win[i] = 0;
+                lrPlayer.loss[i] = 0;
             }
 
-            lr_player.cached = false;
+            lrPlayer.cached = false;
         }
     }
 
@@ -111,9 +111,9 @@ public class JailStats
         public bool cached = false;
     }
 
-    async void insert_player(String steam_id, String player_name)
+    async void InsertPlayer(String steamID, String playerName)
     {
-        var database = await connect_db();
+        var database = await ConnectDB();
 
         if(database == null)
         {
@@ -121,13 +121,13 @@ public class JailStats
         }
 
         // insert new player
-        using var insert_player = new MySqlCommand("INSERT IGNORE INTO stats (steamid,name) VALUES (@steam_id, @name)",database);
-        insert_player.Parameters.AddWithValue("@steam_id",steam_id);
-        insert_player.Parameters.AddWithValue("@name",player_name);
+        using var insertPlayer = new MySqlCommand("INSERT IGNORE INTO stats (steamid,name) VALUES (@steam_id, @name)",database);
+        insertPlayer.Parameters.AddWithValue("@steam_id",steamID);
+        insertPlayer.Parameters.AddWithValue("@name",playerName);
 
         try 
         {
-            await insert_player.ExecuteNonQueryAsync();
+            await insertPlayer.ExecuteNonQueryAsync();
         } 
         
         catch (Exception ex)
@@ -136,25 +136,25 @@ public class JailStats
         }
     }
 
-    public void inc_db(CCSPlayerController? player,LastRequest.LRType type, bool win)
+    public void IncDB(CCSPlayerController? player,LastRequest.LRType type, bool win)
     {
         if(!player.is_valid() || type == LastRequest.LRType.NONE  || player.IsBot)
         {
             return;
         }
 
-        String steam_id = new SteamID(player.SteamID).SteamId2;
+        String steamID = new SteamID(player.SteamID).SteamId2;
 
         // make sure this doesn't block the main thread
         Task.Run(async () =>
         {
-            await inc_db_async(steam_id,type,win);
+            await IncDBAsync(steamID,type,win);
         });
     }
 
-    public async Task inc_db_async(String steam_id,LastRequest.LRType type, bool win)
+    public async Task IncDBAsync(String steamID,LastRequest.LRType type, bool win)
     {
-        var database = await connect_db();
+        var database = await ConnectDB();
 
         if(database == null)
         {
@@ -173,13 +173,13 @@ public class JailStats
             name += "_loss";
         }
 
-        using var inc_stat = new MySqlCommand($"UPDATE stats SET {name} = {name} + 1 WHERE steamid = @steam_id",database);
-        inc_stat.Parameters.AddWithValue("@steam_id",steam_id);
+        using var incStat = new MySqlCommand($"UPDATE stats SET {name} = {name} + 1 WHERE steamid = @steam_id",database);
+        incStat.Parameters.AddWithValue("@steam_id",steamID);
 
         try 
         {
-            Console.WriteLine($"increment {steam_id} : {name} : {win}");
-            await inc_stat.ExecuteNonQueryAsync();
+            Console.WriteLine($"increment {steamID} : {name} : {win}");
+            await incStat.ExecuteNonQueryAsync();
         } 
         
         catch (Exception ex)
@@ -189,7 +189,7 @@ public class JailStats
     }
 
 
-    void read_stats(ulong id, String steam_id, String player_name)
+    void read_stats(ulong id, String steamID, String playerName)
     {
          // repull player from steamid if they are still around
         CCSPlayerController? player = Utilities.GetPlayerFromSteamId(id);
@@ -202,7 +202,7 @@ public class JailStats
         int slot = player.Slot;
 
         // allready cached we dont care
-        if(player_stats[slot].cached)
+        if(playerStats[slot].cached)
         {
             return;
         }
@@ -210,13 +210,13 @@ public class JailStats
         // make sure this doesn't block the main thread
         Task.Run(async () =>
         {
-            await read_stats_async(steam_id,player_name,slot);
+            await ReadStatsAsync(steamID,playerName,slot);
         });     
     }
 
-    async Task read_stats_async(String steam_id, String player_name, int slot)
+    async Task ReadStatsAsync(String steamID, String playerName, int slot)
     {
-        var database = await connect_db();
+        var database = await ConnectDB();
 
         if(database == null)
         {
@@ -224,12 +224,12 @@ public class JailStats
         }
 
         // query steamid
-        using var query_steam_id = new MySqlCommand("SELECT * FROM stats WHERE steamid = @steam_id",database);
-        query_steam_id.Parameters.AddWithValue("@steam_id",steam_id);
+        using var querySteamID = new MySqlCommand("SELECT * FROM stats WHERE steamid = @steam_id",database);
+        querySteamID.Parameters.AddWithValue("@steam_id",steamID);
 
         try
         {
-            var reader = await query_steam_id.ExecuteReaderAsync();
+            var reader = await querySteamID.ExecuteReaderAsync();
             
             if(reader.Read())
             {
@@ -239,11 +239,11 @@ public class JailStats
                 {
                     String name = LastRequest.LR_NAME[i].Replace(" ","_");
 
-                    player_stats[slot].win[i] = (int)reader[name + "_win"];
-                    player_stats[slot].loss[i] = (int)reader[name + "_loss"];
+                    playerStats[slot].win[i] = (int)reader[name + "_win"];
+                    playerStats[slot].loss[i] = (int)reader[name + "_loss"];
                 }
 
-                player_stats[slot].cached = true;
+                playerStats[slot].cached = true;
             }
 
             // failed to pull player stats
@@ -252,7 +252,7 @@ public class JailStats
             {
                 //Console.WriteLine("insert new entry");
 
-                insert_player(steam_id,player_name);
+                InsertPlayer(steamID,playerName);
             }
 
             reader.Close();
@@ -273,13 +273,13 @@ public class JailStats
 
         // attempt to cache player stats
         String name = player.PlayerName;
-        String steam_id = new SteamID(player.SteamID).SteamId2;
+        String steamID = new SteamID(player.SteamID).SteamId2;
 
-        read_stats(player.SteamID,steam_id,name);
+        read_stats(player.SteamID,steamID,name);
     }
 
 
-    public void setup_db(MySqlConnection? database)
+    public void SetupDB(MySqlConnection? database)
     {
         if(database == null)
         {
@@ -288,25 +288,25 @@ public class JailStats
         }
 
         // Make sure Table exists
-        using var table_cmd = new MySqlCommand("CREATE TABLE IF NOT EXISTS stats (steamid varchar(64) PRIMARY KEY,name varchar(64))",database);
-        table_cmd.ExecuteNonQuery();
+        using var tableCmd = new MySqlCommand("CREATE TABLE IF NOT EXISTS stats (steamid varchar(64) PRIMARY KEY,name varchar(64))",database);
+        tableCmd.ExecuteNonQuery();
 
         // Check table size to see if we have the right number of LR's
         // if we dont make the extra tables
-        using var col_cmd = new MySqlCommand("SHOW COLUMNS FROM stats",database);
-        var col_reader = col_cmd.ExecuteReader();
+        using var colCmd = new MySqlCommand("SHOW COLUMNS FROM stats",database);
+        var colReader = colCmd.ExecuteReader();
 
-        int row_count = 0;
-        while(col_reader.Read())
+        int rowCount = 0;
+        while(colReader.Read())
         {
-            row_count++;
+            rowCount++;
         }
-        col_reader.Close();
+        colReader.Close();
 
         int fields = (LastRequest.LR_SIZE * 2) + 2;
 
         // NOTE: both win and lose i.e * 2 + steamid and name
-        if(row_count != fields)
+        if(rowCount != fields)
         {
             // add lr fields
             for(int i = 0; i < LastRequest.LR_SIZE; i++)
@@ -317,11 +317,11 @@ public class JailStats
                 {
                     // NOTE: could use NOT Exists put old sql versions dont play nice
                     // ideally we would use an escaped statement but these strings aernt user controlled anyways
-                    using var insert_table_win = new MySqlCommand($"ALTER TABLE stats ADD COLUMN {name + "_win"} int DEFAULT 0",database);
-                    insert_table_win.ExecuteNonQuery();
+                    using var insertTableWin = new MySqlCommand($"ALTER TABLE stats ADD COLUMN {name + "_win"} int DEFAULT 0",database);
+                    insertTableWin.ExecuteNonQuery();
 
-                    using var insert_table_loss = new MySqlCommand($"ALTER TABLE stats ADD COLUMN {name + "_loss"} int DEFAULT 0",database);
-                    insert_table_loss.ExecuteNonQuery();
+                    using var insertTableLoss = new MySqlCommand($"ALTER TABLE stats ADD COLUMN {name + "_loss"} int DEFAULT 0",database);
+                    insertTableLoss.ExecuteNonQuery();
                 }
 
                 catch {}
@@ -335,7 +335,7 @@ public class JailStats
 
     }
 
-    public async Task<MySqlConnection?> connect_db()
+    public async Task<MySqlConnection?> ConnectDB()
     {
         // No credentials don't even try a connection
         if(Config.username == "")
@@ -362,5 +362,5 @@ public class JailStats
 
     public JailConfig Config = new JailConfig();
 
-    PlayerStat[] player_stats = new PlayerStat[64];
+    PlayerStat[] playerStats = new PlayerStat[64];
 }

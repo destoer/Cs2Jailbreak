@@ -299,7 +299,7 @@ public partial class LastRequest
             return false;
         }
 
-        if(in_lr(player))
+        if(InLR(player))
         {
             player.localize_announce(LR_PREFIX,"lr.in_lr");
             return false;            
@@ -349,7 +349,7 @@ public partial class LastRequest
         return null;
     }
 
-    public bool in_lr(CCSPlayerController? player)
+    public bool InLR(CCSPlayerController? player)
     {
         return find_lr(player) != null;        
     }
@@ -368,7 +368,7 @@ public partial class LastRequest
         // check player can start lr
         // NOTE: higher level function checks its valid to start an lr
         // so we can do a bypass for debugging
-        if(!player.is_valid() || rebel_type != RebelType.NONE || JailPlugin.event_active())
+        if(!player.is_valid() || rebel_type != RebelType.NONE || JailPlugin.EventActive())
         {
             return;
         }

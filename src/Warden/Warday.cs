@@ -46,7 +46,7 @@ public class Warday
             roundCounter = 0;
 
             wardayActive = true;
-            JailPlugin.start_event();
+            JailPlugin.StartEvent();
             
             Entity.ForceClose();
 

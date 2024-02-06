@@ -25,7 +25,7 @@ public static class Entity
         {
             int index = (int)entity.Index;
 
-            JailPlugin.global_ctx.AddTimer(delay,() => 
+            JailPlugin.globalCtx.AddTimer(delay,() => 
             {
                 Remove(index,name);
             });

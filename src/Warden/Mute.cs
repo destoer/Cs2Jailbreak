@@ -27,9 +27,9 @@ public class Mute
 
         Lib.MuteT();
 
-        if(JailPlugin.global_ctx != null)
+        if(JailPlugin.globalCtx != null)
         {
-            muteTimer = JailPlugin.global_ctx.AddTimer(30.0f,UnMuteAll,CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
+            muteTimer = JailPlugin.globalCtx.AddTimer(30.0f,UnMuteAll,CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
         }
 
         muteActive = true;

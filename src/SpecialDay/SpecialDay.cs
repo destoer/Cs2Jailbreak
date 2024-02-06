@@ -156,14 +156,14 @@ public partial class SpecialDay
         // call the intiail sd setup
         if(active_sd != null)
         {
-            JailPlugin.start_event();
+            JailPlugin.StartEvent();
 
             active_sd.delay = delay;
             active_sd.setup_common();
         }
 
         // start the countdown for enable
-        if(JailPlugin.global_ctx != null)
+        if(JailPlugin.globalCtx != null)
         {
             countdown.Start($"{name} specialday",delay,0,null,start_sd);
         }

@@ -51,7 +51,7 @@ public class SDDodgeball : SDBase
         }
     }
 
-    public override void ent_created(CEntityInstance entity)
+    public override void EntCreated(CEntityInstance entity)
     {
         entity.RemoveDelay(1.4f,"flashbang_projectile");
     }

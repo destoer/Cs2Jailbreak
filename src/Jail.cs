@@ -143,7 +143,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 {
     // Global event settings, used to filter plugin activits
     // during warday and SD
-    bool is_event_active = false;
+    bool isEventActive = false;
 
     public JailConfig Config  { get; set; } = new JailConfig();
 
@@ -152,34 +152,34 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         return warden.IsWarden(player);
     }
 
-    public static bool event_active()
+    public static bool EventActive()
     {
-        return global_ctx.is_event_active;
+        return globalCtx.isEventActive;
     }
 
-    public static void start_event()
+    public static void StartEvent()
     {
-        global_ctx.is_event_active = true;
+        globalCtx.isEventActive = true;
     }
 
     public static void EndEvent()
     {
-        global_ctx.is_event_active = false;
+        globalCtx.isEventActive = false;
     }
 
-    public static void win_lr(CCSPlayerController? player,LastRequest.LRType type)
+    public static void WinLR(CCSPlayerController? player,LastRequest.LRType type)
     {
-        jail_stats.win(player,type);
+        jailStats.Win(player,type);
     }
 
-    public static void lose_lr(CCSPlayerController? player, LastRequest.LRType type)
+    public static void LoseLR(CCSPlayerController? player, LastRequest.LRType type)
     {
-        jail_stats.loss(player,type);
+        jailStats.Loss(player,type);
     }
 
-    public static void purge_player_stats(CCSPlayerController? player)
+    public static void PurgePlayerStats(CCSPlayerController? player)
     {
-        jail_stats.purge_player(player);
+        jailStats.PurgePlayer(player);
     }
 
     public override string ModuleName => "CS2 Jailbreak - destoer";
@@ -188,16 +188,16 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public override void Load(bool hotReload)
     {
-        global_ctx = this;
+        globalCtx = this;
         logs = new Logs(this); 
 
-        register_commands();
+        RegisterCommands();
         
-        register_hook();
+        RegisterHooks();
 
-        register_listener();
+        RegisterListeners();
 
-        JailPlayer.setup_db();
+        JailPlayer.SetupDB();
 
         Console.WriteLine("Sucessfully started JB");
 
@@ -205,13 +205,13 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     }
 
-    void stat_db_reload()
+    void StatDBReload()
     {
         Task.Run(async () => 
         {
-            var database = await jail_stats.connect_db();
+            var database = await jailStats.ConnectDB();
 
-            jail_stats.setup_db(database);
+            jailStats.SetupDB(database);
         });
     }
 
@@ -220,7 +220,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         // give each sub plugin the config
         this.Config = config;
         
-        jail_stats.Config = config;
+        jailStats.Config = config;
         lr.Config = config;
 
         warden.Config = config;
@@ -231,15 +231,15 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         sd.Config = config;
 
         lr.lr_config_reload();
-        stat_db_reload();
+        StatDBReload();
     }
 
-    void register_listener()
+    void RegisterListeners()
     {
         RegisterListener<Listeners.OnEntitySpawned>(entity =>
         {
-            lr.ent_created(entity);
-            sd.ent_created(entity);
+            lr.EntCreated(entity);
+            sd.EntCreated(entity);
         });
     }
 
@@ -248,7 +248,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         AddCommand("css_" + Localizer[base_name],desc,callback);
     }
 
-    void register_commands()
+    void RegisterCommands()
     {
         // reg warden comamnds
         AddLocalizedCmd("warden.take_warden_cmd", "take warden", warden.TakeWardenCmd);
@@ -286,7 +286,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         // reg lr commands
         AddLocalizedCmd("lr.start_lr_cmd","start an lr",lr.LRCmd);
         AddLocalizedCmd("lr.cancel_lr_cmd","admin : cancel lr",lr.CancelLRCmd);
-        AddLocalizedCmd("lr.stats_cmd","list lr stats",jail_stats.LRStatsCmd);
+        AddLocalizedCmd("lr.stats_cmd","list lr stats",jailStats.LRStatsCmd);
 
         // reg sd commands
         AddLocalizedCmd("sd.start_cmd","start a sd",sd.SDCmd);
@@ -316,7 +316,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public HookResult JoinTeam(CCSPlayerController? invoke, CommandInfo command)
     {
-        jail_stats.LoadPlayer(invoke);
+        jailStats.LoadPlayer(invoke);
 
         JailPlayer? jailPlayer = warden.JailPlayerFromPlayer(invoke);
 
@@ -334,7 +334,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     }
 
     
-    void register_hook()
+    void RegisterHooks()
     {
         RegisterEventHandler<EventRoundStart>(OnRoundStart);
         RegisterEventHandler<EventRoundEnd>(OnRoundEnd,HookMode.Pre);
@@ -353,7 +353,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         // take damage causes crashes on windows
         // cant figure out why because the windows cs2 console wont log
         // before it dies
-        if(!Lib.is_windows())
+        if(!Lib.IsWindows())
         {
             VirtualFunctions.CBaseEntity_TakeDamageOldFunc.Hook(OnTakeDamage,HookMode.Pre);
         }
@@ -386,7 +386,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         if(player.is_valid())
         {
-            warden.ping(player,@event.X,@event.Y,@event.Z);
+            warden.Ping(player,@event.X,@event.Y,@event.Z);
         }
 
         return HookResult.Continue;
@@ -608,7 +608,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         if(player.is_valid())
         {
             // load in player stats
-            jail_stats.LoadPlayer(player);
+            jailStats.LoadPlayer(player);
             
             JailPlayer? jailPlayer = warden.JailPlayerFromPlayer(player);
 
@@ -659,20 +659,20 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public static String localize(string name,params Object[] args)
     {
-        return String.Format(global_ctx.Localizer[name],args);
+        return String.Format(globalCtx.Localizer[name],args);
     }
 
     public static Warden warden = new Warden();
     public static LastRequest lr = new LastRequest();
     public static SpecialDay sd = new SpecialDay();
-    public static JailStats jail_stats = new JailStats();
+    public static JailStats jailStats = new JailStats();
 
     // in practice these wont be null
     #pragma warning disable CS8618 
     public static Logs logs;
 
     // workaround to query global state!
-    public static JailPlugin global_ctx;
+    public static JailPlugin globalCtx;
 
     #pragma warning restore CS8618
 }

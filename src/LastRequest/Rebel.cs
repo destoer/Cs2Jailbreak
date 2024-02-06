@@ -129,9 +129,9 @@ public partial class LastRequest
 
         Chat.localize_announce(LR_PREFIX,"lr.riot_start");
 
-        if(JailPlugin.global_ctx != null)
+        if(JailPlugin.globalCtx != null)
         {
-            JailPlugin.global_ctx.AddTimer(15.0f,riot_respawn,CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
+            JailPlugin.globalCtx.AddTimer(15.0f,riot_respawn,CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
         }
     }
 

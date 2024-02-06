@@ -379,7 +379,7 @@ public partial class Warden
 
         if(jailPlayer != null)
         {
-            jailPlayer.update_player(player, "ct_gun", option.Text);
+            jailPlayer.UpdatePlayer(player, "ct_gun", option.Text);
             jailPlayer.ctGun = option.Text;
         }
 

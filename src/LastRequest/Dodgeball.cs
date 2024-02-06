@@ -62,7 +62,7 @@ public class LRDodgeball : LRBase
         give_lr_nade_delay(1.4f,"weapon_flashbang");
     }
 
-    public override void ent_created(CEntityInstance entity)
+    public override void EntCreated(CEntityInstance entity)
     {
         entity.RemoveDelay(1.4f,"flashbang_projectile");
     }

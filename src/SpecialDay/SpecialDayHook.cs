@@ -74,11 +74,11 @@ public partial class SpecialDay
         }       
     }
 
-    public void ent_created(CEntityInstance entity)
+    public void EntCreated(CEntityInstance entity)
     {
         if(active_sd != null)
         {
-            active_sd.ent_created(entity);
+            active_sd.EntCreated(entity);
         }
     }
         

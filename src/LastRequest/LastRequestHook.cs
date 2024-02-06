@@ -39,7 +39,7 @@ public partial class LastRequest
     public void TakeDamage(CCSPlayerController? player, CCSPlayerController? attacker, ref float damage)
     {
         // neither player is in lr we dont care
-        if(!in_lr(player) && !in_lr(attacker))
+        if(!InLR(player) && !InLR(attacker))
         {
             return;
         }
@@ -142,7 +142,7 @@ public partial class LastRequest
         }       
     }
 
-    public void ent_created(CEntityInstance entity)
+    public void EntCreated(CEntityInstance entity)
     {
         for(int l = 0; l < active_lr.Length; l++)
         {
@@ -150,7 +150,7 @@ public partial class LastRequest
 
             if(lr != null && entity.IsValid)
             {
-                lr.ent_created(entity);
+                lr.EntCreated(entity);
             }
         }
     }
@@ -169,7 +169,7 @@ public partial class LastRequest
 
     public void Disconnect(CCSPlayerController? player)
     {
-        JailPlugin.purge_player_stats(player);
+        JailPlugin.PurgePlayerStats(player);
 
         LRBase? lr = find_lr(player);
 

@@ -30,7 +30,7 @@ public class Countdown<T>
         this.data = countdownData;
         this.printFunc = countdownPrintFunc;
 
-        this.handle = JailPlugin.global_ctx.AddTimer(1.0f,Tick,CSTimer.TimerFlags.STOP_ON_MAPCHANGE | CSTimer.TimerFlags.REPEAT);
+        this.handle = JailPlugin.globalCtx.AddTimer(1.0f,Tick,CSTimer.TimerFlags.STOP_ON_MAPCHANGE | CSTimer.TimerFlags.REPEAT);
     }
 
     public void Kill()
@@ -86,7 +86,7 @@ public class Countdown<T>
 
 public static class Lib
 {
-    static public bool is_windows()
+    static public bool IsWindows()
     {
         return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
     }

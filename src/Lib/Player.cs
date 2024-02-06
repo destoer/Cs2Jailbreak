@@ -151,7 +151,7 @@ public static class Player
 
         int slot = target.Slot;
 
-        JailPlugin.global_ctx.AddTimer(delay,() => 
+        JailPlugin.globalCtx.AddTimer(delay,() => 
         {
             CCSPlayerController? player = Utilities.GetPlayerFromSlot(slot);
 
@@ -357,7 +357,7 @@ public static class Player
             return;
         }
 
-        JailPlugin.global_ctx.AddTimer(delay,() => respawn_callback(player.Slot),CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
+        JailPlugin.globalCtx.AddTimer(delay,() => respawn_callback(player.Slot),CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
     }
 
 }

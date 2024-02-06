@@ -17,7 +17,7 @@ using McMaster.NETCore.Plugins;
 
 public class JailPlayer
 {
-    public static void setup_db()
+    public static void SetupDB()
     {
         try
         {
@@ -32,7 +32,7 @@ public class JailPlayer
 
                 create.ExecuteNonQuery();
 
-                String[] col_cmd =
+                String[] colCmd =
                 {
                     "ALTER TABLE config ADD COLUMN laser_colour varchar(64) DEFAULT 'Cyan'",
                     "ALTER TABLE config ADD COLUMN marker_colour varchar(64) DEFAULT 'Cyan'",
@@ -41,7 +41,7 @@ public class JailPlayer
 
 
                 // start populating our fields
-                foreach (var cmd in col_cmd)
+                foreach (var cmd in colCmd)
                 {
                     var col = connection.CreateCommand();
                     col.CommandText = cmd;
@@ -65,7 +65,7 @@ public class JailPlayer
         }
     }
 
-    async Task update_player_db(String steam_id, String name, String value)
+    async Task UpdatePlayerDB(String steamID, String name, String value)
     {
         try
         {
@@ -76,7 +76,7 @@ public class JailPlayer
                 // modify one of the setting fields
                 using var update = connection.CreateCommand();
                 update.CommandText = $"UPDATE config SET {name} = '{value}' WHERE steam_id = @steam_id";
-                update.Parameters.AddWithValue("@steam_id", steam_id);
+                update.Parameters.AddWithValue("@steam_id", steamID);
 
                 await update.ExecuteNonQueryAsync();
             }
@@ -88,7 +88,7 @@ public class JailPlayer
         }
     }
 
-    async Task insert_player_db(String steam_id)
+    async Task InsertPlayerDB(String steamID)
     {
         using (var connection = new SqliteConnection("Data Source=destoer_config.sqlite"))
         {
@@ -97,11 +97,11 @@ public class JailPlayer
                 await connection.OpenAsync();
 
                 // add a new steam id
-                using var insert_player = connection.CreateCommand();
-                insert_player.CommandText = "INSERT OR IGNORE INTO config (steam_id) VALUES (@steam_id)";
-                insert_player.Parameters.AddWithValue("@steam_id", steam_id);
+                using var insertPlayer = connection.CreateCommand();
+                insertPlayer.CommandText = "INSERT OR IGNORE INTO config (steam_id) VALUES (@steam_id)";
+                insertPlayer.Parameters.AddWithValue("@steam_id", steamID);
 
-                await insert_player.ExecuteNonQueryAsync();
+                await insertPlayer.ExecuteNonQueryAsync();
             }
 
             catch (Exception ex)
@@ -111,7 +111,7 @@ public class JailPlayer
         }
     }
 
-    async Task LoadPlayerDB(String steam_id)
+    async Task LoadPlayerDB(String steamID)
     {
         using (var connection = new SqliteConnection("Data Source=destoer_config.sqlite"))
         {
@@ -120,13 +120,13 @@ public class JailPlayer
                 await connection.OpenAsync();
 
 
-                using var query_steam_id = connection.CreateCommand();
+                using var querySteamID = connection.CreateCommand();
 
                 // query steamid
-                query_steam_id.CommandText = "SELECT * FROM config WHERE steam_id = @steam_id";
-                query_steam_id.Parameters.AddWithValue("@steam_id", steam_id);
+                querySteamID.CommandText = "SELECT * FROM config WHERE steam_id = @steam_id";
+                querySteamID.Parameters.AddWithValue("@steam_id", steamID);
 
-                using var reader = await query_steam_id.ExecuteReaderAsync();
+                using var reader = await querySteamID.ExecuteReaderAsync();
 
                 if (reader.Read())
                 {
@@ -144,7 +144,7 @@ public class JailPlayer
                 // insert a new steam id
                 else
                 {
-                    await insert_player_db(steam_id);
+                    await InsertPlayerDB(steamID);
                 }
             }
 
@@ -169,28 +169,28 @@ public class JailPlayer
             return;
         }
 
-        String steam_id = new SteamID(player.SteamID).SteamId2;
+        String steamID = new SteamID(player.SteamID).SteamId2;
 
         // make sure this doesn't block the main thread
         Task.Run(async () =>
         {
-            await LoadPlayerDB(steam_id);
+            await LoadPlayerDB(steamID);
         });
     }
 
-    public void update_player(CCSPlayerController? player, String name, String value)
+    public void UpdatePlayer(CCSPlayerController? player, String name, String value)
     {
         if (!player.is_valid())
         {
             return;
         }
 
-        String steam_id = new SteamID(player.SteamID).SteamId2;
+        String steamID = new SteamID(player.SteamID).SteamId2;
 
         // make sure this doesn't block the main thread
         Task.Run(async () =>
         {
-            await update_player_db(steam_id, name, value);
+            await UpdatePlayerDB(steamID, name, value);
         });
     }
 
@@ -205,7 +205,7 @@ public class JailPlayer
         laserColour = Lib.COLOUR_CONFIG_MAP[value];
 
         // save back to the db too
-        update_player(player, "laser_colour", value);
+        UpdatePlayer(player, "laser_colour", value);
     }
 
     public void SetMarker(CCSPlayerController? player, String value)
@@ -219,7 +219,7 @@ public class JailPlayer
         markerColour = Lib.COLOUR_CONFIG_MAP[value];
 
         // save back to the db too
-        update_player(player, "marker_colour", value);
+        UpdatePlayer(player, "marker_colour", value);
     }
 
     public void PurgeRound()
@@ -245,13 +245,13 @@ public class JailPlayer
             return;
         }
 
-        if (JailPlugin.event_active())
+        if (JailPlugin.EventActive())
         {
             return;
         }
 
         // ignore if they are in lr
-        if (JailPlugin.lr.in_lr(player))
+        if (JailPlugin.lr.InLR(player))
         {
             return;
         }
@@ -301,7 +301,7 @@ public class JailPlayer
     public void RebelDeath(CCSPlayerController? player, CCSPlayerController? killer)
     {
         // event active dont care
-        if (JailPlugin.event_active())
+        if (JailPlugin.EventActive())
         {
             return;
         }

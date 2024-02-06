@@ -115,8 +115,8 @@ public abstract class LRBase
             return;
         }
 
-        JailPlugin.win_lr(winner,type);
-        JailPlugin.lose_lr(player,type);
+        JailPlugin.WinLR(winner,type);
+        JailPlugin.LoseLR(player,type);
 
         manager.end_lr(slot);
     }
@@ -168,7 +168,7 @@ public abstract class LRBase
     // what events might we want access to?
     public virtual void WeaponFire(String name) {}
 
-    public virtual void ent_created(CEntityInstance entity) {}
+    public virtual void EntCreated(CEntityInstance entity) {}
     
     public virtual bool TakeDamage()
     {
@@ -226,17 +226,17 @@ public abstract class LRBase
 
     public void give_lr_nade_delay(float delay, String name)
     {
-        if(JailPlugin.global_ctx == null)
+        if(JailPlugin.globalCtx == null)
         {
             return;
         }
 
-        JailPlugin.global_ctx.AddTimer(delay,() => 
+        JailPlugin.globalCtx.AddTimer(delay,() => 
         {
             CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
 
             // need to double check LR is actually still active...
-            if(player.is_valid_alive() && manager.in_lr(player))
+            if(player.is_valid_alive() && manager.InLR(player))
             {
                 //Server.PrintToChatAll("give nade");
                 player.StripWeapons(true);
@@ -269,9 +269,9 @@ public abstract class LRBase
         if(laser_timer == null)
         {
             // create the laser timer
-            if(JailPlugin.global_ctx != null)
+            if(JailPlugin.globalCtx != null)
             {
-                laser_timer = JailPlugin.global_ctx.AddTimer(1.0f / 25.0f,LaserTick,CSTimer.TimerFlags.STOP_ON_MAPCHANGE | CSTimer.TimerFlags.REPEAT);
+                laser_timer = JailPlugin.globalCtx.AddTimer(1.0f / 25.0f,LaserTick,CSTimer.TimerFlags.STOP_ON_MAPCHANGE | CSTimer.TimerFlags.REPEAT);
             }
         }
 
@@ -314,7 +314,7 @@ public abstract class LRBase
         laser.Move(start,end);
     }
 
-    public virtual void ent_created(String name) {}
+    public virtual void EntCreated(String name) {}
 
     public virtual void GrenadeThrown() {}
 

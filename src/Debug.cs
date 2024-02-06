@@ -130,7 +130,7 @@ public static class Debug
     [RequiresPermissions("@jail/debug")]
     public static void TestLRInc(CCSPlayerController? invoke, CommandInfo command)
     {
-        JailPlugin.win_lr(invoke, LastRequest.LRType.KNIFE);
+        JailPlugin.WinLR(invoke, LastRequest.LRType.KNIFE);
     }
 
     // are these commands allowed or not?

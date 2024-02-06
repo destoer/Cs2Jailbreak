@@ -25,7 +25,7 @@ public partial class Warden
         marker.Destroy();
     }
 
-    public void ping(CCSPlayerController? player, float x, float y, float z)
+    public void Ping(CCSPlayerController? player, float x, float y, float z)
     {
         JailPlayer? jailPlayer = JailPlayerFromPlayer(player);
 

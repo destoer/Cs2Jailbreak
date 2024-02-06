@@ -72,7 +72,7 @@ public partial class Warden
             String weapon = 
 
             // if ct handicap is active rescale knife and awp damage to be unaffected
-            if(ctHandicap && victim.IsCt() && attacker.IsT() && !in_lr(attacker) && (weapon.Contains("knife") || weapon.Contains("awp")))
+            if(ctHandicap && victim.IsCt() && attacker.IsT() && !InLR(attacker) && (weapon.Contains("knife") || weapon.Contains("awp")))
             {
                 damage = damage * 1.3;
             }

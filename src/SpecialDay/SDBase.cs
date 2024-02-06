@@ -129,7 +129,7 @@ public abstract class SDBase
 
     public virtual void PlayerHurt(CCSPlayerController? player,int health,int damage, int hitgroup) {}
 
-    public virtual void ent_created(CEntityInstance entity) {}
+    public virtual void EntCreated(CEntityInstance entity) {}
     public virtual void GrenadeThrown(CCSPlayerController? player) {}
 
     
