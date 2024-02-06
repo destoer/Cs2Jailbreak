@@ -35,6 +35,6 @@ public class SDFriendlyFire : SDBase
 
     public override void setup_player(CCSPlayerController? player)
     {
-        player.event_gun_menu();
+        player.EventGunMenu();
     }
 }

@@ -18,9 +18,8 @@ public class Warday
     {
         // if warday is no longer active dont allow guns
 
-        if(warday_active)
+        if(wardayActive)
         {
-
             if(Config.wardayGuns)
             {
                 // give T guns
@@ -28,7 +27,7 @@ public class Warday
                 {
                     if(player.is_valid() && player.IsT())
                     {
-                        player.event_gun_menu();
+                        player.EventGunMenu();
                     }
                 }
             }
@@ -46,7 +45,7 @@ public class Warday
             // must wait again to start a warday
             roundCounter = 0;
 
-            warday_active = true;
+            wardayActive = true;
             JailPlugin.start_event();
             
             Entity.ForceClose();
@@ -57,13 +56,13 @@ public class Warday
                 {
                     if(player.is_valid() && player.IsCt())
                     {
-                        player.event_gun_menu();
+                        player.EventGunMenu();
                     }
                 }
             }
 
 
-            countdown.start(Chat.localize("warday.location",location),delay,0,null,gun_callback);
+            countdown.Start(Chat.localize("warday.location",location),delay,0,null,gun_callback);
             return true;
         }        
 
@@ -72,7 +71,7 @@ public class Warday
 
     public void RoundEnd()
     {
-        countdown.kill();
+        countdown.Kill();
     }
 
 
@@ -81,10 +80,10 @@ public class Warday
         // one less round till a warday can be called
         roundCounter++;
 
-        countdown.kill();
+        countdown.Kill();
 
-        warday_active = false;
-        JailPlugin.end_event();
+        wardayActive = false;
+        JailPlugin.EndEvent();
     }
 
     public void MapStart()
@@ -97,7 +96,7 @@ public class Warday
 
     String WARDAY_PREFIX = $" {ChatColors.Green} [Warday]: {ChatColors.White}";
 
-    bool warday_active = false;
+    bool wardayActive = false;
 
     public int roundCounter = ROUND_LIMIT;
 

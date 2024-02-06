@@ -31,11 +31,11 @@ public partial class SpecialDay
     {
         if(active_sd != null)
         {
-            JailPlugin.end_event();
+            JailPlugin.EndEvent();
             active_sd.end_common();
             active_sd = null;
 
-            countdown.kill();
+            countdown.Kill();
 
             // restore all players if from a cancel
             if(forced)
@@ -165,7 +165,7 @@ public partial class SpecialDay
         // start the countdown for enable
         if(JailPlugin.global_ctx != null)
         {
-            countdown.start($"{name} specialday",delay,0,null,start_sd);
+            countdown.Start($"{name} specialday",delay,0,null,start_sd);
         }
 
         team_save.save();

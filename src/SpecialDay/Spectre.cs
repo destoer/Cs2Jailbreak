@@ -78,7 +78,7 @@ public class SDSpectre : SDBase
 
         else
         {
-            player.event_gun_menu();
+            player.EventGunMenu();
         }
     }
 }

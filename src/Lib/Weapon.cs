@@ -96,7 +96,7 @@ public static class Weapon
 
     // TODO: for now this is just a give guns
     // because menus dont work
-    static public void event_gun_menu(this CCSPlayerController? player)
+    static public void EventGunMenu(this CCSPlayerController? player)
     {
         // Event has been cancelled in the mean time dont give any guns
         if(!JailPlugin.event_active())

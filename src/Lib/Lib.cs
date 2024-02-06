@@ -21,24 +21,24 @@ using System.Diagnostics.CodeAnalysis;
 // wanting to use the timer
 public class Countdown<T>
 {
-    public void start(String countdown_name, int countdown_delay,
-        T countdown_data,Action<T,int>? countdown_print_func, Action <T> countdown_callback)
+    public void Start(String countdownName, int countdownDelay,
+        T countdownData,Action<T,int>? countdownPrintFunc, Action <T> countdownCallback)
     {
-        this.delay = countdown_delay;
-        this.callback = countdown_callback;
-        this.name = countdown_name;
-        this.data = countdown_data;
-        this.print_func = countdown_print_func;
+        this.delay = countdownDelay;
+        this.callback = countdownCallback;
+        this.name = countdownName;
+        this.data = countdownData;
+        this.printFunc = countdownPrintFunc;
 
-        this.handle = JailPlugin.global_ctx.AddTimer(1.0f,countdown,CSTimer.TimerFlags.STOP_ON_MAPCHANGE | CSTimer.TimerFlags.REPEAT);
+        this.handle = JailPlugin.global_ctx.AddTimer(1.0f,Tick,CSTimer.TimerFlags.STOP_ON_MAPCHANGE | CSTimer.TimerFlags.REPEAT);
     }
 
-    public void kill()
+    public void Kill()
     {
-       Lib.kill_timer(ref handle);
+       Lib.KillTimer(ref handle);
     }
 
-    void countdown()
+    void Tick()
     {
         delay -= 1;
 
@@ -47,7 +47,7 @@ public class Countdown<T>
         {
             // kill the timer
             // and then call the callback
-            kill();
+            Kill();
 
             if(callback != null && data != null)
             {
@@ -59,9 +59,9 @@ public class Countdown<T>
         else
         {
             // custom print
-            if(print_func != null && data != null)
+            if(printFunc != null && data != null)
             {
-                print_func(data,delay);
+                printFunc(data,delay);
             }
 
             // default print
@@ -75,7 +75,7 @@ public class Countdown<T>
     public int delay = 0;
     public Action<T>? callback = null;
     public String name = "";
-    public Action<T,int>? print_func = null;
+    public Action<T,int>? printFunc = null;
     CSTimer.Timer? handle = null;
 
     // callback data
@@ -148,7 +148,7 @@ public static class Lib
         }
     }
 
-    static public void kill_timer(ref CSTimer.Timer? timer)
+    static public void KillTimer(ref CSTimer.Timer? timer)
     {
         if(timer != null)
         {

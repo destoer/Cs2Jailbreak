@@ -162,7 +162,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         global_ctx.is_event_active = true;
     }
 
-    public static void end_event()
+    public static void EndEvent()
     {
         global_ctx.is_event_active = false;
     }

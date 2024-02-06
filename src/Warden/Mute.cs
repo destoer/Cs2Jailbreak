@@ -58,14 +58,14 @@ public class Mute
 
     public void RoundStart()
     {
-        Lib.kill_timer(ref mute_timer);
+        Lib.KillTimer(ref mute_timer);
 
         mute_t();
     }
 
     public void RoundEnd()
     {
-        Lib.kill_timer(ref mute_timer);
+        Lib.KillTimer(ref mute_timer);
 
         Lib.unmute_all();
     }

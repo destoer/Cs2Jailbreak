@@ -59,14 +59,14 @@ public abstract class LRBase
     public void cleanup()
     {
         // clean up timer
-        Lib.kill_timer(ref timer);
+        Lib.KillTimer(ref timer);
 
         // clean up laser
-        Lib.kill_timer(ref laser_timer);
+        Lib.KillTimer(ref laser_timer);
 
         laser.destroy();
 
-        countdown.kill();
+        countdown.Kill();
 
         // reset alive player
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
@@ -275,7 +275,7 @@ public abstract class LRBase
             }
         }
 
-        countdown.start(lr_name,5,this,prinTCountdown,manager.activate_lr);
+        countdown.Start(lr_name,5,this,prinTCountdown,manager.activate_lr);
     }
 
     public void laser_tick()

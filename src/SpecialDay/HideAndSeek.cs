@@ -54,7 +54,7 @@ public class SDHideAndSeek : SDBase
         if(player.IsCt())
         {
             player.freeze();
-            player.event_gun_menu();
+            player.EventGunMenu();
             player.set_health(500);
         }
 
