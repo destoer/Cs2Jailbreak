@@ -94,8 +94,17 @@ public static class Weapon
         }
     }
 
-    // TODO: for now this is just a give guns
-    // because menus dont work
+    public static void EventGunMenuCallback(CCSPlayerController player, ChatMenuOption option)
+    {
+        // Event has been cancelled in the mean time dont give any guns
+        if(!JailPlugin.EventActive())
+        {
+            return;
+        }
+
+        GunMenuGive(player,option);
+    }
+
     static public void EventGunMenu(this CCSPlayerController? player)
     {
         // Event has been cancelled in the mean time dont give any guns
@@ -104,7 +113,28 @@ public static class Weapon
             return;
         }
 
-        player.GunMenu(false);
+        player.GunMenuInternal(false,EventGunMenuCallback);
+    }
+
+    public static void GunMenuGive(this CCSPlayerController player, ChatMenuOption option)
+    {
+        if(!player.IsLegalAlive())
+        {
+            return;
+        }
+
+        player.StripWeapons();
+
+        player.GiveMenuWeapon(option.Text);
+        player.GiveWeapon("deagle");
+
+        player.GiveArmour();
+
+        CBasePlayerWeapon? primary = player.FindWeapon(GUN_LIST[option.Text]);
+        primary.SetAmmo(-1,999);
+
+        CBasePlayerWeapon? secondary = player.FindWeapon("deagle");
+        secondary.SetAmmo(-1,999);
     }
 
     static void GiveMenuWeaponCallback(this CCSPlayerController player, ChatMenuOption option)
@@ -114,20 +144,7 @@ public static class Weapon
             return;
         }
 
-        // strip guns so the new ones don't just drop to the ground
-        player.StripWeapons();
-
-        // give their desired guns with lots of reserve ammo
-        player.GiveNamedItem(GunGiveName(option.Text));
-        player.GiveWeapon("deagle");
-
-        CBasePlayerWeapon? primary = player.FindWeapon(GUN_LIST[option.Text]);
-        primary.SetAmmo(-1,999);
-
-        CBasePlayerWeapon? secondary = player.FindWeapon("deagle");
-        secondary.SetAmmo(-1,999);
-        
-        player.GiveArmour();
+        GunMenuGive(player,option);
     }
 
     static Dictionary<String,String> GUN_LIST = new Dictionary<String,String>()

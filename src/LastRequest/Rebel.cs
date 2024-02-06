@@ -38,12 +38,7 @@ public partial class LastRequest
             return;
         }
 
-        player.StripWeapons();
-
-        player.GiveMenuWeapon(option.Text);
-        player.GiveWeapon("deagle");
-
-        player.GiveArmour();
+        Weapon.GunMenuGive(player,option);
     
         player.SetHealth(Lib.AliveCtCount() * 100);
 
