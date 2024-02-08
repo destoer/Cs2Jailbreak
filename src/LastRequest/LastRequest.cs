@@ -323,7 +323,7 @@ public partial class LastRequest
     {
         // NOTE: dont use anything much from player
         // because the pawn is not their as they may be dced
-        if(player == null)
+        if(player == null || !player.IsValid)
         {
             return null;
         }

@@ -49,7 +49,7 @@ public partial class LastRequest
 
     public void StartRebel(CCSPlayerController? player, ChatMenuOption option)
     {
-        if(!player.IsLegal())
+        if(!player.IsLegalAlive())
         {
             return;
         }
@@ -59,7 +59,7 @@ public partial class LastRequest
 
     public void StartKnifeRebel(CCSPlayerController? rebel, ChatMenuOption option)
     {
-        if(rebel == null || !rebel.IsLegal())
+        if(!rebel.IsLegalAlive())
         {
             return;
         }
@@ -107,7 +107,7 @@ public partial class LastRequest
 
     public void StartRiot(CCSPlayerController? rebel, ChatMenuOption option)
     {
-        if(rebel == null || !rebel.IsLegal())
+        if(!rebel.IsLegal())
         {
             return;
         }

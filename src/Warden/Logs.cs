@@ -38,7 +38,7 @@ public class Logs
 
     private void printLogs(CCSPlayerController? player)
     {
-        if (player == null)
+        if (!player.IsLegal())
         {
             printLogs(Server.PrintToConsole);
         }
