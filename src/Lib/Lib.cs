@@ -17,72 +17,6 @@ using System.Drawing;
 using System.Text;
 using System.Diagnostics.CodeAnalysis;
 
-// NOTE: this is a timer wrapper, and should be owned the class
-// wanting to use the timer
-public class Countdown<T>
-{
-    public void Start(String countdownName, int countdownDelay,
-        T countdownData,Action<T,int>? countdownPrintFunc, Action <T> countdownCallback)
-    {
-        this.delay = countdownDelay;
-        this.callback = countdownCallback;
-        this.name = countdownName;
-        this.data = countdownData;
-        this.printFunc = countdownPrintFunc;
-
-        this.handle = JailPlugin.globalCtx.AddTimer(1.0f,Tick,CSTimer.TimerFlags.STOP_ON_MAPCHANGE | CSTimer.TimerFlags.REPEAT);
-    }
-
-    public void Kill()
-    {
-       Lib.KillTimer(ref handle);
-    }
-
-    void Tick()
-    {
-        delay -= 1;
-
-        // countdown over
-        if(delay <= 0)
-        {
-            // kill the timer
-            // and then call the callback
-            Kill();
-
-            if(callback != null && data != null)
-            {
-                callback(data);
-            }
-        }
-
-        // countdown still active
-        else
-        {
-            // custom print
-            if(printFunc != null && data != null)
-            {
-                printFunc(data,delay);
-            }
-
-            // default print
-            else
-            {
-                Chat.PrintCentreAll($"{name} is starting in {delay} seconds");
-            }
-        }
-    }
-
-    public int delay = 0;
-    public Action<T>? callback = null;
-    public String name = "";
-    public Action<T,int>? printFunc = null;
-    CSTimer.Timer? handle = null;
-
-    // callback data
-    T? data = default(T);
-}
-
-    
 
 public static class Lib
 {
@@ -206,7 +140,7 @@ public static class Lib
             }
         }
     }
-    
+
     static public List<CCSPlayerController> GetAlivePlayers()
     {
         List<CCSPlayerController> players = Utilities.GetPlayers();

@@ -137,28 +137,6 @@ public static class Player
         player.SetMoveType(MoveType_t.MOVETYPE_WALK);
     }
 
-    static public void GiveEventNadeDelay(this CCSPlayerController? target,float delay, String name)
-    {
-        if(!target.IsLegalAlive())
-        {
-            return;
-        }
-
-        int slot = target.Slot;
-
-        JailPlugin.globalCtx.AddTimer(delay,() => 
-        {
-            CCSPlayerController? player = Utilities.GetPlayerFromSlot(slot);
-
-            if(player.IsLegalAlive())
-            {
-                //Server.PrintToChatAll("give nade");
-                player.StripWeapons(true);
-                player.GiveNamedItem(name);
-            }
-        });
-    }
-
     static public void SetMoveType(this CCSPlayerController? player, MoveType_t type)
     {
         CCSPlayerPawn? pawn = player.Pawn();
@@ -332,27 +310,14 @@ public static class Player
     }
 
 
-    static void RespawnCallback(int? slot)
+    public static void RespawnCallback(int slot)
     {
-        if(slot != null)
-        {
-            var player = Utilities.GetPlayerFromSlot(slot.Value);
+        var player = Utilities.GetPlayerFromSlot(slot);
 
-            if(player.IsLegal())
-            {
-                player.Respawn();
-            }
-        }   
-    }
-
-    static public void RespawnDelay(this CCSPlayerController? player, float delay)
-    {
-        if(!player.IsLegal())
+        if(player.IsLegal())
         {
-            return;
+            player.Respawn();
         }
-
-        JailPlugin.globalCtx.AddTimer(delay,() => RespawnCallback(player.Slot),CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
     }
 
 }
