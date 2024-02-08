@@ -99,7 +99,6 @@ public partial class LastRequest
         {
             if(player.IsLegal() && !player.IsLegalAlive())
             {
-                Server.PrintToChatAll($"Respawn {player.PlayerName}");
                 player.Respawn();
             }
         }

@@ -119,7 +119,7 @@ public static class Entity
         return (int)laser.Index;
     }
 
-    static String DOOR_PREFIX =  $" {ChatColors.Green}[Door control]: {ChatColors.White}";
+    public static String DOOR_PREFIX =  $" {ChatColors.Green}[Door control]: {ChatColors.White}";
 
     public static void ForceClose()
     {

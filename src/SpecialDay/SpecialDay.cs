@@ -207,7 +207,7 @@ public partial class SpecialDay
         }
 
 
-        ChatMenu sdMenu = new ChatMenu("Specialday");
+        var sdMenu = new ChatMenu("Specialday");
 
         // Build the basic LR menu
         for(int s = 0; s < SD_NAME.Length - 1; s++)
@@ -215,7 +215,7 @@ public partial class SpecialDay
             sdMenu.AddMenuOption(SD_NAME[s], SetupSD);
         }
         
-        ChatMenus.OpenMenu(player, sdMenu);
+        MenuManager.OpenChatMenu(player, sdMenu);
     }
 
 
@@ -299,7 +299,7 @@ public partial class SpecialDay
         NONE
     };
 
-    public static readonly String SPECIALDAY_PREFIX = $"  {ChatColors.Green}[Special day]: {ChatColors.White}";
+    public static String SPECIALDAY_PREFIX = $"  {ChatColors.Green}[Special day]: {ChatColors.White}";
 
     static String[] SD_NAME = {
         "Friendly fire",

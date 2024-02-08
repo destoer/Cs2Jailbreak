@@ -138,7 +138,7 @@ public class JailConfig : BasePluginConfig
 
 // main plugin file, controls central hooking
 // defers to warden, lr and sd
-[MinimumApiVersion(141)]
+[MinimumApiVersion(163)]
 public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 {
     // Global event settings, used to filter plugin activits
@@ -184,7 +184,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public override string ModuleName => "CS2 Jailbreak - destoer";
 
-    public override string ModuleVersion => "v0.3.5";
+    public override string ModuleVersion => "v0.3.6";
 
     public override void Load(bool hotReload)
     {
@@ -197,12 +197,29 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         RegisterListeners();
 
+        LocalizePrefix();
+
         JailPlayer.SetupDB();
 
         Console.WriteLine("Sucessfully started JB");
 
         AddTimer(Warden.LASER_TIME,warden.LaserTick,CSTimer.TimerFlags.REPEAT);
 
+    }
+
+    void LocalizePrefix()
+    {
+        LastRequest.LR_PREFIX = Chat.Localize("lr.lr_prefix");
+        Entity.DOOR_PREFIX = Chat.Localize("warden.door_prefix");
+
+        SpecialDay.SPECIALDAY_PREFIX = Chat.Localize("sd.sd_prefix");
+        JailPlayer.REBEL_PREFIX = Chat.Localize("rebel.rebel_prefix");
+
+        Mute.MUTE_PREFIX = Chat.Localize("mute.mute_prefix");
+        Warden.TEAM_PREFIX = Chat.Localize("warden.team_prefix");
+        
+        Warday.WARDAY_PREFIX = Chat.Localize("warday.warday_prefix");
+        Warden.WARDEN_PREFIX = Chat.Localize("warden.warden_prefix");    
     }
 
     void StatDBReload()
@@ -524,48 +541,20 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         CCSPlayerController? killer = @event.Attacker;
 
         // NOTE: have to check IsConnected incase this is tripped by a dc
-
+    
         // hide t killing ct
         if(Config.hideKills && victim.IsConnected() && killer.IsConnected() && killer.IsT() && victim.IsCt())
         {
-            //@event.Attacker = player;
-            // fire event as is to T
-            foreach(CCSPlayerController? player in Utilities.GetPlayers())
-            {
-                if(player.IsLegal())
-                {
-                    if(player.IsT())
-                    {
-                        // T gets full event
-                        @event.Userid = victim;
-                        @event.Attacker = killer;
-
-                        @event.FireEventToClient(player);
-                    }
-
-                    else
-                    {
-                        // ct gets a suicide
-                        @event.Userid = victim;
-                        @event.Attacker = victim;
-                        @event.Assister = victim;
-
-                        @event.FireEventToClient(player);
-                    }
-                }
-            }
-
+            killer.Announce(Warden.WARDEN_PREFIX,$"You killed: {victim.PlayerName}");
             info.DontBroadcast = true;
         }
-
-
+    
         if(victim.IsLegal() && victim.IsConnected())
         {
             warden.Death(victim,killer);
             lr.Death(victim);
             sd.Death(victim,killer);
         }
-
         return HookResult.Continue;
     }
 

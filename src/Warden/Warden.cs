@@ -186,7 +186,7 @@ public partial class Warden
 
     int wardenSlot = INAVLID_SLOT;
     
-    public static readonly String WARDEN_PREFIX = $" {ChatColors.Green}[WARDEN]: {ChatColors.White}";
+    public static String WARDEN_PREFIX = $" {ChatColors.Green}[WARDEN]: {ChatColors.White}";
 
     long wardenTimestamp = -1;
 

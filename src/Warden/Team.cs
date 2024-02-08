@@ -20,7 +20,7 @@ using System.Drawing;
 
 public partial class Warden
 {
-    static readonly String TEAM_PREFIX = $" {ChatColors.Green}[TEAM]: {ChatColors.White}";
+    public static String TEAM_PREFIX = $" {ChatColors.Green}[TEAM]: {ChatColors.White}";
     
     public bool JoinTeam(CCSPlayerController? invoke, CommandInfo command)
     {

@@ -101,7 +101,7 @@ public partial class LastRequest
                 lrMenu.AddMenuOption("High speed", PickedOption);
                 lrMenu.AddMenuOption("One hit", PickedOption);
                 
-                ChatMenus.OpenMenu(player, lrMenu);                
+                MenuManager.OpenChatMenu(player, lrMenu);                
                 break;
             }
 
@@ -112,7 +112,7 @@ public partial class LastRequest
                 lrMenu.AddMenuOption("Vanilla", PickedOption);
                 lrMenu.AddMenuOption("Low gravity", PickedOption);
 
-                ChatMenus.OpenMenu(player, lrMenu);
+                MenuManager.OpenChatMenu(player, lrMenu);
                 break;
             }
 
@@ -123,7 +123,7 @@ public partial class LastRequest
                 lrMenu.AddMenuOption("Awp", PickedOption);
                 lrMenu.AddMenuOption("Scout", PickedOption);
 
-                ChatMenus.OpenMenu(player, lrMenu);
+                MenuManager.OpenChatMenu(player, lrMenu);
                 break;                
             }
 
@@ -134,7 +134,7 @@ public partial class LastRequest
                 lrMenu.AddMenuOption("Vanilla", PickedOption);
                 lrMenu.AddMenuOption("Low gravity", PickedOption);
 
-                ChatMenus.OpenMenu(player, lrMenu);
+                MenuManager.OpenChatMenu(player, lrMenu);
                 break;
             }
 
@@ -149,7 +149,7 @@ public partial class LastRequest
                 lrMenu.AddMenuOption("Five seven",PickedOption);
                 lrMenu.AddMenuOption("Dual Elite",PickedOption);
 
-                ChatMenus.OpenMenu(player, lrMenu);
+                MenuManager.OpenChatMenu(player, lrMenu);
                 break;
             }
 

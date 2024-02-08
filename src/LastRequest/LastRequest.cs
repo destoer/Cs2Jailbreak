@@ -402,15 +402,14 @@ public partial class LastRequest
         {
             lrMenu.AddMenuOption("Knife rebel",StartKnifeRebel);
             lrMenu.AddMenuOption("Rebel",StartRebel);
-        /*
+        
             if(Config.riotEnable)
             {
-                lrMenu.AddMenuOption("Riot",start_riot);
+                lrMenu.AddMenuOption("Riot",StartRiot);
             }
-        */
         }
 
-        ChatMenus.OpenMenu(player, lrMenu);
+        MenuManager.OpenChatMenu(player, lrMenu);
     }
 
     public void LRCmd(CCSPlayerController? player, CommandInfo command)
@@ -526,5 +525,5 @@ public partial class LastRequest
     
     long startTimestamp = 0;
 
-    public static readonly String LR_PREFIX = $" {ChatColors.Green}[LR]: {ChatColors.White}";
+    public static String LR_PREFIX = $" {ChatColors.Green}[LR]: {ChatColors.White}";
 }
