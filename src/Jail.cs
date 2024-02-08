@@ -524,40 +524,14 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         CCSPlayerController? killer = @event.Attacker;
 
         // NOTE: have to check IsConnected incase this is tripped by a dc
-    /*
+    
         // hide t killing ct
         if(Config.hideKills && victim.IsConnected() && killer.IsConnected() && killer.IsT() && victim.IsCt())
         {
-            //@event.Attacker = player;
-            // fire event as is to T
-            foreach(CCSPlayerController? player in Utilities.GetPlayers())
-            {
-                if(player.IsLegal())
-                {
-                    if(player.IsT())
-                    {
-                        // T gets full event
-                        @event.Userid = victim;
-                        @event.Attacker = killer;
-
-                        @event.FireEventToClient(player);
-                    }
-
-                    else
-                    {
-                        // ct gets a suicide
-                        @event.Userid = victim;
-                        @event.Attacker = victim;
-                        @event.Assister = victim;
-
-                        @event.FireEventToClient(player);
-                    }
-                }
-            }
-
+            killer.Announce(Warden.WARDEN_PREFIX,$"You killed: {victim.PlayerName}");
             info.DontBroadcast = true;
         }
-    */
+    
         if(victim.IsLegal() && victim.IsConnected())
         {
             warden.Death(victim,killer);
