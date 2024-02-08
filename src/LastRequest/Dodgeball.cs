@@ -73,6 +73,7 @@ public class LRDodgeball : LRBase
         // failsafe timer is up give a he grenade
         else
         {
+            weaponRestrict = "hegrenade";
             GiveLRNadeDelay(1.4f,"weapon_hegrenade");
         }
     }

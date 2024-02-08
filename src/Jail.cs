@@ -524,7 +524,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         CCSPlayerController? killer = @event.Attacker;
 
         // NOTE: have to check IsConnected incase this is tripped by a dc
-
+    /*
         // hide t killing ct
         if(Config.hideKills && victim.IsConnected() && killer.IsConnected() && killer.IsT() && victim.IsCt())
         {
@@ -557,15 +557,13 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
             info.DontBroadcast = true;
         }
-
-
+    */
         if(victim.IsLegal() && victim.IsConnected())
         {
             warden.Death(victim,killer);
             lr.Death(victim);
             sd.Death(victim,killer);
         }
-
         return HookResult.Continue;
     }
 
