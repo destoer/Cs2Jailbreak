@@ -101,7 +101,7 @@ public static class Lib
 
         var menu = new ChatMenu(name);
 
-        foreach(var player in Utilities.GetPlayers())
+        foreach(var player in Lib.GetPlayers())
         {
             if(filter(player))
             {
@@ -131,7 +131,7 @@ public static class Lib
 
     static public void PlaySoundAll(String sound)
     {
-        foreach(CCSPlayerController? player in Utilities.GetPlayers())
+        foreach(CCSPlayerController? player in Lib.GetPlayers())
         {
             player.PlaySound(sound);
         }
@@ -139,9 +139,9 @@ public static class Lib
 
     static public void MuteT()
     {
-        foreach(CCSPlayerController player in Utilities.GetPlayers())
+        foreach(CCSPlayerController player in Lib.GetPlayers())
         {
-            if(player.IsLegal() && player.IsT())
+            if(player.IsT())
             {
                 player.Mute();
             }
@@ -159,12 +159,9 @@ public static class Lib
 
     static public void UnMuteAll()
     {
-        foreach(CCSPlayerController player in Utilities.GetPlayers())
+        foreach(CCSPlayerController player in Lib.GetPlayers())
         {
-            if(player.IsLegal())
-            {
-                player.UnMute();
-            }
+            player.UnMute();
         }
     }
 
@@ -192,31 +189,51 @@ public static class Lib
 
     static public void SwapAllT()
     {
-        // get valid players
-        List<CCSPlayerController> players = Utilities.GetPlayers();
-        var valid = players.FindAll(player => player.IsLegalAlive());
-
-        foreach(var player in valid)
+        foreach(var player in GetAlivePlayers())
         {
             player.SwitchTeam(CsTeam.Terrorist);
         }
     }
 
-    static public List<CCSPlayerController> GetAliveCt()
+    static public void RespawnPlayers()
+    {
+        // 1up all dead players
+        foreach(CCSPlayerController player in Lib.GetPlayers())
+        {
+            if(!player.IsLegalAlive())
+            {
+                player.Respawn();
+            }
+        }
+    }
+    
+    static public List<CCSPlayerController> GetAlivePlayers()
     {
         List<CCSPlayerController> players = Utilities.GetPlayers();
+        return players.FindAll(player => player.IsLegalAlive());      
+    }
+
+    static public List<CCSPlayerController> GetPlayers()
+    {
+        List<CCSPlayerController> players = Utilities.GetPlayers();
+        return players.FindAll(player => player.IsLegal() && player.IsConnected());      
+    }
+
+    static public List<CCSPlayerController> GetAliveCt()
+    {
+        List<CCSPlayerController> players = Lib.GetPlayers();
         return players.FindAll(player => player.IsLegalAlive() && player.IsCt());
     }
 
     static public int CtCount()
     {
-        List<CCSPlayerController> players = Utilities.GetPlayers();
+        List<CCSPlayerController> players = Lib.GetPlayers();
         return players.FindAll(player => player.IsLegal() && player.IsCt()).Count;        
     }
 
     static public int TCount()
     {
-        List<CCSPlayerController> players = Utilities.GetPlayers();
+        List<CCSPlayerController> players = Lib.GetPlayers();
         return players.FindAll(player => player.IsLegal() && player.IsT()).Count;        
     }
 
@@ -227,7 +244,7 @@ public static class Lib
 
     static public List<CCSPlayerController> GetAliveT()
     {
-        List<CCSPlayerController> players = Utilities.GetPlayers();
+        List<CCSPlayerController> players = Lib.GetPlayers();
         return players.FindAll(player => player.IsLegalAlive() && player.IsT());;
     }
 

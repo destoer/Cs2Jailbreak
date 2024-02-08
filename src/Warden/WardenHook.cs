@@ -47,7 +47,7 @@ public partial class Warden
         block.RoundStart();
         warday.RoundStart();
 
-        foreach(CCSPlayerController player in Utilities.GetPlayers())
+        foreach(CCSPlayerController player in Lib.GetPlayers())
         {
             player.SetColour(Color.FromArgb(255, 255, 255, 255));
         }

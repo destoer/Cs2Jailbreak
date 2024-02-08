@@ -262,13 +262,8 @@ public partial class Warden
 
         invoke.PrintToConsole("rebels\n");
 
-        foreach(CCSPlayerController player in Utilities.GetPlayers())
+        foreach(CCSPlayerController player in Lib.GetPlayers())
         {
-            if(!player.IsLegal())
-            {
-                continue;
-            }
-
             invoke.PrintToConsole($"{jailPlayers[player.Slot].IsRebel} : {player.PlayerName}\n");
         }
     }
@@ -355,8 +350,8 @@ public partial class Warden
         Chat.LocalizeAnnounce(WARDEN_PREFIX,"warden.fire_guard");
 
         // swap every guard apart from warden to T
-        List<CCSPlayerController> players = Utilities.GetPlayers();
-        var valid = players.FindAll(player => player.IsLegal() && player.IsCt() && !IsWarden(player));
+        List<CCSPlayerController> players = Lib.GetPlayers();
+        var valid = players.FindAll(player => player.IsCt() && !IsWarden(player));
 
         foreach(var player in valid)
         {

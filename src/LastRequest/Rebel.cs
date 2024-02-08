@@ -75,7 +75,7 @@ public partial class LastRequest
         Chat.LocalizeAnnounce(LR_PREFIX,"lr.knife_rebel",rebel.PlayerName);
         rebel.SetHealth(Lib.AliveCtCount() * 100);
 
-        foreach(CCSPlayerController? player in Utilities.GetPlayers())
+        foreach(CCSPlayerController? player in Lib.GetPlayers())
         {
             if(player.IsLegalAlive())
             {
@@ -95,9 +95,9 @@ public partial class LastRequest
 
         Chat.LocalizeAnnounce(LR_PREFIX,"lr.riot_active");
 
-        foreach(CCSPlayerController? player in Utilities.GetPlayers())
+        foreach(CCSPlayerController? player in Lib.GetPlayers())
         {
-            if(player.IsLegal() && !player.IsLegalAlive())
+            if(!player.IsLegalAlive() && player.IsT())
             {
                 player.Respawn();
             }

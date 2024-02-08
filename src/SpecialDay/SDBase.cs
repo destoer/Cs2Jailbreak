@@ -54,7 +54,7 @@ public abstract class SDBase
     public (CCSPlayerController, int) PickBoss()
     {
         // get valid players
-        List<CCSPlayerController> players = Utilities.GetPlayers();
+        List<CCSPlayerController> players = Lib.GetPlayers();
         var valid = players.FindAll(player => player.IsLegalAlive());
 
         CCSPlayerController? rigged = Utilities.GetPlayerFromSlot(riggedSlot);
@@ -142,26 +142,20 @@ public abstract class SDBase
 
     public void SetupPlayers()
     {
-        foreach(CCSPlayerController player in Utilities.GetPlayers())
+        foreach(CCSPlayerController player in Lib.GetAlivePlayers())
         {
-            if(player.IsLegalAlive())
-            {
-                // reset the player colour incase of rebel
-                player.SetColour(Player.DEFAULT_COLOUR);
+            // reset the player colour incase of rebel
+            player.SetColour(Player.DEFAULT_COLOUR);
 
-                SetupPlayer(player);
-            }
+            SetupPlayer(player);
         }       
     }
 
     public void CleanupPlayers()
     {
-        foreach(CCSPlayerController player in Utilities.GetPlayers())
+        foreach(CCSPlayerController player in Lib.GetAlivePlayers())
         {
-            if(player.IsLegalAlive())
-            {
-                CleanupPlayer(player);
-            }
+            CleanupPlayer(player);
         }       
     }
 

@@ -25,9 +25,9 @@ public class Logs
 
     private HookResult OnRoundEnd(EventRoundEnd @event, GameEventInfo info)
     {
-        foreach (CCSPlayerController player in Utilities.GetPlayers())
+        foreach (CCSPlayerController player in Lib.GetPlayers())
         {
-            if (player.IsLegal() && player.IsConnected() && !player.IsBot)
+            if (!player.IsBot)
             {
                 printLogs(player);
             }

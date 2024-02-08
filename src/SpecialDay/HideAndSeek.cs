@@ -25,13 +25,8 @@ public class SDHideAndSeek : SDBase
     public override void Start()
     {
         // unfreeze all players
-        foreach(CCSPlayerController? player in Utilities.GetPlayers())
+        foreach(CCSPlayerController? player in Lib.GetAlivePlayers())
         {
-            if(!player.IsLegalAlive())
-            {
-                continue;
-            }
-
             if(player.IsT())
             {
                 player.GiveWeapon("knife");

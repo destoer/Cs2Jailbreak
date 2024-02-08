@@ -81,13 +81,8 @@ public static class Player
 
     static public int SlotFromName(String name)
     {
-        foreach(CCSPlayerController player in Utilities.GetPlayers())
+        foreach(CCSPlayerController player in Lib.GetPlayers())
         {
-            if(!player.IsLegal())
-            {
-                continue;
-            }
-
             if(player.PlayerName == name)
             {
                 return player.Slot;

@@ -24,7 +24,7 @@ public static class Debug
 
         Chat.PrintConsoleAll("Nuke!");
 
-        foreach(CCSPlayerController player in Utilities.GetPlayers())
+        foreach(CCSPlayerController player in Lib.GetPlayers())
         {
             player.Slay();
         }       
@@ -56,7 +56,7 @@ public static class Debug
 
         invoke.PrintToChat("changed collision");
 
-        foreach(CCSPlayerController player in Utilities.GetPlayers())
+        foreach(CCSPlayerController player in Lib.GetPlayers())
         {
             var pawn = player.Pawn();
 
@@ -121,7 +121,7 @@ public static class Debug
 
         invoke.PrintToConsole("Is muted?");
 
-        foreach(CCSPlayerController player in Utilities.GetPlayers())
+        foreach(CCSPlayerController player in Lib.GetPlayers())
         {
             invoke.PrintToConsole($"{player.PlayerName} : {player.VoiceFlags.HasFlag(VoiceFlags.Muted)} : {player.VoiceFlags.HasFlag(VoiceFlags.ListenAll)} : {player.VoiceFlags.HasFlag(VoiceFlags.ListenTeam)}");
         } 

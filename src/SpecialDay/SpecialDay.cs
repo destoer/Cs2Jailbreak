@@ -144,14 +144,8 @@ public partial class SpecialDay
 
         }
 
-        // 1up all dead players
-        foreach(CCSPlayerController player in Utilities.GetPlayers())
-        {
-            if(player.IsLegal() && !player.IsLegalAlive())
-            {
-                player.Respawn();
-            }
-        }
+        // 1up dead players
+        Lib.RespawnPlayers();
 
         // call the intiail sd setup
         if(activeSD != null)
