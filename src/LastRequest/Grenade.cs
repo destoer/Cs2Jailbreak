@@ -45,7 +45,25 @@ public class LRGrenade : LRBase
             }
         }
     }
+
+    public override void PairActivate()
+    {
+        DelayFailSafe(35.0f);
+    }
+
+
+    public override void PlayerHurt(int damage, int health, int hitgroup)
+    {
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(playerSlot);
     
+        // instantly drop the player if the failsafe is active
+        if(player.IsLegalAlive() && failSafe)
+        {
+            player.Announce(LastRequest.LR_PREFIX,"Boom!");
+            player.Slay();
+        }
+    }
+
     public override void GrenadeThrown()
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(playerSlot);

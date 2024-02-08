@@ -402,15 +402,14 @@ public partial class LastRequest
         {
             lrMenu.AddMenuOption("Knife rebel",StartKnifeRebel);
             lrMenu.AddMenuOption("Rebel",StartRebel);
-        /*
+        
             if(Config.riotEnable)
             {
-                lrMenu.AddMenuOption("Riot",start_riot);
+                lrMenu.AddMenuOption("Riot",StartRiot);
             }
-        */
         }
 
-        ChatMenus.OpenMenu(player, lrMenu);
+        MenuManager.OpenChatMenu(player, lrMenu);
     }
 
     public void LRCmd(CCSPlayerController? player, CommandInfo command)

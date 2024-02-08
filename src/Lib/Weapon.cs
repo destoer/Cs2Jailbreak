@@ -207,7 +207,7 @@ public static class Weapon
             gunMenu.AddMenuOption(weapon_name, callback);
         }
 
-        ChatMenus.OpenMenu(player, gunMenu);
+        MenuManager.OpenChatMenu(player, gunMenu);
     }
 
     static public void GunMenu(this CCSPlayerController? player, bool no_awp)

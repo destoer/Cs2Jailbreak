@@ -99,7 +99,7 @@ public static class Lib
             return;
         }
 
-        ChatMenu menu = new ChatMenu(name);
+        var menu = new ChatMenu(name);
 
         foreach(var player in Utilities.GetPlayers())
         {
@@ -109,7 +109,7 @@ public static class Lib
             }
         }
 
-        ChatMenus.OpenMenu(invoke, menu); 
+        MenuManager.OpenChatMenu(invoke, menu); 
     }
 
     public static void ColourMenu(CCSPlayerController? player,Action<CCSPlayerController, ChatMenuOption> callback, String name)
@@ -126,7 +126,7 @@ public static class Lib
             colourMenu.AddMenuOption(item.Key, callback);
         }
 
-        ChatMenus.OpenMenu(player, colourMenu);    
+        MenuManager.OpenChatMenu(player, colourMenu);    
     }
 
     static public void PlaySoundAll(String sound)

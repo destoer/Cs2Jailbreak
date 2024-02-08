@@ -64,6 +64,9 @@ public abstract class LRBase
         // clean up laser
         Lib.KillTimer(ref laserTimer);
 
+        // killthe fail safe timer
+        Lib.KillTimer(ref failsafeTimer);
+
         laser.Destroy();
 
         countdown.Kill();
@@ -278,6 +281,21 @@ public abstract class LRBase
         countdown.Start(lrName,5,this,PrintCountdown,manager.ActivateLR);
     }
 
+    public void FailSafeActivate()
+    {
+        // clean up timer
+        failsafeTimer = null;
+
+        failSafe = true;
+        Chat.Announce(LastRequest.LR_PREFIX,$"{lrName} fail-safe active");
+    }
+
+    public void DelayFailSafe(float delay)
+    {
+        Chat.Announce(LastRequest.LR_PREFIX,$"fail-safe active in {delay} seconds");
+        JailPlugin.globalCtx.AddTimer(delay,FailSafeActivate,CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
+    }
+
     public void LaserTick()
     {
         // get both players and check they are valid
@@ -349,6 +367,10 @@ public abstract class LRBase
     public Countdown<LRBase> countdown = new Countdown<LRBase>();
 
     Line laser = new Line();
+
+    CSTimer.Timer? failsafeTimer = null;
+    public bool failSafe = false;
+
 
     CSTimer.Timer? laserTimer = null;
 

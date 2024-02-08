@@ -46,6 +46,11 @@ public class LRDodgeball : LRBase
         }
     }
     
+    public override void PairActivate()
+    {
+        DelayFailSafe(35.0f);
+    }
+
     public override void PlayerHurt(int damage, int health, int hitgroup)
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(playerSlot);
@@ -59,7 +64,17 @@ public class LRDodgeball : LRBase
     public override void GrenadeThrown()
     {
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(playerSlot);
-        GiveLRNadeDelay(1.4f,"weapon_flashbang");
+
+        if(!failSafe)
+        {
+            GiveLRNadeDelay(1.4f,"weapon_flashbang");
+        }
+
+        // failsafe timer is up give a he grenade
+        else
+        {
+            GiveLRNadeDelay(1.4f,"weapon_hegrenade");
+        }
     }
 
     public override void EntCreated(CEntityInstance entity)
