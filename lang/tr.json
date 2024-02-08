@@ -53,6 +53,9 @@
     "warden.give_freeday_cmd": "ozgurgun_ver",
     "warden.give_pardon_cmd": "ozur_ver",
     "warden.colour_cmd": "renk",
+    "warden.warden_prefix": "{green}[Komutçu]: {white}",
+    "warden.door_prefix": "{green}[Kapı]: {white}",
+    "warden.team_prefix": "{green}[Takım]: {white}",
 
     "warden.give_pardon": "{0} nın isyancılığı kaldırıldı",
     "warden.give_freeday": "{0} ya özgür gün verildi",
@@ -78,11 +81,14 @@
     "mute.thirty": "İlk 30 saniye boyunca tüm T ler muteli",
     "mute.speak_quietly": "T lerin hepsi artık sessiz olarak konuşabilir",
     "mute.end_round": "Round sonuna kadar mutelisin",
+    "mute.mute_prefix": "{green}[Mute]: {white}",
 
     "warday.live": "İseli başladı!",
     "warday.location": "İseli {0} konumunda",
-
+    "warday.warday_prefix": "{green}[İsyan Eli]: {white}",
+    
     "rebel.kill": "{0} oyuncusu {1} isyancısını öldürdü",
+    "rebel.rebel_prefix": "{green}[Kaçak]: {white}",
     
     "block.enable": "Block açıldı",
     "block.disable": "Block kapatıldı",
@@ -118,6 +124,7 @@
     "sd.start_cmd": "ozelel",
     "sd.start_ff_cmd": "ozelel_ff",
     "sd.cancel_cmd": "ozelel_iptal",
+    "sd.sd_prefix": "{green}[Özel Gün]: {white}",
 
 
     "lr.rebel_last": "İsyan atman için hayatta kalan son oyuncu olman gerekiyor!",
@@ -138,4 +145,5 @@
     "lr.cancel_lr_cmd": "lriptal",
     "lr.start_lr_cmd": "lr",
     "lr.stats_cmd": "lr_istatistik"
+    "lr.lr_prefix": "{green}[LR]: {white}"
 }
