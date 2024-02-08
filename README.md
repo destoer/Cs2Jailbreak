@@ -18,18 +18,17 @@ Download the latest release from the releases tab and copy it into the counterst
 
 NOTE: this plugin only operates correctly on linux
 
-windows has a couple of places where a !is_windows() check wraps buggy code
+windows has a couple of places where a !IsWindows() check wraps buggy code
+namely OnTakeDamage
 
 # Warden TODO
-Warden Laser and T laser 
+T laser 
 
 Auto unstuck 
 
 Handicap 
 
 Warden Ring 
-
-Refactor stat API
 
 # LR TODO
 Port crash, sumo 
@@ -40,7 +39,7 @@ Add beacons
 
 
 # SD TODO
-Waiting on player colour and respawn issues fixed for these
+Waiting on no block issues being fixed, and trace for laser wars
 
 Zombie, Gun game, Laser wars
 
