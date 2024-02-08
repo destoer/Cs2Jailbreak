@@ -53,6 +53,9 @@
     "warden.give_freeday_cmd": "give_freeday",
     "warden.give_pardon_cmd": "give_pardon",
     "warden.colour_cmd": "colour",
+    "warden.warden_prefix": "{green}[Warden]: {white}",
+    "warden.door_prefix": "{green}[Door]: {white}",
+    "warden.team_prefix": "{green}[Team]: {white}",
 
     "warden.give_pardon": "{0} has been pardoned",
     "warden.give_freeday": "{0} has been given a freeday",
@@ -78,11 +81,14 @@
     "mute.thirty": "All t's are muted for the first 30 seconds",
     "mute.speak_quietly": "T's may now speak quietly",
     "mute.end_round": "You are muted until the end of the round",
+    "mute.mute_prefix": "{green}[Mute]: {white}",
 
     "warday.live": "Weapons live!",
     "warday.location": "warday at {0}",
+    "warday.warday_prefix": "{green}[Warday]: {white}",
 
     "rebel.kill": "{0} killed the rebel {1}",
+    "rebel.rebel_prefix": "{green}[Rebel]: {white}",
     
     "block.enable": "Block enabled",
     "block.disable": "Block disabled",
@@ -118,6 +124,7 @@
     "sd.start_cmd": "sd",
     "sd.start_ff_cmd": "sd_ff",
     "sd.cancel_cmd": "sd_cancel",
+    "sd.sd_prefix": "{green}[Special Day]: {white}",
 
 
     "lr.rebel_last": "You must be the last player alive to rebel",
@@ -137,5 +144,6 @@
 
     "lr.cancel_lr_cmd": "cancel_lr",
     "lr.start_lr_cmd": "lr",
-    "lr.stats_cmd": "lr_stats"
+    "lr.stats_cmd": "lr_stats",
+    "lr.lr_prefix": "{green}[LR]: {white}"
 }

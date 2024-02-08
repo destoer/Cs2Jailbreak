@@ -197,12 +197,29 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         RegisterListeners();
 
+        LocalizePrefix();
+
         JailPlayer.SetupDB();
 
         Console.WriteLine("Sucessfully started JB");
 
         AddTimer(Warden.LASER_TIME,warden.LaserTick,CSTimer.TimerFlags.REPEAT);
 
+    }
+
+    void LocalizePrefix()
+    {
+        LastRequest.LR_PREFIX = Chat.Localize("lr.lr_prefix");
+        Entity.DOOR_PREFIX = Chat.Localize("warden.door_prefix");
+
+        SpecialDay.SPECIALDAY_PREFIX = Chat.Localize("sd.sd_prefix");
+        JailPlayer.REBEL_PREFIX = Chat.Localize("rebel.rebel_prefix");
+
+        Mute.MUTE_PREFIX = Chat.Localize("mute.mute_prefix");
+        Warden.TEAM_PREFIX = Chat.Localize("warden.team_prefix");
+        
+        Warday.WARDAY_PREFIX = Chat.Localize("warday.warday_prefix");
+        Warden.WARDEN_PREFIX = Chat.Localize("warden.warden_prefix");    
     }
 
     void StatDBReload()

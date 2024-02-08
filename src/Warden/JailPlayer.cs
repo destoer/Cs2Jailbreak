@@ -371,7 +371,7 @@ public class JailPlayer
     }
 
 
-    public static readonly String REBEL_PREFIX = $" {ChatColors.Green}[REBEL]: {ChatColors.White}";
+    public static String REBEL_PREFIX = $" {ChatColors.Green}[REBEL]: {ChatColors.White}";
 
     public static JailConfig Config = new JailConfig();
 

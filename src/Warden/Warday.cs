@@ -94,7 +94,7 @@ public class Warday
 
     public JailConfig Config = new JailConfig();
 
-    String WARDAY_PREFIX = $" {ChatColors.Green} [Warday]: {ChatColors.White}";
+    public static String WARDAY_PREFIX = $" {ChatColors.Green} [Warday]: {ChatColors.White}";
 
     bool wardayActive = false;
 

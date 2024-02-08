@@ -525,5 +525,5 @@ public partial class LastRequest
     
     long startTimestamp = 0;
 
-    public static readonly String LR_PREFIX = $" {ChatColors.Green}[LR]: {ChatColors.White}";
+    public static String LR_PREFIX = $" {ChatColors.Green}[LR]: {ChatColors.White}";
 }
