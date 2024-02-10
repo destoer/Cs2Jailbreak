@@ -105,8 +105,8 @@ public class JailConfig : BasePluginConfig
     [JsonPropertyName("lr_no_scope")]
     public bool lrNoScope { get; set; } = true;
 
-    [JsonPropertyName("lr_shotgun_war")]
-    public bool lrShotgunWar { get; set; } = true;
+    [JsonPropertyName("lr_war")]
+    public bool lrWar { get; set; } = true;
 
     [JsonPropertyName("lr_grenade")]
     public bool lrGrenade { get; set; } = true;
@@ -184,7 +184,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public override string ModuleName => "CS2 Jailbreak - destoer";
 
-    public override string ModuleVersion => "v0.3.6";
+    public override string ModuleVersion => "v0.3.7";
 
     public override void Load(bool hotReload)
     {

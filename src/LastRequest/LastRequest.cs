@@ -96,7 +96,7 @@ public partial class LastRequest
         // Double check we can still do an LR before we trigger!
         if(!choice.bypass)
         {
-            if(!CanStartLR(tPlayer) || !CanStartLR(ctPlayer))
+            if(!CanStartLR(tPlayer))
             {
                 return;
             }
@@ -162,10 +162,10 @@ public partial class LastRequest
                 break;              
             }
 
-            case LRType.SHOTGUN_WAR:
+            case LRType.WAR:
             {
-                tLR = new LRShotgunWar(this,choice.type,slot,choice.tSlot,choice.option);
-                ctLR = new LRShotgunWar(this,choice.type,slot,choice.ctSlot,choice.option);
+                tLR = new LRWar(this,choice.type,slot,choice.tSlot,choice.option);
+                ctLR = new LRWar(this,choice.type,slot,choice.ctSlot,choice.option);
                 break;              
             }
     
@@ -389,7 +389,7 @@ public partial class LastRequest
         AddLR(lrMenu,Config.lrDodgeball,LRType.DODGEBALL);
         AddLR(lrMenu,Config.lrNoScope,LRType.NO_SCOPE);
         AddLR(lrMenu,Config.lrGrenade,LRType.GRENADE);
-        AddLR(lrMenu,Config.lrShotgunWar,LRType.SHOTGUN_WAR);
+        AddLR(lrMenu,Config.lrWar,LRType.WAR);
         AddLR(lrMenu,Config.lrRussianRoulette,LRType.RUSSIAN_ROULETTE);
         AddLR(lrMenu,Config.lrScoutKnife,LRType.SCOUT_KNIFE);
         AddLR(lrMenu,Config.lrHeadshotOnly,LRType.HEADSHOT_ONLY);
@@ -482,7 +482,7 @@ public partial class LastRequest
         DODGEBALL,
         NO_SCOPE,
         GRENADE,
-        SHOTGUN_WAR,
+        WAR,
         RUSSIAN_ROULETTE,
         SCOUT_KNIFE,
         HEADSHOT_ONLY,
@@ -497,7 +497,7 @@ public partial class LastRequest
         "Dodgeball",
         "No Scope",
         "Grenade",
-        "Shotgun war",
+        "War",
         "Russian roulette",
         "Scout knife",
         "Headshot only",
