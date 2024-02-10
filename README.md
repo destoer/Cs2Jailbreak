@@ -39,9 +39,9 @@ Add beacons
 
 
 # SD TODO
-Waiting on no block issues being fixed, and trace for laser wars
+waiting on trace for laser wars
 
-Zombie, Gun game, Laser wars
+Zombie, Laser wars
 
 
 # Useful thirdparty plugins for jailbreak
