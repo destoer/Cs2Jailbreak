@@ -204,8 +204,9 @@ public partial class LastRequest
 
     public void Death(CCSPlayerController? player)
     {
-        if(Lib.AliveTCount() == Config.lrCount && player.IsT())
+        if(Lib.AliveTCount() == Config.lrCount && player.IsT() && !lrReadyPrintFired)
         {
+            lrReadyPrintFired = true;
             Chat.LocalizeAnnounce(LR_PREFIX,"lr.ready");
         }
 
@@ -218,4 +219,5 @@ public partial class LastRequest
         }
     }
 
+    bool lrReadyPrintFired = false;
 }

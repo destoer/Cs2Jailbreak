@@ -93,21 +93,29 @@ public partial class LastRequest
         CCSPlayerController? tPlayer = Utilities.GetPlayerFromSlot(choice.tSlot);
         CCSPlayerController? ctPlayer = Utilities.GetPlayerFromSlot(choice.ctSlot);
 
-        // Double check we can still do an LR before we trigger!
-        if(!choice.bypass)
-        {
-            if(!CanStartLR(tPlayer))
-            {
-                return;
-            }
-        }
-
         // check we still actually have all the players
         // our handlers only check once we have actually triggered the LR
         if(!tPlayer.IsLegalAlive() || !ctPlayer.IsLegalAlive())
         {
             Server.PrintToChatAll($"{LR_PREFIX}Disconnection during lr setup");
             return;
+        }
+
+        // Double check we can still do an LR before we trigger!
+        if(!choice.bypass)
+        {
+            // check we still actually have all the players
+            // our handlers only check once we have actually triggered the LR
+            if(InLR(tPlayer) || InLR(ctPlayer))
+            {
+                tPlayer.Announce(LR_PREFIX,"One or more players is allready in LR");
+                return;
+            }
+
+            if(!CanStartLR(tPlayer) || !IsValidCT(ctPlayer))
+            {
+                return;
+            }
         }
 
         int slot = -1;
@@ -248,6 +256,7 @@ public partial class LastRequest
         }
 
         rebelType = RebelType.NONE;
+        lrReadyPrintFired = false;
     }
 
     bool IsPair(CCSPlayerController? v1, CCSPlayerController? v2)
@@ -291,14 +300,14 @@ public partial class LastRequest
         activeLR[slot] = null;
     }
 
-    bool IsValidT(CCSPlayerController? player)
+    bool IsValid(CCSPlayerController? player)
     {
         if(!player.IsLegal())
         {
             return false;
         }
 
-        if(!player.PawnIsAlive)
+        if(!player.IsLegalAlive())
         {
             player.LocalizeAnnounce(LR_PREFIX,"lr.alive");
             return false;
@@ -310,6 +319,16 @@ public partial class LastRequest
             return false;            
         }
 
+        return true;
+    }
+
+    bool IsValidT(CCSPlayerController? player)
+    {
+        if(!player.IsLegal() || !IsValid(player))
+        {
+            return false;
+        }
+
         if(!player.IsT())
         {
             player.LocalizeAnnounce(LR_PREFIX,"lr.req_t");
@@ -318,6 +337,24 @@ public partial class LastRequest
 
         return true;
     }
+
+
+    bool IsValidCT(CCSPlayerController? player)
+    {
+        if(!player.IsLegal() || !IsValid(player))
+        {
+            return false;
+        }
+
+        if(!player.IsCt())
+        {
+            player.LocalizeAnnounce(LR_PREFIX,"lr.req_ct");
+            return false;        
+        }
+
+        return true;
+    }
+
 
     LRBase? FindLR(CCSPlayerController? player)
     {
@@ -439,7 +476,7 @@ public partial class LastRequest
         // must be admin or warden
         if(!player.IsGenericAdmin() && !JailPlugin.IsWarden(player))
         {
-            player.LocalisePrefix(LR_PREFIX,"lr.cancel_admin");
+            player.LocalizePrefix(LR_PREFIX,"lr.cancel_admin");
             return;
         }
 

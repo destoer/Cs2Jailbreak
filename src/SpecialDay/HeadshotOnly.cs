@@ -39,7 +39,7 @@ public class SDHeadshotOnly : SDBase
         weaponRestrict = "deagle";
     }
 
-    public override void PlayerHurt(CCSPlayerController? player,int health,int damage, int hitgroup) 
+    public override void PlayerHurt(CCSPlayerController? player,CCSPlayerController? attacker,int health,int damage, int hitgroup) 
     {
         if(!player.IsLegalAlive())
         {

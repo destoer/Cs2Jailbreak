@@ -43,7 +43,7 @@ public class SDDodgeball : SDBase
         player.GiveEventNadeDelay(1.4f,"weapon_flashbang");
     }
 
-    public override void PlayerHurt(CCSPlayerController? player,int damage, int health, int hitgroup)
+    public override void PlayerHurt(CCSPlayerController? player,CCSPlayerController? attacker,int damage, int health, int hitgroup)
     {
         if(player.IsLegalAlive())
         {

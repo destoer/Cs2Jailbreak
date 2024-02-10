@@ -139,7 +139,8 @@ public partial class Warden
 
     public void SetupPlayerGuns(CCSPlayerController? player)
     {
-        if(!player.IsLegalAlive())
+        // dont intefere with spawn guns if an event is running
+        if(!player.IsLegalAlive() || JailPlugin.EventActive())
         {
             return;
         }

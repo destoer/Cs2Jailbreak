@@ -97,30 +97,49 @@
     "sd.damage_enable": "Please wait {0} seconds for damage be enabled",
     "sd.dodgeball_start": "Dodgeball started",
     "sd.dodgeball_end": "Dodgeball end",
+    
     "sd.ffd_start": "Friendly fire day started",
     "sd.ffd_end": "Friendly fire day is over",
     "sd.ffd_enable": "Friendly fire enabled",
+
     "sd.grenade_start": "Grenade day started",
     "sd.grenade_end": "Grenade day is over",
+
     "sd.headshot_start": "Headshot only started",
-    "sd.t_hide": "T's have {0} seconds to hide",
     "sd.headshot_end": "Headshot only is over",
+
+    "sd.t_hide": "T's have {0} seconds to hide",
     "sd.seeker_release": "Seekers released",
     "sd.hide_start": "Hide and seek started",
     "sd.hide_end": "Hide and seek is over",
+
     "sd.juggernaut_start": "Juggernaut started",
     "sd.juggernaut_end": "Juggernaut end",
+
     "sd.knife_start": "Knife fight started",
     "sd.knife_end": "Knife fight is over",
+
     "sd.scout_start": "Scout knife started",
     "sd.scout_end": "Scout knife is over",
+
     "sd.spectre_start": "Spectre started",
     "sd.spectre_end": "Spectre is over",
     "sd.spectre": "{0} is the spectre!",
+
     "sd.tank_start": "Tank day started",
     "sd.tank_end": "Tank day ended",
     "sd.tank": "{0} is the tank!",
+
+    "sd.gun_game_start": "Gun game started!",
+    "sd.gun_game_end": "Gun game ended!",
+    "sd.gun_game_win": "{0} won gun game",
+    "sd.gun_game_level": "Current level {0}: {1}",
     
+    "sd.zombie_start": "Zombie day started",
+    "sd.zombie_end": "Zombie day ended",
+    "sd.patient_zero": "{0} is patient zero!",
+    "sd.last_man_standing": "{0} is the last man standing!",
+
     "sd.start_cmd": "sd",
     "sd.start_ff_cmd": "sd_ff",
     "sd.cancel_cmd": "sd_cancel",
@@ -135,6 +154,7 @@
     "lr.alive":  "You must be alive to start an lr",
     "lr.in_lr": "You are already in an lr",
     "lr.req_t": "You must be on T to start an lr",
+    "lr.req_ct": "Your partner is not a CT",
     "lr.too_many": "There are too many t's alive to start an lr {0}",
     "lr.player_rebel": "{0} is a rebel!",
     "lr.knife_rebel": "{0} is knife a rebel!",

@@ -54,8 +54,7 @@ public abstract class SDBase
     public (CCSPlayerController, int) PickBoss()
     {
         // get valid players
-        List<CCSPlayerController> players = Lib.GetPlayers();
-        var valid = players.FindAll(player => player.IsLegalAlive());
+        var valid = Lib.GetAlivePlayers();
 
         CCSPlayerController? rigged = Utilities.GetPlayerFromSlot(riggedSlot);
 
@@ -127,14 +126,14 @@ public abstract class SDBase
         return weaponRestrict == "" || name.Contains(weaponRestrict); 
     }
 
-    public virtual void PlayerHurt(CCSPlayerController? player,int health,int damage, int hitgroup) {}
+    public virtual void PlayerHurt(CCSPlayerController? player,CCSPlayerController? attacker,int health,int damage, int hitgroup) {}
 
     public virtual void EntCreated(CEntityInstance entity) {}
     public virtual void GrenadeThrown(CCSPlayerController? player) {}
 
     
 
-    public virtual void Death(CCSPlayerController? player, CCSPlayerController? attacker) {}
+    public virtual void Death(CCSPlayerController? player, CCSPlayerController? attacker, String weapon) {}
 
     public abstract void SetupPlayer(CCSPlayerController player);
 
@@ -162,6 +161,29 @@ public abstract class SDBase
     public void LocalizeAnnounce(String name, params Object[] args)
     {
         Chat.LocalizeAnnounce(SpecialDay.SPECIALDAY_PREFIX,name,args);
+    }
+
+    public void ResurectPlayer(CCSPlayerController player,float delay)
+    {
+        int victimSlot = player.Slot;
+
+        JailPlugin.globalCtx.AddTimer(delay, () =>
+        {
+            CCSPlayerController? target = Utilities.GetPlayerFromSlot(victimSlot);
+            target.Respawn();
+
+        },CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
+
+        JailPlugin.globalCtx.AddTimer(delay + 0.2f,() =>
+        {
+            CCSPlayerController? target = Utilities.GetPlayerFromSlot(victimSlot);
+
+            if(state == SDState.ACTIVE && target.IsLegalAlive())
+            {
+                SetupPlayer(target);
+            }
+
+        },CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
     }
 
 

@@ -34,7 +34,7 @@ public partial class LastRequest
 
         if(!CanRebel() || rebelType != RebelType.NONE)
         {
-            player.LocalisePrefix(LR_PREFIX,"lr.rebel_last");
+            player.LocalizePrefix(LR_PREFIX,"lr.rebel_last");
             return;
         }
 
@@ -66,7 +66,7 @@ public partial class LastRequest
 
         if(!CanRebel())
         {
-            rebel.LocalisePrefix(LR_PREFIX,"rebel.last_alive");
+            rebel.LocalizePrefix(LR_PREFIX,"rebel.last_alive");
             return;
         }
 
@@ -114,7 +114,7 @@ public partial class LastRequest
 
         if(!CanRebel())
         {
-            rebel.LocalisePrefix(LR_PREFIX,"lr.rebel_last");
+            rebel.LocalizePrefix(LR_PREFIX,"lr.rebel_last");
             return;
         }
 

@@ -184,7 +184,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public override string ModuleName => "CS2 Jailbreak - destoer";
 
-    public override string ModuleVersion => "v0.3.7";
+    public override string ModuleVersion => "v0.3.8";
 
     public override void Load(bool hotReload)
     {
@@ -553,7 +553,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         {
             warden.Death(victim,killer);
             lr.Death(victim);
-            sd.Death(victim,killer);
+            sd.Death(victim,killer,@event.Weapon);
         }
         return HookResult.Continue;
     }

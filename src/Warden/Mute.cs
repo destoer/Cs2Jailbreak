@@ -122,7 +122,7 @@ public class Mute
 
         if(Config.muteDead)
         {
-            player.LocalisePrefix(MUTE_PREFIX,"mute.end_round");
+            player.LocalizePrefix(MUTE_PREFIX,"mute.end_round");
             player.Mute();
         }
     }

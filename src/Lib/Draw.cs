@@ -100,6 +100,6 @@ class Circle
         }      
     }
 
-    Line[] lines = new Line[30];
+    Line[] lines = new Line[50];
     public Color colour = Lib.CYAN;
 }

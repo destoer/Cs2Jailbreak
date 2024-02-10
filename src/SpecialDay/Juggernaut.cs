@@ -32,7 +32,7 @@ public class SDJuggernaut : SDBase
         LocalizeAnnounce("sd.juggernaut_end");
     }
 
-    public override void Death(CCSPlayerController? player, CCSPlayerController? attacker)
+    public override void Death(CCSPlayerController? player, CCSPlayerController? attacker, String weapon)
     {
         if(!player.IsLegal() || !attacker.IsLegalAlive())
         {

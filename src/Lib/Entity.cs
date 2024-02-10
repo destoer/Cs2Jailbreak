@@ -41,9 +41,6 @@ public static class Entity
     }
 
 
-    static Vector VEC_ZERO = new Vector(0.0f,0.0f,0.0f);
-    static QAngle ANGLE_ZERO = new QAngle(0.0f,0.0f,0.0f);
-
     static public void Move(this CEnvBeam? laser,Vector start, Vector end)
     {
         if(laser == null)
@@ -52,7 +49,7 @@ public static class Entity
         }
 
         // set pos
-        laser.Teleport(start, ANGLE_ZERO, VEC_ZERO);
+        laser.Teleport(start, Lib.ANGLE_ZERO, Lib.VEC_ZERO);
 
         // end pos
         // NOTE: we cant just move the whole vec

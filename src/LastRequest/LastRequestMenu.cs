@@ -26,7 +26,7 @@ public partial class LastRequest
         // prevent starts are round begin to stop lr activations on map joins
         if(Lib.CurTimestamp() - startTimestamp < 15)
         {
-            player.LocalisePrefix(LR_PREFIX,"lr.wait");
+            player.LocalizePrefix(LR_PREFIX,"lr.wait");
             return false;
         }
 
@@ -37,14 +37,14 @@ public partial class LastRequest
 
         if(JailPlugin.warden.IsAliveRebel(player) && Config.rebelCantLr)
         {
-            player.LocalisePrefix(LR_PREFIX,"lr.rebel_cant_lr");
+            player.LocalizePrefix(LR_PREFIX,"lr.rebel_cant_lr");
             return false;
         }
 
         
         if(Lib.AliveTCount() > activeLR.Length)
         {
-            player.LocalisePrefix(LR_PREFIX,"lr.too_many",activeLR.Length);
+            player.LocalizePrefix(LR_PREFIX,"lr.too_many",activeLR.Length);
             return false;
         }
 
@@ -175,6 +175,16 @@ public partial class LastRequest
         }
     }
 
+    bool LegalLrPartnerT(CCSPlayerController? player)
+    {
+        return player.IsLegalAliveT() && !InLR(player);
+    }
+
+    bool LegalLrPartnerCT(CCSPlayerController? player)
+    {
+        return player.IsLegalAliveCT() && !InLR(player);
+    }
+
     void PickPartnerInternal(CCSPlayerController? player, String name)
     {
         // called from pick_choice -> pick partner
@@ -193,12 +203,12 @@ public partial class LastRequest
         // Debugging pick t's
         if(choice.bypass && player.IsCt())
         {
-            Lib.InvokePlayerMenu(player,menuName,FinaliseChoice,Player.IsLegalAliveT);
+            Lib.InvokePlayerMenu(player,menuName,FinaliseChoice,LegalLrPartnerT);
         }
 
         else
         {
-            Lib.InvokePlayerMenu(player,menuName,FinaliseChoice,Player.IsLegalAliveCT);
+            Lib.InvokePlayerMenu(player,menuName,FinaliseChoice,LegalLrPartnerCT);
         }   
     }
 
