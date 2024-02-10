@@ -175,6 +175,16 @@ public partial class LastRequest
         }
     }
 
+    bool LegalLrPartnerT(CCSPlayerController? player)
+    {
+        return player.IsLegalAliveT() && !InLR(player);
+    }
+
+    bool LegalLrPartnerCT(CCSPlayerController? player)
+    {
+        return player.IsLegalAliveCT() && !InLR(player);
+    }
+
     void PickPartnerInternal(CCSPlayerController? player, String name)
     {
         // called from pick_choice -> pick partner
@@ -193,12 +203,12 @@ public partial class LastRequest
         // Debugging pick t's
         if(choice.bypass && player.IsCt())
         {
-            Lib.InvokePlayerMenu(player,menuName,FinaliseChoice,Player.IsLegalAliveT);
+            Lib.InvokePlayerMenu(player,menuName,FinaliseChoice,LegalLrPartnerT);
         }
 
         else
         {
-            Lib.InvokePlayerMenu(player,menuName,FinaliseChoice,Player.IsLegalAliveCT);
+            Lib.InvokePlayerMenu(player,menuName,FinaliseChoice,LegalLrPartnerCT);
         }   
     }
 

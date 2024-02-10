@@ -154,6 +154,7 @@
     "lr.alive":  "You must be alive to start an lr",
     "lr.in_lr": "You are already in an lr",
     "lr.req_t": "You must be on T to start an lr",
+    "lr.req_ct": "Your partner is not a CT",
     "lr.too_many": "There are too many t's alive to start an lr {0}",
     "lr.player_rebel": "{0} is a rebel!",
     "lr.knife_rebel": "{0} is knife a rebel!",
