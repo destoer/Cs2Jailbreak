@@ -53,6 +53,9 @@
   "warden.give_freeday_cmd": "give_freeday",
   "warden.give_pardon_cmd": "give_pardon",
   "warden.colour_cmd": "colour",
+  "warden.warden_prefix": "{green}[Надзиратель]: {white}",
+  "warden.door_prefix": "{green}[Дверь]: {white}",
+  "warden.team_prefix": "{green}[Команда]: {white}",
 
   "warden.give_pardon": "{0} был помилован",
   "warden.give_freeday": "{0} получил свободный день",
@@ -78,11 +81,14 @@
   "mute.thirty": "Все зеки заглушены на первые 30 секундн",
   "mute.speak_quietly": "Теперь Т могут говорить спокойно",
   "mute.end_round": "Вы замучены до конца раунда",
+  "mute.mute_prefix": "{green}[Мут]: {white}",
 
   "warday.live": "Weapons live!",
   "warday.location": "warday at {0}",
+  "warday.warday_prefix": "{green}[Warday]: {white}",
 
   "rebel.kill": "{0} убил мятежника {1}",
+  "rebel.rebel_prefix": "{green}[Мятежник]: {white}",
 
   "block.enable": "Блок включен",
   "block.disable": "Блок выключен",
@@ -118,6 +124,7 @@
   "sd.start_cmd": "sd",
   "sd.start_ff_cmd": "sd_ff",
   "sd.cancel_cmd": "sd_cancel",
+  "sd.sd_prefix": "{green}[Специальный День]: {white}",
 
 
   "lr.rebel_last": "Вы должны быть последним игроком в живых, чтобы бунтовать",
@@ -137,5 +144,6 @@
 
   "lr.cancel_lr_cmd": "cancel_lr",
   "lr.start_lr_cmd": "lr",
-  "lr.stats_cmd": "lr_stats"
+  "lr.stats_cmd": "lr_stats",
+  "lr.lr_prefix": "{green}[ПЖ]: {white}"
 }
