@@ -248,6 +248,7 @@ public partial class LastRequest
         }
 
         rebelType = RebelType.NONE;
+        lrReadyPrintFired = false;
     }
 
     bool IsPair(CCSPlayerController? v1, CCSPlayerController? v2)
@@ -439,7 +440,7 @@ public partial class LastRequest
         // must be admin or warden
         if(!player.IsGenericAdmin() && !JailPlugin.IsWarden(player))
         {
-            player.LocalisePrefix(LR_PREFIX,"lr.cancel_admin");
+            player.LocalizePrefix(LR_PREFIX,"lr.cancel_admin");
             return;
         }
 

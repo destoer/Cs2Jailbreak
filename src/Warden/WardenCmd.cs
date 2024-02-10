@@ -72,14 +72,14 @@ public partial class Warden
         // must be warden
         if(!IsWarden(player))
         {
-            player.LocalisePrefix(WARDEN_PREFIX,"warden.warday_restrict");
+            player.LocalizePrefix(WARDEN_PREFIX,"warden.warday_restrict");
             return;
         }
 
         // must specify location
         if(command.ArgCount < 2)
         {
-            player.LocalisePrefix(WARDEN_PREFIX,"warden.warday_usage");
+            player.LocalizePrefix(WARDEN_PREFIX,"warden.warday_usage");
             return;
         }
 
@@ -99,7 +99,7 @@ public partial class Warden
 
         if(!warday.StartWarday(location,delay))
         {
-            player.LocalisePrefix(WARDEN_PREFIX,"warden.warday_round_restrict",Warday.ROUND_LIMIT - warday.roundCounter);
+            player.LocalizePrefix(WARDEN_PREFIX,"warden.warday_round_restrict",Warday.ROUND_LIMIT - warday.roundCounter);
         }
     }
 
@@ -227,7 +227,7 @@ public partial class Warden
         // must be warden
         if(!IsWarden(player))
         {
-            player.LocalisePrefix(WARDEN_PREFIX,"warden.wub_restrict");
+            player.LocalizePrefix(WARDEN_PREFIX,"warden.wub_restrict");
             return;
         }
 
@@ -244,7 +244,7 @@ public partial class Warden
         // must be warden
         if(!IsWarden(player))
         {
-            player.LocalisePrefix(WARDEN_PREFIX,"warden.wb_restrict");
+            player.LocalizePrefix(WARDEN_PREFIX,"warden.wb_restrict");
             return;
         }
 
@@ -277,13 +277,13 @@ public partial class Warden
 
         if(wardenSlot == INAVLID_SLOT)
         {
-            invoke.LocalisePrefix(WARDEN_PREFIX,"warden.no_warden");
+            invoke.LocalizePrefix(WARDEN_PREFIX,"warden.no_warden");
             return;
         }
 
         long elaspedMin = (Lib.CurTimestamp() - wardenTimestamp) / 60;
 
-        invoke.LocalisePrefix(WARDEN_PREFIX,"warden.time",elaspedMin);
+        invoke.LocalizePrefix(WARDEN_PREFIX,"warden.time",elaspedMin);
     }
 
     public void CmdInfo(CCSPlayerController? player, CommandInfo command)
@@ -319,13 +319,13 @@ public partial class Warden
         // player must be alive
         if(!player.IsLegalAlive())
         {
-            player.LocalisePrefix(WARDEN_PREFIX,"warden.warden_req_alive");
+            player.LocalizePrefix(WARDEN_PREFIX,"warden.warden_req_alive");
         }        
 
         // check team is valid
         else if(!player.IsCt())
         {
-            player.LocalisePrefix(WARDEN_PREFIX,"warden.warden_req_ct");
+            player.LocalizePrefix(WARDEN_PREFIX,"warden.warden_req_ct");
         }
 
         // check there is no warden
@@ -333,7 +333,7 @@ public partial class Warden
         {
             var warden = Utilities.GetPlayerFromSlot(wardenSlot);
 
-            player.LocalisePrefix(WARDEN_PREFIX,"warden.warden_taken",warden.PlayerName);
+            player.LocalizePrefix(WARDEN_PREFIX,"warden.warden_taken",warden.PlayerName);
         }
 
         // player is valid to take warden

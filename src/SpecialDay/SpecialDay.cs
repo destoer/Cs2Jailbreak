@@ -142,6 +142,12 @@ public partial class SpecialDay
                 break;             
             }
 
+            case "Gun game":
+            {
+                activeSD = new SDGunGame();
+                type = SDType.GUN_GAME;
+                break;                
+            }
         }
 
         // 1up dead players
@@ -154,15 +160,12 @@ public partial class SpecialDay
 
             activeSD.delay = delay;
             activeSD.SetupCommon();
-        }
 
-        // start the countdown for enable
-        if(JailPlugin.globalCtx != null)
-        {
+            // start the countdown for enable
             countdown.Start($"{name} specialday",delay,0,null,StartSD);
+            
+            teamSave.Save();
         }
-
-        teamSave.Save();
     }
 
     public void StartSD(int unused)
@@ -290,6 +293,7 @@ public partial class SpecialDay
         HIDE_AND_SEEK,
         HEADSHOT_ONLY,
         KNIFE_WARDAY,
+        GUN_GAME,
         NONE
     };
 
@@ -306,6 +310,7 @@ public partial class SpecialDay
         "Hide and seek",
         "Headshot only",
         "Knife warday",
+        "Gun game",
         "None"
     };
 

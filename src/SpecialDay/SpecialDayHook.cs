@@ -83,11 +83,11 @@ public partial class SpecialDay
     }
         
 
-    public void Death(CCSPlayerController? player, CCSPlayerController? attacker)
+    public void Death(CCSPlayerController? player, CCSPlayerController? attacker, String weapon)
     {
         if(activeSD != null)
         {
-            activeSD.Death(player,attacker);
+            activeSD.Death(player,attacker, weapon);
         }
     }
 

@@ -320,4 +320,12 @@ public static class Player
         }
     }
 
+    static public void Nuke()
+    {
+        foreach(CCSPlayerController target in Lib.GetPlayers())
+        {
+            target.Slay();
+        }  
+    }
+
 }

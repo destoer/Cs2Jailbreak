@@ -77,7 +77,7 @@ public static class Chat
         }    
     }
 
-    static public void LocalisePrefix(this CCSPlayerController? player,String prefix, String name, params Object[] args)
+    static public void LocalizePrefix(this CCSPlayerController? player,String prefix, String name, params Object[] args)
     {
         if(player.IsLegal())
         {

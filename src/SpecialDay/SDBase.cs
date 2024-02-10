@@ -134,7 +134,7 @@ public abstract class SDBase
 
     
 
-    public virtual void Death(CCSPlayerController? player, CCSPlayerController? attacker) {}
+    public virtual void Death(CCSPlayerController? player, CCSPlayerController? attacker, String weapon) {}
 
     public abstract void SetupPlayer(CCSPlayerController player);
 
@@ -162,6 +162,29 @@ public abstract class SDBase
     public void LocalizeAnnounce(String name, params Object[] args)
     {
         Chat.LocalizeAnnounce(SpecialDay.SPECIALDAY_PREFIX,name,args);
+    }
+
+    public void ResurectPlayer(CCSPlayerController player,float delay)
+    {
+        int victimSlot = player.Slot;
+
+        JailPlugin.globalCtx.AddTimer(delay, () =>
+        {
+            CCSPlayerController? target = Utilities.GetPlayerFromSlot(victimSlot);
+            target.Respawn();
+
+        },CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
+
+        JailPlugin.globalCtx.AddTimer(delay + 0.2f,() =>
+        {
+            CCSPlayerController? target = Utilities.GetPlayerFromSlot(victimSlot);
+
+            if(state == SDState.ACTIVE && target.IsLegalAlive())
+            {
+                SetupPlayer(target);
+            }
+
+        },CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
     }
 
 

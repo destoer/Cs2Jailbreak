@@ -553,7 +553,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         {
             warden.Death(victim,killer);
             lr.Death(victim);
-            sd.Death(victim,killer);
+            sd.Death(victim,killer,@event.Weapon);
         }
         return HookResult.Continue;
     }

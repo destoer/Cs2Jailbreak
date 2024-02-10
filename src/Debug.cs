@@ -24,10 +24,7 @@ public static class Debug
 
         Chat.PrintConsoleAll("Nuke!");
 
-        foreach(CCSPlayerController player in Lib.GetPlayers())
-        {
-            player.Slay();
-        }       
+        Player.Nuke();
     }
 
     [RequiresPermissions("@jail/debug")]
