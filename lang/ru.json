@@ -53,7 +53,7 @@
   "warden.give_freeday_cmd": "give_freeday",
   "warden.give_pardon_cmd": "give_pardon",
   "warden.colour_cmd": "colour",
-  "warden.warden_prefix": "{green}[Warden]: {white}",
+  "warden.warden_prefix": "{green}[Надзиратель]: {white}",
   "warden.door_prefix": "{green}[Дверь]: {white}",
   "warden.team_prefix": "{green}[Команда]: {white}",
 
