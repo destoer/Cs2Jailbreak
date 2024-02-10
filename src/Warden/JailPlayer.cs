@@ -239,38 +239,27 @@ public class JailPlayer
 
     public void SetRebel(CCSPlayerController? player)
     {
-        // allready a rebel don't care
-        if (IsRebel)
-        {
-            return;
-        }
-
-        if (JailPlugin.EventActive())
-        {
-            return;
-        }
-
-        // ignore if they are in lr
-        if (JailPlugin.lr.InLR(player))
-        {
-            return;
-        }
-
         // dont care if player is invalid
-        if (!player.IsLegal())
+        if (!player.IsLegalAliveT())
         {
             return;
         }
 
-        // on T with no warday or sd active
-        if (player.IsT())
+        // allready a rebel don't care or in some kidnd of event
+        // dont care
+        if (IsRebel || JailPlugin.EventActive() || JailPlugin.lr.InLR(player))
         {
-            if (Config.colourRebel)
-            {
-                Chat.Announce(REBEL_PREFIX, $"{player.PlayerName} is a rebel");
-                player.SetColour(Lib.RED);
-            }
-            IsRebel = true;
+            return;
+        }
+
+        // must be on T with no warday or sd active
+
+        IsRebel = true;
+
+        if (Config.colourRebel)
+        {
+            Chat.LocalizeAnnounce(REBEL_PREFIX, $"lr.player_rebel",player.PlayerName);
+            player.SetColour(Lib.RED);
         }
     }
 
@@ -307,7 +296,7 @@ public class JailPlayer
         }
 
         // players aernt valid dont care
-        if (killer == null || !player.IsLegal() || !killer.IsLegal())
+        if (!player.IsLegal() || !killer.IsLegal())
         {
             return;
         }
@@ -340,7 +329,7 @@ public class JailPlayer
             return;
         }
         
-        bool isWorld = attacker == null || !attacker.IsLegal();
+        bool isWorld = !attacker.IsLegal();
 
         string localKey = health > 0 ? "logs.format.damage" : "logs.format.kill";
         if (isWorld)

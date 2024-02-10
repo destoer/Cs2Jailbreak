@@ -116,6 +116,19 @@ public partial class LastRequest
                 break;
             }
 
+            case LRType.WAR:
+            {
+                var lrMenu = new ChatMenu($"Choice Menu ({lrName})");
+
+                lrMenu.AddMenuOption("XM1014", PickedOption);
+                lrMenu.AddMenuOption("M249", PickedOption);
+                lrMenu.AddMenuOption("P90", PickedOption);
+                lrMenu.AddMenuOption("MP5", PickedOption);
+
+                MenuManager.OpenChatMenu(player, lrMenu);
+                break;
+            }
+
             case LRType.NO_SCOPE:
             {
                 var lrMenu = new ChatMenu($"Choice Menu ({lrName})");

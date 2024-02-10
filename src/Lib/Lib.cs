@@ -17,72 +17,6 @@ using System.Drawing;
 using System.Text;
 using System.Diagnostics.CodeAnalysis;
 
-// NOTE: this is a timer wrapper, and should be owned the class
-// wanting to use the timer
-public class Countdown<T>
-{
-    public void Start(String countdownName, int countdownDelay,
-        T countdownData,Action<T,int>? countdownPrintFunc, Action <T> countdownCallback)
-    {
-        this.delay = countdownDelay;
-        this.callback = countdownCallback;
-        this.name = countdownName;
-        this.data = countdownData;
-        this.printFunc = countdownPrintFunc;
-
-        this.handle = JailPlugin.globalCtx.AddTimer(1.0f,Tick,CSTimer.TimerFlags.STOP_ON_MAPCHANGE | CSTimer.TimerFlags.REPEAT);
-    }
-
-    public void Kill()
-    {
-       Lib.KillTimer(ref handle);
-    }
-
-    void Tick()
-    {
-        delay -= 1;
-
-        // countdown over
-        if(delay <= 0)
-        {
-            // kill the timer
-            // and then call the callback
-            Kill();
-
-            if(callback != null && data != null)
-            {
-                callback(data);
-            }
-        }
-
-        // countdown still active
-        else
-        {
-            // custom print
-            if(printFunc != null && data != null)
-            {
-                printFunc(data,delay);
-            }
-
-            // default print
-            else
-            {
-                Chat.PrintCentreAll($"{name} is starting in {delay} seconds");
-            }
-        }
-    }
-
-    public int delay = 0;
-    public Action<T>? callback = null;
-    public String name = "";
-    public Action<T,int>? printFunc = null;
-    CSTimer.Timer? handle = null;
-
-    // callback data
-    T? data = default(T);
-}
-
-    
 
 public static class Lib
 {
@@ -101,7 +35,7 @@ public static class Lib
 
         var menu = new ChatMenu(name);
 
-        foreach(var player in Utilities.GetPlayers())
+        foreach(var player in Lib.GetPlayers())
         {
             if(filter(player))
             {
@@ -131,7 +65,7 @@ public static class Lib
 
     static public void PlaySoundAll(String sound)
     {
-        foreach(CCSPlayerController? player in Utilities.GetPlayers())
+        foreach(CCSPlayerController? player in Lib.GetPlayers())
         {
             player.PlaySound(sound);
         }
@@ -139,9 +73,9 @@ public static class Lib
 
     static public void MuteT()
     {
-        foreach(CCSPlayerController player in Utilities.GetPlayers())
+        foreach(CCSPlayerController player in Lib.GetPlayers())
         {
-            if(player.IsLegal() && player.IsT())
+            if(player.IsT())
             {
                 player.Mute();
             }
@@ -159,12 +93,9 @@ public static class Lib
 
     static public void UnMuteAll()
     {
-        foreach(CCSPlayerController player in Utilities.GetPlayers())
+        foreach(CCSPlayerController player in Lib.GetPlayers())
         {
-            if(player.IsLegal())
-            {
-                player.UnMute();
-            }
+            player.UnMute();
         }
     }
 
@@ -192,31 +123,51 @@ public static class Lib
 
     static public void SwapAllT()
     {
-        // get valid players
-        List<CCSPlayerController> players = Utilities.GetPlayers();
-        var valid = players.FindAll(player => player.IsLegalAlive());
-
-        foreach(var player in valid)
+        foreach(var player in GetAlivePlayers())
         {
             player.SwitchTeam(CsTeam.Terrorist);
         }
     }
 
-    static public List<CCSPlayerController> GetAliveCt()
+    static public void RespawnPlayers()
+    {
+        // 1up all dead players
+        foreach(CCSPlayerController player in Lib.GetPlayers())
+        {
+            if(!player.IsLegalAlive())
+            {
+                player.Respawn();
+            }
+        }
+    }
+
+    static public List<CCSPlayerController> GetAlivePlayers()
     {
         List<CCSPlayerController> players = Utilities.GetPlayers();
+        return players.FindAll(player => player.IsLegalAlive());      
+    }
+
+    static public List<CCSPlayerController> GetPlayers()
+    {
+        List<CCSPlayerController> players = Utilities.GetPlayers();
+        return players.FindAll(player => player.IsLegal() && player.IsConnected());      
+    }
+
+    static public List<CCSPlayerController> GetAliveCt()
+    {
+        List<CCSPlayerController> players = Lib.GetPlayers();
         return players.FindAll(player => player.IsLegalAlive() && player.IsCt());
     }
 
     static public int CtCount()
     {
-        List<CCSPlayerController> players = Utilities.GetPlayers();
+        List<CCSPlayerController> players = Lib.GetPlayers();
         return players.FindAll(player => player.IsLegal() && player.IsCt()).Count;        
     }
 
     static public int TCount()
     {
-        List<CCSPlayerController> players = Utilities.GetPlayers();
+        List<CCSPlayerController> players = Lib.GetPlayers();
         return players.FindAll(player => player.IsLegal() && player.IsT()).Count;        
     }
 
@@ -227,7 +178,7 @@ public static class Lib
 
     static public List<CCSPlayerController> GetAliveT()
     {
-        List<CCSPlayerController> players = Utilities.GetPlayers();
+        List<CCSPlayerController> players = Lib.GetPlayers();
         return players.FindAll(player => player.IsLegalAlive() && player.IsT());;
     }
 

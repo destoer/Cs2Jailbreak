@@ -18,20 +18,6 @@ public static class Entity
         }
     }
 
-    static public void RemoveDelay(this CEntityInstance entity, float delay, String name)
-    {
-        // remove projectile
-        if(entity.DesignerName == name)
-        {
-            int index = (int)entity.Index;
-
-            JailPlugin.globalCtx.AddTimer(delay,() => 
-            {
-                Remove(index,name);
-            });
-        }
-    }
-
     static void ForceEntInput(String name, String input)
     {
         // search for door entitys and open all of them!

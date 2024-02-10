@@ -147,7 +147,7 @@ public static class Weapon
         GunMenuGive(player,option);
     }
 
-    static Dictionary<String,String> GUN_LIST = new Dictionary<String,String>()
+    public static Dictionary<String,String> GUN_LIST = new Dictionary<String,String>()
     {
         {"AK47","ak47"},
         {"M4","m4a1_silencer"},

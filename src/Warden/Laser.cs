@@ -62,7 +62,7 @@ public partial class Warden
 
         CCSPlayerController? warden = Utilities.GetPlayerFromSlot(wardenSlot);
 
-        if(warden == null || !warden.IsLegal())
+        if(!warden.IsLegalAliveCT())
         {
             return;
         }

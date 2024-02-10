@@ -11,23 +11,24 @@ using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
 
-public class LRShotgunWar : LRBase
+public class LRWar : LRBase
 {
-    public LRShotgunWar(LastRequest manager,LastRequest.LRType type,int LRSlot, int playerSlot, String choice) : base(manager,type,LRSlot,playerSlot,choice)
+    public LRWar(LastRequest manager,LastRequest.LRType type,int LRSlot, int playerSlot, String choice) : base(manager,type,LRSlot,playerSlot,choice)
     {
 
     }
 
     public override void InitPlayer(CCSPlayerController player)
     {    
-        // give shotty health and plenty of ammo
-        weaponRestrict = "xm1014";
-        player.GiveWeapon("xm1014");
+        // give weapon health and plenty of ammo
+        weaponRestrict = Weapon.GUN_LIST[choice];
+  
+        player.GiveWeapon(weaponRestrict);
 
         player.SetHealth(1000);
 
 
-        var shotgun = player.FindWeapon("xm1014");
+        var shotgun = player.FindWeapon(weaponRestrict);
 
         if(shotgun != null)
         {

@@ -23,12 +23,9 @@ public class Warday
             if(Config.wardayGuns)
             {
                 // give T guns
-                foreach(CCSPlayerController player in Utilities.GetPlayers())
+                foreach(CCSPlayerController player in Lib.GetAliveT())
                 {
-                    if(player.IsLegal() && player.IsT())
-                    {
-                        player.EventGunMenu();
-                    }
+                    player.EventGunMenu();
                 }
             }
 
@@ -52,7 +49,7 @@ public class Warday
 
             if(Config.wardayGuns)
             {
-                foreach(CCSPlayerController player in Utilities.GetPlayers())
+                foreach(CCSPlayerController player in Lib.GetPlayers())
                 {
                     if(player.IsLegal() && player.IsCt())
                     {

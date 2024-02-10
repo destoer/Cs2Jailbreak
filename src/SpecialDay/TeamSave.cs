@@ -20,13 +20,8 @@ public class TeamSave
         count = 0;
 
         // iter over each active player and save the theam they are on
-        foreach(CCSPlayerController player in Utilities.GetPlayers())
+        foreach(CCSPlayerController player in Lib.GetPlayers())
         {
-            if(!player.IsLegal())
-            {
-                continue;
-            }
-
             int team = player.TeamNum;
 
             if(Lib.IsActiveTeam(team))

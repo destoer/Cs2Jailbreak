@@ -31,29 +31,19 @@ public static class Chat
     // TODO: i dont think there is a builtin func for this...
     static public void PrintCentreAll(String str)
     {
-        foreach(CCSPlayerController player in Utilities.GetPlayers())
+        foreach(CCSPlayerController player in Lib.GetPlayers())
         {
-            if(!player.IsLegal())
-            {
-                continue;
-            }
-
             player.PrintToCenter(str);
         }
     }
 
     static public void PrintConsoleAll(String str, bool admin_only = false)
     {
-        foreach(CCSPlayerController player in Utilities.GetPlayers())
+        foreach(CCSPlayerController player in Lib.GetPlayers())
         {
-            if(!player.IsLegal() || !player.IsConnected() || player.IsBot)
+            if(admin_only && !player.IsGenericAdmin() || player.IsBot)
             {
                 continue;
-            }
-
-            if(admin_only && !player.IsGenericAdmin())
-            {
-                return;
             }
 
             player.PrintToConsole(str);

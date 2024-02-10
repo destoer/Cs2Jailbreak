@@ -305,6 +305,17 @@ public class JailStats
 
         int fields = (LastRequest.LR_SIZE * 2) + 2;
 
+        // rename the old entries
+        try
+        {
+            using var shotgunRenameWin = new MySqlCommand("ALTER TABLE stats CHANGE Shotgun_war_win War_win int DEFAULT 0",database);
+            using var shotgunRenameLoss = new MySqlCommand("ALTER TABLE stats CHANGE Shotgun_war_loss War_loss int DEFAULT 0",database);
+            shotgunRenameWin.ExecuteNonQuery();
+            shotgunRenameLoss.ExecuteNonQuery();
+        }
+
+        catch {}
+
         // NOTE: both win and lose i.e * 2 + steamid and name
         if(rowCount != fields)
         {

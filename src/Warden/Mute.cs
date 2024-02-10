@@ -40,12 +40,9 @@ public class Mute
         Chat.LocalizeAnnounce(MUTE_PREFIX,"mute.speak_quietly");
 
         // Go through and unmute all alive players!
-        foreach(CCSPlayerController player in Utilities.GetPlayers())
+        foreach(CCSPlayerController player in Lib.GetAlivePlayers())
         {
-            if(player.IsLegal() && player.PawnIsAlive)
-            {
-                player.UnMute();
-            }
+            player.UnMute();
         }
 
         muteTimer = null;
