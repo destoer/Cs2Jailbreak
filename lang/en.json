@@ -135,6 +135,11 @@
     "sd.gun_game_win": "{0} won gun game",
     "sd.gun_game_level": "Current level {0}: {1}",
     
+    "sd.zombie_start": "Zombie day started",
+    "sd.zombie_end": "Zombie day ended",
+    "sd.patient_zero": "{0} is patient zero!",
+    "sd.last_man_standing": "{0} is the last man standing!",
+
     "sd.start_cmd": "sd",
     "sd.start_ff_cmd": "sd_ff",
     "sd.cancel_cmd": "sd_cancel",

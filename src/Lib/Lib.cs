@@ -129,6 +129,14 @@ public static class Lib
         }
     }
 
+    static public void SwapAllCT()
+    {
+        foreach(var player in GetAlivePlayers())
+        {
+            player.SwitchTeam(CsTeam.CounterTerrorist);
+        }
+    }
+
     static public void RespawnPlayers()
     {
         // 1up all dead players
@@ -253,6 +261,9 @@ public static class Lib
         {"Green",GREEN}, // green
         {"Yellow",Color.FromArgb(255,255, 255, 0)} // yellow
     };
+
+    public static readonly Vector VEC_ZERO = new Vector(0.0f,0.0f,0.0f);
+    public static readonly QAngle ANGLE_ZERO = new QAngle(0.0f,0.0f,0.0f);
 
     static ConVar? blockCvar = ConVar.Find("mp_solid_teammates");
     static ConVar? ff = ConVar.Find("mp_teammates_are_enemies");

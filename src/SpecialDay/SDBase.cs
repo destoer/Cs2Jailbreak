@@ -54,8 +54,7 @@ public abstract class SDBase
     public (CCSPlayerController, int) PickBoss()
     {
         // get valid players
-        List<CCSPlayerController> players = Lib.GetPlayers();
-        var valid = players.FindAll(player => player.IsLegalAlive());
+        var valid = Lib.GetAlivePlayers();
 
         CCSPlayerController? rigged = Utilities.GetPlayerFromSlot(riggedSlot);
 
@@ -127,7 +126,7 @@ public abstract class SDBase
         return weaponRestrict == "" || name.Contains(weaponRestrict); 
     }
 
-    public virtual void PlayerHurt(CCSPlayerController? player,int health,int damage, int hitgroup) {}
+    public virtual void PlayerHurt(CCSPlayerController? player,CCSPlayerController? attacker,int health,int damage, int hitgroup) {}
 
     public virtual void EntCreated(CEntityInstance entity) {}
     public virtual void GrenadeThrown(CCSPlayerController? player) {}

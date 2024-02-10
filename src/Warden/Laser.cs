@@ -78,22 +78,19 @@ public partial class Warden
         {
             Vector eye = new Vector(pawn.AbsOrigin.X,pawn.AbsOrigin.Y,pawn.AbsOrigin.Z + camera.OldPlayerViewOffsetZ);
 
-            Vector end = new Vector(eye.X,eye.Y,eye.Z);
+            Vector? eyeVector = warden.EyeVector();
 
-            QAngle eyeAngle = pawn.EyeAngles;
 
-            // convert angles to rad 
-            double pitch = (Math.PI/180) * eyeAngle.X;
-            double yaw = (Math.PI/180) * eyeAngle.Y;
+            if(eyeVector == null)
+            {
+                return;
+            }
 
-            // get direction vector from angles
-            Vector eyeVector = new Vector((float)(Math.Cos(yaw) * Math.Cos(pitch)),(float)(Math.Sin(yaw) * Math.Cos(pitch)),(float)(-Math.Sin(pitch)));
+            // scale out to an arbitary length
+            eyeVector = Vec.Scale(eyeVector,3000);
 
-            int t = 3000;
-
-            end.X += (t * eyeVector.X);
-            end.Y += (t * eyeVector.Y);
-            end.Z += (t * eyeVector.Z);
+            // add the vectors toegher
+            Vector end = Vec.Add(eye,eyeVector);
 
             /*
                 warden.PrintToChat($"end: {end.X} {end.Y} {end.Z}");

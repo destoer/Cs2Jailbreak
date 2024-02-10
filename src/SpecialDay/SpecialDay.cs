@@ -148,6 +148,13 @@ public partial class SpecialDay
                 type = SDType.GUN_GAME;
                 break;                
             }
+
+            case "Zombie":
+            {
+                activeSD = new SDZombie();
+                type = SDType.ZOMBIE;
+                break;                
+            }
         }
 
         // 1up dead players
@@ -156,6 +163,8 @@ public partial class SpecialDay
         // call the intiail sd setup
         if(activeSD != null)
         {
+            teamSave.Save();
+
             JailPlugin.StartEvent();
 
             activeSD.delay = delay;
@@ -163,8 +172,6 @@ public partial class SpecialDay
 
             // start the countdown for enable
             countdown.Start($"{name} specialday",delay,0,null,StartSD);
-            
-            teamSave.Save();
         }
     }
 
@@ -294,6 +301,7 @@ public partial class SpecialDay
         HEADSHOT_ONLY,
         KNIFE_WARDAY,
         GUN_GAME,
+        ZOMBIE,
         NONE
     };
 
@@ -311,6 +319,7 @@ public partial class SpecialDay
         "Headshot only",
         "Knife warday",
         "Gun game",
+        "Zombie",
         "None"
     };
 

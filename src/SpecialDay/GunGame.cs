@@ -56,6 +56,7 @@ public class SDGunGame : SDBase
             return;
         }
 
+        // give the current level weapon
         player.StripWeapons();
         player.GiveArmour();
         

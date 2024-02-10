@@ -95,7 +95,7 @@ public partial class SpecialDay
     {
         if(activeSD != null && player.IsLegal())
         {
-            activeSD.PlayerHurt(player,damage,health,hitgroup);
+            activeSD.PlayerHurt(player,attacker,damage,health,hitgroup);
         }
     }
 

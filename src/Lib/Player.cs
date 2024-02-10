@@ -309,6 +309,26 @@ public static class Player
         }
     }
 
+    public static Vector? EyeVector(this CCSPlayerController? player)
+    {
+        var pawn = player.Pawn();
+
+        if(pawn == null)
+        {
+            return null;
+        }
+
+        QAngle eyeAngle = pawn.EyeAngles;
+
+        // convert angles to rad 
+        double pitch = (Math.PI/180) * eyeAngle.X;
+        double yaw = (Math.PI/180) * eyeAngle.Y;
+
+        // get direction vector from angles
+        Vector eyeVector = new Vector((float)(Math.Cos(yaw) * Math.Cos(pitch)),(float)(Math.Sin(yaw) * Math.Cos(pitch)),(float)(-Math.Sin(pitch)));
+
+        return eyeVector;
+    }
 
     public static void RespawnCallback(int slot)
     {
