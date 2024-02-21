@@ -5,12 +5,25 @@ using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CounterStrikeSharp.API.Modules.Menu;
 using CSTimer = CounterStrikeSharp.API.Modules.Timers;
+using System.Drawing;
+using System.Diagnostics.CodeAnalysis;
 
 public static class Weapon
 {
-    static public bool IsLegal(this CBasePlayerWeapon? weapon)
+    static public bool IsLegal([NotNullWhen(true)] this CBasePlayerWeapon? weapon)
     {
         return weapon != null && weapon.IsValid;
+    }
+
+
+    static public void SetColour(this CBasePlayerWeapon? weapon, Color colour)
+    {
+        if(weapon.IsLegal())
+        {
+            weapon.RenderMode = RenderMode_t.kRenderTransColor;
+            weapon.Render = colour;
+            Utilities.SetStateChanged(weapon,"CBaseModelEntity","m_clrRender");
+        }
     }
 
     static public CBasePlayerWeapon? FindWeapon(this CCSPlayerController? player, String name)
