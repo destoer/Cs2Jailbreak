@@ -394,7 +394,21 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         AddCommandListener("jointeam",JoinTeam);
         AddCommandListener("player_ping",PlayerPingCmd);
 
+        AddCommandListener("say", OnPlayerChat);
+
         // TODO: need to hook weapon drop
+    }
+
+
+    public HookResult OnPlayerChat(CCSPlayerController? invoke, CommandInfo command)
+    {
+        // dont print chat, warden is handling it
+        if(!warden.PlayerChat(invoke,command))
+        {
+            return HookResult.Handled;
+        }
+
+        return HookResult.Continue;
     }
 
     public HookResult PlayerPingCmd(CCSPlayerController? invoke, CommandInfo command)
