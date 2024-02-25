@@ -46,6 +46,14 @@ public class LRNoScope : LRBase
         }
     }
 
+    public override void WeaponFire(String name)
+    {
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(playerSlot);
+
+        var weapon = player.FindWeapon(name);
+        weapon.SetAmmo(5,-1);
+    }
+
     public override void InitPlayer(CCSPlayerController player)
     {
         GiveWeapon(player);

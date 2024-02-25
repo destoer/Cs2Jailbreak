@@ -70,7 +70,7 @@ public static class Weapon
 
     static public void SetAmmo(this CBasePlayerWeapon? weapon, int clip, int reserve)
     {
-        if(weapon == null || !weapon.IsLegal())
+        if(!weapon.IsLegal())
         {
             return;
         }
@@ -79,13 +79,13 @@ public static class Weapon
         // setting "infinite ammo"
         // thanks 1Mack
         CCSWeaponBaseVData? weaponData = weapon.As<CCSWeaponBase>().VData;
-
+    
+        // TODO: this overide it for every gun the player has...
         if(weaponData != null)
         {
             if(clip > weaponData.MaxClip1)
             {
                 weaponData.MaxClip1 = clip;
-                weaponData.DefaultClip1 = clip;
             }
 
             if(reserve > weaponData.PrimaryReserveAmmoMax)

@@ -29,6 +29,7 @@ public class LRGunToss : LRBase
 
         if(deagle != null)
         {
+            // colour gun to player team!
             deagle.SetColour(player.IsT()? Lib.RED : Lib.CYAN);
 
             deagle.SetAmmo(0,0);
