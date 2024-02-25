@@ -26,13 +26,13 @@ public class LRWar : LRBase
         player.GiveWeapon(weaponRestrict);
 
         player.SetHealth(1000);
+    }
 
+    public override void WeaponFire(String name)
+    {
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(playerSlot);
 
-        var shotgun = player.FindWeapon(weaponRestrict);
-
-        if(shotgun != null)
-        {
-            shotgun.SetAmmo(999,999);
-        }
+        var weapon = player.FindWeapon(name);
+        weapon.SetAmmo(999,999);
     }
 }

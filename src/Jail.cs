@@ -265,8 +265,19 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         AddCommand("css_" + Localizer[base_name],desc,callback);
     }
 
+    public static void KillCmd(CCSPlayerController? invoke, CommandInfo command)
+    {  
+        if(invoke.IsLegalAlive())
+        {
+            Chat.LocalizeAnnounce("","jail.kill_cmd",invoke.PlayerName);
+            invoke.Slay();
+        }
+    }
+
     void RegisterCommands()
     {
+        AddCommand("kill","kill self",KillCmd);
+
         // reg warden comamnds
         AddLocalizedCmd("warden.take_warden_cmd", "take warden", warden.TakeWardenCmd);
         AddLocalizedCmd("warden.leave_warden_cmd", "leave warden", warden.LeaveWardenCmd);

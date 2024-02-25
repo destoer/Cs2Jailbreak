@@ -80,14 +80,18 @@ public static class Weapon
         // thanks 1Mack
         CCSWeaponBaseVData? weaponData = weapon.As<CCSWeaponBase>().VData;
     
-        // TODO: this overide it for every gun the player has...
+        
         if(weaponData != null)
         {
+            // TODO: this overide it for every gun the player has...
+            // when not a map gun, this is not a big deal
+            // for the reserve ammo it is for the clip though
+        /*
             if(clip > weaponData.MaxClip1)
             {
                 weaponData.MaxClip1 = clip;
             }
-
+        */
             if(reserve > weaponData.PrimaryReserveAmmoMax)
             {
                 weaponData.PrimaryReserveAmmoMax = reserve;

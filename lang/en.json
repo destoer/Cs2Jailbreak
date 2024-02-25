@@ -1,4 +1,6 @@
 {
+    "jail.kill_cmd": "{0} slayed themself",
+
     "warden.remove": "Warden Removed",
     "warden.warden_command_desc": "!w - take warden",
     "warden.warday_command_desc": "!wd - start a warday",
