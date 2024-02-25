@@ -84,8 +84,14 @@ public partial class Warden
 
             default:
             {
-                invoke.Announce(TEAM_PREFIX,$"Invalid team swap team");
+                if(!invoke.IsLegalAlive())
+                {
+                    invoke.SwitchTeam(CsTeam.Terrorist);
+                }
+            
+                invoke.Announce(TEAM_PREFIX,$"Invalid team swap {team}");
                 invoke.PlaySound("sounds/ui/counter_beep.vsnd");
+
                 return false;
             }
         }

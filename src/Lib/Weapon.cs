@@ -5,12 +5,25 @@ using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CounterStrikeSharp.API.Modules.Menu;
 using CSTimer = CounterStrikeSharp.API.Modules.Timers;
+using System.Drawing;
+using System.Diagnostics.CodeAnalysis;
 
 public static class Weapon
 {
-    static public bool IsLegal(this CBasePlayerWeapon? weapon)
+    static public bool IsLegal([NotNullWhen(true)] this CBasePlayerWeapon? weapon)
     {
         return weapon != null && weapon.IsValid;
+    }
+
+
+    static public void SetColour(this CBasePlayerWeapon? weapon, Color colour)
+    {
+        if(weapon.IsLegal())
+        {
+            weapon.RenderMode = RenderMode_t.kRenderTransColor;
+            weapon.Render = colour;
+            Utilities.SetStateChanged(weapon,"CBaseModelEntity","m_clrRender");
+        }
     }
 
     static public CBasePlayerWeapon? FindWeapon(this CCSPlayerController? player, String name)
@@ -57,7 +70,7 @@ public static class Weapon
 
     static public void SetAmmo(this CBasePlayerWeapon? weapon, int clip, int reserve)
     {
-        if(weapon == null || !weapon.IsLegal())
+        if(!weapon.IsLegal())
         {
             return;
         }
@@ -66,15 +79,19 @@ public static class Weapon
         // setting "infinite ammo"
         // thanks 1Mack
         CCSWeaponBaseVData? weaponData = weapon.As<CCSWeaponBase>().VData;
-
+    
+        
         if(weaponData != null)
         {
+            // TODO: this overide it for every gun the player has...
+            // when not a map gun, this is not a big deal
+            // for the reserve ammo it is for the clip though
+        /*
             if(clip > weaponData.MaxClip1)
             {
                 weaponData.MaxClip1 = clip;
-                weaponData.DefaultClip1 = clip;
             }
-
+        */
             if(reserve > weaponData.PrimaryReserveAmmoMax)
             {
                 weaponData.PrimaryReserveAmmoMax = reserve;

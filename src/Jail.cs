@@ -184,7 +184,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public override string ModuleName => "CS2 Jailbreak - destoer";
 
-    public override string ModuleVersion => "v0.3.8";
+    public override string ModuleVersion => "v0.3.9";
 
     public override void Load(bool hotReload)
     {
@@ -265,8 +265,19 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         AddCommand("css_" + Localizer[base_name],desc,callback);
     }
 
+    public static void KillCmd(CCSPlayerController? invoke, CommandInfo command)
+    {  
+        if(invoke.IsLegalAlive())
+        {
+            Chat.LocalizeAnnounce("","jail.kill_cmd",invoke.PlayerName);
+            invoke.Slay();
+        }
+    }
+
     void RegisterCommands()
     {
+        AddCommand("kill","kill self",KillCmd);
+
         // reg warden comamnds
         AddLocalizedCmd("warden.take_warden_cmd", "take warden", warden.TakeWardenCmd);
         AddLocalizedCmd("warden.leave_warden_cmd", "leave warden", warden.LeaveWardenCmd);
@@ -383,7 +394,21 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         AddCommandListener("jointeam",JoinTeam);
         AddCommandListener("player_ping",PlayerPingCmd);
 
+        AddCommandListener("say", OnPlayerChat);
+
         // TODO: need to hook weapon drop
+    }
+
+
+    public HookResult OnPlayerChat(CCSPlayerController? invoke, CommandInfo command)
+    {
+        // dont print chat, warden is handling it
+        if(!warden.PlayerChat(invoke,command))
+        {
+            return HookResult.Handled;
+        }
+
+        return HookResult.Continue;
     }
 
     public HookResult PlayerPingCmd(CCSPlayerController? invoke, CommandInfo command)

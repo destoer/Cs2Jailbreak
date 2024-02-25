@@ -95,6 +95,24 @@ public partial class Warden
     }
 
 
+    public bool PlayerChat(CCSPlayerController? player, CommandInfo info)
+    {
+        String text = info.GetArg(1);
+
+        if(text.StartsWith("/") || text.StartsWith("!") || String.IsNullOrWhiteSpace(text))
+        {
+            return true;
+        }
+
+        if(player.IsLegalAlive() && IsWarden(player))
+        {
+            Server.PrintToChatAll($"{WARDEN_PREFIX} {player.PlayerName}: {text}");
+            return false;
+        }   
+
+        return true;
+    }
+
     // reset variables for a new round
     void PurgeRound()
     {
