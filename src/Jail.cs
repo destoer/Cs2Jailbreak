@@ -331,6 +331,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
             AddCommand("lr_debug","debug : start an lr without restriction",lr.LRDebugCmd);
             AddCommand("is_blocked","debug : print block state",warden.block.IsBlocked);
             AddCommand("test_laser","test laser",Debug.TestLaser);
+            AddCommand("test_player","testt player",Debug.TestPlayer);
             AddCommand("test_strip","test weapon strip",Debug.TestStripCmd);
             AddCommand("join_ct_debug","debug : force join ct",Debug.JoinCtCmd);
             AddCommand("hide_weapon_debug","debug : hide player weapon on back",Debug.HideWeaponCmd);
@@ -447,7 +448,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     // button log
     HookResult OnButtonPressed(CEntityIOOutput output, String name, CEntityInstance activator, CEntityInstance caller, CVariant value, float delay)
     {
-        CCSPlayerController? player = activator.Player();
+        CCSPlayerController? player = new CBaseEntity(activator.Handle).Player();
 
         // grab player controller from pawn
         CBaseEntity? ent =  Utilities.GetEntityFromIndex<CBaseEntity>((int)caller.Index);
@@ -531,7 +532,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         CHandle<CBaseEntity> dealer = damage_info.Attacker;
 
         // get player and attacker
-        CCSPlayerController? player = victim.Player();
+        CCSPlayerController? player = new CBaseEntity(victim.Handle).Player();
         CCSPlayerController? attacker = dealer.Player();
 
         if(player.IsLegal())

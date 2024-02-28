@@ -126,45 +126,41 @@ public static class Entity
     }
 
 
-    static public CCSPlayerController? Player(this CEntityInstance? instance)
+    static CCSPlayerController? PlayerFromPawn(CCSPlayerPawn? pawn)
     {
-        if(instance == null)
-        {
-            return null;
-        }
-
-        // grab the pawn index
-        int player_index = (int)instance.Index;
-
-        // grab player controller from pawn
-        CCSPlayerPawn? player_pawn =  Utilities.GetEntityFromIndex<CCSPlayerPawn>(player_index);
-
         // pawn valid
-        if(player_pawn == null || !player_pawn.IsValid)
+        if(pawn == null || !pawn.IsValid)
         {
             return null;
         }
 
         // controller valid
-        if(player_pawn.OriginalController == null || !player_pawn.OriginalController.IsValid)
+        if(pawn.OriginalController == null || !pawn.OriginalController.IsValid)
         {
             return null;
         }
 
         // any further validity is up to the caller
-        return player_pawn.OriginalController.Value;
+        return pawn.OriginalController.Value;    
+    }
+
+    static public CCSPlayerController? Player(this CBaseEntity? ent)
+    {
+        if(ent != null && ent.DesignerName == "player")
+        {
+            var pawn = new CCSPlayerPawn(ent.Handle);
+
+            return PlayerFromPawn(pawn);
+        }
+
+        return null;
     }
 
     static public CCSPlayerController? Player(this CHandle<CBaseEntity> handle)
     {
         if(handle.IsValid)
         {
-            CBaseEntity? ent = handle.Value;
-
-            if(ent != null)
-            {
-                return handle.Value.Player();
-            }
+            return handle.Value.Player();
         }
 
         return null;

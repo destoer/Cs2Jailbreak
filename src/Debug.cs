@@ -129,6 +129,20 @@ public static class Debug
     {
         JailPlugin.WinLR(invoke, LastRequest.LRType.KNIFE);
     }
+    [RequiresPermissions("@jail/debug")]
+    public static void TestPlayer(CCSPlayerController? invoke, CommandInfo command)
+    {
+        if(invoke.IsLegal())
+        {
+            var pawn = invoke.Pawn();
+
+            if(pawn != null)
+            {
+                invoke.PrintToChat($"name: {invoke.DesignerName} : {pawn.DesignerName}");
+            }
+        }
+    }
+
 
     // are these commands allowed or not?
     public static readonly bool enable = true;
