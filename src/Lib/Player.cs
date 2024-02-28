@@ -178,7 +178,7 @@ public static class Player
         }
     }
 
-    static public void StripWeapons(this CCSPlayerController? player, bool remove_knife = false)
+    static public void StripWeapons(this CCSPlayerController? player, bool removeKnife = false)
     {
         // only care if player is valid
         if(!player.IsLegalAlive())
@@ -189,7 +189,7 @@ public static class Player
         player.RemoveWeapons();
         
         // dont remove knife its buggy
-        if(!remove_knife)
+        if(!removeKnife)
         {
             player.GiveWeapon("knife");
         }
