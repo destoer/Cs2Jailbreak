@@ -104,6 +104,70 @@ public partial class Warden
     }
 
 
+    public void CountdownCmd(CCSPlayerController? player, CommandInfo command)
+    {
+        if(!player.IsLegal())
+        {
+            return;
+        }
+
+        // must be warden
+        if(!IsWarden(player))
+        {
+            player.LocalizePrefix(WARDEN_PREFIX,"warden.countdown_restrict");
+            return;
+        }
+
+        // must specify location
+        if(command.ArgCount < 2)
+        {
+            player.LocalizePrefix(WARDEN_PREFIX,"warden.countdown_usage");
+            return;
+        }
+
+        // attempt the start the warday
+        String str = command.ArgByIndex(2);
+
+        // attempt to parse optional delay
+        int delay = 20;
+
+        if(command.ArgCount >= 3)
+        {
+            if(Int32.TryParse(command.ArgByIndex(1),out int delayOpt))
+            {
+                delay = delayOpt;
+            }   
+
+            else
+            {
+                player.LocalizePrefix(WARDEN_PREFIX,"warden.countdown_usage");
+                return;      
+            }    
+        }
+
+        chatCountdown.Start(str,delay,0,null,null);
+    }
+
+
+    public void CountdownAbortCmd(CCSPlayerController? player, CommandInfo command)
+    {
+        if(!player.IsLegal())
+        {
+            return;
+        }
+
+        // must be warden
+        if(!IsWarden(player))
+        {
+            player.LocalizePrefix(WARDEN_PREFIX,"warden.countdown_restrict");
+            return;
+        }
+
+        Chat.LocalizeAnnounce(WARDEN_PREFIX,"warden.countdown_abort");
+
+        chatCountdown.Kill();
+    }
+
     (JailPlayer?, CCSPlayerController?) GiveTInternal(CCSPlayerController? invoke, String name, String playerName)
     {
         if(!IsWarden(invoke))
@@ -408,5 +472,7 @@ public partial class Warden
 
         player.GunMenuInternal(true,CtGuns);     
     }
+
+
 
 }

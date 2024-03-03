@@ -171,7 +171,7 @@ public partial class SpecialDay
             activeSD.SetupCommon();
 
             // start the countdown for enable
-            countdown.Start($"{name} specialday",delay,0,null,StartSD);
+            countdown.Start($"{name} starts in",delay,0,null,StartSD);
         }
     }
 

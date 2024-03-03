@@ -309,7 +309,10 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         AddLocalizedCmd("warden.fire_guard_cmd","admin : Remove all guards apart from warden",warden.FireGuardCmd);
 
         AddLocalizedCmd("warden.give_freeday_cmd","give t a freeday",warden.GiveFreedayCmd);
-        AddLocalizedCmd("warden.give_pardon_cmd","give t a freeday",warden.GivePardonCmd);
+        AddLocalizedCmd("warden.give_pardon_cmd","give t a pardon",warden.GivePardonCmd);
+
+        AddLocalizedCmd("warden.countdown_cmd","start a countdown",warden.CountdownCmd);
+        AddLocalizedCmd("warden.countdown_abort_cmd","abort a countdown",warden.CountdownAbortCmd);  
 
         // reg lr commands
         AddLocalizedCmd("lr.start_lr_cmd","start an lr",lr.LRCmd);

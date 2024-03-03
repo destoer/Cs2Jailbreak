@@ -28,7 +28,7 @@ using System.Diagnostics.CodeAnalysis;
 public class Countdown<T>
 {
     public void Start(String countdownName, int countdownDelay,
-        T countdownData,Action<T,int>? countdownPrintFunc, Action <T> countdownCallback)
+        T countdownData,Action<T,int>? countdownPrintFunc, Action <T>? countdownCallback)
     {
         this.delay = countdownDelay;
         this.callback = countdownCallback;
@@ -59,6 +59,11 @@ public class Countdown<T>
             {
                 callback(data);
             }
+
+            else
+            {
+                Chat.PrintCentreAll("Countdown over");
+            }
         }
 
         // countdown still active
@@ -73,7 +78,7 @@ public class Countdown<T>
             // default print
             else
             {
-                Chat.PrintCentreAll($"{name} is starting in {delay} seconds");
+                Chat.PrintCentreAll($"{name}: {delay}");
             }
         }
     }
