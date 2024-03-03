@@ -64,8 +64,8 @@ public class LRShotForShot : LRBase
 
         }
         
-        // override to 1 if mag for mag
-        if(magForMag)
+        // override to 1 if shot for shot
+        if(!magForMag)
         {
             clipSize = 1;
         }
