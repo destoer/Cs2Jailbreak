@@ -201,6 +201,8 @@ public partial class Warden
         return jailPlayers[player.Slot];
     }
     
+    Countdown<int> chatCountdown = new Countdown<int>();
+
     const int INAVLID_SLOT = -3;   
 
     int wardenSlot = INAVLID_SLOT;

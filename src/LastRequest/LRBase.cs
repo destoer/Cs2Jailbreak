@@ -278,7 +278,7 @@ public abstract class LRBase
             }
         }
 
-        countdown.Start(lrName,5,this,PrintCountdown,manager.ActivateLR);
+        countdown.Start($"{lrName} starts in",5,this,PrintCountdown,manager.ActivateLR);
     }
 
     public void FailSafeActivate()
