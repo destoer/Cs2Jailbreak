@@ -36,7 +36,7 @@ public partial class Warden
             // because this generates alot of ents
             RemoveMarker();
 
-            //Server.PrintToChatAll($"{Lib.enTCount()}");
+            //Server.PrintToChatAll($"{Lib.EntCount()}");
 
             marker.colour = jailPlayer.markerColour;
             marker.Draw(60.0f,75.0f,x,y,z);

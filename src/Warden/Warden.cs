@@ -201,6 +201,16 @@ public partial class Warden
         return jailPlayers[player.Slot];
     }
     
+    public CCSPlayerController? GetWarden()
+    {
+        if(wardenSlot == INAVLID_SLOT)
+        {
+            return null;
+        }
+
+        return Utilities.GetPlayerFromSlot(wardenSlot);
+    }
+
     Countdown<int> chatCountdown = new Countdown<int>();
 
     const int INAVLID_SLOT = -3;   

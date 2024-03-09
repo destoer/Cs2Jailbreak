@@ -174,7 +174,7 @@ public abstract class SDBase
 
         },CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
 
-        JailPlugin.globalCtx.AddTimer(delay + 0.2f,() =>
+        JailPlugin.globalCtx.AddTimer(delay + 0.5f,() =>
         {
             CCSPlayerController? target = Utilities.GetPlayerFromSlot(victimSlot);
 

@@ -19,7 +19,7 @@ public class SDZombie : SDBase
     {
         for(int i = 0; i < 64; i++)
         {
-            firstDeath[i] = false;
+            deathCount[i] = 0;
         }
 
         LocalizeAnnounce("sd.zombie_start");
@@ -98,14 +98,18 @@ public class SDZombie : SDBase
             // save death cordinates
             if(pawn != null && pawn.AbsOrigin != null)
             {
-                deathCord[player.Slot] = pawn.AbsOrigin;
-                firstDeath[player.Slot] = true;
+                // make sure this is by copy
+                deathCord[player.Slot].X = pawn.AbsOrigin.X;
+                deathCord[player.Slot].Y = pawn.AbsOrigin.Y;
+                deathCord[player.Slot].Z = pawn.AbsOrigin.Z;
+                deathCount[player.Slot] += 1;
             }
 
             // couldn't get the cords just put them at patient zero
             else
             {
-                firstDeath[player.Slot] = false;
+
+                deathCount[player.Slot] = 2;
             }
 
             // First death has a very fast respawn
@@ -131,18 +135,20 @@ public class SDZombie : SDBase
             return;
         }
 
-        // only want zombie to ct damage
-        if(!player.IsT() || !attacker.IsCt())
-        {
-            return;
-        }
-
-
         if(attacker.Slot == bossSlot)
         {
             // if attacker is patient zero kill them instantly
             player.Slay();
         }
+
+
+        // only want zombie to ct damage knockback
+    /*
+        if(!player.IsT() || !attacker.IsCt())
+        {
+            return;
+        }
+
 
         // add knockback to player, scaled from damage
         var playerPawn = player.Pawn();
@@ -159,13 +165,14 @@ public class SDZombie : SDBase
 
             // scale it (may need balancing)
             Vector push = Vec.Scale(pos, scale);
-        /*
-            Server.PrintToChatAll($"damage {damage}");
-            Server.PrintToChatAll($"pos {pos.X} {pos.Y} {pos.Z}");
-            Server.PrintToChatAll($"push {push.X} {push.Y} {push.Z}");
-        */
+        
+            //Server.PrintToChatAll($"damage {damage}");
+            //Server.PrintToChatAll($"pos {pos.X} {pos.Y} {pos.Z}");
+            //Server.PrintToChatAll($"push {push.X} {push.Y} {push.Z}");
+        
             playerPawn.AbsVelocity.Add(push);
         }
+    */
     }
 
     public override void End()
@@ -211,9 +218,8 @@ public class SDZombie : SDBase
             }
 
             // respawn them on their death cordinates
-            if(firstDeath[player.Slot])
+            if(deathCount[player.Slot] == 1)
             {
-                firstDeath[player.Slot] = false;
                 player.Teleport(deathCord[player.Slot],Lib.ANGLE_ZERO,Lib.VEC_ZERO);
             }
 
@@ -235,6 +241,6 @@ public class SDZombie : SDBase
         }
     }
 
-    bool[] firstDeath = new bool[64];
+    int[] deathCount = new int[64];
     Vector[] deathCord = new Vector[64];
 }
