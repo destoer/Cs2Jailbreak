@@ -14,6 +14,7 @@ using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 using CounterStrikeSharp.API.Modules.Memory.DynamicFunctions;
 using System.Text.Json.Serialization;
+using CounterStrikeSharp.API.Core.Capabilities;
 
 public class JailConfig : BasePluginConfig
 {
@@ -136,9 +137,30 @@ public class JailConfig : BasePluginConfig
     public int wsdRound { get; set; } = 50;
 }
 
+public class WardenService : IWardenService
+{
+    public bool IsWarden(CCSPlayerController? player)
+    {
+        return JailPlugin.IsWarden(player);
+    }
+
+    public void SetWarden(CCSPlayerController player)
+    {
+        if(player.IsLegalAlive() && player.IsCt())
+        {
+            JailPlugin.warden.SetWarden(player.Slot);
+        }
+    }
+
+    public CCSPlayerController? GetWarden()
+    {
+        return JailPlugin.warden.GetWarden();
+    }
+}
+ 
 // main plugin file, controls central hooking
 // defers to warden, lr and sd
-[MinimumApiVersion(163)]
+[MinimumApiVersion(193)]
 public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 {
     // Global event settings, used to filter plugin activits
@@ -146,6 +168,8 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     bool isEventActive = false;
 
     public JailConfig Config  { get; set; } = new JailConfig();
+
+    public static PluginCapability<IWardenService> wardenService {get; } = new ("jailbreak:warden_service");
 
     public static bool IsWarden(CCSPlayerController? player)
     {
@@ -184,12 +208,14 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public override string ModuleName => "CS2 Jailbreak - destoer";
 
-    public override string ModuleVersion => "v0.3.9";
+    public override string ModuleVersion => "v0.4.1";
 
     public override void Load(bool hotReload)
     {
         globalCtx = this;
         logs = new Logs(this); 
+
+        Capabilities.RegisterPluginCapability(wardenService,() => new WardenService());
 
         RegisterCommands();
         
@@ -204,7 +230,6 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         Console.WriteLine("Sucessfully started JB");
 
         AddTimer(Warden.LASER_TIME,warden.LaserTick,CSTimer.TimerFlags.REPEAT);
-
     }
 
     void LocalizePrefix()

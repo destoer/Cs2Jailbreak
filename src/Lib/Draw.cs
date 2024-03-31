@@ -79,6 +79,9 @@ class Circle
             Vector start = AngleOnCircle(angleOld,radius,mid);
             Vector end = AngleOnCircle(angleCur,radius,mid);
 
+            // update the line colour
+            lines[l].colour = colour;
+
             lines[l].Move(start,end);
             lines[l].DestroyDelay(life);
 
