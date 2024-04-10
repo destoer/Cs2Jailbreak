@@ -51,4 +51,15 @@ public class LRKnife : LRBase
             }
         }
     }
+
+    public override void PlayerHurt(int health,int damage, int hitgroup) 
+    {
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(playerSlot);
+
+        // re init the player
+        if(choice == "High speed" && player.IsLegalAlive())
+        {
+            player.SetVelocity(2.5f);  
+        }
+    }
 }

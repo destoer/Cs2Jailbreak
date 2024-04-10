@@ -263,8 +263,17 @@ public abstract class LRBase
             return;
         }
 
-        tPlayer.PrintToCenter($"Starting {lr.lrName} against {ctPlayer.PlayerName} in {delay} seconds");
-        ctPlayer.PrintToCenter($"Starting {lr.lrName} against {tPlayer.PlayerName} in {delay} seconds");
+        if(lr.choice == "")
+        {
+            tPlayer.PrintToCenter($"Starting {lr.lrName} against {ctPlayer.PlayerName} in {delay} seconds");
+            ctPlayer.PrintToCenter($"Starting {lr.lrName} against {tPlayer.PlayerName} in {delay} seconds");
+        }
+
+        else
+        {
+            tPlayer.PrintToCenter($"Starting {lr.lrName} ({lr.choice}) against {ctPlayer.PlayerName} in {delay} seconds");
+            ctPlayer.PrintToCenter($"Starting {lr.lrName} ({lr.choice}) against {tPlayer.PlayerName} in {delay} seconds");       
+        }
     }
 
     public void CountdownStart()
