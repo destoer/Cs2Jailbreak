@@ -43,10 +43,18 @@ public class Block
 
     public void RoundStart()
     {
-        // TODO: for now we just assume no block
-        // we wont have a cvar
-        UnBlockAll();
+        if(Config.noBlock)
+        {
+            UnBlockAll();
+        }
+
+        else 
+        {
+            BlockAll();
+        }
     }
+
+    public JailConfig Config = new JailConfig();
  
     bool blockState = false;
 }

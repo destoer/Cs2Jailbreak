@@ -33,6 +33,9 @@ public class JailConfig : BasePluginConfig
     [JsonPropertyName("database")]
     public String database { get; set; } = "cs2_jail";
 
+    [JsonPropertyName("no_block")]
+    public bool noBlock { get; set; } = true;
+
     [JsonPropertyName("mute_dead")]
     public bool muteDead { get; set; } = true;
 
@@ -268,6 +271,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         warden.Config = config;
         warden.mute.Config = config;
         warden.warday.Config = config;
+        warden.block.Config = config;
         JailPlayer.Config = config;
 
         sd.Config = config;

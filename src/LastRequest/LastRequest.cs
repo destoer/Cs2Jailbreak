@@ -45,7 +45,7 @@ public partial class LastRequest
         }
     }
 
-    void InitPlayerCommon(CCSPlayerController? player, String lrName)
+    void InitPlayerCommon(CCSPlayerController? player, String lrName, String option)
     {
         if(!player.IsLegalAlive())
         {
@@ -58,7 +58,15 @@ public partial class LastRequest
         player.StripWeapons(true);
         player.GiveArmour();
 
-        player.Announce(LR_PREFIX,$"{lrName} is starting\n");
+        if(option == "")
+        {
+            player.Announce(LR_PREFIX,$"{lrName} is starting\n");
+        }
+
+        else
+        {
+            player.Announce(LR_PREFIX,$"{lrName} ({option}) is starting\n");
+        }
     }
 
     bool LRExists(LRBase lr)
@@ -234,8 +242,8 @@ public partial class LastRequest
         }
 
         // do common player setup
-        InitPlayerCommon(tPlayer,tLR.lrName);
-        InitPlayerCommon(ctPlayer,ctLR.lrName); 
+        InitPlayerCommon(tPlayer,tLR.lrName,choice.option);
+        InitPlayerCommon(ctPlayer,ctLR.lrName,choice.option); 
 
         // bind lr pair
         tLR.partner = ctLR;
