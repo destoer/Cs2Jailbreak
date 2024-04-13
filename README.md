@@ -16,6 +16,9 @@ https://github.com/destoer/Cs2Jailbreak/wiki
 # Installation
 Download the latest release from the releases tab and copy it into the counterstrikesharp plugin folder
 
+If you wan't saved LR stats please create a SQL database with a name of your choice and setup the credentials in
+configs/plugins/Cs2Jailbreak
+
 NOTE: this plugin only operates correctly on linux
 
 windows has a couple of places where a !IsWindows() check wraps buggy code
