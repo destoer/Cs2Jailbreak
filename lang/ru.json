@@ -7,7 +7,7 @@
   "warden.unblock_command_desc": "!wub - выключить блок",
   "warden.remove_warden_command_desc": "!rw - принудительно удалить начальника",
   "warden.laser_colour_command_desc": "!laser_colour - установить цвет лазера",
-  "warden.marker_colour_command_desc": "!laser_colour - установить цвет маркера",
+  "warden.marker_colour_command_desc": "!marker_colour - установить цвет маркера",
   "warden.swap_guard_desc": "!swap_guard <player name> - меняет команду игрока с T на охранника CT",
   "warden.wsd_command_desc": "!wsd - Call a warden special day",
   "warden.wsd_ff_command_desc": "!wsd - Call a warden friendly fire special day",
