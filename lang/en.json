@@ -9,7 +9,7 @@
     "warden.unblock_command_desc": "!wub - disable block",
     "warden.remove_warden_command_desc": "!rw - admin remove warden",
     "warden.laser_colour_command_desc": "!laser_colour - set laser colour",
-    "warden.marker_colour_command_desc": "!laser_colour - set marker colour",
+    "warden.marker_colour_command_desc": "!marker_colour - set marker colour",
     "warden.swap_guard_desc": "!swap_guard <player name> - swaps a T to a guard in CT",
     "warden.wsd_command_desc": "!wsd - Call a warden special day",
     "warden.wsd_ff_command_desc": "!wsd - Call a warden friendly fire special day",
