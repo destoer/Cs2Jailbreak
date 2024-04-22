@@ -163,7 +163,7 @@ public class WardenService : IWardenService
  
 // main plugin file, controls central hooking
 // defers to warden, lr and sd
-[MinimumApiVersion(193)]
+[MinimumApiVersion(213)]
 public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 {
     // Global event settings, used to filter plugin activits
