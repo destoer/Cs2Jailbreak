@@ -232,14 +232,7 @@ public static class Player
     // OnPostThink doesn't appear to be good enough?
     static public void HideWeapon(this CCSPlayerController? player)
     {
-        CCSPlayerPawn? pawn = player.Pawn();
-
-        if(pawn != null)
-        {
-            pawn.PrimaryAddon = 0;
-            pawn.SecondaryAddon = 0;
-            pawn.AddonBits = 0;
-        }
+        Server.PrintToChatAll("Hide weapon uimpl");
     }
 
     static public void ListenAll(this CCSPlayerController? player)

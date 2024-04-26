@@ -62,13 +62,7 @@ public static class Debug
                 continue;
             }
 
-            var col = pawn.Collision;
-
-            if(col != null)
-            {
-                pawn.MyCollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_DEBRIS_TRIGGER;
-                col.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_DEBRIS_TRIGGER;
-            }
+            // TODO
         }      
     }
 

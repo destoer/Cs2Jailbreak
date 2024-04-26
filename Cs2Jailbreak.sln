@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cs2Jailbreak", "src\Cs2Jailbreak.csproj", "{725B192E-0E77-435E-AA7A-E5F6FD1E3082}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WardenService", "WardenService\WardenService.csproj", "{4D7143BE-B93A-494A-AB27-CC984332BDC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cs2Jailbreak", "src\Cs2Jailbreak.csproj", "{16C3C0CB-D2C7-49E0-911C-E311FB59EF6A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,9 +16,13 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{725B192E-0E77-435E-AA7A-E5F6FD1E3082}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{725B192E-0E77-435E-AA7A-E5F6FD1E3082}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{725B192E-0E77-435E-AA7A-E5F6FD1E3082}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{725B192E-0E77-435E-AA7A-E5F6FD1E3082}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D7143BE-B93A-494A-AB27-CC984332BDC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D7143BE-B93A-494A-AB27-CC984332BDC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D7143BE-B93A-494A-AB27-CC984332BDC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D7143BE-B93A-494A-AB27-CC984332BDC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16C3C0CB-D2C7-49E0-911C-E311FB59EF6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16C3C0CB-D2C7-49E0-911C-E311FB59EF6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16C3C0CB-D2C7-49E0-911C-E311FB59EF6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16C3C0CB-D2C7-49E0-911C-E311FB59EF6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
