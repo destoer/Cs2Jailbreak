@@ -144,6 +144,6 @@
 
     "lr.cancel_lr_cmd": "lriptal",
     "lr.start_lr_cmd": "lr",
-    "lr.stats_cmd": "lr_istatistik"
+    "lr.stats_cmd": "lr_istatistik",
     "lr.lr_prefix": "{green}[LR]: {white}"
 }

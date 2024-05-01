@@ -231,7 +231,6 @@ public class JailPlayer
     {
         PurgeRound();
 
-        // TODO: reset client specific settings
         laserColour = Lib.CYAN;
         markerColour = Lib.CYAN;
         ctGun = "M4";

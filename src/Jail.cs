@@ -306,7 +306,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     void RegisterCommands()
     {
         AddCommand("kill","kill self",KillCmd);
-
+        
         // reg warden comamnds
         AddLocalizedCmd("warden.take_warden_cmd", "take warden", warden.TakeWardenCmd);
         AddLocalizedCmd("warden.leave_warden_cmd", "leave warden", warden.LeaveWardenCmd);
