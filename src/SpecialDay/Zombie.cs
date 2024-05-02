@@ -200,6 +200,33 @@ public class SDZombie : SDBase
         player.GiveArmour();
     }
 
+    public void TeleportZombie(CCSPlayerController player)
+    {
+        //player.PrintToChat("TP!");
+
+        // respawn them on their death cordinates
+        if(deathCount[player.Slot] == 1)
+        {
+            player.Teleport(deathCord[player.Slot],Lib.ANGLE_ZERO,Lib.VEC_ZERO);
+        }
+
+        // teleport player to patient zero
+        else
+        {
+            var patientZero = Utilities.GetPlayerFromSlot(bossSlot);
+
+            if(patientZero.IsLegalAlive())
+            {
+                var pawn = patientZero.Pawn();
+
+                if(pawn != null && pawn.AbsOrigin != null)
+                {
+                    player.Teleport(pawn.AbsOrigin,Lib.ANGLE_ZERO,Lib.VEC_ZERO);
+                }
+            }
+        }     
+    }
+
     public override void SetupPlayer(CCSPlayerController player)
     {
         if(player.IsCt())
@@ -217,27 +244,7 @@ public class SDZombie : SDBase
                 player.SetHealth(250);
             }
 
-            // respawn them on their death cordinates
-            if(deathCount[player.Slot] == 1)
-            {
-                player.Teleport(deathCord[player.Slot],Lib.ANGLE_ZERO,Lib.VEC_ZERO);
-            }
-
-            // teleport player to patient zero
-            else
-            {
-                var patientZero = Utilities.GetPlayerFromSlot(bossSlot);
-
-                if(patientZero.IsLegalAlive())
-                {
-                    var pawn = patientZero.Pawn();
-
-                    if(pawn != null && pawn.AbsOrigin != null)
-                    {
-                        player.Teleport(pawn.AbsOrigin,Lib.ANGLE_ZERO,Lib.VEC_ZERO);
-                    }
-                }
-            }
+            TeleportZombie(player);
         }
     }
 

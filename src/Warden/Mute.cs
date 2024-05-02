@@ -63,7 +63,7 @@ public class Mute
     {
         Lib.KillTimer(ref muteTimer);
 
-        Lib.UnMuteAll();
+        Lib.UnMuteAll(true);
     }
 
     public void Connect(CCSPlayerController? player)

@@ -46,6 +46,7 @@
     "warden.swap_guard_cmd": "ct_al",
     "warden.no_block_cmd": "wub",
     "warden.block_cmd": "wb",
+    "warden.mute_cmd": "wm",
     "warden.force_open_cmd": "zorla_ac",
     "warden.force_close_cmd": "zorla_kapat",
     "warden.sd_cmd": "komutcu_ozelgun",

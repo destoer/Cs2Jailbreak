@@ -215,6 +215,57 @@ public partial class Warden
         return false;
     }
 
+    public void WardenMuteCmd(CCSPlayerController? invoke, CommandInfo cmd)
+    {
+        // make sure we are actually the warden
+        if(!IsWarden(invoke))
+        {
+            invoke.Announce(WARDEN_PREFIX,"you must be warden to use a warden mute");
+            return;
+        }
+
+        if(tmpMuteTimer != null)
+        {
+            invoke.Announce(WARDEN_PREFIX,"mute is already active");
+            return;
+        }
+
+        long remain = 60 - (Lib.CurTimestamp() - tmpMuteTimestamp);
+
+        // make sure we cant spam this
+        if(remain > 0)
+        {
+            invoke.Announce(WARDEN_PREFIX,$"Warden mute cannot be used for another {remain} seconds");
+            return;
+        }
+
+        // mute everyone that isnt the warden
+        foreach(CCSPlayerController player in Lib.GetAlivePlayers())
+        {
+            if(!IsWarden(player))
+            {
+                player.Mute();
+            }
+        }
+
+        Chat.Announce(WARDEN_PREFIX,"everyone apart from the warden is muted for 10 seconds!");
+
+        tmpMuteTimer = JailPlugin.globalCtx.AddTimer(10.0f,UnmuteTmp,CSTimer.TimerFlags.STOP_ON_MAPCHANGE);  
+    }
+
+
+    public void UnmuteTmp()
+    {
+        Chat.Announce(WARDEN_PREFIX,"warden mute is now over!");
+
+        Lib.UnMuteAll();
+        tmpMuteTimer = null;
+
+        // re grab the timestmap for the cooldown
+        tmpMuteTimestamp = Lib.CurTimestamp();
+    }
+
+
     public void GiveT(CCSPlayerController? invoke, String name, Action<CCSPlayerController, ChatMenuOption> callback,Func<CCSPlayerController?,bool> filter)
     {
         if(!IsWarden(invoke))

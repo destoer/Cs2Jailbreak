@@ -213,6 +213,9 @@ public partial class Warden
 
     Countdown<int> chatCountdown = new Countdown<int>();
 
+    CSTimer.Timer? tmpMuteTimer = null;
+    long tmpMuteTimestamp = 0;
+
     const int INAVLID_SLOT = -3;   
 
     int wardenSlot = INAVLID_SLOT;

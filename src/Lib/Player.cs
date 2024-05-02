@@ -53,12 +53,12 @@ public static class Player
         return player.IsLegal() && player.Connected == PlayerConnectedState.PlayerConnected;
     }
 
-    static public bool IsT(this CCSPlayerController? player)
+    static public bool IsT([NotNullWhen(true)] this CCSPlayerController? player)
     {
         return IsLegal(player) && player.TeamNum == TEAM_T;
     }
 
-    static public bool IsCt(this CCSPlayerController? player)
+    static public bool IsCt([NotNullWhen(true)] this CCSPlayerController? player)
     {
         return IsLegal(player) && player.TeamNum == TEAM_CT;
     }

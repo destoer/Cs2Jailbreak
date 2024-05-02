@@ -343,6 +343,8 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         AddLocalizedCmd("warden.countdown_cmd","start a countdown",warden.CountdownCmd);
         AddLocalizedCmd("warden.countdown_abort_cmd","abort a countdown",warden.CountdownAbortCmd);  
 
+        AddLocalizedCmd("warden.mute_cmd","do a warden mute",warden.WardenMuteCmd);
+
         // reg lr commands
         AddLocalizedCmd("lr.start_lr_cmd","start an lr",lr.LRCmd);
         AddLocalizedCmd("lr.cancel_lr_cmd","admin : cancel lr",lr.CancelLRCmd);

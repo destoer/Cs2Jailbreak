@@ -91,11 +91,14 @@ public static class Lib
         }
     }
 
-    static public void UnMuteAll()
+    static public void UnMuteAll(bool roundEnd = false)
     {
         foreach(CCSPlayerController player in Lib.GetPlayers())
         {
-            player.UnMute();
+            if(player.IsLegalAlive() || roundEnd)
+            {
+                player.UnMute();
+            }
         }
     }
 

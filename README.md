@@ -13,6 +13,8 @@ For further config and feature info please see the wiki
 
 https://github.com/destoer/Cs2Jailbreak/wiki
 
+also please see https://github.com/destoer/JailServiceTest for example API usage
+
 # Installation
 Download the latest release from the releases tab and copy it into the counterstrikesharp plugin folder
 

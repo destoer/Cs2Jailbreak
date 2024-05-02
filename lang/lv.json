@@ -48,6 +48,7 @@
 "warden.swap_guard_cmd": "swap_guard",
 "warden.no_block_cmd": "wub",
 "warden.block_cmd": "wb",
+"warden.mute_cmd": "wm",
 "warden.force_open_cmd": "force_open",
 "warden.force_close_cmd": "force_close",
 "warden.sd_cmd": "wsd",
