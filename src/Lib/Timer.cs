@@ -108,10 +108,10 @@ static public class Timer
     }
 
     // ent
-    static public void RemoveDelay(this CEntityInstance entity, float delay, String name)
+    static public void RemoveDelay(this CEntityInstance? entity, float delay, String name)
     {
         // remove projectile
-        if(entity.DesignerName == name)
+        if(entity != null && entity.DesignerName == name)
         {
             int index = (int)entity.Index;
 

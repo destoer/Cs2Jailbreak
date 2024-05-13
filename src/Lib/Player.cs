@@ -207,6 +207,17 @@ public static class Player
         }
     }
 
+    static public bool IsVip(this CCSPlayerController? player)
+    {
+        if(!player.IsLegal())
+        {
+            return false;
+        }
+
+        return AdminManager.PlayerHasPermissions(player,new String[] {"@css/vip"});
+    }
+
+
     static public bool IsGenericAdmin(this CCSPlayerController? player)
     {
         if(!player.IsLegal())

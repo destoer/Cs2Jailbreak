@@ -75,7 +75,7 @@ public static class Lib
     {
         foreach(CCSPlayerController player in Lib.GetPlayers())
         {
-            if(player.IsT())
+            if(player.IsT() && !player.IsVip())
             {
                 player.Mute();
             }

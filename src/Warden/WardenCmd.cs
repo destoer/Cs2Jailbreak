@@ -287,10 +287,13 @@ public partial class Warden
 
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(colourSlot);
 
-        Color colour = Lib.COLOUR_CONFIG_MAP[option.Text];
+        if(player.IsLegalAlive())
+        {
+            Color colour = Lib.COLOUR_CONFIG_MAP[option.Text];
 
-        Chat.Announce(WARDEN_PREFIX,$"Setting {player.PlayerName} colour to {option.Text}");
-        player.SetColour(colour);
+            Chat.Announce(WARDEN_PREFIX,$"Setting {player.PlayerName} colour to {option.Text}");
+            player.SetColour(colour);
+        }
     }
 
     public void ColourPlayerCallback(CCSPlayerController? invoke, ChatMenuOption option)
@@ -448,7 +451,10 @@ public partial class Warden
         {
             var warden = Utilities.GetPlayerFromSlot(wardenSlot);
 
-            player.LocalizePrefix(WARDEN_PREFIX,"warden.warden_taken",warden.PlayerName);
+            if(warden.IsLegal())
+            {
+                player.LocalizePrefix(WARDEN_PREFIX,"warden.warden_taken",warden.PlayerName);
+            }
         }
 
         // player is valid to take warden
