@@ -155,6 +155,16 @@ public partial class LastRequest
         }
     }
 
+    public void WeaponDropped(CCSPlayer_ItemServices itemServices, CBasePlayerWeapon weapon)
+    {
+        for (int i = 0; i < activeLR.Length; i++)
+        {
+            LRBase? lr = activeLR[i];
+            if(lr != null)
+                lr.WeaponDropped(itemServices, weapon);
+        }
+    }
+
     public void RoundStart()
     {
         startTimestamp = Lib.CurTimestamp();

@@ -169,6 +169,10 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     // Global event settings, used to filter plugin activits
     // during warday and SD
     bool isEventActive = false;
+    
+    // function called 3 times in the function called just before the string "Player.PunchDisarm"
+    // there's probably a better way to find it
+    public static MemoryFunctionVoid<CCSPlayer_ItemServices, CBasePlayerWeapon, IntPtr> OnWeaponDropped = new("55 48 89 E5 41 56 41 55 49 89 D5 41 54 49 89 F4 53 48 89 FB E8 ? ? ? ? 49 89 C6");
 
     public JailConfig Config  { get; set; } = new JailConfig();
 
@@ -227,10 +231,8 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         RegisterListeners();
 
         LocalizePrefix();
-
         JailPlayer.SetupDB();
 
-        Console.WriteLine("Sucessfully started JB");
 
         AddTimer(Warden.LASER_TIME,warden.LaserTick,CSTimer.TimerFlags.REPEAT);
     }
@@ -421,6 +423,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
             VirtualFunctions.CBaseEntity_TakeDamageOldFunc.Hook(OnTakeDamage,HookMode.Pre);
         }
         
+        
         HookEntityOutput("func_button", "OnPressed", OnButtonPressed);
         
         RegisterListener<Listeners.OnClientVoice>(OnClientVoice);
@@ -431,10 +434,15 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         AddCommandListener("say", OnPlayerChat);
 
-        // TODO: need to hook weapon drop
+        OnWeaponDropped.Hook(OnWeaponDrop, HookMode.Post);
     }
 
-
+    public HookResult OnWeaponDrop(DynamicHook hook)
+    {
+        lr.WeaponDropped(hook.GetParam<CCSPlayer_ItemServices>(0), hook.GetParam<CBasePlayerWeapon>(1));
+        return HookResult.Continue;
+    }
+    
     public HookResult OnPlayerChat(CCSPlayerController? invoke, CommandInfo command)
     {
         // dont print chat, warden is handling it
@@ -498,6 +506,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     public override void Unload(bool hotReload)
     {
         VirtualFunctions.CBaseEntity_TakeDamageOldFunc.Unhook(OnTakeDamage,HookMode.Pre);
+        OnWeaponDropped.Unhook(OnWeaponDrop, HookMode.Post);
     }
 
     HookResult OnGrenadeThrown(EventGrenadeThrown @event, GameEventInfo info)
