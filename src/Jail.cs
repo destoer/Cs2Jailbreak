@@ -232,7 +232,8 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         LocalizePrefix();
         JailPlayer.SetupDB();
-
+        
+        Console.WriteLine("Sucessfully started JB");
 
         AddTimer(Warden.LASER_TIME,warden.LaserTick,CSTimer.TimerFlags.REPEAT);
     }
