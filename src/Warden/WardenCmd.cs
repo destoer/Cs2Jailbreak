@@ -94,6 +94,12 @@ public partial class Warden
             if(Int32.TryParse(command.ArgByIndex(2),out int delayOpt))
             {
                 delay = delayOpt;
+
+                if(delayOpt > 200)
+                {
+                    player.LocalizePrefix(WARDEN_PREFIX, "warden.countdown_max_delay");
+                    return;
+                }
             }       
         }
 
@@ -136,6 +142,13 @@ public partial class Warden
             if(Int32.TryParse(command.ArgByIndex(1),out int delayOpt))
             {
                 delay = delayOpt;
+
+                // Thanks TICHO
+                if(delayOpt > 200)
+                {
+                    player.LocalizePrefix(WARDEN_PREFIX, "warden.countdown_max_delay");
+                    return;
+                }
             }   
 
             else
@@ -251,6 +264,23 @@ public partial class Warden
         Chat.Announce(WARDEN_PREFIX,"everyone apart from the warden is muted for 10 seconds!");
 
         tmpMuteTimer = JailPlugin.globalCtx.AddTimer(10.0f,UnmuteTmp,CSTimer.TimerFlags.STOP_ON_MAPCHANGE);  
+    }
+
+    public void HealTCmd(CCSPlayerController? invoke, CommandInfo cmd)
+    {
+        // make sure we are actually the warden
+        if(!IsWarden(invoke))
+        {
+            invoke.Announce(WARDEN_PREFIX,"you must be warden to heal t's");
+            return;
+        }
+
+        Chat.Announce(WARDEN_PREFIX,"Warden healed t's");
+
+        foreach(CCSPlayerController player in Lib.GetAliveT())
+        {
+            player.SetHealth(100);
+        }    
     }
 
 

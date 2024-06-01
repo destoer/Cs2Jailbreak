@@ -68,7 +68,9 @@
     "warden.countdown_usage": "!countdown: <time> <msg>",
     "warden.countdown_restrict": "You must be the warden to call a countdown",
     "warden.countdown_abort": "Warden aborted the countdown",
+    "warden.countdown_max_delay": "The maximum time is 200 seconds!",
 
+    "warden.heal_t_cmd": "heal_t",
 
     "logs.ct": "CT",
     "logs.t": "T",
@@ -167,6 +169,7 @@
     "lr.req_ct": "Your partner is not a CT",
     "lr.too_many": "There are too many t's alive to start an lr {0}",
     "lr.player_rebel": "{0} is a rebel!",
+    "lr.rebel_name": "{0} started rebel",
     "lr.knife_rebel": "{0} is knife a rebel!",
     "lr.ready": "Last request is available! Type !lr",
     "lr.wait": "Please wait 15 seconds into the round before starting an lr",

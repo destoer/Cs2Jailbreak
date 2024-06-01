@@ -143,7 +143,7 @@ public static class Lib
     static public void RespawnPlayers()
     {
         // 1up all dead players
-        foreach(CCSPlayerController player in Lib.GetPlayers())
+        foreach(CCSPlayerController player in Lib.GetActivePlayers())
         {
             if(!player.IsLegalAlive())
             {
@@ -191,6 +191,12 @@ public static class Lib
     {
         List<CCSPlayerController> players = Lib.GetPlayers();
         return players.FindAll(player => player.IsLegalAlive() && player.IsT());;
+    }
+
+    static public List<CCSPlayerController> GetActivePlayers()
+    {
+        List<CCSPlayerController> players = Lib.GetPlayers();
+        return players.FindAll(player => player.IsT() || player.IsCt());;
     }
 
     static public int AliveTCount()

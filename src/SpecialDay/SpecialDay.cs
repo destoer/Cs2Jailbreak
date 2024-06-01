@@ -40,6 +40,12 @@ public partial class SpecialDay
             // restore all players if from a cancel
             if(forced)
             {
+                foreach(CCSPlayerController player in Lib.GetAliveCt())
+                {
+                    player.GiveWeapon("m4a1");
+                    player.GiveWeapon("deagle");
+                }
+
                 Chat.Announce(SPECIALDAY_PREFIX,"Special day cancelled");
             }  
 
@@ -208,8 +214,13 @@ public partial class SpecialDay
         if(Int32.TryParse(command.ArgByIndex(1),out int delayOpt))
         {
             delay = delayOpt;
-        }
 
+            if(delayOpt > 200)
+            {
+                player.LocalizePrefix(SPECIALDAY_PREFIX, "warden.countdown_max_delay");
+                return;
+            }
+        }
 
         var sdMenu = new ChatMenu("Specialday");
 

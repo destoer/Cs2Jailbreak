@@ -44,7 +44,7 @@ public partial class LastRequest
 
         rebelType = RebelType.REBEL;
 
-        Chat.LocalizeAnnounce(LR_PREFIX,"lr.player_name",player.PlayerName);
+        Chat.LocalizeAnnounce(LR_PREFIX,"lr.rebel_name",player.PlayerName);
     }
 
     public void StartRebel(CCSPlayerController? player, ChatMenuOption option)

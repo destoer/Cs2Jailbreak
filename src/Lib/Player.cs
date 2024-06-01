@@ -36,9 +36,11 @@ public static class Player
 
     static public void Slay(this CCSPlayerController? player)
     {
-        if(player.IsLegalAlive())
+        // Why does slay now count as damage, but doesn't set the kill state fast enough?
+        if(player.IsLegalAlive() && player.GetHealth() > 0)
         {
             player.PlayerPawn.Value?.CommitSuicide(true, true);
+            player.SetHealth(0);
         }
     }
 

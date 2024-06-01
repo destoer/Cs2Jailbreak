@@ -125,7 +125,7 @@ static public class Timer
 
     static public void GiveEventNadeDelay(this CCSPlayerController? target,float delay, String name)
     {
-        if(!target.IsLegalAlive())
+        if(!target.IsLegalAlive() || !JailPlugin.EventActive())
         {
             return;
         }

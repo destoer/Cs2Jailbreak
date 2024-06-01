@@ -345,6 +345,8 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         AddLocalizedCmd("warden.mute_cmd","do a warden mute",warden.WardenMuteCmd);
 
+        AddLocalizedCmd("warden.heal_t_cmd","Heal t's",warden.HealTCmd);
+
         // reg lr commands
         AddLocalizedCmd("lr.start_lr_cmd","start an lr",lr.LRCmd);
         AddLocalizedCmd("lr.cancel_lr_cmd","admin : cancel lr",lr.CancelLRCmd);
@@ -356,7 +358,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         AddLocalizedCmd("sd.cancel_cmd","cancel an sd",sd.CancelSDCmd);
 
         AddLocalizedCmd("logs.logs_cmd", "show round logs", logs.LogsCommand);
-
+        
         // debug 
         if(Debug.enable)
         {

@@ -302,7 +302,7 @@ public abstract class LRBase
     public void DelayFailSafe(float delay)
     {
         Chat.Announce(LastRequest.LR_PREFIX,$"fail-safe active in {delay} seconds");
-        JailPlugin.globalCtx.AddTimer(delay,FailSafeActivate,CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
+        failsafeTimer = JailPlugin.globalCtx.AddTimer(delay,FailSafeActivate,CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
     }
 
     public void LaserTick()

@@ -133,7 +133,8 @@ public partial class Warden
     void SetWardenIfLast(bool onDeath = false)
     {
         // dont override the warden if there is no death removal
-        if(!Config.wardenForceRemoval)
+        // also don't do it if an event is running because it's annoying
+        if(!Config.wardenForceRemoval || JailPlugin.EventActive())
         {
             return;
         }
@@ -143,14 +144,22 @@ public partial class Warden
 
         if(ctPlayers.Count == 1)
         {
+            int slot = ctPlayers[0].Slot;
+
             if(onDeath)
             {
                 // play sfx for last ct
                 // TODO: this is too loud as there is no way to control volume..
-                //Lib.PlaySound_all("sounds/vo/agents/sas/lastmanstanding03");
+                //Lib.PlaySoundAll("sounds/vo/agents/sas/lastmanstanding03");
+                var player = Utilities.GetPlayerFromSlot(slot);
+
+                // Give last warden an extra bit of hp
+                if(player.IsLegalAlive())
+                {
+                    player.SetHealth(150);
+                }
             }
         
-            int slot = ctPlayers[0].Slot;
             SetWarden(slot);
         }
     }

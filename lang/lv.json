@@ -69,6 +69,7 @@
 "warden.countdown_restrict": "Jums jābūt cietuma priekšniekam, lai sāktu atskaiti",
 "warden.countdown_abort": "Cietuma Priekšnieks pārtrauca atskaiti",
 
+"warden.heal_t_cmd": "heal_t",
 
 "logs.ct": "CT",
 "logs.t": "T",

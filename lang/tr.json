@@ -61,6 +61,15 @@
     "warden.give_pardon": "{0} nın isyancılığı kaldırıldı",
     "warden.give_freeday": "{0} ya özgür gün verildi",
 
+    "warden.countdown_cmd": "countdown",
+    "warden.countdown_abort_cmd": "countdown_abort",
+    "warden.countdown_usage": "!countdown: <time> <msg>",
+    "warden.countdown_restrict": "You must be the warden to call a countdown",
+    "warden.countdown_abort": "Warden aborted the countdown",
+    "warden.countdown_max_delay": "The maximum time is 200 seconds!",
+
+    "warden.heal_t_cmd": "heal_t",
+
     "logs.ct": "CT",
     "logs.t": "T",
     "logs.logs_cmd": "logs",

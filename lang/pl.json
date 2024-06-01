@@ -69,6 +69,8 @@
     "warden.countdown_restrict": "Musisz być wardenem, aby ogłosić odliczanie",
     "warden.countdown_abort": "Warden anulował odliczanie",
 
+    "warden.heal_t_cmd": "heal_t",
+
     "logs.ct": "CT",
     "logs.t": "T",
     "logs.logs_cmd": "logs",
