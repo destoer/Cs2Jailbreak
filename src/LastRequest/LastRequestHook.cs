@@ -157,10 +157,10 @@ public partial class LastRequest
 
     public void WeaponDropped(CCSPlayer_ItemServices itemServices, CBasePlayerWeapon weapon)
     {
-        for (int i = 0; i < activeLR.Length; i++)
+        if (itemServices.Pawn.Value.Controller.Value != null)
         {
-            LRBase? lr = activeLR[i];
-            if(lr != null)
+            LRBase? lr = FindLR(Utilities.GetPlayerFromSteamId(itemServices.Pawn.Value.Controller.Value.SteamID)); 
+            if(lr != null) 
                 lr.WeaponDropped(itemServices, weapon);
         }
     }
