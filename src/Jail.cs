@@ -166,7 +166,7 @@ public class WardenService : IWardenService
  
 // main plugin file, controls central hooking
 // defers to warden, lr and sd
-[MinimumApiVersion(239)]
+[MinimumApiVersion(244)]
 public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 {
     // Global event settings, used to filter plugin activits
@@ -214,7 +214,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public override string ModuleName => "CS2 Jailbreak - destoer";
 
-    public override string ModuleVersion => "v0.4.5";
+    public override string ModuleVersion => "v0.4.6";
 
     public override void Load(bool hotReload)
     {
