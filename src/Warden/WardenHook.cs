@@ -184,11 +184,11 @@ public partial class Warden
 
     public void PlayerHurt(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health)
     {
-        var jailPlayer = JailPlayerFromPlayer(player);
+        var attackerJailPlayer = JailPlayerFromPlayer(attacker);
 
-        if(jailPlayer != null)
+        if(attackerJailPlayer != null)
         {  
-            jailPlayer.PlayerHurt(player,attacker,damage, health);
+            attackerJailPlayer.PlayerHurt(player,attacker,damage, health);
         }  
     }
 

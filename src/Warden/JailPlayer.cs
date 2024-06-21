@@ -320,6 +320,7 @@ public class JailPlayer
         }
     }
 
+    // This excepts the jail player of the attacker
     public void PlayerHurt(CCSPlayerController? player, CCSPlayerController? attacker, int health, int damage)
     {
         if (!player.IsLegal())
