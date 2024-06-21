@@ -136,6 +136,9 @@ public class JailConfig : BasePluginConfig
     [JsonPropertyName("rebel_requirehit")]
     public bool rebelRequireHit { get; set; } = false;
 
+    [JsonPropertyName("enable_sd")]
+    public bool enableSd {get; set; } = true;
+
     [JsonPropertyName("wsd_round")]
     public int wsdRound { get; set; } = 50;
 }

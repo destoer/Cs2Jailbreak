@@ -204,6 +204,12 @@ public partial class SpecialDay
 
     public void SDCmdInternal(CCSPlayerController? player,CommandInfo command)
     {
+        if(!Config.enableSd)
+        {
+            player.Announce(SPECIALDAY_PREFIX,"Special day is disabled!");
+            return;
+        }
+
         if(!player.IsLegal())
         {
             return;
