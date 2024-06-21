@@ -123,7 +123,7 @@ public partial class LastRequest
                 lrMenu.AddMenuOption("XM1014", PickedOption);
                 lrMenu.AddMenuOption("M249", PickedOption);
                 lrMenu.AddMenuOption("P90", PickedOption);
-                lrMenu.AddMenuOption("MP5", PickedOption);
+                lrMenu.AddMenuOption("AK47", PickedOption);
 
                 MenuManager.OpenChatMenu(player, lrMenu);
                 break;
