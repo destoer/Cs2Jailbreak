@@ -172,6 +172,7 @@ public abstract class LRBase
     public virtual void WeaponFire(String name) {}
 
     public virtual void EntCreated(CEntityInstance entity) {}
+    public virtual void WeaponDropped(CCSPlayer_ItemServices itemServices, CBasePlayerWeapon weapon) {}
     
     public virtual bool TakeDamage()
     {
