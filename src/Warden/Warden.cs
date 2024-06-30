@@ -153,8 +153,8 @@ public partial class Warden
                 //Lib.PlaySoundAll("sounds/vo/agents/sas/lastmanstanding03");
                 var player = Utilities.GetPlayerFromSlot(slot);
 
-                // Give last warden an extra bit of hp
-                if(player.IsLegalAlive())
+                // Give last warden an extra bit of hp if lr isn't enabled
+                if(player.IsLegalAlive() && Lib.AliveTCount() > Config.lrCount)
                 {
                     player.SetHealth(150);
                 }
