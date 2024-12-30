@@ -257,8 +257,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     {
         Task.Run(async () => 
         {
-            var database = await jailStats.ConnectDB();
-
+            using var database = await jailStats.ConnectDB();
             jailStats.SetupDB(database);
         });
     }

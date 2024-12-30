@@ -142,7 +142,8 @@ public class SDZombie : SDBase
         }
 
 
-        // only want zombie to ct damage knockback
+        // only want zombie to ct damage knockback 
+        // TODO: This does not work well
     /*
         if(!player.IsT() || !attacker.IsCt())
         {
@@ -204,10 +205,17 @@ public class SDZombie : SDBase
     {
         //player.PrintToChat("TP!");
 
+        var playerPawn = player.Pawn();
+
+        if(playerPawn == null)
+        {
+            return;
+        }
+
         // respawn them on their death cordinates
         if(deathCount[player.Slot] == 1)
         {
-            player.Teleport(deathCord[player.Slot],Lib.ANGLE_ZERO,Lib.VEC_ZERO);
+            playerPawn.Teleport(deathCord[player.Slot],Lib.ANGLE_ZERO,Lib.VEC_ZERO);
         }
 
         // teleport player to patient zero
@@ -217,11 +225,11 @@ public class SDZombie : SDBase
 
             if(patientZero.IsLegalAlive())
             {
-                var pawn = patientZero.Pawn();
+                var zeroPawn = patientZero.Pawn();
 
-                if(pawn != null && pawn.AbsOrigin != null)
+                if(zeroPawn != null && zeroPawn.AbsOrigin != null)
                 {
-                    player.Teleport(pawn.AbsOrigin,Lib.ANGLE_ZERO,Lib.VEC_ZERO);
+                    playerPawn.Teleport(zeroPawn.AbsOrigin,Lib.ANGLE_ZERO,Lib.VEC_ZERO);
                 }
             }
         }     

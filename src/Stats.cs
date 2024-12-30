@@ -113,8 +113,8 @@ public class JailStats
 
     async void InsertPlayer(String steamID, String playerName)
     {
-        var database = await ConnectDB();
-
+        using  var database = await ConnectDB();
+        
         if(database == null)
         {
             return;
@@ -133,7 +133,7 @@ public class JailStats
         catch (Exception ex)
         {
             Console.WriteLine(ex.ToString());
-        }
+        } 
     }
 
     public void IncDB(CCSPlayerController? player,LastRequest.LRType type, bool win)
@@ -154,8 +154,8 @@ public class JailStats
 
     public async Task IncDBAsync(String steamID,LastRequest.LRType type, bool win)
     {
-        var database = await ConnectDB();
-
+        using var database = await ConnectDB();
+        
         if(database == null)
         {
             return;
@@ -216,8 +216,8 @@ public class JailStats
 
     async Task ReadStatsAsync(String steamID, String playerName, int slot)
     {
-        var database = await ConnectDB();
-
+        using var database = await ConnectDB();
+        
         if(database == null)
         {
             return;

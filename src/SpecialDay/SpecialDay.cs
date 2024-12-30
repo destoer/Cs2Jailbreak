@@ -336,7 +336,7 @@ public partial class SpecialDay
         "Headshot only",
         "Knife warday",
         "Gun game",
-        //"Zombie",
+        "Zombie",
         "None"
     };
 
