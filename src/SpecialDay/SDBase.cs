@@ -42,6 +42,7 @@ public abstract class SDBase
 
         state = SDState.ACTIVE;
         Entity.ForceOpen();
+        Lib.UnBlockAll();
         Start();
     }
 
