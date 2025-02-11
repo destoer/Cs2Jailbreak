@@ -155,6 +155,16 @@ public partial class LastRequest
         }
     }
 
+    public void WeaponDropped(CCSPlayer_ItemServices itemServices, CBasePlayerWeapon weapon)
+    {
+        if (itemServices.Pawn.Value.Controller.Value != null)
+        {
+            LRBase? lr = FindLR(Utilities.GetPlayerFromSteamId(itemServices.Pawn.Value.Controller.Value.SteamID)); 
+            if(lr != null) 
+                lr.WeaponDropped(itemServices, weapon);
+        }
+    }
+
     public void RoundStart()
     {
         startTimestamp = Lib.CurTimestamp();
