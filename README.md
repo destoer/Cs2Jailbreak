@@ -1,5 +1,5 @@
-# Cs2Jailbreak
-WIP Jailbreak plugin for CS2 using counterstrikesharp expect bugs
+# Cs2Jailbreak (NO LONGER MAINTAINED)
+Jailbreak plugin for CS2 using counterstrikesharp no longer maintained expect bugs
 
 rewrite of CSS plugin https://github.com/destoer/counter_strike_jailbreak 
 
